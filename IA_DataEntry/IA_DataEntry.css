@@ -27,7 +27,7 @@ a {
     }
 
     .advertising {
-        height: 500px;
+        height: 55%;
         width: 100%;
         background-size: 80% 80%;
         background: url(../Asset/pexels-pixabay-247599.jpg);
@@ -35,22 +35,50 @@ a {
     }
 
     .logo {
-        width: 60%;
+        width: 50%;
         height: 50px;
         margin: auto 25px;
     }
 
     .details {
-        display: none;
+        width: 40%;
+        gap: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .navbartransition {
+        font-weight: 100;
+        display: inline-block;
+        font-size: large;
+    }
+
+    .navbartransition::after {
+        content: '';
+        width: 0px;
+        height: 3px;
+        transition: 300ms;
+        border-radius: 5px;
+        display: block;
+        background: #106eea;
+    }
+
+    .navbartransition:hover::after {
+        width: 100%;
+    }
+
+    .navbartransition:hover {
+        color: #106eea;
     }
 
     .companylogo {
         margin: 0;
         height: 20px;
-        font-size: 30px;
+        font-size: 25px;
     }
 
-    a.slide-up {
+    div.slide-up {
         animation: 1.5s slide-up;
         margin-top: 10%;
     }
@@ -83,24 +111,20 @@ a {
     }
 
     .box {
-        width: 80%;
+        width: 60%;
+        height: 40%;
         border-radius: 5px;
-        box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
         gap: 10px;
+        line-height: 40px;
+        box-shadow: inset 0 -3px 0 -1px #106eea;
+        transition: box-shadow 0.5s ease-in-out;
+        color: black;
         cursor: pointer;
         background-color: white;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-
-    .box {
-        line-height: 40px;
-        height: 285px !important;
-        box-shadow: inset 0 -3px 0 -1px #106eea;
-        transition: box-shadow 0.5s ease-in-out;
-        color: black;
     }
 
     .box:hover {
@@ -112,92 +136,9 @@ a {
         font-size: 35px;
     }
 
-    .highlights {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: whitesmoke;
-    }
-
-    .highlightsheader {
-        display: none;
-    }
-
-    .highlights-divider {
-        width: 100%;
-        margin-top: 10px;
-        height: fit-content;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .reading-section {
-        border-bottom: 0.5px dashed;
-    }
-
-    .listening-section,
-    .reading-section {
-        height: 780px;
-        width: 100%;
-        gap: 25px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .highlights-containers {
-        gap: 40px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .highlights-container {
-        width: 260px;
-        height: 200px;
-        box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
-        border-radius: 5px;
-        background: whitesmoke;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-
-    .highlight-icons {
-        position: relative;
-        font-size: 60px !important;
-        color: #106eea;
-    }
-
-    .highlight-icon-1 {
-        margin-top: -10%;
-    }
-
-    .highlight-icon-2 {
-        margin-top: -10%;
-
-    }
-
-    .highlight-icon-3 {
-        margin-top: -10%;
-
-    }
-
-    .score-title {
-        font-size: 20px;
-    }
-
-    .score {
-        margin-top: 60px;
-        font-size: 20px;
-        font-weight: 700;
-    }
-
     .contact {
         width: 100%;
-        height: 150px;
+        height: 100px;
         border-top: 1px solid black;
         display: flex;
         justify-content: space-between;
@@ -205,9 +146,9 @@ a {
     }
 
     .contact-icons {
-        font-size: 30px;
+        font-size: 28px;
         width: 100%;
-        height: 50%;
+        height: 65%;
         gap: 27px;
         display: flex;
         align-items: center;
@@ -215,8 +156,8 @@ a {
     }
 
     .contact-icon {
-        width: 55px;
-        height: 55px;
+        width: 45px;
+        height: 45px;
         border-radius: 6px;
         display: flex !important;
         align-items: center;
@@ -231,11 +172,9 @@ a {
     }
 
     .login-icon {
-        margin: auto;
-        font-size: 30px;
+        display: none;
     }
 }
-
 
 @media screen and (min-width: 768px) {
 
@@ -257,7 +196,7 @@ a {
     }
 
     .advertising {
-        height: 500px;
+        height: 55%;
         width: 100%;
         background-size: 80% 80%;
         background: url(../Asset/pexels-pixabay-247599.jpg);
@@ -304,7 +243,11 @@ a {
     }
 
     .details {
-        display: none;
+        width: 30%;
+        gap: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .companylogo {
@@ -313,7 +256,7 @@ a {
         font-size: 35px;
     }
 
-    a.slide-up {
+    div.slide-up {
         animation: 1.5s slide-up;
         margin-top: 0%;
     }
@@ -337,24 +280,20 @@ a {
     }
 
     .box {
-        width: 30%;
-        height: 80%;
+        width: 35%;
+        height: 75%;
         border-radius: 5px;
-        box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
         gap: 10px;
+        line-height: 40px;
+        box-shadow: inset 0 -3px 0 -1px #106eea;
+        transition: box-shadow 0.5s ease-in-out;
+        color: black;
         cursor: pointer;
         background-color: white;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-
-    .box {
-        box-shadow: inset 0 -3px 0 -1px #106eea;
-        transition: box-shadow 0.5s ease-in-out;
-        color: black;
-        line-height: 40px;
     }
 
     .box:hover {
@@ -364,88 +303,6 @@ a {
 
     .button-title {
         font-size: 35px;
-    }
-
-    .highlights {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: whitesmoke;
-    }
-
-    .highlightsheader {
-        width: 8%;
-        height: 23px;
-        margin: 20px 0px;
-        font-size: 20px;
-        border-radius: 10px;
-        text-align: center;
-        color: black;
-        box-shadow: 0 0 29px 0 rgba(72, 99, 174, 0.12);
-    }
-
-    .highlights-divider {
-        width: 100%;
-        height: fit-content;
-        display: flex;
-    }
-
-    .listening-section,
-    .reading-section {
-        height: 780px;
-        width: 50%;
-        gap: 25px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .highlights-containers {
-        gap: 40px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .highlights-container {
-        width: 260px;
-        height: 200px;
-        box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
-        border-radius: 5px;
-        background: whitesmoke;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-
-    .highlight-icons {
-        position: relative;
-        font-size: 60px !important;
-        color: #106eea;
-    }
-
-    .highlight-icon-1 {
-        top: -5%;
-    }
-
-    .highlight-icon-2 {
-        top: -5%;
-    }
-
-    .highlight-icon-3 {
-        top: -5%;
-    }
-
-    .score-title {
-        font-size: 20px;
-    }
-
-    .score {
-        margin-top: 60px;
-        font-size: 20px;
-        font-weight: 700;
     }
 
     .contact {
@@ -481,8 +338,7 @@ a {
     }
 
     .login-icon {
-        margin: auto;
-        font-size: 30px;
+        display: none;
     }
 }
 
@@ -506,7 +362,7 @@ a {
     }
 
     .advertising {
-        height: 500px;
+        height: 55%;
         width: 100%;
         background-size: 80% 80%;
         background: url(../Asset/pexels-pixabay-247599.jpg);
@@ -547,13 +403,13 @@ a {
     }
 
     .logo {
-        width: 45%;
+        width: 70%;
         height: 50px;
         margin: auto 65px;
     }
 
     .details {
-        width: 55%;
+        width: 25%;
         gap: 25px;
         display: flex;
         justify-content: center;
@@ -566,7 +422,7 @@ a {
         font-size: 35px;
     }
 
-    a.slide-up {
+    div.slide-up {
         animation: 1.5s slide-up;
         margin-top: 0%;
     }
@@ -590,10 +446,9 @@ a {
     }
 
     .box {
-        width: 30%;
-        height: 80%;
+        width: 25%;
+        height: 75%;
         border-radius: 5px;
-        box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
         gap: 10px;
         cursor: pointer;
         background-color: white;
@@ -601,9 +456,6 @@ a {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-
-    .box {
         box-shadow: inset 0 -3px 0 -1px #106eea;
         transition: box-shadow 0.5s ease-in-out;
         color: black;
@@ -617,88 +469,6 @@ a {
 
     .button-title {
         font-size: 35px;
-    }
-
-    .highlights {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: whitesmoke;
-    }
-
-    .highlightsheader {
-        width: 8%;
-        height: 23px;
-        margin: 20px 0px;
-        font-size: 20px;
-        border-radius: 10px;
-        text-align: center;
-        color: black;
-        box-shadow: 0 0 29px 0 rgba(72, 99, 174, 0.12);
-    }
-
-    .highlights-divider {
-        width: 100%;
-        height: fit-content;
-        display: flex;
-    }
-
-    .listening-section,
-    .reading-section {
-        height: 780px;
-        width: 50%;
-        gap: 25px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .highlights-containers {
-        gap: 40px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .highlights-container {
-        width: 260px;
-        height: 200px;
-        box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
-        border-radius: 5px;
-        background: whitesmoke;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-
-    .highlight-icons {
-        position: relative;
-        font-size: 60px !important;
-        color: #106eea;
-    }
-
-    .highlight-icon-1 {
-        top: -5%;
-    }
-
-    .highlight-icon-2 {
-        top: -5%;
-    }
-
-    .highlight-icon-3 {
-        top: -5%;
-    }
-
-    .score-title {
-        font-size: 20px;
-    }
-
-    .score {
-        margin-top: 60px;
-        font-size: 20px;
-        font-weight: 700;
     }
 
     .contact {
@@ -758,7 +528,7 @@ a {
     }
 
     .advertising {
-        height: 500px;
+        height: 55%;
         width: 100%;
         background-size: 80% 80%;
         background: url(../Asset/pexels-pixabay-247599.jpg);
@@ -799,13 +569,13 @@ a {
     }
 
     .logo {
-        width: 60%;
+        width: 75%;
         height: 50px;
         margin: auto 65px;
     }
 
     .details {
-        width: 40%;
+        width: 20%;
         gap: 25px;
         display: flex;
         justify-content: center;
@@ -818,7 +588,7 @@ a {
         font-size: 35px;
     }
 
-    a.slide-up {
+    div.slide-up {
         animation: 1.5s slide-up;
         margin-top: 0%;
     }
@@ -842,24 +612,20 @@ a {
     }
 
     .box {
-        width: 20%;
-        height: 80%;
+        width: 18%;
+        height: 75%;
         border-radius: 5px;
-        box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
         gap: 10px;
+        line-height: 40px;
+        box-shadow: inset 0 -3px 0 -1px #106eea;
+        transition: box-shadow 0.5s ease-in-out;
         cursor: pointer;
         background-color: white;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
-    }
-
-    .box {
-        box-shadow: inset 0 -3px 0 -1px #106eea;
-        transition: box-shadow 0.5s ease-in-out;
         color: black;
-        line-height: 40px;
     }
 
     .box:hover {
@@ -869,88 +635,6 @@ a {
 
     .button-title {
         font-size: 35px;
-    }
-
-    .highlights {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: whitesmoke;
-    }
-
-    .highlightsheader {
-        width: 8%;
-        height: 23px;
-        margin: 20px 0px;
-        font-size: 20px;
-        border-radius: 10px;
-        text-align: center;
-        color: black;
-        box-shadow: 0 0 29px 0 rgba(72, 99, 174, 0.12);
-    }
-
-    .highlights-divider {
-        width: 100%;
-        height: fit-content;
-        display: flex;
-    }
-
-    .listening-section,
-    .reading-section {
-        height: 780px;
-        width: 50%;
-        gap: 25px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .highlights-containers {
-        gap: 40px;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .highlights-container {
-        width: 260px;
-        height: 200px;
-        box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
-        border-radius: 5px;
-        background: whitesmoke;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-    }
-
-    .highlight-icons {
-        position: relative;
-        font-size: 60px !important;
-        color: #106eea;
-    }
-
-    .highlight-icon-1 {
-        top: -5%;
-    }
-
-    .highlight-icon-2 {
-        top: -5%;
-    }
-
-    .highlight-icon-3 {
-        top: -5%;
-    }
-
-    .score-title {
-        font-size: 20px;
-    }
-
-    .score {
-        margin-top: 60px;
-        font-size: 20px;
-        font-weight: 700;
     }
 
     .contact {
