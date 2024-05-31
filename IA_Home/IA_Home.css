@@ -31,7 +31,6 @@ a {
         width: 100%;
         padding-top: 90px;
         background-size: 80% 80%;
-
         background-attachment: fixed;
     }
 
@@ -351,7 +350,7 @@ a {
     }
 
     .box {
-        width: 30%;
+        width: 35%;
         height: 80%;
         border-radius: 5px;
         box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
