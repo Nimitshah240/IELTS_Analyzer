@@ -78,6 +78,7 @@ a {
         display: flex;
         justify-content: space-between;
         flex-direction: column;
+        background-color: white;
     }
 
     .contact-icons {
@@ -242,10 +243,9 @@ a {
         height: 95%;
         width: 100%;
         position: fixed;
-        display: flex;
         justify-content: center;
         align-items: center;
-        /* display: none; */
+        display: none;
     }
 
     .shadowdiv {
@@ -290,6 +290,60 @@ a {
 
     .delete-icon {
         cursor: pointer;
+    }
+
+    .show-data1 {
+        width: 95%;
+    }
+
+    .save-div {
+        width: 85%;
+        height: 65%;
+        display: none;
+    }
+
+    .savebutton {
+        height: 50px;
+        gap: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .button1 {
+        font-size: 16px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .button1 div {
+        width: 100px;
+        border-radius: 5px;
+        position: relative;
+        cursor: pointer;
+        box-shadow: inset 0 -3px 0 -1px #106eea;
+        transition: box-shadow 0.5s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 0.5px solid lightgrey;
+    }
+
+    .button1 div:hover {
+        box-shadow: inset 0 -100px 0 -1px #97f3ff;
+        border: 0.5px solid #106eea;
+
+    }
+
+    .save-box {
+        height: 75%;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        padding: 50px 15px;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
     }
 }
 
@@ -361,6 +415,8 @@ a {
         justify-content: space-between;
         width: 100%;
         height: 45px;
+        border-top: 1px solid black;
+        background-color: white;
     }
 
     .contact-icons {
@@ -523,10 +579,9 @@ a {
         height: 95%;
         width: 100%;
         position: absolute;
-        display: flex;
         justify-content: center;
         align-items: center;
-        /* display: none; */
+        display: none;
     }
 
     .shadowdiv {
@@ -571,6 +626,60 @@ a {
 
     .delete-icon {
         cursor: pointer;
+    }
+
+    .show-data1 {
+        width: 95%;
+    }
+
+    .save-div {
+        width: 65%;
+        height: 65%;
+        display: none;
+    }
+
+    .savebutton {
+        height: 50px;
+        gap: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .button1 {
+        font-size: 16px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .button1 div {
+        width: 100px;
+        border-radius: 5px;
+        position: relative;
+        cursor: pointer;
+        box-shadow: inset 0 -3px 0 -1px #106eea;
+        transition: box-shadow 0.5s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 0.5px solid lightgrey;
+    }
+
+    .button1 div:hover {
+        box-shadow: inset 0 -100px 0 -1px #97f3ff;
+        border: 0.5px solid #106eea;
+
+    }
+
+    .save-box {
+        height: 75%;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        padding: 55px;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
     }
 }
 
@@ -641,7 +750,9 @@ a {
         display: flex;
         justify-content: space-between;
         width: 100%;
+        border-top: 1px solid black;
         height: 45px;
+        background-color: white;
     }
 
     .contact-icons {
@@ -804,10 +915,9 @@ a {
         height: 95%;
         width: 100%;
         position: absolute;
-        display: flex;
         justify-content: center;
         align-items: center;
-        /* display: none; */
+        display: none;
     }
 
     .shadowdiv {
@@ -852,6 +962,56 @@ a {
 
     .delete-icon {
         cursor: pointer;
+    }
+
+    .save-div {
+        width: 80%;
+        height: 65%;
+        display: none;
+    }
+
+    .savebutton {
+        height: 50px;
+        gap: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .button1 {
+        font-size: 16px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .button1 div {
+        width: 100px;
+        border-radius: 5px;
+        position: relative;
+        cursor: pointer;
+        box-shadow: inset 0 -3px 0 -1px #106eea;
+        transition: box-shadow 0.5s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 0.5px solid lightgrey;
+    }
+
+    .button1 div:hover {
+        box-shadow: inset 0 -100px 0 -1px #97f3ff;
+        border: 0.5px solid #106eea;
+
+    }
+
+    .save-box {
+        height: 75%;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        padding: 55px;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
     }
 }
 
@@ -924,7 +1084,8 @@ a {
         position: relative;
         display: flex;
         justify-content: space-between;
-        border-top: 1px dashed grey;
+        border-top: 1px solid black;
+        background-color: white;
     }
 
     .contact-icons {
@@ -1063,7 +1224,6 @@ a {
         justify-content: center;
     }
 
-
     .button div {
         width: 100px;
         border-radius: 5px;
@@ -1075,7 +1235,6 @@ a {
         justify-content: center;
         align-items: center;
         border: 0.5px solid lightgrey;
-
     }
 
     .button div:hover {
@@ -1088,10 +1247,9 @@ a {
         height: 95%;
         width: 100%;
         position: absolute;
-        display: flex;
         justify-content: center;
         align-items: center;
-        /* display: none; */
+        display: none;
     }
 
     .shadowdiv {
@@ -1136,5 +1294,55 @@ a {
 
     .delete-icon {
         cursor: pointer;
+    }
+
+    .save-div {
+        width: 65%;
+        height: 65%;
+        display: none;
+    }
+
+    .savebutton {
+        height: 50px;
+        gap: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .button1 {
+        font-size: 16px;
+        height: 35px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .button1 div {
+        width: 100px;
+        border-radius: 5px;
+        position: relative;
+        cursor: pointer;
+        box-shadow: inset 0 -3px 0 -1px #106eea;
+        transition: box-shadow 0.5s ease-in-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 0.5px solid lightgrey;
+    }
+
+    .button1 div:hover {
+        box-shadow: inset 0 -100px 0 -1px #97f3ff;
+        border: 0.5px solid #106eea;
+
+    }
+
+    .save-box {
+        height: 75%;
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+        padding: 85px;
+        border-top: 1px solid;
+        border-bottom: 1px solid;
     }
 }

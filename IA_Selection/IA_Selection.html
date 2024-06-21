@@ -7,10 +7,10 @@
     <link rel='stylesheet' href='./IA_Selection.css'>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- <script src='./IA_Home.js'></script> -->
+    <script src='./IA_Selection.js'></script>
 </head>
 
-<body>
+<body onload="selected(event)">
     <div class="header">
         <div class="logo">
             <p class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></p>
@@ -30,11 +30,11 @@
     </div>
 
     <div class="buttons">
-        <a class="slide-up box" href="../IA_DataEntry/IA_DataEntry.html">
+        <a class="slide-up box" href="#" id="reading" onclick="setHref(event)">
             <i class="fa fa-book fa-3x box-icon" aria-hidden="true"></i>
             <span class="button-title">Reading</span>
         </a>
-        <a class="slide-up box" href="../IA_DataEntry/IA_DataEntry.html">
+        <a class="slide-up box" href="#" id="listening" onclick="setHref(event)">
             <i class="fa fa-headphones fa-3x box-icon" aria-hidden="true"></i>
             <span class="button-title">Listening</span>
         </a>

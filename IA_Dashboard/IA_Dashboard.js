@@ -7,8 +7,6 @@ function connectedCallback() {
     function drawChart() {
         try {
 
-
-
             // 1st Chart ------------------------------------------------------
             var data = google.visualization.arrayToDataTable([
                 ['Effort', 'Amount given'],
