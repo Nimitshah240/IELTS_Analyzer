@@ -209,6 +209,7 @@ a {
         display: flex;
         justify-content: space-between;
         flex-direction: column;
+        background-color: white;
     }
 
     .contact-icons {
@@ -466,6 +467,8 @@ a {
         justify-content: space-between;
         width: 100%;
         height: 45px;
+        border-top: 1px solid black;
+        background-color: white;
     }
 
     .contact-icons {
@@ -725,6 +728,8 @@ a {
         justify-content: space-between;
         width: 100%;
         height: 45px;
+        border-top: 1px solid black;
+        background-color: white;
     }
 
     .contact-icons {
@@ -983,6 +988,8 @@ a {
         justify-content: space-between;
         width: 100%;
         height: 45px;
+        border-top: 1px solid black;
+        background-color: white;
     }
 
     .contact-icons {

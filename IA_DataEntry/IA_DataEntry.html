@@ -7,20 +7,18 @@
     <link rel='stylesheet' href='./IA_DataEntry.css'>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <!-- <script src='./IA_Home.js'></script> -->
+    <script src='./IA_DataEntry.js'></script>
 </head>
 
-<body>
+<body onload="sectionsetter(event)">
     <div class="header">
         <div class="logo">
             <p class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></p>
             <p>Score more than 8 bands</p>
         </div>
         <div class="details">
-            <a class="navbartransition" href="../IA_Selection/IA_Selection.html">Back</a>
-            <a class="navbartransition" href="#highlights">Save</a>
-            <!-- <a class="navbartransition" href="#contact">Contact Us</a>
-            <span class="navbartransition">Login</span> -->
+            <a class="navbartransition" href="#" onclick="setHref(event)">Back</a>
+            <a class="navbartransition" href="#" id="save" onclick="popupopen(event)">Save</a>
         </div>
         <div class="login-icon">
             <i class="fa fa-user-circle" aria-hidden="true"></i>
@@ -56,7 +54,7 @@
                     <div class="button box">
                         <div>Save & New</div>
                     </div>
-                    <div class="button box">
+                    <div class="button box" onclick="popupopen(event)">
                         <div>Show</div>
                     </div>
                 </div>
@@ -90,7 +88,7 @@
                     <div class="button box">
                         <div>Save & New</div>
                     </div>
-                    <div class="button box">
+                    <div class="button box" onclick="popupopen(event)">
                         <div>Show</div>
                     </div>
                 </div>
@@ -124,13 +122,13 @@
                     <div class="button box">
                         <div>Save & New</div>
                     </div>
-                    <div class="button box">
+                    <div class="button box" onclick="popupopen(event)">
                         <div>Show</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="section4">
+        <div class="section4" id="section4">
             <div class="upper-section">
                 <div class="section-title"> Section 4</div>
                 <div class="section-dataentry">
@@ -158,13 +156,13 @@
                     <div class="button box">
                         <div>Save & New</div>
                     </div>
-                    <div class="button box">
+                    <div class="button box" onclick="popupopen(event)">
                         <div>Show</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="front-div">
+        <div class="front-div" id="show-div">
             <div class="shadowdiv"></div>
             <div class="show-data">
                 <div class="data-title"> Section 1</div>
@@ -231,8 +229,33 @@
                         </tr>
                     </table>
                 </div>
-                <div class="button box">
+                <div class="button box" onclick="popupclose(event)">
                     <div>Close</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="front-div save-div" id="save-div">
+            <div class="shadowdiv"></div>
+            <div class="show-data show-data1">
+                <div class="data-title"> Save</div>
+                <div class="save-box">
+                    <div class="incorrect-answer">
+                        <label for="exam-name"> Exam Name:</label>
+                        <input type="text">
+                    </div>
+                    <div class="incorrect-answer">
+                        <label for="exam-date"> Exam Date :</label>
+                        <input type="date">
+                    </div>
+                </div>
+                <div class="savebutton">
+                    <div class="button1 box" onclick="popupclose(event)">
+                        <div>Save</div>
+                    </div>
+                    <div class="button1 box" onclick="popupclose(event)">
+                        <div>Close</div>
+                    </div>
                 </div>
             </div>
         </div>
