@@ -10,7 +10,7 @@
     <script src='./IA_Listview.js'></script>
 </head>
 
-<body>
+<body onload="connectedCallback()">
     <div class="header">
         <div class="logo">
             <p class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></p>
@@ -18,12 +18,10 @@
         </div>
         <div class="details">
             <a class="navbartransition" href="#" onclick="setHref(event)">New</a>
-            <a class="navbartransition" href="../IA_Selection/IA_Selection.html?type=data">Back</a>
             <a class="navbartransition" href="../IA_Home/IA_Home.html">Home</a>
-            <span class="navbartransition">Login</span>
-        </div>
-        <div class="login-icon">
-            <i class="fa fa-user-circle" aria-hidden="true"></i>
+            <i class="fa fa-google g-icon" id="not-log" style="font-size: 30px;" onclick="sigin()"
+                aria-hidden="true"></i>
+            <img id="login-img" class="login-img" onclick="signout()" />
         </div>
     </div>
 
@@ -42,127 +40,8 @@
             </div>
         </div>
         <div class="list">
-            <div class="table">
-
-                <div class="data">
-                    <div class="column index"> 1 </div>
-                    <div class="column examname"> Exam Name </div>
-                    <div class="column date"> 31/12/2023 </div>
-                    <div class="column total"> 40 </div>
-                    <div class="column section"> 10</div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column delete"> <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                </div>
-
-                <div class="data">
-                    <div class="column index"> 1 </div>
-                    <div class="column examname"> Exam Nameabcdefghijklmnopqrstuvwxyz </div>
-                    <div class="column date"> 31/12/2023 </div>
-                    <div class="column total"> 40 </div>
-                    <div class="column section"> 10</div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column delete"> <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                </div>
-
-                <div class="data">
-                    <div class="column index"> 1 </div>
-                    <div class="column examname"> Exam Name </div>
-                    <div class="column date"> 31/12/2023 </div>
-                    <div class="column total"> 40 </div>
-                    <div class="column section"> 10</div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column delete"> <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                </div>
-
-                <div class="data">
-                    <div class="column index"> 1 </div>
-                    <div class="column examname"> Exam Name </div>
-                    <div class="column date"> 31/12/2023 </div>
-                    <div class="column total"> 40 </div>
-                    <div class="column section"> 10</div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column delete"> <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                </div>
-
-                <div class="data">
-                    <div class="column index"> 1 </div>
-                    <div class="column examname"> Exam Name </div>
-                    <div class="column date"> 31/12/2023 </div>
-                    <div class="column total"> 40 </div>
-                    <div class="column section"> 10</div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column delete"> <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                </div>
-
-                <div class="data">
-                    <div class="column index"> 1 </div>
-                    <div class="column examname"> Exam Name </div>
-                    <div class="column date"> 31/12/2023 </div>
-                    <div class="column total"> 40 </div>
-                    <div class="column section"> 10</div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column section"> 10 </div>
-                    <div class="column delete"> <i class="fa fa-trash" aria-hidden="true"></i>
-                    </div>
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-
-                </div>
-                <div class="data">
-                    last
-                </div>
+            <div class="table" id="table">
+                <!-- Data will show here using js  -->
             </div>
         </div>
     </div>

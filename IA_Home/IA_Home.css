@@ -7,6 +7,22 @@ a {
     color: black;
 }
 
+.login-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: none;
+}
+
+.g-icon {
+    background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 640px) {
 
     body {
@@ -42,19 +58,27 @@ a {
     }
 
     .logo {
-        width: 60%;
+        width: 50%;
         height: 50px;
         margin: auto 25px;
     }
 
-    .details {
+    .navbartransition {
         display: none;
+    }
+
+    .details {
+        display: flex;
+        width: 40%;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 20px;
     }
 
     .companylogo {
         margin: 0;
         height: 20px;
-        font-size: 30px;
+        font-size: 25px;
     }
 
     a.slide-up {
@@ -205,7 +229,6 @@ a {
     .contact {
         width: 100%;
         height: 150px;
-        border-top: 1px solid black;
         display: flex;
         justify-content: space-between;
         flex-direction: column;
@@ -236,11 +259,6 @@ a {
     .copyrights {
         margin: auto;
         font-size: 15px;
-    }
-
-    .login-icon {
-        margin: auto;
-        font-size: 30px;
     }
 }
 
@@ -287,38 +305,22 @@ a {
         align-items: center;
     }
 
-    .navbartransition {
-        font-weight: 100;
-        display: inline-block;
-        font-size: large;
-    }
-
-    .navbartransition::after {
-        content: '';
-        width: 0px;
-        height: 3px;
-        transition: 300ms;
-        border-radius: 5px;
-        display: block;
-        background: #106eea;
-    }
-
-    .navbartransition:hover::after {
-        width: 100%;
-    }
-
-    .navbartransition:hover {
-        color: #106eea;
-    }
-
     .logo {
         width: 60%;
         height: 50px;
         margin: auto 65px;
     }
 
-    .details {
+    .navbartransition {
         display: none;
+    }
+
+    .details {
+        display: flex;
+        width: 40%;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 20px;
     }
 
     .companylogo {
@@ -467,7 +469,6 @@ a {
         justify-content: space-between;
         width: 100%;
         height: 45px;
-        border-top: 1px solid black;
         background-color: white;
     }
 
@@ -494,11 +495,6 @@ a {
     .copyrights {
         margin: auto;
         font-size: 15px;
-    }
-
-    .login-icon {
-        margin: auto;
-        font-size: 30px;
     }
 }
 
@@ -728,7 +724,6 @@ a {
         justify-content: space-between;
         width: 100%;
         height: 45px;
-        border-top: 1px solid black;
         background-color: white;
     }
 
@@ -755,10 +750,6 @@ a {
     .copyrights {
         margin: auto;
         font-size: 15px;
-    }
-
-    .login-icon {
-        display: none;
     }
 }
 
@@ -988,7 +979,6 @@ a {
         justify-content: space-between;
         width: 100%;
         height: 45px;
-        border-top: 1px solid black;
         background-color: white;
     }
 
@@ -1017,9 +1007,5 @@ a {
         margin: auto 35px;
         width: 50%;
         text-align: end;
-    }
-
-    .login-icon {
-        display: none;
     }
 }

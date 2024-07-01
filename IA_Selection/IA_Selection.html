@@ -10,7 +10,7 @@
     <script src='./IA_Selection.js'></script>
 </head>
 
-<body onload="selected(event)">
+<body onload="connectedCallback(event)">
     <div class="header">
         <div class="logo">
             <p class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></p>
@@ -18,11 +18,11 @@
         </div>
         <div class="details">
             <a class="navbartransition" href="../IA_Home/IA_Home.html">Home</a>
-            <span class="navbartransition">Login</span>
+            <i class="fa fa-google g-icon" id="not-log" style="font-size: 30px;" onclick="sigin()"
+                aria-hidden="true"></i>
+            <img id="login-img" class="login-img" onclick="signout()" />
         </div>
-        <div class="login-icon">
-            <i class="fa fa-user-circle" aria-hidden="true"></i>
-        </div>
+
     </div>
 
     <div class="advertising">
@@ -31,11 +31,11 @@
 
     <div class="buttons">
         <a class="slide-up box" href="#" id="reading" onclick="setHref(event)">
-            <i class="fa fa-book fa-3x box-icon" aria-hidden="true"></i>
+            <i class="fa fa-book fa-3x box-icon" id="reading" aria-hidden="true"></i>
             <span class="button-title">Reading</span>
         </a>
         <a class="slide-up box" href="#" id="listening" onclick="setHref(event)">
-            <i class="fa fa-headphones fa-3x box-icon" aria-hidden="true"></i>
+            <i class="fa fa-headphones fa-3x box-icon" id="listening" aria-hidden="true"></i>
             <span class="button-title">Listening</span>
         </a>
     </div>

@@ -10,18 +10,18 @@
     <script src='./IA_DataEntry.js'></script>
 </head>
 
-<body onload="sectionsetter(event)">
+<body onload="connectedCallback()">
     <div class="header">
         <div class="logo">
             <p class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></p>
             <p>Score more than 8 bands</p>
         </div>
         <div class="details">
-            <a class="navbartransition" href="#" onclick="setHref(event)">Back</a>
             <a class="navbartransition" href="#" id="save" onclick="popupopen(event)">Save</a>
-        </div>
-        <div class="login-icon">
-            <i class="fa fa-user-circle" aria-hidden="true"></i>
+            <a class="navbartransition" href="../IA_Home/IA_Home.html">Home</a>
+            <i class="fa fa-google g-icon" id="not-log" style="font-size: 30px;" onclick="sigin()"
+                aria-hidden="true"></i>
+            <img id="login-img" class="login-img" onclick="signout()" />
         </div>
     </div>
 
@@ -54,8 +54,8 @@
                     <div class="button box">
                         <div>Save & New</div>
                     </div>
-                    <div class="button box" onclick="popupopen(event)">
-                        <div>Show</div>
+                    <div class="button box" data-section="1" onclick="popupopen(event)">
+                        <div data-section="1">Show</div>
                     </div>
                 </div>
             </div>
@@ -88,8 +88,8 @@
                     <div class="button box">
                         <div>Save & New</div>
                     </div>
-                    <div class="button box" onclick="popupopen(event)">
-                        <div>Show</div>
+                    <div class="button box" data-section="2" onclick="popupopen(event)">
+                        <div data-section="2">Show</div>
                     </div>
                 </div>
             </div>
@@ -122,8 +122,8 @@
                     <div class="button box">
                         <div>Save & New</div>
                     </div>
-                    <div class="button box" onclick="popupopen(event)">
-                        <div>Show</div>
+                    <div class="button box" data-section="3" onclick="popupopen(event)">
+                        <div data-section="3">Show</div>
                     </div>
                 </div>
             </div>
@@ -156,8 +156,8 @@
                     <div class="button box">
                         <div>Save & New</div>
                     </div>
-                    <div class="button box" onclick="popupopen(event)">
-                        <div>Show</div>
+                    <div class="button box" data-section="4" onclick="popupopen(event)">
+                        <div data-section="4">Show</div>
                     </div>
                 </div>
             </div>
@@ -165,9 +165,9 @@
         <div class="front-div" id="show-div">
             <div class="shadowdiv"></div>
             <div class="show-data">
-                <div class="data-title"> Section 1</div>
+                <div class="data-title" id="data-title"> Section 1</div>
                 <div class="data-table">
-                    <table class="table-data">
+                    <table class="table-data" id="table">
                         <tr>
                             <th colspan="5"> Question Type</th>
                         </tr>
@@ -250,11 +250,11 @@
                     </div>
                 </div>
                 <div class="savebutton">
-                    <div class="button1 box" onclick="popupclose(event)">
-                        <div>Save</div>
+                    <div class="button1 box" id="save" onclick="popupclose(event)">
+                        <div id="save">Save</div>
                     </div>
-                    <div class="button1 box" onclick="popupclose(event)">
-                        <div>Close</div>
+                    <div class="button1 box" id="close" onclick="popupclose(event)">
+                        <div id="close">Close</div>
                     </div>
                 </div>
             </div>
