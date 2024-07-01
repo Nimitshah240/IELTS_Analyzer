@@ -1,46 +1,49 @@
-const express = require('express');
-const { createPool } = require('mysql2');
-const pool = createPool({
+// db.js
+const mysql = require('mysql2');
+
+const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'newpassword',
-    database: 'ielts_analyser',
-    connectionLimit: 10
-})
-const app = express();
-const port = process.env.PORT || 3300;
+    user: 'root', // replace with your MySQL username
+    password: '04_Whitedevil', // replace with your MySQL password
+    database: 'ielts_analyser', // replace with your database name
+    port: 3306 // default MySQL port
+});
 
-pool.query(`select * from user`, (err, result, fields) =>{
+connection.connect((err) => {
     if (err) {
-        return console.log(err);
+        console.error('Error connecting to the database:', err);
+        return;
     }
-    return console.log(result);
-})
-
-// Create connection to MySQL
-// const db = mysql.createConnection({
-//     host: 'localhost',
-//     user: 'root@localhost',
-//     password: '',
-//     database: 'ielts_analyser'
-// });
-
-// Connect to MySQL
-// db.connect(function (err) {
-//     if (err) {
-//         // throw err;
-//         console.log(err);
-//         console.log('MySQL not Connected...');
-
-//     }
-//     // console.log('MySQL Connected...');
-// });
-
-// Middleware to parse JSON
-// app.use(express.json());
+    console.log('Connected to the MySQL database.');
+});
 
 
 
-app.listen(port, () => {
-    console.log(`Server started on port ${port}`);
+// server.js
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const app = express();
+const PORT = 3000;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public')); // serve static files from 'public' directory
+
+// Example route to get data from the database
+app.get('/data', (req, res) => {
+    const query = 'SELECT * FROM user'; // replace with your table name
+    connection.query(query, (err, results) => {
+        if (err) {
+            console.error('Error fetching data:', err);
+            res.status(500).send('Error fetching data');
+        } else {
+            res.json(results);
+        }
+    });
+});
+
+app.listen(PORT, () => {
+
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

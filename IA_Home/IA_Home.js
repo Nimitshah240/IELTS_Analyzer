@@ -6,6 +6,8 @@ function connectedCallback(event) {
         // const sum = number.reduce((accumulator, currentvalue) => accumulator + currentvalue,0);
         // console.log(sum);
 
+
+
         signincheck();
         fetchData();
     } catch (error) {
@@ -16,18 +18,12 @@ function connectedCallback(event) {
 async function fetchData() {
     try {
 
-        const response = await fetch('/IA_Code/IA_Home/IA_Home.html/data');
-        const data = await response.text();
+        const response = await fetch('http://127.0.0.1:3000/data');
+        const data = await response.json();
         console.log(data);
-        // const dataList = document.getElementById('dataList');
-        // dataList.innerHTML = '';
-        // data.forEach(item => {
-        //     const li = document.createElement('li');
-        //     li.textContent = `${item.column1} - ${item.column2}`;
-        //     dataList.appendChild(li);
-        // });
+
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
