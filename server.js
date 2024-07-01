@@ -4,8 +4,8 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root', // replace with your MySQL username
-    password: '04_Whitedevil', // replace with your MySQL password
-    database: 'ielts_analyser', // replace with your database name
+    password: '', // replace with your MySQL password
+    database: 'test', // replace with your database name
     port: 3306 // default MySQL port
 });
 
@@ -32,7 +32,7 @@ app.use(express.static('public')); // serve static files from 'public' directory
 
 // Example route to get data from the database
 app.get('/data', (req, res) => {
-    const query = 'SELECT * FROM user'; // replace with your table name
+    const query = 'SELECT * FROM test'; // replace with your table name
     connection.query(query, (err, results) => {
         if (err) {
             console.error('Error fetching data:', err);
