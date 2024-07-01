@@ -18,7 +18,7 @@ function connectedCallback(event) {
 async function fetchData() {
     try {
 
-        const response = await fetch('http://127.0.0.1:3000/data');
+        const response = await fetch('http://localhost:3000/data');
         const data = await response.json();
         console.log(data);
 
@@ -79,34 +79,46 @@ function sigin() {
 
 function signincheck() {
     try {
-        if (window.location.href.includes('#') || localStorage.getItem("authInfo") != null) {
-            let access_token = '';
-            if (localStorage.getItem("authInfo") == null) {
-                let params = {}
-                let regex = /([^&=]+)=([^&]*)/g, m
+        let access_token = '';
+        if (window.location.href.includes('#')) {
 
-                while (m = regex.exec(location.href)) {
-                    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-                }
-                window.history.pushState({}, document.title, "/" + "IA_Code/IA_Home/IA_Home.html");
+            let params = {}
+            let regex = /([^&=]+)=([^&]*)/g, m
 
-                let info = JSON.parse(JSON.stringify(params));
-                access_token = info['access_token'];
-                localStorage.setItem("authInfo", info['access_token']);
-            } else {
-                access_token = localStorage.getItem("authInfo");
+            while (m = regex.exec(location.href)) {
+                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
             }
+            window.history.pushState({}, document.title, "/" + "IA_Code/IA_Home/IA_Home.html");
+
+            let info = JSON.parse(JSON.stringify(params));
+            access_token = info['access_token'];
+            localStorage.setItem("authInfo", info['access_token']);
+
+
+        } else if (localStorage.getItem("authInfo") != null) {
+            access_token = localStorage.getItem("authInfo");
+        }
+
+        if (access_token != '') {
+
             fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
                 headers: {
                     "Authorization": `Bearer ${access_token}`
                 }
             })
-                .then((data) => data.json())
+                .then((data) => {
+                    if (!data.ok) {
+                        localStorage.removeItem('authInfo');
+                        console.log(data);
+                        throw new Error(data.status + ' ' + data.statusText);
+                    }
+                    return data.json();
+                })
                 .then((info) => {
                     document.getElementById('not-log').style.display = 'none';
                     document.getElementById('login-img').style.display = 'block';
                     document.getElementById('login-img').setAttribute('src', info.picture);
-                })
+                });
         }
     } catch (error) {
         console.error('e', error);
