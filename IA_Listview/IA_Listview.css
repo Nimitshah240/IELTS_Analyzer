@@ -7,6 +7,22 @@ a {
     color: black;
 }
 
+.login-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: none;
+}
+
+.g-icon {
+    background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+}
+
 @media screen and (max-width: 640px) {
 
     body {
@@ -58,7 +74,7 @@ a {
 
     .details {
         width: 40%;
-        gap: 25px;
+        gap: 10px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -73,6 +89,7 @@ a {
     .body_section {
         height: 94%;
         padding-top: 25%;
+        background-color: whitesmoke;
     }
 
     .list {
@@ -152,7 +169,6 @@ a {
         width: 100%;
         height: 100px;
         background-color: white;
-        border-top: 1px solid black;
         display: flex;
         justify-content: space-between;
         flex-direction: column;
@@ -182,10 +198,6 @@ a {
     .copyrights {
         margin: auto;
         font-size: 15px;
-    }
-
-    .login-icon {
-        display: none;
     }
 }
 
@@ -255,6 +267,7 @@ a {
     .body_section {
         height: 94%;
         padding-top: 13%;
+        background-color: whitesmoke;
     }
 
     .list {
@@ -334,7 +347,6 @@ a {
         justify-content: space-between;
         width: 100%;
         height: 45px;
-        border-top: 1px solid black;
         background-color: white;
     }
 
@@ -361,10 +373,6 @@ a {
     .copyrights {
         margin: auto;
         font-size: 15px;
-    }
-
-    .login-icon {
-        display: none;
     }
 }
 
@@ -434,6 +442,7 @@ a {
     .body_section {
         height: 94%;
         padding: 10% 1% 0%;
+        background-color: whitesmoke;
     }
 
     .list {
@@ -513,7 +522,6 @@ a {
         justify-content: space-between;
         width: 100%;
         height: 45px;
-        border-top: 1px solid black;
         background-color: white;
     }
 
@@ -540,10 +548,6 @@ a {
     .copyrights {
         margin: auto;
         font-size: 15px;
-    }
-
-    .login-icon {
-        display: none;
     }
 }
 
@@ -609,6 +613,7 @@ a {
     .body_section {
         height: 94%;
         padding: 6% 6% 0%;
+        background-color: whitesmoke;
     }
 
     .list {
@@ -688,7 +693,6 @@ a {
     .contact {
         width: 100%;
         height: 45px;
-        border-top: 1px solid black;
         background: white;
         display: flex;
         justify-content: space-between;
@@ -719,9 +723,5 @@ a {
         margin: auto 35px;
         width: 50%;
         text-align: end;
-    }
-
-    .login-icon {
-        display: none;
     }
 }

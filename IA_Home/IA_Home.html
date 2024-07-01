@@ -8,22 +8,23 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='./IA_Home.js'></script>
+
 </head>
 
-<body>
+<body onload="connectedCallback(event)">
+
     <div class="header">
         <div class="logo">
             <p class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></p>
-            <p>Score more than 8 bands</p>
+            <p class="bottom-desc">Score more than 8 bands</p>
         </div>
         <div class="details">
             <a class="navbartransition" href="#ielts">IELTS Analysis</a>
             <a class="navbartransition" href="#highlights">Highlights</a>
             <a class="navbartransition" href="#contact">Contact Us</a>
-            <span class="navbartransition">Login</span>
-        </div>
-        <div class="login-icon">
-            <i class="fa fa-user-circle" aria-hidden="true"></i>
+            <i class="fa fa-google g-icon" id="not-log" style="font-size: 30px;" onclick="sigin()"
+                aria-hidden="true"></i>
+            <img id="login-img" class="login-img" onclick="signout()" />
         </div>
     </div>
 
