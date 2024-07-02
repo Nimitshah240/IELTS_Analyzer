@@ -16,13 +16,12 @@ async function connectedCallback(event) {
     }
 }
 
-async function fetchData() {
+async function fetchUserData() {
     try {
-        // console.log(localStorage.getItem('user_data'));
         let today = new Date();
         let year = today.getFullYear();
-        let month = ('0' + (today.getMonth() + 1)).slice(-2); // Adding leading zero if month is a single digit
-        let day = ('0' + today.getDate()).slice(-2); // Adding leading zero if day is a single digit
+        let month = ('0' + (today.getMonth() + 1)).slice(-2); 
+        let day = ('0' + today.getDate()).slice(-2);
         today = `${year}-${month}-${day}`;
 
         const data = JSON.parse(localStorage.getItem('user_data'));
@@ -30,6 +29,7 @@ async function fetchData() {
         data.ll_date = today;
         data.email = undefined;
         data.location = undefined;
+        
         delete data.picture;
         delete data.family_name;
         delete data.given_name;
