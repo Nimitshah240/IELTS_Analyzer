@@ -1,16 +1,8 @@
-var user_id;
 async function connectedCallback(event) {
     try {
-
-        // HELPFUL METHOD FOR SUMMING ARRAY !!!! DO NOT REMOVE UNTIL IT USE.
-        // const number = [1,2,3,4,5];
-        // const sum = number.reduce((accumulator, currentvalue) => accumulator + currentvalue,0);
-        // console.log(sum);
-
         signincheck(() => {
             fetchUserData();
         });
-
     } catch (error) {
         console.log('e', error);
     }
@@ -46,7 +38,6 @@ async function fetchUserData() {
                     document.getElementById('not-log').style.display = 'none';
                     document.getElementById('login-img').style.display = 'block';
                     document.getElementById('login-img').setAttribute('src', responseData.picture);
-                    user_id = responseData.user_id;
                     fetchExamData();
                 })
                 .catch(error => console.error('Error:', error.message));
@@ -65,11 +56,9 @@ async function fetchExamData() {
         let reading_exam_count = 0;
         let reading_question_count = 0;
         let listening_question_count = 0;
-        let exam;
-        let question;
-        let questionmap = new Map();
         let readingband = [];
         let listeningband = [];
+        let questionmap = new Map();
 
 
         fetch('http://localhost:3000/examdata', {
@@ -82,10 +71,7 @@ async function fetchExamData() {
             .then(response => response.json())
             .then(responseData => {
 
-                exam = responseData.exam;
-                question = responseData.question;
-
-                question.forEach(element => {
+                responseData.question.forEach(element => {
                     let questionlist = [];
                     if (questionmap.has(element.exam_id)) {
                         questionlist = questionmap.get(element.exam_id);
@@ -94,7 +80,7 @@ async function fetchExamData() {
                     questionmap.set(element.exam_id, questionlist);
                 });
 
-                exam.forEach(element => {
+                responseData.exam.forEach(element => {
                     let a = questionmap.get(element.id);
                     if (element.module == 'Reading') {
                         reading_exam_count++;
@@ -128,13 +114,11 @@ async function fetchExamData() {
 
 function calculateAverage(numbers) {
     if (numbers.length === 0) {
-        return 0; // Handle edge case for empty array
+        return 0;
     }
-
     const sum = numbers.reduce((acc, curr) => acc + curr, 0);
     const average = sum / numbers.length;
     const roundToNearestHalf = (num) => Math.round(num * 2) / 2;
-
     return roundToNearestHalf(average);
 }
 

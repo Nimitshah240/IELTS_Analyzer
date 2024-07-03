@@ -76,14 +76,11 @@ app.post('/examdata', (req, res) => {
         if (error) {
             console.error(error);
         } else {
-            console.log(results);
             results.forEach(element => {
                 exam_id.push(element.id);
             });
             res_data.exam = results
-            console.log(exam_id);
             query = `  SELECT * FROM question WHERE exam_id IN (${exam_id.join(', ')});`;
-            console.log(query);
 
             connection.execute(query, (error, results, fields) => {
                 if (error) {
