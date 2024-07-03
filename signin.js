@@ -32,49 +32,48 @@ function sigin() {
 
 async function signincheck(callback) {
     try {
+        if (localStorage.getItem('user_data') == null) {
+            console.log('in');
+            let access_token = '';
+            if (window.location.href.includes('#')) {
 
-        let access_token = '';
-        if (window.location.href.includes('#')) {
+                let params = {}
+                let regex = /([^&=]+)=([^&]*)/g, m
 
-            let params = {}
-            let regex = /([^&=]+)=([^&]*)/g, m
-
-            while (m = regex.exec(location.href)) {
-                params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-            }
-            window.history.pushState({}, document.title, "/" + "IA_Code/IA_Home/IA_Home.html");
-
-            let info = JSON.parse(JSON.stringify(params));
-            access_token = info['access_token'];
-            localStorage.setItem("authInfo", info['access_token']);
-
-
-        } else if (localStorage.getItem("authInfo") != null) {
-            access_token = localStorage.getItem("authInfo");
-        }
-
-        if (access_token != '') {
-
-            fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
-                headers: {
-                    "Authorization": `Bearer ${access_token}`
+                while (m = regex.exec(location.href)) {
+                    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
                 }
-            })
-                .then((data) => {
-                    if (!data.ok) {
-                        localStorage.removeItem('authInfo');
-                        throw new Error(data.status + ' ' + data.statusText);
+                window.history.pushState({}, document.title, "/" + "IA_Code/IA_Home/IA_Home.html");
+
+                let info = JSON.parse(JSON.stringify(params));
+                console.log(info);
+                access_token = info['access_token'];
+                localStorage.setItem("authInfo", info['access_token']);
+            }
+
+            if (access_token != '') {
+                fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
+                    headers: {
+                        "Authorization": `Bearer ${access_token}`
                     }
-                    return data.json();
                 })
-                .then((info) => {
-                    console.log(info);
-                    localStorage.setItem('user_data', JSON.stringify(info));
-                    document.getElementById('not-log').style.display = 'none';
-                    document.getElementById('login-img').style.display = 'block';
-                    document.getElementById('login-img').setAttribute('src', info.picture);
-                    callback();
-                });
+                    .then((data) => {
+                        if (!data.ok) {
+                            localStorage.removeItem('authInfo');
+                            localStorage.removeItem('user_data');
+                            throw new Error(data.status + ' ' + data.statusText);
+                        }
+                        return data.json();
+                    })
+                    .then((info) => {
+                        info.user_id = info.sub;
+                        delete info.sub;
+                        localStorage.setItem('user_data', JSON.stringify(info));
+                        callback();
+                    });
+            }
+        } else {
+            callback();
         }
 
     } catch (error) {
