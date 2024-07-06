@@ -22,14 +22,6 @@ function setHref(event) {
 }
 
 function openexam(event) {
-    // let exams = [];
-    // exam.forEach(element => {
-    //     if (element.exam_id == event.target.id) {
-    //         exams.push(element);
-    //     }
-    // });
-    // localStorage.setItem("Exam" + event.target.id, JSON.stringify(exams));
-
     let questions = [];
     question.forEach(element => {
         if (element.exam_id == event.target.id) {

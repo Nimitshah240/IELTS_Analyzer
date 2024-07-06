@@ -145,6 +145,18 @@ function questioninsert(receivedData, exam_id) {
     });
 }
 
+app.delete('/api/deleteQuestion', (req, res) => {
+    const question_id = req.query.question_id;
+    let query = "DELETE FROM question WHERE id = ?";
+
+    connection.execute(query, [question_id], (error, results, fields) => {
+        if (error) {
+            console.error(error);
+        }
+    });
+    res.json(question_id);
+});
+
 app.listen(PORT, () => {
 
     console.log(`Server is running on http://localhost:${PORT}`);

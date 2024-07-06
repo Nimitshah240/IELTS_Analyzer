@@ -99,13 +99,13 @@ function popupopen(event) {
             question.forEach(element => {
                 if (element.section == section) {
                     sectiondata +=
-                        '<tr><td colspan="5">' + element.question_type + '</td></tr >' +
-                        '<tr>' +
+                        `<tr><td colspan="5" id = ${element.id}>` + element.question_type + '</td></tr >' +
+                        `<tr id = ${element.id}>` +
                         '<td>' + element.correct + '</td>' +
                         '<td>' + element.incorrect + '</td>' +
                         '<td>' + element.miss + '</td>' +
                         '<td> ' + element.total + ' </td>' +
-                        '<td class="delete-icon"><i class="fa fa-trash" aria-hidden="true"></i> </td> </tr>';
+                        `<td class="delete-icon" id = ${element.id} onclick="deletequestion(event)"><i class="fa fa-trash" aria-hidden="true"id=${element.id}></i> </td> </tr>`;
                 }
             });
             document.getElementById('show-div').style.display = 'flex';
@@ -230,6 +230,38 @@ function saveexam(event) {
         }
     } catch (error) {
         console.log(error);
+    }
+}
+
+function deletequestion(event) {
+    try {
+        const question_id = event.target.id;
+        console.log(question_id);
+
+        fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                for (let index = 0; index < 2; index++) {
+                    const divToRemove = document.getElementById(question_id);
+                    divToRemove.remove();
+                }
+
+                question.forEach((element, i) => {
+                    if (element.id == question_id) {
+                        question.splice(i, 1);
+                    }
+                });
+                localStorage.setItem('question' + tdExam, JSON.stringify(question))
+            })
+            .catch(error => console.error('Error:', error));
+
+    } catch (error) {
+        console.error(error);
     }
 
 }
