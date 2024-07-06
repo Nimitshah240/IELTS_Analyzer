@@ -66,33 +66,84 @@ app.post('/logindata', (req, res) => {
     });
 });
 
-app.post('/examdata', (req, res) => {
+app.get('/api/examdata', (req, res) => {
+    const user_id = req.query.user_id;
+    const module = [];
+    if (req.query.module == 'undefined') {
+        module.push('\'Reading\'');
+        module.push('\'Listening\'');
+    } else {
+        module.push('\'' + req.query.module + '\'');
+    }
 
-    const receivedData = req.body;
-    let exam_id = [];
-    let res_data = {};
-    let query = 'SELECT * FROM exam WHERE user_id = ' + receivedData.user_id;
+    let query = `SELECT exam.*, question.* FROM exam LEFT JOIN question ON question.exam_id = exam.id WHERE exam.user_id = ${user_id} AND module IN (${module.join(', ')})`;
+
     connection.execute(query, (error, results, fields) => {
         if (error) {
             console.error(error);
         } else {
-            results.forEach(element => {
-                exam_id.push(element.id);
-            });
-            res_data.exam = results
-            query = `  SELECT * FROM question WHERE exam_id IN (${exam_id.join(', ')});`;
+            res.json(results);
+        }
+    });
+});
 
-            connection.execute(query, (error, results, fields) => {
+app.delete('/api/deleteExam', (req, res) => {
+    const exam_id = req.query.exam_id;
+    let query = "DELETE FROM exam WHERE id = ?";
+
+    connection.execute(query, [exam_id], (error, results, fields) => {
+        if (error) {
+            console.error(error);
+        } else {
+            query = "DELETE FROM question WHERE exam_id = ?";
+            connection.execute(query, [exam_id], (error, results, fields) => {
                 if (error) {
                     console.error(error);
                 } else {
-                    res_data.question = results;
-                    res.json(res_data);
+                    res.json(results)
                 }
             });
         }
     });
 });
+
+app.post('/api/insertExam', (req, res) => {
+
+    let exam_id = req.headers.exam_id;
+    const receivedData = req.body;
+    let exam_query = `INSERT INTO exam (user_id, exam_name, date, module, band) VALUES (${receivedData[0].user_id}, '${receivedData[0].exam_name}', '${receivedData[0].date}', '${receivedData[0].module}', ${receivedData[0].band}) `;
+
+    if (exam_id != '') {
+        exam_query = `UPDATE exam SET exam_name = '${receivedData[0].exam_name}', date = '${receivedData[0].date}', band = ${receivedData[0].band} WHERE id = ${exam_id}`
+        connection.execute(exam_query, (error, results) => {
+            if (error) console.log(error);
+            questioninsert(receivedData, exam_id);
+        });
+    } else {
+        connection.execute(exam_query, (error, results) => {
+            if (error) console.log(error);
+            exam_id = results.insertId;
+            questioninsert(receivedData, exam_id);
+        });
+    }
+});
+
+function questioninsert(receivedData, exam_id) {
+    let query;
+    let values = [];
+    const queryBase = 'INSERT INTO question (user_id, exam_id, question_type, correct, incorrect, miss, total, section) VALUES ';
+
+    receivedData.forEach(element => {
+        if (element.id == "") {
+            values.push(`(${element.user_id}, ${exam_id}, '${element.question_type}', ${element.correct}, ${element.incorrect}, ${element.miss}, ${element.total}, ${element.section})`);
+        }
+    });
+    query = queryBase + values.join(', ');
+
+    connection.execute(query, (error, results, fields) => {
+        if (error) console.log(error);
+    });
+}
 
 app.listen(PORT, () => {
 

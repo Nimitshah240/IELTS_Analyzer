@@ -4,7 +4,7 @@ async function connectedCallback(event) {
             fetchUserData();
         });
     } catch (error) {
-        console.log('e', error);
+        console.error('e', error);
     }
 }
 
@@ -52,58 +52,45 @@ async function fetchExamData() {
     try {
 
         const user_data = JSON.parse(localStorage.getItem('user_data'));
+        const user_id = user_data.user_id;
+        const module = undefined;
         let listening_exam_count = 0;
         let reading_exam_count = 0;
         let reading_question_count = 0;
         let listening_question_count = 0;
         let readingband = [];
         let listeningband = [];
-        let questionmap = new Map();
+        let exammap = new Map();
 
-
-        fetch('http://localhost:3000/examdata', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(user_data),
-        })
+        fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
             .then(response => response.json())
             .then(responseData => {
 
-                responseData.question.forEach(element => {
-                    let questionlist = [];
-                    if (questionmap.has(element.exam_id)) {
-                        questionlist = questionmap.get(element.exam_id);
+                responseData.forEach(element => {
+                    exammap.set(element.exam_id, { 'band': element.band, 'module': element.module });
+                    if (element.module == 'Reading' && element.id != null) {
+                        reading_question_count++;
+                    } else if (element.module == 'Listening' && element.id != null) {
+                        listening_question_count++;
                     }
-                    questionlist.push(element);
-                    questionmap.set(element.exam_id, questionlist);
                 });
 
-                responseData.exam.forEach(element => {
-                    let a = questionmap.get(element.id);
+                exammap.forEach(element => {
                     if (element.module == 'Reading') {
                         reading_exam_count++;
                         readingband.push(element.band);
-                        if (a != undefined) {
-                            reading_question_count += a.length;
-                        }
                     } else {
                         listening_exam_count++;
                         listeningband.push(element.band);
-                        if (a != undefined) {
-                            listening_question_count += a.length;
-                        }
                     }
                 });
-
+                
                 document.getElementById("listening-band").innerHTML = calculateAverage(listeningband) + ' Band';
                 document.getElementById("reading-band").innerHTML = calculateAverage(readingband) + ' Band';
                 document.getElementById("question-count-listening").innerHTML = listening_question_count + ' Question';
                 document.getElementById("question-count-reading").innerHTML = reading_question_count + ' Question';
                 document.getElementById("count-listening").innerHTML = listening_exam_count + ' Exam';
                 document.getElementById("count-reading").innerHTML = reading_exam_count + ' Exam';
-
             })
             .catch(error => console.error('Error:', error));
 
