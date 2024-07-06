@@ -42,9 +42,7 @@ function examData() {
         fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
             .then(response => response.json())
             .then(responseData => {
-                console.log('responseDate', responseData);
                 question = responseData;
-                exam = responseData;
 
                 let data = [];
                 const Section1 = new Map();
