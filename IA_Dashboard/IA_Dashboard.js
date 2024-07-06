@@ -210,7 +210,7 @@ function connectedCallback() {
             chart.draw(data, options);
 
         } catch (error) {
-            console.log(error.message);
+            console.error(error.message);
         }
     }
 }

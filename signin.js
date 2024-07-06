@@ -33,7 +33,6 @@ function sigin() {
 async function signincheck(callback) {
     try {
         if (localStorage.getItem('user_data') == null) {
-            console.log('in');
             let access_token = '';
             if (window.location.href.includes('#')) {
 
@@ -46,7 +45,6 @@ async function signincheck(callback) {
                 window.history.pushState({}, document.title, "/" + "IA_Code/IA_Home/IA_Home.html");
 
                 let info = JSON.parse(JSON.stringify(params));
-                console.log(info);
                 access_token = info['access_token'];
                 localStorage.setItem("authInfo", info['access_token']);
             }
