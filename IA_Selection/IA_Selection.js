@@ -4,14 +4,16 @@ const type = urlSearchParams.get('type');
 function connectedCallback(event) {
     try {
 
-        signincheck(() => { });
+        signincheck(() => { 
+            fetchUserData();
+        });
 
     } catch (error) {
         console.error(error);
     }
 }
 
-function setHref(event) {
+function setHrefs(event) {
     try {
         let module = event.target.id;
 

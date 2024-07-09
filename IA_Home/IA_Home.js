@@ -38,7 +38,9 @@ async function fetchUserData() {
                     document.getElementById('not-log').style.display = 'none';
                     document.getElementById('login-img').style.display = 'block';
                     document.getElementById('login-img').setAttribute('src', responseData.picture);
-                    fetchExamData();
+                    if (document.getElementById("listening-band")) {
+                        fetchExamData();
+                    }
                 })
                 .catch(error => console.error('Error:', error.message));
         }
@@ -84,7 +86,7 @@ async function fetchExamData() {
                         listeningband.push(element.band);
                     }
                 });
-                
+
                 document.getElementById("listening-band").innerHTML = calculateAverage(listeningband) + ' Band';
                 document.getElementById("reading-band").innerHTML = calculateAverage(readingband) + ' Band';
                 document.getElementById("question-count-listening").innerHTML = listening_question_count + ' Question';

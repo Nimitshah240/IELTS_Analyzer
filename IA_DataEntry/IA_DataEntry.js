@@ -3,15 +3,15 @@ var module = urlSearchParams.get('module');
 var tdExam = urlSearchParams.get('tdExam')
 var question = [];
 question = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? [] : JSON.parse(localStorage.getItem('question' + tdExam));
-let exam_name = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
-let exam_id = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_id;
+let exam_name = (JSON.parse(localStorage.getItem('question' + tdExam))) == "" ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
+let exam_id = (JSON.parse(localStorage.getItem('question' + tdExam))) == "" ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_id;
 let user_data = JSON.parse(localStorage.getItem('user_data'));
 let user_id = user_data.user_id;
 
 function connectedCallback() {
     sectionsetter();
     signincheck(() => {
-
+        fetchUserData();
     });
 }
 
@@ -84,14 +84,14 @@ function popupopen(event) {
         var type = event.target.id;
 
         if (type == 'save') {
-            let exam_date = new Date((JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].date);
+            let exam_date = new Date((JSON.parse(localStorage.getItem('question' + tdExam))) == "" ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].date);
             let year = exam_date.getFullYear();
             let month = ('0' + (exam_date.getMonth() + 1)).slice(-2);
             let day = ('0' + exam_date.getDate()).slice(-2);
             exam_date = `${year}-${month}-${day}`;
 
             document.getElementById('examdate').value = exam_date;
-            document.getElementById('examname').value = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
+            document.getElementById('examname').value = (JSON.parse(localStorage.getItem('question' + tdExam))) == "" ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
             document.getElementById('save-div').style.display = 'flex';
 
         } else {

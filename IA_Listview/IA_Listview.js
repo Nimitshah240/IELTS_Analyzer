@@ -7,6 +7,7 @@ function connectedCallback() {
 
     signincheck(() => {
         examData();
+        fetchUserData();
     });
 
 }
