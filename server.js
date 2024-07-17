@@ -33,7 +33,6 @@ app.use(express.static('public'));
 app.use(cors());
 
 app.post('/logindata', (req, res) => {
-
     const receivedData = req.body;
     let query = 'SELECT * FROM user WHERE id = ' + receivedData.user_id;
     let res_len;
@@ -82,7 +81,6 @@ app.get('/api/examdata', (req, res) => {
         if (error) {
             console.error(error);
         } else {
-            console.log(results);
             res.json(results);
         }
     });
@@ -117,12 +115,12 @@ app.post('/api/insertExam', (req, res) => {
     if (exam_id != '') {
         exam_query = `UPDATE exam SET exam_name = '${receivedData[0].exam_name}', date = '${receivedData[0].date}', band = ${receivedData[0].band} WHERE id = ${exam_id}`
         connection.execute(exam_query, (error, results) => {
-            if (error) console.log(error);
+            if (error) console.error(error);
             questioninsert(receivedData, exam_id);
         });
     } else {
         connection.execute(exam_query, (error, results) => {
-            if (error) console.log(error);
+            if (error) console.error(error);
             exam_id = results.insertId;
             questioninsert(receivedData, exam_id);
         });
@@ -142,7 +140,7 @@ function questioninsert(receivedData, exam_id) {
     query = queryBase + values.join(', ');
 
     connection.execute(query, (error, results, fields) => {
-        if (error) console.log(error);
+        if (error) console.error(error);
     });
 }
 

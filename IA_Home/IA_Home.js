@@ -1,3 +1,41 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const slideInDiv = document.querySelector(".second-box");
+
+    const observerOptions = {
+        threshold: 0.1 // Trigger when 50% of the div is visible
+    };
+    const observerCallback = (entries, observer) => {
+        console.log(entries);
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // console.log('is');
+                slideInDiv.classList.add("active");
+            }
+        });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    observer.observe(slideInDiv);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+    const slideInDiv1 = document.querySelector(".third-box");
+
+    const observerOptions = {
+        threshold: 0.27 // Trigger when 50% of the div is visible
+    };
+    const observerCallback = (entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                slideInDiv1.classList.add("active");
+            }
+        });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+    observer.observe(slideInDiv1);
+});
+
 async function connectedCallback(event) {
     try {
         signincheck(() => {
@@ -39,6 +77,7 @@ async function fetchUserData() {
                     document.getElementById('login-img').style.display = 'block';
                     document.getElementById('login-img').setAttribute('src', responseData.picture);
                     if (document.getElementById("listening-band")) {
+                        console.log('fetch');
                         fetchExamData();
                     }
                 })
@@ -116,7 +155,7 @@ function setHref(event) {
         var dynamicUrl;
         let buttonId = event.target.id;
 
-        if (buttonId == 'selection') {
+        if (buttonId == 'data') {
             dynamicUrl = '../IA_Selection/IA_Selection.html?type=data';
         } else if (buttonId == 'dashboard') {
             dynamicUrl = '../IA_Selection/IA_Selection.html?type=dashboard';
@@ -127,4 +166,23 @@ function setHref(event) {
     } catch (error) {
         console.error(error);
     }
+}
+
+function sendemail(params) {
+    try {
+        Email.send({
+            SecureToken : "6ea86d2a-ad55-4617-9e3d-67b7521e104b",
+            To : 'nimitshah240@gmail.com',
+            From : "nimitshah240@gmail.com",
+            Subject : "This is the subject",
+            Body : "And this is the body"
+        }).then(
+          message => alert(message)
+        );
+        
+        
+    } catch (error) {
+        console.error(error);
+    }
+
 }
