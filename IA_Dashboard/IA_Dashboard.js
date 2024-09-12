@@ -21,9 +21,11 @@ let responseData = [];
 async function connectedCallback() {
     try {
 
-
         signincheck(() => {
             fetchUserData();
+
+            document.getElementById("main").style.display = 'none';
+            document.getElementById("spinner").style.display = 'flex';
 
             fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
                 .then(response => response.json())
@@ -72,6 +74,8 @@ async function connectedCallback() {
                         }
 
                     });
+                    document.getElementById("spinner").style.display = 'none';
+                    document.getElementById("main").style.display = 'block';
                 })
                 .catch(error => console.error('Error:', error));
             console.log(exammap);

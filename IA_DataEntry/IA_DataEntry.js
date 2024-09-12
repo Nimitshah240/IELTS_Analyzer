@@ -66,16 +66,21 @@ function sectionsetter() {
     }
 }
 
-function setHref(event) {
-    try {
+// function setHref(event) {
+//     try {
+//         document.getElementById("main").style.display = 'none';
+//         document.getElementById("spinner").style.display = 'flex';
 
-        var dynamicUrl = '../IA_Listview/IA_Listview.html?module=' + module;
-        event.target.href = dynamicUrl;
-        window.location.href = dynamicUrl;
-    } catch (error) {
-        console.error(error);
-    }
-}
+//         var dynamicUrl = '../IA_Listview/IA_Listview.html?module=' + module;
+//         // event.target.href = dynamicUrl;
+//         // window.location.href = dynamicUrl;
+
+//         // document.getElementById("spinner").style.display = 'none';
+//         // document.getElementById("main").style.display = 'block';
+//     } catch (error) {
+//         console.error(error);
+//     }
+// }
 
 function popupopen(event) {
     try {
@@ -185,6 +190,10 @@ function saveexam(event) {
 
         let exam_name = document.getElementById('examname').value;
         let exam_date = document.getElementById('examdate').value;
+
+        document.getElementById("main").style.display = 'none';
+        document.getElementById("spinner").style.display = 'flex';
+
         exam_date = new Date(exam_date);
         exam_date = new Date(exam_date.getTime() - (exam_date.getTimezoneOffset() * 60000)).toISOString();
         console.log(exam_date, 'er');
@@ -227,6 +236,9 @@ function saveexam(event) {
                     console.log(responseData);
                 });
             popupclose(event);
+
+            document.getElementById("spinner").style.display = 'none';
+            document.getElementById("main").style.display = 'block';
         }
     } catch (error) {
         console.log(error);

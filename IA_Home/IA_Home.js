@@ -152,6 +152,9 @@ function calculateAverage(numbers) {
 
 function setHref(event) {
     try {
+        document.getElementById("main").style.display = 'none';
+        document.getElementById("spinner").style.display = 'flex';
+
         var dynamicUrl;
         let buttonId = event.target.id;
 
@@ -163,6 +166,10 @@ function setHref(event) {
 
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
+
+        document.getElementById("spinner").style.display = 'none';
+        document.getElementById("main").style.display = 'block';
+
     } catch (error) {
         console.error(error);
     }
@@ -171,16 +178,16 @@ function setHref(event) {
 function sendemail(params) {
     try {
         Email.send({
-            SecureToken : "6ea86d2a-ad55-4617-9e3d-67b7521e104b",
-            To : 'nimitshah240@gmail.com',
-            From : "nimitshah240@gmail.com",
-            Subject : "This is the subject",
-            Body : "And this is the body"
+            SecureToken: "6ea86d2a-ad55-4617-9e3d-67b7521e104b",
+            To: 'nimitshah240@gmail.com',
+            From: "nimitshah240@gmail.com",
+            Subject: "This is the subject",
+            Body: "And this is the body"
         }).then(
-          message => alert(message)
+            message => alert(message)
         );
-        
-        
+
+
     } catch (error) {
         console.error(error);
     }
