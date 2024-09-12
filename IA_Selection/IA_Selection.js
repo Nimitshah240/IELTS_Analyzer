@@ -4,7 +4,7 @@ const type = urlSearchParams.get('type');
 function connectedCallback(event) {
     try {
 
-        signincheck(() => { 
+        signincheck(() => {
             fetchUserData();
         });
 
@@ -28,8 +28,10 @@ function setHrefs(event) {
             dynamicUrl = dynamicUrl + '?module=Listening';
         }
 
-        event.target.href = dynamicUrl;
-        window.location.href = dynamicUrl;
+        setTimeout(function () {
+            event.target.href = dynamicUrl;
+            window.location.href = dynamicUrl;
+        }, 500);
     } catch (error) {
         console.error(error);
     }
