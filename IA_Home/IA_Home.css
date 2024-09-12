@@ -48,6 +48,10 @@ main {
     justify-content: center;
 }
 
+body {
+    line-height: 1 !important;
+}
+
 @media screen and (max-width: 640px) {
 
     /* Glass Effect */
@@ -1413,7 +1417,7 @@ main {
 
 /* header */
 .header {
-    height: 90px;
+    height: 12%;
     width: 100%;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
@@ -1441,5 +1445,24 @@ main {
 .companylogo {
     height: 25%;
 }
+
+.navbartransition::after {
+    content: '';
+    width: 0px;
+    height: 3px;
+    transition: 300ms;
+    border-radius: 5px;
+    display: block;
+    background: #106eea;
+}
+
+.navbartransition:hover::after {
+    width: 100%;
+}
+
+.navbartransition:hover {
+    color: #106eea;
+}
+
 
 /* header  */
