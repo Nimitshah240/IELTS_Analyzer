@@ -7,16 +7,22 @@
     <link rel=stylesheet href=./IA_DataEntry.css>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src='../IA_Home/IA_Home.js'></script>
+    <script src='../index.js'></script>
     <script src=./IA_DataEntry.js></script>
     <script src=../signin.js></script>
+    <script src='../IA_Toast/IA_Toast.js'></script>
+    <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
 </head>
 
 <body onload="connectedCallback()">
+
     <!-- Spinner -->
     <iframe src="../IA_Spinner/IA_Spinner.html" id="spinner" class="spinner" frameborder="0"></iframe>
     <!-- Spinner -->
-     
+    <!-- Toast -->
+    <ul class="notifications" id="notifications"> </ul>
+    <!-- Toast -->
+
     <main id="main">
         <div class="header">
             <div class="logo">
@@ -25,7 +31,7 @@
             </div>
             <div class="details">
                 <a class="navbartransition" href="#" id="save" onclick="popupopen(event)">Save</a>
-                <a class="navbartransition" href="../IA_Home/IA_Home.html">Home</a>
+                <a class="navbartransition" href="../index.html">Home</a>
                 <i class="fa fa-google g-icon" id="not-log" style="font-size: 30px;" onclick="sigin()"
                     aria-hidden="true"></i>
                 <img id="login-img" class="login-img" onclick="signout()" />

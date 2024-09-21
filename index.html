@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel='stylesheet' href='./IA_Home.css'>
+    <title>Ielts Analyzer</title>
+    <link rel='stylesheet' href='./index.css'>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src='./IA_Home.js'></script>
+    <script src='./index.js'></script>
     <script src='../signin.js'></script>
+    <script src='./IA_Toast/IA_Toast.js'></script>
+    <link rel='stylesheet' href='./IA_Toast/IA_Toast.css'>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
-
 </head>
 
 <body onload="connectedCallback(event)">
-    <!-- <div> -->
-
-    <!-- </div> -->
     <div class="circle1"></div>
     <div class="circle2"></div>
     <div class="circle3"></div>
@@ -27,9 +25,11 @@
     <!-- Spinner -->
     <iframe src="../IA_Spinner/IA_Spinner.html" id="spinner" class="spinner" frameborder="0"></iframe>
     <!-- Spinner -->
+    <!-- Toast -->
+    <ul class="notifications" id="notifications"> </ul>
+    <!-- Toast -->
 
     <main id="main">
-
         <div class="header glass">
             <div class="logo">
                 <h1 class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></h1>

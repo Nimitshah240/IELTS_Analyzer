@@ -3,22 +3,17 @@ const urlSearchParams = new URLSearchParams(window.location.search);
 const type = urlSearchParams.get('type');
 function connectedCallback(event) {
     try {
-
         signincheck(() => {
             fetchUserData();
         });
 
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while loading: ' + error.message);
     }
 }
 
 function setHrefs(event) {
     try {
-
-        document.getElementById("main").style.display = 'none';
-        document.getElementById("spinner").style.display = 'flex';
-
         let module = event.target.id;
 
         if (type == 'dashboard') {
@@ -34,9 +29,19 @@ function setHrefs(event) {
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
 
-        document.getElementById("spinner").style.display = 'none';
-        document.getElementById("main").style.display = 'block';
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while redirecting : ' + error.message);
     }
 }
+
+window.addEventListener("beforeunload", function (event) {
+    document.getElementById("spinner").style.display = 'flex';
+    document.getElementById("main").style.display = 'none';
+});
+
+document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") {
+        document.getElementById("spinner").style.display = 'none';
+        document.getElementById("main").style.display = 'block';
+    }
+});

@@ -9,10 +9,19 @@ let user_data = JSON.parse(localStorage.getItem('user_data'));
 let user_id = user_data.user_id;
 
 function connectedCallback() {
-    sectionsetter();
-    signincheck(() => {
-        fetchUserData();
-    });
+    try {
+        createToast('warning', 'Page is currently underdevelop');
+
+        if (!JSON.parse(localStorage.getItem('user_data'))) {
+            createToast('error', 'Please login first')
+        }
+        sectionsetter();
+        signincheck(() => {
+            fetchUserData();
+        });
+    } catch (error) {
+        createToast('error', 'Error while loading : ' + error.message);
+    }
 }
 
 function sectionsetter() {
@@ -62,25 +71,9 @@ function sectionsetter() {
 
 
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while setting data : ' + error.message);
     }
 }
-
-// function setHref(event) {
-//     try {
-//         document.getElementById("main").style.display = 'none';
-//         document.getElementById("spinner").style.display = 'flex';
-
-//         var dynamicUrl = '../IA_Listview/IA_Listview.html?module=' + module;
-//         // event.target.href = dynamicUrl;
-//         // window.location.href = dynamicUrl;
-
-//         // document.getElementById("spinner").style.display = 'none';
-//         // document.getElementById("main").style.display = 'block';
-//     } catch (error) {
-//         console.error(error);
-//     }
-// }
 
 function popupopen(event) {
     try {
@@ -119,9 +112,7 @@ function popupopen(event) {
 
         }
     } catch (error) {
-        console.error(error.message);
-        console.error(error.linenumber);
-
+        createToast('error', 'Error while loading exam data : ' + error.message);
     }
 }
 
@@ -146,57 +137,56 @@ function popupclose(event) {
 
 // To get data on each save and new button click
 function getData(event) {
-    const selectElement = document.getElementById('question' + event.target.id);
-    const question_type = selectElement.value;
+    try {
 
-    let correct = 0;
-    let incorrect = 0;
-    let miss = 0;
-    let total;
+        const selectElement = document.getElementById('question' + event.target.id);
+        const question_type = selectElement.value;
 
-    correct = parseInt(document.getElementById('correct' + event.target.id).value);
-    incorrect = parseInt(document.getElementById('incorrect' + event.target.id).value);
-    miss = parseInt(document.getElementById('miss' + event.target.id).value);
-    total = correct + incorrect + miss;
+        let correct = 0;
+        let incorrect = 0;
+        let miss = 0;
+        let total;
+
+        correct = parseInt(document.getElementById('correct' + event.target.id).value);
+        incorrect = parseInt(document.getElementById('incorrect' + event.target.id).value);
+        miss = parseInt(document.getElementById('miss' + event.target.id).value);
+        total = correct + incorrect + miss;
 
 
-    question.push(
-        {
-            "band": "",
-            "correct": correct,
-            "date": "",
-            "exam_id": exam_id == "" ? "" : exam_id,
-            "exam_name": exam_name == "" ? "" : exam_name,
-            "id": "",
-            "incorrect": incorrect,
-            "miss": miss,
-            "module": module,
-            "question_type": question_type,
-            "section": event.target.id,
-            "total": total,
-            "user_id": user_id,
-        }
-    )
+        question.push(
+            {
+                "band": "",
+                "correct": correct,
+                "date": "",
+                "exam_id": exam_id == "" ? "" : exam_id,
+                "exam_name": exam_name == "" ? "" : exam_name,
+                "id": "",
+                "incorrect": incorrect,
+                "miss": miss,
+                "module": module,
+                "question_type": question_type,
+                "section": event.target.id,
+                "total": total,
+                "user_id": user_id,
+            }
+        )
 
-    document.getElementById('correct' + event.target.id).value = 0;
-    document.getElementById('incorrect' + event.target.id).value = 0;
-    document.getElementById('miss' + event.target.id).value = 0
-    selectElement.value = 'MCQ';
+        document.getElementById('correct' + event.target.id).value = 0;
+        document.getElementById('incorrect' + event.target.id).value = 0;
+        document.getElementById('miss' + event.target.id).value = 0
+        selectElement.value = 'MCQ';
+    } catch (error) {
+        createToast('error', 'Error while getting data : ' + error.message);
+    }
 }
 
 // To save exam
 function saveexam(event) {
     try {
-
         let exam_name = document.getElementById('examname').value;
         let exam_date = document.getElementById('examdate').value;
-
-        document.getElementById("main").style.display = 'none';
-        document.getElementById("spinner").style.display = 'flex';
-
         exam_date = new Date(exam_date);
         exam_date = new Date(exam_date.getTime() - (exam_date.getTimezoneOffset() * 60000)).toISOString();
-        console.log(exam_date, 'er');
         let correct = 0;
         let band = 0;
         if (exam_name == '' || exam_date == '') {
@@ -233,22 +223,18 @@ function saveexam(event) {
             })
                 .then(response => response.json())
                 .then(responseData => {
-                    console.log(responseData);
                 });
             popupclose(event);
 
-            document.getElementById("spinner").style.display = 'none';
-            document.getElementById("main").style.display = 'block';
         }
     } catch (error) {
-        console.log(error);
+        createToast('error', 'Error while saving data : ' + error.message);
     }
 }
 
 function deletequestion(event) {
     try {
         const question_id = event.target.id;
-        console.log(question_id);
 
         fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
             method: 'DELETE',
@@ -270,10 +256,23 @@ function deletequestion(event) {
                 });
                 localStorage.setItem('question' + tdExam, JSON.stringify(question))
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error =>
+                createToast('error', 'Error while deleting data : ' + error.message));
 
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while deleting data : ' + error.message);
     }
 
 }
+
+window.addEventListener("beforeunload", function (event) {
+    document.getElementById("spinner").style.display = 'flex';
+    document.getElementById("main").style.display = 'none';
+});
+
+document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") {
+        document.getElementById("spinner").style.display = 'none';
+        document.getElementById("main").style.display = 'block';
+    }
+});
