@@ -1,40 +1,41 @@
 document.addEventListener("DOMContentLoaded", () => {
     const slideInDiv = document.querySelector(".second-box");
+    if (slideInDiv != null) {
+        const observerOptions = {
+            threshold: 0.1 // Trigger when 50% of the div is visible
+        };
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    slideInDiv.classList.add("active");
+                }
+            });
+        };
 
-    const observerOptions = {
-        threshold: 0.1 // Trigger when 50% of the div is visible
-    };
-    const observerCallback = (entries, observer) => {
-        console.log(entries);
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // console.log('is');
-                slideInDiv.classList.add("active");
-            }
-        });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    observer.observe(slideInDiv);
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        observer.observe(slideInDiv);
+    }
 });
 
 document.addEventListener("DOMContentLoaded", () => {
     const slideInDiv1 = document.querySelector(".third-box");
+    if (slideInDiv1 != null) {
+        const observerOptions = {
+            threshold: 0.27 // Trigger when 50% of the div is visible
+        };
+        const observerCallback = (entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    slideInDiv1.classList.add("active");
+                }
+            });
+        };
 
-    const observerOptions = {
-        threshold: 0.27 // Trigger when 50% of the div is visible
-    };
-    const observerCallback = (entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                slideInDiv1.classList.add("active");
-            }
-        });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions);
-    observer.observe(slideInDiv1);
+        const observer = new IntersectionObserver(observerCallback, observerOptions);
+        observer.observe(slideInDiv1);
+    }
 });
+
 
 async function connectedCallback(event) {
     try {
@@ -42,56 +43,30 @@ async function connectedCallback(event) {
             fetchUserData();
         });
     } catch (error) {
-        console.error('e', error);
+        createToast('error', 'Error while loading : ' + error.message);
     }
 }
 
 async function fetchUserData() {
     try {
-        let today = new Date();
-        let year = today.getFullYear();
-        let month = ('0' + (today.getMonth() + 1)).slice(-2);
-        let day = ('0' + today.getDate()).slice(-2);
-        today = `${year}-${month}-${day}`;
 
         const data = JSON.parse(localStorage.getItem('user_data'));
         if (data) {
-            data.fl_date = today;
-            data.ll_date = today;
-            data.email = undefined;    // remove if you get email from the first google login 
-            data.location = undefined; // remove if you get location from the first google login
-
-            delete data.family_name;
-            delete data.given_name;
-
-            fetch('http://localhost:3000/logindata', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then(response => response.json())
-                .then(responseData => {
-                    document.getElementById('not-log').style.display = 'none';
-                    document.getElementById('login-img').style.display = 'block';
-                    document.getElementById('login-img').setAttribute('src', responseData.picture);
-                    if (document.getElementById("listening-band")) {
-                        console.log('fetch');
-                        fetchExamData();
-                    }
-                })
-                .catch(error => console.error('Error:', error.message));
+            document.getElementById('not-log').style.display = 'none';
+            document.getElementById('login-img').style.display = 'block';
+            document.getElementById('login-img').setAttribute('src', data.picture);
+            if (document.getElementById("listening-band")) {
+                fetchExamData();
+            }
         }
 
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while fetching user data : ' + error.message);
     }
 }
 
 async function fetchExamData() {
     try {
-
         const user_data = JSON.parse(localStorage.getItem('user_data'));
         const user_id = user_data.user_id;
         const module = undefined;
@@ -133,10 +108,10 @@ async function fetchExamData() {
                 document.getElementById("count-listening").innerHTML = listening_exam_count + ' Exam';
                 document.getElementById("count-reading").innerHTML = reading_exam_count + ' Exam';
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => createToast('error', 'Error while fetching exam data : ' + error.message));
 
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while fetching exam data : ' + error.message);
     }
 }
 
@@ -152,8 +127,6 @@ function calculateAverage(numbers) {
 
 function setHref(event) {
     try {
-        document.getElementById("main").style.display = 'none';
-        document.getElementById("spinner").style.display = 'flex';
 
         var dynamicUrl;
         let buttonId = event.target.id;
@@ -167,11 +140,8 @@ function setHref(event) {
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
 
-        document.getElementById("spinner").style.display = 'none';
-        document.getElementById("main").style.display = 'block';
-
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while redirecting : ' + error.message);
     }
 }
 
@@ -189,7 +159,19 @@ function sendemail(params) {
 
 
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while sending email : ' + error.message);
     }
 
 }
+
+window.addEventListener("beforeunload", function (event) {
+    document.getElementById("spinner").style.display = 'flex';
+    document.getElementById("main").style.display = 'none';
+});
+
+document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") {
+        document.getElementById("spinner").style.display = 'none';
+        document.getElementById("main").style.display = 'block';
+    }
+});
