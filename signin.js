@@ -46,7 +46,7 @@ async function signincheck(callback) {
                 let info = JSON.parse(JSON.stringify(params));
                 access_token = info['access_token'];
                 localStorage.setItem("authInfo", info['access_token']);
-                window.history.pushState({}, document.title, "/");
+                window.history.pushState({}, document.title, "/IA_Code");
             }
 
             if (access_token != '') {
@@ -86,7 +86,7 @@ async function signincheck(callback) {
                             delete data.family_name;
                             delete data.given_name;
 
-                            fetch('https://ieltsanalyzer.up.railway.app/logindata', {
+                            fetch('http://localhost:3000/logindata', {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
