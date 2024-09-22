@@ -8,7 +8,7 @@ function sigin() {
 
         let params = {
             "client_id": "960583894295-h50j910bdioqrmlrargqs6hust6in4ap.apps.googleusercontent.com",
-            "redirect_uri": "http://localhost/IA_Code/IA_Home/IA_Home.html",
+            "redirect_uri": "http://localhost/IA_Code/index.html",
             "response_type": "token",
             "scope": "https://www.googleapis.com/auth/userinfo.profile",
             "include_granted_scope": 'true',
@@ -42,11 +42,11 @@ async function signincheck(callback) {
                 while (m = regex.exec(location.href)) {
                     params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
                 }
-                window.history.pushState({}, document.title, "/" + "IA_Code/IA_Home/IA_Home.html");
 
                 let info = JSON.parse(JSON.stringify(params));
                 access_token = info['access_token'];
                 localStorage.setItem("authInfo", info['access_token']);
+                window.history.pushState({}, document.title, "/");
             }
 
             if (access_token != '') {
@@ -67,15 +67,47 @@ async function signincheck(callback) {
                         info.user_id = info.sub;
                         delete info.sub;
                         localStorage.setItem('user_data', JSON.stringify(info));
+
+                        const data = JSON.parse(localStorage.getItem('user_data'));
+
+                        if (data) {
+
+                            let today = new Date();
+                            let year = today.getFullYear();
+                            let month = ('0' + (today.getMonth() + 1)).slice(-2);
+                            let day = ('0' + today.getDate()).slice(-2);
+                            today = `${year}-${month}-${day}`;
+
+                            data.fl_date = today;
+                            data.ll_date = today;
+                            data.email = undefined;    // remove if you get email from the first google login 
+                            data.location = undefined; // remove if you get location from the first google login
+
+                            delete data.family_name;
+                            delete data.given_name;
+
+                            fetch('https://ieltsanalyzer.up.railway.app/logindata', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(data),
+                            })
+                                .then(response => response.json())
+                                .then(responseData => { })
+                                .catch(error => console.error('Error:', error.message));
+                        }
+
                         callback();
                     });
             }
+            createToast('warning', 'No signin user');
+
         } else {
             callback();
         }
-
     } catch (error) {
-        console.error('e', error);
+        createToast('error', 'Error while signin : ' + error.message);
     }
 }
 
