@@ -2,10 +2,10 @@
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root', // replace with your MySQL username
-    password: '', // replace with your MySQL password
-    database: 'ielts_analyser', // replace with your database name
+    host: 'v8i.h.filess.io',
+    user: 'ieltsanalyser_reasongome', // replace with your MySQL username
+    password: '1b5a8aff5a0f26a15d897aa535b295bb4a55883d', // replace with your MySQL password
+    database: 'ieltsanalyser_reasongome', // replace with your database name
     port: 3306 // default MySQL port
 });
 
