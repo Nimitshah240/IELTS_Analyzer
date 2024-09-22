@@ -77,11 +77,15 @@ async function fetchExamData() {
         let readingband = [];
         let listeningband = [];
         let exammap = new Map();
+        console.log(user_id);
+        console.log(module);
+
 
         fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
             .then(response => response.json())
             .then(responseData => {
-
+                console.log(JSON.stringify(responseData));
+                
                 responseData.forEach(element => {
                     exammap.set(element.exam_id, { 'band': element.band, 'module': element.module });
                     if (element.module == 'Reading' && element.id != null) {
@@ -108,10 +112,12 @@ async function fetchExamData() {
                 document.getElementById("count-listening").innerHTML = listening_exam_count + ' Exam';
                 document.getElementById("count-reading").innerHTML = reading_exam_count + ' Exam';
             })
-            .catch(error => createToast('error', 'Error while fetching exam data : ' + error.message));
+            .catch(error => createToast('error', 'Error while fetching exam data : ' + error));
 
     } catch (error) {
-        createToast('error', 'Error while fetching exam data : ' + error.message);
+        console.log(error);
+        
+        createToast('error', 'Error while fetching exam data : ' + error);
     }
 }
 
@@ -132,9 +138,9 @@ function setHref(event) {
         let buttonId = event.target.id;
 
         if (buttonId == 'data') {
-            dynamicUrl = '../IA_Selection/IA_Selection.html?type=data';
+            dynamicUrl = './IA_Selection/IA_Selection.html?type=data';
         } else if (buttonId == 'dashboard') {
-            dynamicUrl = '../IA_Selection/IA_Selection.html?type=dashboard';
+            dynamicUrl = './IA_Selection/IA_Selection.html?type=dashboard';
         }
 
         event.target.href = dynamicUrl;
