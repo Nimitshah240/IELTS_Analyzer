@@ -10,7 +10,7 @@ let user_id = user_data.user_id;
 
 function connectedCallback() {
     try {
-        createToast('warning', 'Page is currently underdevelop');
+        // createToast('warning', 'Page is currently underdevelop');
 
         if (!JSON.parse(localStorage.getItem('user_data'))) {
             createToast('error', 'Please login first')
