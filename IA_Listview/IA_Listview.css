@@ -99,6 +99,18 @@ main {
 
 /* header  */
 
+.no_data {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: orangered;
+}
+
 .body_section {
     height: 94%;
     margin: 2%;
@@ -210,15 +222,15 @@ main {
 
     .companylogo {
         height: 20%;
-        font-size: 25px;
+        font-size: 22px;
     }
 
     .descrip {
-        font-size: 15px;
+        font-size: 12px;
     }
 
-    .navbartransition {
-        display: none;
+    .details {
+        gap: 15px;
     }
 
     /* header  */
