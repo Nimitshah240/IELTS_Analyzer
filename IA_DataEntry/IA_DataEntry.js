@@ -7,6 +7,7 @@ let exam_name = (JSON.parse(localStorage.getItem('question' + tdExam))) == "" ? 
 let exam_id = (JSON.parse(localStorage.getItem('question' + tdExam))) == "" ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_id;
 let user_data = JSON.parse(localStorage.getItem('user_data'));
 let user_id = user_data.user_id;
+let question_id = '';
 
 function connectedCallback() {
     try {
@@ -103,7 +104,7 @@ function popupopen(event) {
                         '<td>' + element.incorrect + '</td>' +
                         '<td>' + element.miss + '</td>' +
                         '<td> ' + element.total + ' </td>' +
-                        `<td class="delete-icon" id = ${element.id} onclick="deletequestion(event)"><i class="fa fa-trash" aria-hidden="true"id=${element.id}></i> </td> </tr>`;
+                        `<td id = ${element.id} onclick="deletequestion(event)"><i class="fa fa-trash" aria-hidden="true"id=${element.id}></i> </td> </tr>`;
                 }
             });
             document.getElementById('show-div').style.display = 'flex';
@@ -232,35 +233,62 @@ function saveexam(event) {
 
 function deletequestion(event) {
     try {
-        const question_id = event.target.id;
+        question_id = event.target.id;
 
-        fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                for (let index = 0; index < 2; index++) {
-                    const divToRemove = document.getElementById(question_id);
-                    divToRemove.remove();
-                }
-
-                question.forEach((element, i) => {
-                    if (element.id == question_id) {
-                        question.splice(i, 1);
-                    }
-                });
-                localStorage.setItem('question' + tdExam, JSON.stringify(question))
-            })
-            .catch(error =>
-                createToast('error', 'Error while deleting data : ' + error.message));
+        Array.from(document.getElementsByClassName('glass')).forEach(element => {
+            element.style.backdropFilter = "none";
+        });
+        Array.from(document.getElementsByClassName('front-div')).forEach(element => {
+            element.style.display = "none";
+        });
+        Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
+            element.style.display = "block";
+        });
 
     } catch (error) {
         createToast('error', 'Error while deleting data : ' + error.message);
     }
 
+}
+
+function del(event) {
+    try {
+        if (event.target.id == 'yes') {
+            fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    for (let index = 0; index < 2; index++) {
+                        const divToRemove = document.getElementById(question_id);
+                        divToRemove.remove();
+                    }
+
+                    question.forEach((element, i) => {
+                        if (element.id == question_id) {
+                            question.splice(i, 1);
+                        }
+                    });
+                    localStorage.setItem('question' + tdExam, JSON.stringify(question))
+                    createToast('success', 'Question deleted');
+                })
+                .catch(error =>
+                    createToast('error', 'Error while deleting data : ' + error.message));
+        }
+
+        Array.from(document.getElementsByClassName('glass')).forEach(element => {
+            element.style.backdropFilter = "blur(7.4px)";
+        });
+        Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
+            element.style.display = "none";
+        });
+
+    } catch (error) {
+        createToast('error', 'Error while deleting data : ' + error.message);
+    }
 }
 
 window.addEventListener("beforeunload", function (event) {
