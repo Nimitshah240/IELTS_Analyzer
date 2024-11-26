@@ -81,7 +81,7 @@ async function fetchExamData() {
         fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
             .then(response => response.json())
             .then(responseData => {
-               
+
                 responseData.forEach(element => {
                     exammap.set(element.exam_id, { 'band': element.band, 'module': element.module });
                     if (element.module == 'Reading' && element.id != null) {
@@ -110,7 +110,7 @@ async function fetchExamData() {
             })
             .catch(error => createToast('error', 'Error while fetching exam data : ' + error));
 
-    } catch (error) {        
+    } catch (error) {
         createToast('error', 'Error while fetching exam data : ' + error);
     }
 }
@@ -135,6 +135,8 @@ function setHref(event) {
             dynamicUrl = './IA_Selection/IA_Selection.html?type=data';
         } else if (buttonId == 'dashboard') {
             dynamicUrl = './IA_Selection/IA_Selection.html?type=dashboard';
+        } else if (buttonId == 'tips') {
+            dynamicUrl = './IA_Selection/IA_Selection.html?type=trick';
         }
 
         event.target.href = dynamicUrl;
