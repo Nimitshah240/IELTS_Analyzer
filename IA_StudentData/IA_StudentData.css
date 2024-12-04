@@ -1,0 +1,373 @@
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.login-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: none;
+}
+
+.g-icon {
+    background: conic-gradient(from -45deg, #ea4335 110deg, #4285f4 90deg 180deg, #34a853 180deg 270deg, #fbbc05 270deg) 73% 55%/150% 150% no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    cursor: pointer;
+}
+
+main {
+    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    overflow-x: hidden;
+}
+
+body {
+    line-height: 1 !important;
+}
+
+/* Spinner */
+
+.spinner {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    display: none;
+}
+
+/* Spinner */
+
+.contact-icons {
+    width: 50%;
+    gap: 15px;
+    font-size: 25px;
+    padding-right: 5%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.contact-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 49px;
+    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
+    color: white;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Glass Effect */
+.circle1,
+.circle2,
+.circle3,
+.circle4,
+.circle5,
+.circle6 {
+    height: 10rem;
+    width: 10rem;
+    border-radius: 50%;
+    background: linear-gradient(to right bottom,
+            rgba(255, 255, 255, 0.8),
+            rgba(255, 255, 255, 0.7));
+    position: absolute;
+}
+
+.circle1 {
+    top: 12%;
+    right: 10%;
+}
+
+.circle2 {
+    bottom: 5%;
+    left: 10%;
+}
+
+
+.circle3 {
+    left: 20%;
+    top: 110%;
+}
+
+.circle4 {
+    top: 170%;
+    right: 7%;
+}
+
+.glass {
+    background: rgba(255, 255, 255, 0.19);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.4px);
+    -webkit-backdrop-filter: blur(7.4px);
+    border: 1px solid rgba(255, 255, 255, 1);
+}
+
+/* Glass Effect */
+
+
+/* Button 63 */
+/* CSS */
+.button-63 {
+    border: 0;
+    border-radius: 8px;
+    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
+    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
+    color: #FFFFFF;
+    font-family: Phantomsans, sans-serif;
+    cursor: pointer;
+}
+
+.button-63:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0 35px 30px -5px;
+}
+
+.button-63:active {
+    transform: translateY(4px);
+    box-shadow: rgba(0, 0, 0, 0.2) 0 25px 30px -5px;
+}
+
+/* header */
+.header {
+    height: 12%;
+    width: 100%;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    display: flex;
+}
+
+.details {
+    width: 40%;
+    gap: 25px;
+    padding-right: 6%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.logo {
+    width: 60%;
+    height: 100%;
+    padding-left: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.companylogo {
+    height: 25%;
+}
+
+.navbartransition::after {
+    content: '';
+    width: 0px;
+    height: 3px;
+    transition: 300ms;
+    border-radius: 5px;
+    display: block;
+    background: #106eea;
+}
+
+.navbartransition:hover::after {
+    width: 100%;
+}
+
+.navbartransition:hover {
+    color: #106eea;
+}
+
+/* header  */
+
+/* Footer  */
+.footer {
+    height: 50px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.19);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.4px);
+    margin-top: 35px;
+    display: flex;
+}
+
+.copyright {
+    width: 50%;
+    padding-left: 5%;
+    font-size: 15px;
+    margin: auto 0px;
+}
+
+/* Footer  */
+
+
+@media screen and (max-width: 640px) {
+
+    /* Glass Effect */
+
+
+    .circle5 {
+        top: 250%;
+    }
+
+    .circle6 {
+        top: 270%;
+        right: 7%;
+    }
+
+    /* Glass Effect */
+
+    /* header  */
+
+    .companylogo {
+        height: 20%;
+        font-size: 22px;
+    }
+
+    .descrip {
+        font-size: 12px;
+    }
+
+    .details {
+        gap: 15px;
+    }
+
+    .navbartransition {
+        display: none;
+    }
+
+    /* header  */
+
+    .button-63 {
+        width: 85px;
+        height: 45px;
+        font-size: 15px;
+    }
+
+    /* Footer  */
+
+    .copyright {
+        font-size: 12px;
+    }
+
+    .contact-icons {
+        gap: 5px;
+        font-size: 20px;
+    }
+
+    .contact-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    /* Footer  */
+
+    .highlight-icon {
+        border-radius: 16px;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+        height: 100%;
+        width: 20%;
+        left: 0px;
+        font-size: 21px !important;
+        position: absolute;
+    }
+
+    .div-2-icon {
+        border-radius: 16px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        right: 0px !important;
+        left: auto;
+    }
+}
+
+
+@media screen and (min-width: 768px) {
+
+    /* Glass Effect */
+    .circle1,
+    .circle2,
+    .circle3,
+    .circle4,
+    .circle5,
+    .circle6 {
+        height: 20rem;
+        width: 20rem;
+    }
+
+
+    .circle5 {
+        top: 230%;
+    }
+
+    .circle6 {
+        top: 250%;
+        right: 7%;
+    }
+
+
+    /* Glass Effect */
+
+    .button-63 {
+        width: 110px;
+        height: 55px;
+        font-size: 20px;
+    }
+
+}
+
+@media screen and (min-width: 1024px) {
+
+    h4 {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* Glass Effect */
+
+
+
+    .circle5 {
+        left: 7%;
+        top: 200%;
+    }
+
+    .circle6 {
+        right: 7%;
+        top: 270%;
+    }
+
+
+    /* Glass Effect */
+
+}
+
+@media screen and (min-width: 1280px) {
+
+    /* Glass Effect */
+    .circle1,
+    .circle2,
+    .circle3,
+    .circle4 {
+        height: 20rem;
+        width: 20rem;
+        border-radius: 50%;
+        background: linear-gradient(to right bottom,
+                rgba(255, 255, 255, 0.8),
+                rgba(255, 255, 255, 0.7));
+        position: absolute;
+    }
+
+
+    .circle5,
+    .circle6 {
+        display: none;
+    }
+
+    /* Glass Effect */
+}
