@@ -9,18 +9,11 @@
     <script src='./IA_StudentData.js'></script>
     <link rel='stylesheet' href='./IA_StudentData.css'>
     <script src='../IA_Toast/IA_Toast.js'></script>
-    <script src='../signin.js'></script>
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
 </head>
 
 <body onload="connectedCallback(event)">
-    <div class="circle1"></div>
-    <div class="circle2"></div>
-    <div class="circle3"></div>
-    <div class="circle4"></div>
-    <div class="circle5"></div>
-    <div class="circle6"></div>
 
     <!-- Spinner -->
     <iframe src="../IA_Spinner/IA_Spinner.html" id="spinner" class="spinner" frameborder="0"></iframe>
@@ -35,27 +28,37 @@
                 <h1 class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></h1>
                 <h5 class="descrip">Score more than 8 bands</h5>
             </div>
-            <div class="details">
-                <i class="fa fa-google g-icon" id="not-log" style="font-size: 30px;" onclick="sigin()"
-                    aria-hidden="true"></i>
-                <img id="login-img" class="login-img" onclick="signout()" />
-            </div>
         </div>
 
-        <div class="body_section">
-            <div class="validation-box">
-                <div class="validation-box-header"></div>
+        <div class="body_section glass" id="body-section">
+            <div class="validation-box glass" id="validation-box">
+                <div class="validation-box-header">
+                    User Check
+                </div>
                 <div class="validation-box-body">
-                    <div class="username">
-                        <input type="text" placeholder="username" id="username">
-                    </div>
-                    <div class="password">
-                        <input type="password" placeholder="password" id="password">
-                    </div>
+                    <input type="text" placeholder="Username" class="inputbox" id="username">
+                    <input type="password" placeholder="Password" class="inputbox" id="password">
                 </div>
                 <div class="validation-box-footer">
-                    <button class="button-63">Check</button>
-                    <button class="button-63">Close</button>
+                    <button class="button-63 button" onclick="checkuser(event)">Check</button>
+                </div>
+            </div>
+
+            <div class="dataheader" id="dataheader">
+                <div class="tableheader">
+                    <div class="column index"> Index </div>
+                    <div class="column studentname"> Student Name </div>
+                    <div class="column date"> Join Date </div>
+                    <div class="column total"> Reading Exams </div>
+                    <div class="column dashboard"> Reading</div>
+                    <div class="column total"> Listening Exams</div>
+                    <div class="column dashboard"> Listening</div>
+                </div>
+            </div>
+            <div class="list">
+                <div class="table" id="table">
+                    <span class="no_data" id="no_data">No Data Found!</span>
+                    <!-- Data will show here using js  -->
                 </div>
             </div>
         </div>

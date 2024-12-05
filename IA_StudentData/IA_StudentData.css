@@ -63,43 +63,6 @@ body {
     justify-content: center;
 }
 
-/* Glass Effect */
-.circle1,
-.circle2,
-.circle3,
-.circle4,
-.circle5,
-.circle6 {
-    height: 10rem;
-    width: 10rem;
-    border-radius: 50%;
-    background: linear-gradient(to right bottom,
-            rgba(255, 255, 255, 0.8),
-            rgba(255, 255, 255, 0.7));
-    position: absolute;
-}
-
-.circle1 {
-    top: 12%;
-    right: 10%;
-}
-
-.circle2 {
-    bottom: 5%;
-    left: 10%;
-}
-
-
-.circle3 {
-    left: 20%;
-    top: 110%;
-}
-
-.circle4 {
-    top: 170%;
-    right: 7%;
-}
-
 .glass {
     background: rgba(255, 255, 255, 0.19);
     border-radius: 16px;
@@ -184,6 +147,148 @@ body {
 
 /* header  */
 
+/* Body Section */
+.body_section {
+    height: 100%;
+    width: 98%;
+    margin: auto;
+    margin-top: 2%;
+    padding: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.validation-box {
+    width: 35%;
+    height: 40%;
+    border-radius: 20px;
+}
+
+.validation-box-header {
+    height: 20%;
+    width: 100%;
+    font-size: 30px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.validation-box-body {
+    height: 60%;
+    width: 100%;
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.validation-box-footer {
+    height: 20%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputbox {
+    width: 60%;
+    height: 20%;
+    border-radius: 20px;
+    font-size: 13px;
+    padding: 10px;
+    border: 0.5px solid purple;
+}
+
+.button {
+    height: 70%;
+    width: 20%;
+    font-size: 18px;
+}
+
+/* List view */
+
+.list {
+    height: 88%;
+    overflow-y: scroll;
+}
+
+.list::-webkit-scrollbar {
+    width: 0;
+}
+
+.table {
+    padding: 0 2.5%;
+}
+
+.no_data {
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    display: none;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    color: orangered;
+}
+
+.data {
+    width: 100%;
+    height: 10%;
+    margin-bottom: 1%;
+    border-radius: 10px;
+    box-shadow: -5px 3px 4px rgb(0 0 0 / 20%);
+    border: 1px solid;
+    background: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.column {
+    text-align: center;
+}
+
+.index,
+.studentname,
+.date,
+.total,
+.dashboard {
+    width: 14%;
+}
+
+.dataheader {
+    width: 100%;
+    margin-bottom: 0.4%;
+    padding: 0 2.5%;
+    position: static;
+    display: none;
+}
+
+.tableheader {
+    height: 10%;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    background-color: #106eea;
+}
+
+.dashboard-button {
+    width: 80%;
+    height: 50%;
+}
+
+/* List view */
+
+/* Body Section */
+
 /* Footer  */
 .footer {
     height: 50px;
@@ -207,22 +312,7 @@ body {
 
 @media screen and (max-width: 640px) {
 
-    /* Glass Effect */
-
-
-    .circle5 {
-        top: 250%;
-    }
-
-    .circle6 {
-        top: 270%;
-        right: 7%;
-    }
-
-    /* Glass Effect */
-
     /* header  */
-
     .companylogo {
         height: 20%;
         font-size: 22px;
@@ -242,11 +332,48 @@ body {
 
     /* header  */
 
-    .button-63 {
-        width: 85px;
-        height: 45px;
-        font-size: 15px;
+    /* body section */
+
+    /* List view */
+    .data {
+        justify-content: space-around;
     }
+
+    .index,
+    .studentname,
+    .dashboard {
+        width: 25%;
+    }
+
+    .date,
+    .total {
+        display: none;
+    }
+
+    .dash {
+        font-size: 11px;
+    }
+
+    .studentname {
+        text-align: left;
+    }
+
+    .tableheader {
+        font-size: 14px;
+    }
+
+    /* List view */
+
+    .validation-box {
+        width: 100%;
+        height: 40%;
+    }
+
+    .body_section {
+        height: 43pc;
+    }
+
+    /* body section */
 
     /* Footer  */
 
@@ -265,109 +392,41 @@ body {
     }
 
     /* Footer  */
-
-    .highlight-icon {
-        border-radius: 16px;
-        border-top-right-radius: 5px;
-        border-bottom-right-radius: 5px;
-        height: 100%;
-        width: 20%;
-        left: 0px;
-        font-size: 21px !important;
-        position: absolute;
-    }
-
-    .div-2-icon {
-        border-radius: 16px;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-        right: 0px !important;
-        left: auto;
-    }
 }
 
 
 @media screen and (min-width: 768px) {
-
-    /* Glass Effect */
-    .circle1,
-    .circle2,
-    .circle3,
-    .circle4,
-    .circle5,
-    .circle6 {
-        height: 20rem;
-        width: 20rem;
+    .tableheader {
+        font-size: 14px;
     }
 
-
-    .circle5 {
-        top: 230%;
+    .body_section {
+        height: 70pc;
     }
 
-    .circle6 {
-        top: 250%;
-        right: 7%;
+    .validation-box {
+        width: 70%;
+        height: 35%;
     }
-
-
-    /* Glass Effect */
-
-    .button-63 {
-        width: 110px;
-        height: 55px;
-        font-size: 20px;
-    }
-
 }
 
 @media screen and (min-width: 1024px) {
+
+    .body_section {
+        height: 100%;
+    }
+
+    .validation-box {
+        width: 35%;
+        height: 40%;
+    }
 
     h4 {
         font-size: 18px;
         font-weight: bold;
     }
-
-    /* Glass Effect */
-
-
-
-    .circle5 {
-        left: 7%;
-        top: 200%;
-    }
-
-    .circle6 {
-        right: 7%;
-        top: 270%;
-    }
-
-
-    /* Glass Effect */
-
 }
 
 @media screen and (min-width: 1280px) {
-
-    /* Glass Effect */
-    .circle1,
-    .circle2,
-    .circle3,
-    .circle4 {
-        height: 20rem;
-        width: 20rem;
-        border-radius: 50%;
-        background: linear-gradient(to right bottom,
-                rgba(255, 255, 255, 0.8),
-                rgba(255, 255, 255, 0.7));
-        position: absolute;
-    }
-
-
-    .circle5,
-    .circle6 {
-        display: none;
-    }
-
-    /* Glass Effect */
+    /* For 1280px */
 }
