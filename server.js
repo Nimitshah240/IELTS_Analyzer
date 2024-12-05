@@ -193,8 +193,6 @@ app.post('/api/feedback', (req, res) => {
     const name = receivedData.name;
     const email = receivedData.email;
     const message = receivedData.message;
-    console.log(email);
-
     let query = `INSERT INTO feedback (user_id, name, email, message) VALUES ('${user_id}', '${name}','${email}', '${message}');`;
     connection.execute(query, (error, results, fields) => {
         if (error) {
