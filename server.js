@@ -39,14 +39,6 @@ app.use(cors());
 
 app.get('/api/checkUser', (req, res) => {
     const user_id = req.query.user_id;
-    const module = [];
-    if (req.query.module == 'undefined') {
-        module.push('\'Reading\'');
-        module.push('\'Listening\'');
-    } else {
-        module.push('\'' + req.query.module + '\'');
-    }
-
     let query = `SELECT * FROM user WHERE id = ${user_id}`;
 
     connection.execute(query, (error, results, fields) => {

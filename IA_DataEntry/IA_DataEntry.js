@@ -12,7 +12,6 @@ let question_id = '';
 
 function dataentryconnectedCallback() {
     try {
-        console.log(user_data);
 
         if (!JSON.parse(localStorage.getItem('user_data'))) {
             createToast('error', 'Please login first')
@@ -194,7 +193,19 @@ function saveexam(event) {
                 correct += element.correct;
             });
 
-            if (user_data.type == 'academic') {
+            if (user_data.type == 'general' && module == 'Reading') {
+                if (correct >= 15 && correct <= 18) { band = 4; }
+                else if (correct >= 19 && correct <= 22) { band = 4.5; }
+                else if (correct >= 23 && correct <= 26) { band = 5; }
+                else if (correct >= 27 && correct <= 29) { band = 5.5; }
+                else if (correct >= 30 && correct <= 31) { band = 6; }
+                else if (correct >= 32 && correct <= 33) { band = 6.5; }
+                else if (correct >= 34 && correct <= 35) { band = 7; }
+                else if (correct == 36) { band = 7.5; }
+                else if (correct >= 37 && correct <= 38) { band = 8; }
+                else if (correct == 39) { band = 8.5 }
+                else if (correct == 40) { band = 9; }
+            } else {
                 if (correct >= 10 && correct <= 12) { band = 4; }
                 else if (correct >= 13 && correct <= 15) { band = 4.5; }
                 else if (correct >= 16 && correct <= 17) { band = 5; }
@@ -206,18 +217,6 @@ function saveexam(event) {
                 else if (correct >= 35 && correct <= 36) { band = 8; }
                 else if (correct >= 37 && correct <= 38) { band = 8.5 }
                 else if (correct >= 39 && correct <= 40) { band = 9; }
-            } else {
-                if (correct >= 15 && correct <= 18) { band = 4; }
-                else if (correct >= 19 && correct <= 22) { band = 4.5; }
-                else if (correct >= 23 && correct <= 26) { band = 5; }
-                else if (correct >= 27 && correct <= 29) { band = 5.5; }
-                else if (correct >= 30 && correct <= 31) { band = 6; }
-                else if (correct >= 32 && correct <= 33) { band = 6.5 }
-                else if (correct >= 34 && correct <= 35) { band = 7; }
-                else if (correct == 36) { band = 7.5; }
-                else if (correct >= 37 && correct <= 38) { band = 8; }
-                else if (correct == 39) { band = 8.5 }
-                else if (correct == 40) { band = 9; }
             }
 
             question.forEach(element => {

@@ -5,7 +5,6 @@ const selectionType = urlSearchParams.get('type');
 function selectionconnectedCallback(params) {
     try {
         Userlogo();
-        sessionStorage.setItem('savedExam', 'true');
     } catch (error) {
         console.log(error);
     }
