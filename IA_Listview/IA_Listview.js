@@ -116,6 +116,9 @@ function examData() {
                         })
                     }
 
+                    console.log("Testing branch 2");
+                    
+
                     //Setting data to html
                     examdata.forEach((element, index) => {
                         htmldata +=
