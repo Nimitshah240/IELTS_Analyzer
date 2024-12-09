@@ -98,8 +98,6 @@ function examData() {
                             }
                         }
                     });
-
-                    console.log('Just testing git branch 1');
                     
                     // Arranging Data in Variable
                     for (const key of Exammap.keys()) {
@@ -117,6 +115,8 @@ function examData() {
                                 (Section4.get(key) == undefined ? 0 : Section4.get(key)),
                         })
                     }
+                    console.log('testing branch 2');
+                    
 
                     //Setting data to html
                     examdata.forEach((element, index) => {
