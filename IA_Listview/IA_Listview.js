@@ -116,7 +116,12 @@ function examData() {
                         })
                     }
 
+
                     console.log("Testing branch 2");
+                    
+
+
+                    console.log('Testing branch 1');
                     
 
                     //Setting data to html
