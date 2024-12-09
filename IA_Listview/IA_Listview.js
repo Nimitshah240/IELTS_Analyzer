@@ -115,7 +115,8 @@ function examData() {
                                 (Section4.get(key) == undefined ? 0 : Section4.get(key)),
                         })
                     }
-
+                    console.log('Testing branch 1');
+                    
                     //Setting data to html
                     examdata.forEach((element, index) => {
                         htmldata +=
