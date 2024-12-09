@@ -98,10 +98,6 @@ function examData() {
                             }
                         }
                     });
-
-                    console.log('Just testing git branch 1');
-                    console.log('Just testing git branch 2');
-
                     
                     // Arranging Data in Variable
                     for (const key of Exammap.keys()) {
