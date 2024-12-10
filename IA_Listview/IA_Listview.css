@@ -157,7 +157,8 @@ main {
 .examname,
 .date,
 .section,
-.total {
+.total,
+.delete {
     cursor: pointer;
 }
 
