@@ -23,6 +23,7 @@ a {
 }
 
 main {
+    line-height: 1 !important;
     background: linear-gradient(to right top, #65dfc9, #6cdbeb);
     overflow-x: hidden;
 }
