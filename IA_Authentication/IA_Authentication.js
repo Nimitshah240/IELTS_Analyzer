@@ -10,6 +10,7 @@ var user_location;
 var user_id;
 var data = [];
 var maindata;
+var dynamicUrl = '../index.html';
 
 function authentication(event) {
     let domain = new URL(window.location.href).origin;
@@ -127,6 +128,7 @@ function SignedIn() {
                     delete info.sub;
                     maindata = info;
                     picture = info.picture;
+                    dynamicUrl = '../index.html?signedin=true';
                     if (info) {
                         let today = new Date();
                         let year = today.getFullYear();
@@ -146,7 +148,6 @@ function SignedIn() {
 
 function Signout(event) {
     try {
-        var dynamicUrl;
         if (event.target.id == 'yes') {
             let access_token = localStorage.getItem('authInfo');
             fetch("https://oauth2.googleapis.com/revoke?token=" + access_token, {
@@ -234,7 +235,6 @@ function fetchUser(user_id) {
 function continueClick(event) {
     try {
         let temptype;
-        let dynamicUrl = '../index.html';
         let tempfirstname = document.getElementById("firstname").value;
         let templastname = document.getElementById("lastname").value;
         let tempemail = document.getElementById("email").value;
