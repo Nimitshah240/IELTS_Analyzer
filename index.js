@@ -42,10 +42,10 @@ var examdata;
 function indexconnectedCallback(event) {
     try {
         Userlogo();
-        if (JSON.parse(localStorage.getItem('user_data')) != null ) {
+        if (JSON.parse(localStorage.getItem('user_data')) != null) {
             fetchExamData();// Control api callout
         }
-        
+
     } catch (error) {
         createToast('error', 'Error while loading : ' + error.message);
     }

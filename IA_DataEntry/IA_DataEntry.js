@@ -99,7 +99,7 @@ function popupopen(event) {
                         '<td>' + element.incorrect + '</td>' +
                         '<td>' + element.miss + '</td>' +
                         '<td> ' + element.total + ' </td>' +
-                        `<td id = "${element.id}" onclick="deletequestion(event)" class="question-delete">Delete<i class="fa fa-trash" aria-hidden="true"id=${element.id}></i> </td> </tr>`;
+                        `<td id = "${element.id}" onclick="deletequestion(event)" class="question-delete"><i class="fa fa-trash" aria-hidden="true"id=${element.id}></i> </td> </tr>`;
                 }
             });
             document.getElementById('show-div').style.display = 'flex';
@@ -184,7 +184,7 @@ function saveexam(event) {
         if (exam_date == '' || exam_name.trim() == '') {
             createToast('error', 'Fill require details');
         } else {
-            
+
             if (question.length > 0) {
                 let correct = 0;
                 let band = 0;
