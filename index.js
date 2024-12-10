@@ -1,3 +1,8 @@
+
+const urlSearchParams = new URLSearchParams(window.location.search);
+let signin = '';
+signin = urlSearchParams.get('signedin');
+
 document.addEventListener("DOMContentLoaded", () => {
     const slideInDiv = document.querySelector(".second-box");
     if (slideInDiv != null) {
@@ -41,8 +46,13 @@ var examdata;
 
 function indexconnectedCallback(event) {
     try {
+
         Userlogo();
         if (JSON.parse(localStorage.getItem('user_data')) != null) {
+            if (signin) {
+                window.history.pushState({}, document.title, "/IA_Code/index.html");
+                createToast('success', "Welcome " + JSON.parse(localStorage.getItem('user_data')).firstname)
+            }
             fetchExamData();// Control api callout
         }
 
