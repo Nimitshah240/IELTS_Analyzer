@@ -60,11 +60,11 @@ main {
 /* Spinner */
 .body-section {
     margin: 35px;
-    height: fit-content;
+    height: 100%;
 }
 
 .box {
-    height: 553px;
+    height: 100%;
     display: flex;
     flex-direction: row;
 }
@@ -144,33 +144,13 @@ h4 {
     border-bottom: 1px solid;
 }
 
-.ul-class{
+.ul-class {
     padding-left: 30px;
 }
+
 @media screen and (max-width: 640px) {
 
     /* Glass Effect */
-    .circle1,
-    .circle2 {
-        height: 10rem;
-        width: 10rem;
-        border-radius: 50%;
-        background: linear-gradient(to right bottom,
-                rgba(255, 255, 255, 0.8),
-                rgba(255, 255, 255, 0.7));
-        position: absolute;
-    }
-
-    .circle1 {
-        top: 12%;
-        right: 10%;
-    }
-
-    .circle2 {
-        bottom: 5%;
-        left: 10%;
-    }
-
     .glass {
         background: rgba(255, 255, 255, 0.19);
         border-radius: 16px;
@@ -257,26 +237,6 @@ h4 {
 @media screen and (min-width: 768px) {
 
     /* Glass Effect */
-    .circle1,
-    .circle2 {
-        height: 20rem;
-        width: 20rem;
-        border-radius: 50%;
-        background: linear-gradient(to right bottom,
-                rgba(255, 255, 255, 0.8),
-                rgba(255, 255, 255, 0.7));
-        position: absolute;
-    }
-
-    .circle1 {
-        top: 12%;
-        right: 10%;
-    }
-
-    .circle2 {
-        bottom: 5%;
-        left: 10%;
-    }
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
@@ -320,26 +280,6 @@ h4 {
 @media screen and (min-width: 1024px) {
 
     /* Glass Effect */
-    .circle1,
-    .circle2 {
-        height: 20rem;
-        width: 20rem;
-        border-radius: 50%;
-        background: linear-gradient(to right bottom,
-                rgba(255, 255, 255, 0.8),
-                rgba(255, 255, 255, 0.7));
-        position: absolute;
-    }
-
-    .circle1 {
-        top: 12%;
-        right: 10%;
-    }
-
-    .circle2 {
-        bottom: 5%;
-        left: 10%;
-    }
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
@@ -382,26 +322,6 @@ h4 {
 @media screen and (min-width: 1280px) {
 
     /* Glass Effect */
-    .circle1,
-    .circle2 {
-        height: 20rem;
-        width: 20rem;
-        border-radius: 50%;
-        background: linear-gradient(to right bottom,
-                rgba(255, 255, 255, 0.8),
-                rgba(255, 255, 255, 0.7));
-        position: absolute;
-    }
-
-    .circle1 {
-        top: 12%;
-        right: 10%;
-    }
-
-    .circle2 {
-        bottom: 5%;
-        left: 10%;
-    }
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
