@@ -17,9 +17,14 @@ function listviewconnectedCallback() {
 }
 function setHref(event) {
     try {
-        var dynamicUrl = '../IA_DataEntry/IA_DataEntry.html?module=' + module;
-        event.target.href = dynamicUrl;
-        window.location.href = dynamicUrl;
+
+        if ((localStorage.getItem('user_data')) != null) {
+            var dynamicUrl = '../IA_DataEntry/IA_DataEntry.html?module=' + module;
+            event.target.href = dynamicUrl;
+            window.location.href = dynamicUrl;
+        } else {
+            createToast('error', 'Please login first')
+        }
     } catch (error) {
         createToast('error', 'Error while redirecting : ' + error.message);
     }
@@ -115,6 +120,7 @@ function examData() {
                                     (Section4.get(key) == undefined ? 0 : Section4.get(key)),
                             })
                         }
+                    });
 
                         //Setting data to html
                         examdata.forEach((element, index) => {

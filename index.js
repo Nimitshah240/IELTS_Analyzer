@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+
 var examdata;
 
 function indexconnectedCallback(event) {
