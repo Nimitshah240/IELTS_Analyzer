@@ -264,7 +264,7 @@ function deletequestion(event) {
 function del(event) {
     try {
         if (event.target.id == 'yes') {
-            if (question_id.slice(0, 4) != 'temp') {
+            if (!question_id.includes('temp')) {
                 fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
                     method: 'DELETE',
                     headers: {
