@@ -398,7 +398,7 @@ body {
     }
 
     .validation-box-signout {
-        width: 100%;
+        width: 90%;
         height: 40%;
     }
 
@@ -432,7 +432,7 @@ body {
     }
 
     .validation-box-signout {
-        width: 70%;
+        width: 60%;
         height: 35%;
     }
 }
