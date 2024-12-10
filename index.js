@@ -142,7 +142,7 @@ function sendemail() {
         let data = { 'user_id': user_id, 'name': name, 'email': email, 'message': message };
         var re = /\S+@\S+\.\S+/;
 
-        if (data.name != '' && data.email != '' && re.test(email)) {
+        if (data.name.trim() != '' && data.email.trim() != '' && re.test(email)) {
             fetch('http://localhost:3000/api/feedback', {
                 method: 'POST',
                 headers: {
