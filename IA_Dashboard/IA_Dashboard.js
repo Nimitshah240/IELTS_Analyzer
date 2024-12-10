@@ -42,12 +42,16 @@ function dashboardconnectedCallback() {
             .then(response => response.json())
             .then(responsedata => {
 
-                if (responsedata.length != 0) {
+                if (responsedata.length > 0) {
                     Array.from(document.getElementsByClassName('charts')).forEach(element => {
                         element.style.display = "flex";
                     });
                     Array.from(document.getElementsByClassName('no_graph')).forEach(element => {
                         element.style.display = "none";
+                    });
+
+                    Array.from(document.getElementsByClassName('body_section')).forEach(element => {
+                        element.style.height ="fit-content"
                     });
                 } else {
                     createToast('error', 'No data found');
@@ -154,17 +158,26 @@ function chart1() {
 
 function countbox() {
     try {
-        let avg = 0;
+        let avg = [];
         bandtotal.forEach(element => {
-            avg += element;
+            avg.push(element);
         });
-        avg = avg / bandtotal.size;
         document.getElementById('examcount').innerHTML = exammap.size
         document.getElementById('totalquestion').innerHTML = responseData.length
-        document.getElementById('avg-band').innerHTML = avg
+        document.getElementById('avg-band').innerHTML = calculateAverage(avg);
     } catch (error) {
         console.log(error);
     }
+}
+
+function calculateAverage(numbers) {
+    if (numbers.length === 0) {
+        return 0;
+    }
+    const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+    const average = sum / numbers.length;
+    const roundToNearestHalf = (num) => Math.round(num * 2) / 2;
+    return roundToNearestHalf(average);
 }
 
 function chart3() {

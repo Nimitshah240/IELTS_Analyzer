@@ -142,7 +142,6 @@ body {
 
 /* Graph New Design */
 .charts {
-    height: 700pc;
     width: 100%;
     gap: 15px;
     display: none;
@@ -199,7 +198,6 @@ body {
     width: 33%;
     height: 100%;
     border-radius: 10px;
-    /* background: white; */
 }
 
 .chart-section-3 {
@@ -496,18 +494,17 @@ body {
     }
 
     .chart-section-1 {
-        height: 60%;
+        height: fit-content;
         flex-direction: column;
     }
 
     .chart-section-2 {
-        height: 20%;
         flex-direction: column;
     }
 
     .chart-section-3 {
         height: 20%;
-        gap: 0px;
+        gap: 15px;
         flex-direction: column;
     }
 
@@ -517,12 +514,12 @@ body {
 
     .chart-section-1-1 {
         width: 100%;
-        height: 100%;
+        height: fit-content;
     }
 
     .chart-section-1-2 {
         width: 100%;
-        height: 100%;
+        height: fit-content;
     }
 
     .chart-section-1-1-2 {
@@ -536,7 +533,7 @@ body {
     }
 
     .color-bar {
-        height: 100%;
+        height: fit-content;
         width: 100%;
     }
 
@@ -548,12 +545,13 @@ body {
         height: 24rem !important;
     }
 
-    .black-bar {
-        padding-bottom: 15px;
-    }
 }
 
 @media screen and (min-width: 768px) {
+
+    .charts {
+        height: fit-content;
+    }
 
     .tip-open-button {
         width: 20%;
