@@ -247,9 +247,8 @@ function continueClick(event) {
         let tempprivacy = document.getElementById("privacy").checked;
 
         // Checking for changes in data
-        if (firstname != tempfirstname || lastname != templastname || email != tempemail || number != tempnumber || temptype != type) {
-            if (tempprivacy) {
-
+        if (tempfirstname.trim() != '' && tempemail.trim() != '' && tempnumber.trim() != '' && tempprivacy) {
+            if (firstname != tempfirstname || lastname != templastname || email != tempemail || number != tempnumber || temptype != type) {
                 data.firstname = tempfirstname;
                 data.lastname = templastname;
                 data.email = tempemail;
@@ -268,10 +267,12 @@ function continueClick(event) {
                     localStorage.setItem('user_data', JSON.stringify(data));
                     window.location.href = dynamicUrl;
                 }).catch(error => console.error('Error:', error.message));
+            } else {
+                localStorage.setItem('user_data', JSON.stringify(data));
+                window.location.href = dynamicUrl;
             }
         } else {
-            localStorage.setItem('user_data', JSON.stringify(data));
-            window.location.href = dynamicUrl;
+            createToast('error', "Fill require detail");
         }
     } catch (error) {
         console.error(error);
