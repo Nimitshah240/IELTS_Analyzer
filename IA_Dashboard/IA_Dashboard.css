@@ -380,7 +380,6 @@ body {
 }
 
 .tip-popup {
-    width: 100%;
     height: fit-content;
     z-index: 1;
     position: fixed;
@@ -483,7 +482,6 @@ body {
     /* Tip popup */
     .tip-box {
         width: 80%;
-        height: 570px;
         overflow-y: scroll;
     }
 
