@@ -22,7 +22,13 @@ a {
 }
 
 main {
+    height: 100%;
     background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    overflow-y: scroll;
+}
+
+main::-webkit-scrollbar {
+    width: 0;
 }
 
 .g-icon {
@@ -126,7 +132,7 @@ main {
     background: rgba(255, 255, 255, 0.19);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(7.4px);
-    margin-top: 35px;
+    /* margin-top: 35px; */
     display: flex;
 }
 
@@ -189,7 +195,7 @@ main {
 }
 
 .section-divider {
-    height: 77%;
+    height: 82%;
     width: 100%;
     gap: 30px;
     display: flex;
@@ -215,13 +221,22 @@ main {
     flex-direction: column;
 }
 
+.text-field {
+    width: 50%;
+    height: 100%;
+    border-radius: 20px;
+    font-size: 13px;
+    padding: 10px;
+    border: 0.5px solid purple;
+}
+
 .question-type,
 .correct-answer,
 .incorrect-answer,
 .missed-answer {
     display: flex;
-    flex-direction: column;
     justify-content: space-around;
+    align-items: center;
 }
 
 .section-dataentry {
@@ -391,6 +406,10 @@ th {
         padding: 50px 15px;
     }
 
+    .footer {
+        margin-top: 6%;
+    }
+
     .contact {
         width: 100%;
         height: 100px;
@@ -422,7 +441,7 @@ th {
     }
 
     .section-divider {
-        height: 80%;
+        height: 83%;
         padding-top: 5%;
         overflow-y: scroll;
         flex-direction: column;
@@ -435,24 +454,32 @@ th {
     .section4 {
         width: 80%;
     }
+
+    .footer {
+        margin-top: 5%;
+    }
 }
 
 @media screen and (min-width: 1024px) {
 
-    main {
+    /* main {
         overflow: hidden;
-    }
+    } */
 
     .save-box {
         padding: 55px;
     }
 
     .section-divider {
-        height: 77%;
+        height: 82%;
         padding: 0px 10px;
         overflow: auto;
         flex-direction: row;
         justify-content: center;
+    }
+
+    .footer {
+        margin-top: 0%;
     }
 }
 
