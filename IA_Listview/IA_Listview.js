@@ -17,9 +17,14 @@ function listviewconnectedCallback() {
 }
 function setHref(event) {
     try {
-        var dynamicUrl = '../IA_DataEntry/IA_DataEntry.html?module=' + module;
-        event.target.href = dynamicUrl;
-        window.location.href = dynamicUrl;
+
+        if ((localStorage.getItem('user_data')) != null) {
+            var dynamicUrl = '../IA_DataEntry/IA_DataEntry.html?module=' + module;
+            event.target.href = dynamicUrl;
+            window.location.href = dynamicUrl;
+        } else {
+            createToast('error', 'Please login first')
+        }
     } catch (error) {
         createToast('error', 'Error while redirecting : ' + error.message);
     }
@@ -47,57 +52,57 @@ function openexam(event) {
 
 function examData() {
     try {
-        const user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
-        fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
-            .then(response => response.json())
-            .then(responseData => {
-                question = responseData;
-                if (question.length > 0) {
+        if (localStorage.getItem('user_data') != null) {
+            const user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
+            fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
+                .then(response => response.json())
+                .then(responseData => {
+                    question = responseData;
+                    if (question.length > 0) {
 
-                    const Section1 = new Map();
-                    const Section2 = new Map();
-                    const Section3 = new Map();
-                    const Section4 = new Map();
-                    const Exammap = new Map();
-                    let htmldata = "";
+                        const Section1 = new Map();
+                        const Section2 = new Map();
+                        const Section3 = new Map();
+                        const Section4 = new Map();
+                        const Exammap = new Map();
+                        let htmldata = "";
 
-                    // Setting map for examid and date
-                    responseData.forEach(element => {
-                        Exammap.set(element.exam_id, {
-                            'Name': element.exam_name,
-                            'Date': element.date
+                        // Setting map for examid and date
+                        responseData.forEach(element => {
+                            Exammap.set(element.exam_id, {
+                                'Name': element.exam_name,
+                                'Date': element.date
+                            });
                         });
-                    });
 
-
-                    // Calculating section wise marks for exach exam
-                    question.forEach(element => {
-                        if (element.section == 1) {
-                            if (Section1.has(element.exam_id)) {
-                                Section1.set(element.exam_id, Section1.get(element.exam_id) + element.correct);
-                            } else {
-                                Section1.set(element.exam_id, element.correct);
+                        // Calculating section wise marks for exach exam
+                        question.forEach(element => {
+                            if (element.section == 1) {
+                                if (Section1.has(element.exam_id)) {
+                                    Section1.set(element.exam_id, Section1.get(element.exam_id) + element.correct);
+                                } else {
+                                    Section1.set(element.exam_id, element.correct);
+                                }
+                            } else if (element.section == 2) {
+                                if (Section2.has(element.exam_id)) {
+                                    Section2.set(element.exam_id, Section2.get(element.exam_id) + element.correct);
+                                } else {
+                                    Section2.set(element.exam_id, element.correct);
+                                }
+                            } else if (element.section == 3) {
+                                if (Section3.has(element.exam_id)) {
+                                    Section3.set(element.exam_id, Section3.get(element.exam_id) + element.correct);
+                                } else {
+                                    Section3.set(element.exam_id, element.correct);
+                                }
+                            } else if (element.section == 4) {
+                                if (Section4.has(element.exam_id)) {
+                                    Section4.set(element.exam_id, Section4.get(element.exam_id) + element.correct);
+                                } else {
+                                    Section4.set(element.exam_id, element.correct);
+                                }
                             }
-                        } else if (element.section == 2) {
-                            if (Section2.has(element.exam_id)) {
-                                Section2.set(element.exam_id, Section2.get(element.exam_id) + element.correct);
-                            } else {
-                                Section2.set(element.exam_id, element.correct);
-                            }
-                        } else if (element.section == 3) {
-                            if (Section3.has(element.exam_id)) {
-                                Section3.set(element.exam_id, Section3.get(element.exam_id) + element.correct);
-                            } else {
-                                Section3.set(element.exam_id, element.correct);
-                            }
-                        } else if (element.section == 4) {
-                            if (Section4.has(element.exam_id)) {
-                                Section4.set(element.exam_id, Section4.get(element.exam_id) + element.correct);
-                            } else {
-                                Section4.set(element.exam_id, element.correct);
-                            }
-                        }
-                    });
+                        });
 
                     // Arranging Data in Variable
                     for (const key of Exammap.keys()) {
@@ -122,29 +127,31 @@ function examData() {
                         })
                     }
 
-                    //Setting data to html
-                    examdata.forEach((element, index) => {
-                        htmldata +=
-                            '<div class="data" id=' + element.exam_id + '>' +
-                            '<div class="column index" onclick="openexam(event)" id=' + element.exam_id + '>' + (index + 1) + '</div>' +
-                            '<div class="column examname" onclick="openexam(event)" id=' + element.exam_id + '>' + element.exam_name + '</div>' +
-                            '<div class="column date" onclick="openexam(event)" id=' + element.exam_id + '>' + element.date + '</div>' +
-                            '<div class="column total" onclick="openexam(event)" id=' + element.exam_id + '>' + element.total + '</div>' +
-                            '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 1"] + '</div>' +
-                            '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 2"] + '</div>' +
-                            '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 3"] + '</div>' +
-                            '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 4"] + '</div>' +
-                            '<div class="column delete" onclick="deleteexam(event)" id=' + element.exam_id + `> <i class="fa fa-trash" id="${element.exam_id}" aria-hidden="true"></i>` +
-                            '</div>' +
-                            '</div>'
-                    });
 
-                    document.getElementById("table").innerHTML = htmldata;
-                } else {
-                    createToast('error', 'No Data Found');
-                }
-            })
-            .catch(error => createToast('error', 'Error while fetching exams : ' + error.message));
+                        //Setting data to html
+                        examdata.forEach((element, index) => {
+                            htmldata +=
+                                '<div class="data" id=' + element.exam_id + '>' +
+                                '<div class="column index" onclick="openexam(event)" id=' + element.exam_id + '>' + (index + 1) + '</div>' +
+                                '<div class="column examname" onclick="openexam(event)" id=' + element.exam_id + '>' + element.exam_name + '</div>' +
+                                '<div class="column date" onclick="openexam(event)" id=' + element.exam_id + '>' + element.date + '</div>' +
+                                '<div class="column total" onclick="openexam(event)" id=' + element.exam_id + '>' + element.total + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 1"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 2"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 3"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 4"] + '</div>' +
+                                '<div class="column delete" onclick="deleteexam(event)" id=' + element.exam_id + `> <i class="fa fa-trash" id="${element.exam_id}" aria-hidden="true"></i>` +
+                                '</div>' +
+                                '</div>'
+                        });
+
+                        document.getElementById("table").innerHTML = htmldata;
+                    } else {
+                        createToast('error', 'No Data Found');
+                    }
+                })
+                .catch(error => createToast('error', 'Error while fetching exams : ' + error.message));
+        }
     } catch (error) {
         createToast('error', 'Error while fetching exams : ' + error.message);
     }
