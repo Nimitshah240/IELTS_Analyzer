@@ -52,11 +52,7 @@ app.get('/api/checkUser', (req, res) => {
 
 app.post('/api/updateUserData', (req, res) => {
     const receivedData = req.body;
-    console.log(req.body);
-    console.log(receivedData);
-    
     if (receivedData.new) {
-        console.log('New');
         query = ` INSERT INTO user(id, name, lastname, number, type, privacy,email,location, fl_date, picture) VALUES ('${receivedData.user_id}','${receivedData.firstname}','${receivedData.lastname}','${receivedData.number}','${receivedData.type}','${receivedData.privacy}','${receivedData.email}','${receivedData.location}','${receivedData.fl_date}','${receivedData.picture}')`;
     } else {
         query = `UPDATE user SET name = '${receivedData.firstname}', lastname = '${receivedData.lastname}', number = '${receivedData.number}', type = '${receivedData.type}', privacy = '${receivedData.privacy}', email = '${receivedData.email}', location = '${receivedData.location}', fl_date = '${receivedData.fl_date}', picture = '${receivedData.picture}' WHERE id = ${receivedData.user_id}`;
@@ -115,7 +111,7 @@ app.post('/api/insertExam', (req, res) => {
 
     let exam_id = req.headers.exam_id;
     const receivedData = req.body;
-    let exam_query = `INSERT INTO exam (user_id, exam_name, date, module, band) VALUES (${receivedData[0].user_id}, '${receivedData[0].exam_name}', '${receivedData[0].date}', '${receivedData[0].module}', ${receivedData[0].band}) `;
+    let exam_query;
 
     if (exam_id != '') {
         exam_query = `UPDATE exam SET exam_name = '${receivedData[0].exam_name}', date = '${receivedData[0].date}', band = ${receivedData[0].band} WHERE id = ${exam_id}`
@@ -125,6 +121,7 @@ app.post('/api/insertExam', (req, res) => {
             res.json(receivedData);
         });
     } else {
+        exam_query = `INSERT INTO exam (user_id, exam_name, date, module, band) VALUES ('${receivedData[0].user_id}', '${receivedData[0].exam_name}', '${receivedData[0].date}', '${receivedData[0].module}', ${receivedData[0].band}) `;
         connection.execute(exam_query, (error, results) => {
             if (error) console.error(error);
             exam_id = results.insertId;
@@ -140,7 +137,7 @@ function questioninsert(receivedData, exam_id) {
     const queryBase = 'INSERT INTO question (user_id, exam_id, question_type, correct, incorrect, miss, total, section) VALUES ';
 
     receivedData.forEach(element => {
-        if (element.id == "") {
+        if (JSON.stringify(element.id).includes("temp")) {
             values.push(`(${element.user_id}, ${exam_id}, '${element.question_type}', ${element.correct}, ${element.incorrect}, ${element.miss}, ${element.total}, ${element.section})`);
         }
     });

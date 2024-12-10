@@ -6,6 +6,13 @@ var question = [];
 question = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? [] : JSON.parse(localStorage.getItem('question' + tdExam));
 let exam_name = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
 let exam_id = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_id;
+let exam_date = '';
+exam_date = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].date;
+exam_date = new Date(exam_date);
+let year = exam_date.getFullYear();
+let month = ('0' + (exam_date.getMonth() + 1)).slice(-2);
+let day = ('0' + exam_date.getDate()).slice(-2);
+exam_date = `${year}-${month}-${day}`;
 let user_data = JSON.parse(localStorage.getItem('user_data'));
 user_id = user_data.user_id;
 let question_id = '';
@@ -80,11 +87,6 @@ function popupopen(event) {
         var type = event.target.id;
 
         if (type == 'save') {
-            let exam_date = new Date((JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].date);
-            let year = exam_date.getFullYear();
-            let month = ('0' + (exam_date.getMonth() + 1)).slice(-2);
-            let day = ('0' + exam_date.getDate()).slice(-2);
-            exam_date = `${year}-${month}-${day}`;
 
             document.getElementById('examdate').value = exam_date;
             document.getElementById('examname').value = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
@@ -101,7 +103,7 @@ function popupopen(event) {
                         '<td>' + element.incorrect + '</td>' +
                         '<td>' + element.miss + '</td>' +
                         '<td> ' + element.total + ' </td>' +
-                        `<td id = ${element.id} onclick="deletequestion(event)"><i class="fa fa-trash" aria-hidden="true"id=${element.id}></i> </td> </tr>`;
+                        `<td id = "${element.id}" onclick="deletequestion(event)" class="question-delete">Delete<i class="fa fa-trash" aria-hidden="true"id=${element.id}></i> </td> </tr>`;
                 }
             });
             document.getElementById('show-div').style.display = 'flex';
@@ -152,10 +154,10 @@ function getData(event) {
             {
                 "band": "",
                 "correct": correct,
-                "date": "",
+                "date": exam_date,
                 "exam_id": exam_id == "" ? "" : exam_id,
                 "exam_name": exam_name == "" ? "" : exam_name,
-                "id": "",
+                "id": "temp_" + question.length,
                 "incorrect": incorrect,
                 "miss": miss,
                 "module": module,
@@ -179,7 +181,7 @@ function getData(event) {
 function saveexam(event) {
     try {
         let exam_name = document.getElementById('examname').value;
-        let exam_date = document.getElementById('examdate').value;
+        exam_date = document.getElementById('examdate').value;
         exam_date = new Date(exam_date);
         exam_date = exam_date.toISOString().slice(0, 10);
         let correct = 0;
@@ -243,7 +245,6 @@ function saveexam(event) {
 function deletequestion(event) {
     try {
         question_id = event.target.id;
-
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
             element.style.backdropFilter = "none";
         });
@@ -263,31 +264,39 @@ function deletequestion(event) {
 function del(event) {
     try {
         if (event.target.id == 'yes') {
-            fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    for (let index = 0; index < 2; index++) {
-                        const divToRemove = document.getElementById(question_id);
-                        divToRemove.remove();
+            if (question_id.slice(0, 4) != 'temp') {
+                fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-
-                    question.forEach((element, i) => {
-                        if (element.id == question_id) {
-                            question.splice(i, 1);
-                        }
-                    });
-                    localStorage.setItem('question' + tdExam, JSON.stringify(question))
-                    createToast('success', 'Question deleted');
                 })
-                .catch(error =>
-                    createToast('error', 'Error while deleting data : ' + error.message));
-        }
+                    .then(response => response.json())
+                    .then(data => {
+                        for (let index = 0; index < 2; index++) {
+                            const divToRemove = document.getElementById(question_id);
+                            divToRemove.remove();
+                        }
 
+                        question.forEach((element, i) => {
+                            if (element.id == question_id) {
+                                question.splice(i, 1);
+                            }
+                        });
+                        localStorage.setItem('question' + tdExam, JSON.stringify(question))
+                        createToast('success', 'Question deleted');
+                    })
+                    .catch(error =>
+                        createToast('error', 'Error while deleting data : ' + error.message));
+            } else {
+                question.forEach((element, i) => {
+                    if (element.id == question_id) {
+                        question.splice(i, 1);
+                    }
+                });
+                localStorage.setItem('question' + tdExam, JSON.stringify(question))
+            }
+        }
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
             element.style.backdropFilter = "blur(7.4px)";
         });
