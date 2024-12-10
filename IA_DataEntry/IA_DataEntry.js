@@ -174,62 +174,71 @@ function getData(event) {
 // To save exam
 function saveexam(event) {
     try {
-        let exam_name = document.getElementById('examname').value;
-        let exam_date = document.getElementById('examdate').value;
-        exam_date = new Date(exam_date);
-        exam_date = exam_date.toISOString().slice(0, 10);
-        let correct = 0;
-        let band = 0;
-        if (exam_name == '' || exam_date == '') {
-            console.log('Please enter value');
+        let exam_name = ''
+        let exam_date = ''
+        exam_name = document.getElementById('examname').value;
+        exam_date = document.getElementById('examdate').value;
+
+        if (exam_date == '' || exam_name.trim() == '') {
+            createToast('error', 'Fill require details');
         } else {
-            question.forEach(element => {
-                element.date = exam_date;
-                element.exam_name = exam_name;
-                correct += element.correct;
-            });
+            
+            if (question.length > 0) {
+                let correct = 0;
+                let band = 0;
+                exam_date = new Date(exam_date);
 
-            if (user_data.type == 'general' && module == 'Reading') {
-                if (correct >= 15 && correct <= 18) { band = 4; }
-                else if (correct >= 19 && correct <= 22) { band = 4.5; }
-                else if (correct >= 23 && correct <= 26) { band = 5; }
-                else if (correct >= 27 && correct <= 29) { band = 5.5; }
-                else if (correct >= 30 && correct <= 31) { band = 6; }
-                else if (correct >= 32 && correct <= 33) { band = 6.5; }
-                else if (correct >= 34 && correct <= 35) { band = 7; }
-                else if (correct == 36) { band = 7.5; }
-                else if (correct >= 37 && correct <= 38) { band = 8; }
-                else if (correct == 39) { band = 8.5 }
-                else if (correct == 40) { band = 9; }
+                exam_date = exam_date.toISOString().slice(0, 10);
+                question.forEach(element => {
+                    element.date = exam_date;
+                    element.exam_name = exam_name;
+                    correct += element.correct;
+                });
+
+                if (user_data.type == 'general' && module == 'Reading') {
+                    if (correct >= 15 && correct <= 18) { band = 4; }
+                    else if (correct >= 19 && correct <= 22) { band = 4.5; }
+                    else if (correct >= 23 && correct <= 26) { band = 5; }
+                    else if (correct >= 27 && correct <= 29) { band = 5.5; }
+                    else if (correct >= 30 && correct <= 31) { band = 6; }
+                    else if (correct >= 32 && correct <= 33) { band = 6.5; }
+                    else if (correct >= 34 && correct <= 35) { band = 7; }
+                    else if (correct == 36) { band = 7.5; }
+                    else if (correct >= 37 && correct <= 38) { band = 8; }
+                    else if (correct == 39) { band = 8.5 }
+                    else if (correct == 40) { band = 9; }
+                } else {
+                    if (correct >= 10 && correct <= 12) { band = 4; }
+                    else if (correct >= 13 && correct <= 15) { band = 4.5; }
+                    else if (correct >= 16 && correct <= 17) { band = 5; }
+                    else if (correct >= 18 && correct <= 22) { band = 5.5; }
+                    else if (correct >= 23 && correct <= 25) { band = 6; }
+                    else if (correct >= 26 && correct <= 29) { band = 6.5 }
+                    else if (correct >= 30 && correct <= 31) { band = 7; }
+                    else if (correct >= 32 && correct <= 34) { band = 7.5; }
+                    else if (correct >= 35 && correct <= 36) { band = 8; }
+                    else if (correct >= 37 && correct <= 38) { band = 8.5 }
+                    else if (correct >= 39 && correct <= 40) { band = 9; }
+                }
+
+                question.forEach(element => {
+                    element.band = band;
+                });
+
+                fetch('http://localhost:3000/api/insertExam', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'exam_id': exam_id == "" ? "" : exam_id
+                    },
+                    body: JSON.stringify(question),
+                }).then(response => {
+                    popupclose(event);
+
+                });
             } else {
-                if (correct >= 10 && correct <= 12) { band = 4; }
-                else if (correct >= 13 && correct <= 15) { band = 4.5; }
-                else if (correct >= 16 && correct <= 17) { band = 5; }
-                else if (correct >= 18 && correct <= 22) { band = 5.5; }
-                else if (correct >= 23 && correct <= 25) { band = 6; }
-                else if (correct >= 26 && correct <= 29) { band = 6.5 }
-                else if (correct >= 30 && correct <= 31) { band = 7; }
-                else if (correct >= 32 && correct <= 34) { band = 7.5; }
-                else if (correct >= 35 && correct <= 36) { band = 8; }
-                else if (correct >= 37 && correct <= 38) { band = 8.5 }
-                else if (correct >= 39 && correct <= 40) { band = 9; }
+                createToast('error', 'There is no question to save');
             }
-
-            question.forEach(element => {
-                element.band = band;
-            });
-
-            fetch('http://localhost:3000/api/insertExam', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'exam_id': exam_id == "" ? "" : exam_id
-                },
-                body: JSON.stringify(question),
-            }).then(response => {
-                popupclose(event);
-
-            });
         }
     } catch (error) {
         createToast('error', 'Error while saving data : ' + error.message);
