@@ -21,6 +21,7 @@
   position: fixed;
   top: 30px;
   right: 20px;
+  z-index: 1;
 }
 
 .notifications :where(.toast, .column) {
