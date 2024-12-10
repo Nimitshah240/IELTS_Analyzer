@@ -2,23 +2,26 @@ const urlSearchParams = new URLSearchParams(window.location.search);
 var module = urlSearchParams.get('module');
 var tdExam = urlSearchParams.get('tdExam')
 var question = [];
-
-question = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? [] : JSON.parse(localStorage.getItem('question' + tdExam));
-let exam_name = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
-let exam_id = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_id;
+let exam_name = '';
+let exam_id = '';
 let exam_date = '';
-exam_date = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].date;
-exam_date = new Date(exam_date);
-let year = exam_date.getFullYear();
-let month = ('0' + (exam_date.getMonth() + 1)).slice(-2);
-let day = ('0' + exam_date.getDate()).slice(-2);
-exam_date = `${year}-${month}-${day}`;
 let user_data = JSON.parse(localStorage.getItem('user_data'));
 user_id = user_data.user_id;
 let question_id = '';
 
 function dataentryconnectedCallback() {
     try {
+        if ((JSON.parse(localStorage.getItem('question' + tdExam))).length == 0) {
+            exam_date = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
+            exam_id = '';
+            exam_name = '';
+        } else {
+            exam_id = JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_id
+            exam_name = JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
+            exam_date = new Date(JSON.parse(localStorage.getItem('question' + tdExam))[0].date);
+            exam_date = `${exam_date.getFullYear()}-${('0' + (exam_date.getMonth() + 1)).slice(-2)}-${('0' + exam_date.getDate()).slice(-2)}`;
+            question = JSON.parse(localStorage.getItem('question' + tdExam));
+        }
         sectionsetter();
         Userlogo();
     } catch (error) {
@@ -85,7 +88,7 @@ function popupopen(event) {
         if (type == 'save') {
 
             document.getElementById('examdate').value = exam_date;
-            document.getElementById('examname').value = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
+            document.getElementById('examname').value = exam_name;
             document.getElementById('save-div').style.display = 'flex';
 
         } else {
@@ -168,6 +171,8 @@ function getData(event) {
         document.getElementById('incorrect' + event.target.id).value = 0;
         document.getElementById('miss' + event.target.id).value = 0
         selectElement.value = 'MCQ';
+        createToast('success', 'Question saved temporarily');
+
     } catch (error) {
         createToast('error', 'Error while getting data : ' + error.message);
     }
@@ -300,6 +305,8 @@ function del(event) {
                     }
                 });
                 localStorage.setItem('question' + tdExam, JSON.stringify(question))
+                createToast('success', 'Question deleted');
+
             }
         }
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
