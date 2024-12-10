@@ -12,10 +12,6 @@ let question_id = '';
 
 function dataentryconnectedCallback() {
     try {
-
-        if (!JSON.parse(localStorage.getItem('user_data'))) {
-            createToast('error', 'Please login first')
-        }
         sectionsetter();
         Userlogo();
     } catch (error) {
