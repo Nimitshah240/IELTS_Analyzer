@@ -272,6 +272,9 @@ main {
     height: fit-content;
 }
 
+.question-delete {
+    cursor: pointer;
+}
 
 .data-title {
     font-size: 27px;
