@@ -89,7 +89,7 @@ function popupopen(event) {
             document.getElementById('save-div').style.display = 'flex';
 
         } else {
-            var sectiondata = '<tr><th colspan="5"> Question Type</th></tr><tr><th> Correct </th><th> Incorrect </th><th> Missed </th><th> Total </th><th> Delete </th></tr >';
+            var sectiondata = '<tr class="header-table"><th colspan="5"> Question Type</th></tr><tr class="header-table"><th> Correct </th><th> Incorrect </th><th> Missed </th><th> Total </th><th> Delete </th></tr>';
             question.forEach(element => {
                 if (element.section == section) {
                     sectiondata +=

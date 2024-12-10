@@ -279,7 +279,7 @@ main::-webkit-scrollbar {
 }
 
 .show-data {
-    width: 40%;
+    width: 50%;
     z-index: 9;
     border-radius: 5px;
     box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
@@ -348,6 +348,10 @@ th {
     border-bottom: 1px solid;
 }
 
+.header-table {
+    font-size: 15px;
+}
+
 /* Body */
 
 
@@ -395,7 +399,7 @@ th {
     }
 
     .show-data {
-        width: fit-content
+        width: 95%
     }
 
     .show-data1 {
