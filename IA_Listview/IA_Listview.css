@@ -153,6 +153,14 @@ main {
     background-color: #106eea;
 }
 
+.index,
+.examname,
+.date,
+.section,
+.total {
+    cursor: pointer;
+}
+
 /* Button 63 */
 /* CSS */
 .button-63 {
@@ -306,7 +314,6 @@ main {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        cursor: pointer;
     }
 
     .column {
@@ -403,7 +410,6 @@ main {
         display: flex;
         justify-content: center;
         align-items: center;
-        cursor: pointer;
     }
 
     .column {
@@ -484,7 +490,6 @@ main {
         display: flex;
         justify-content: center;
         align-items: center;
-        cursor: pointer;
     }
 
     .column {
@@ -561,7 +566,6 @@ main {
         display: flex;
         justify-content: center;
         align-items: center;
-        cursor: pointer;
     }
 
     .column {
