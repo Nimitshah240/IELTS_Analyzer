@@ -1,4 +1,3 @@
-let dynamicUrl;
 const urlSearchParams = new URLSearchParams(window.location.search);
 const selectionType = urlSearchParams.get('type');
 
@@ -13,7 +12,7 @@ function selectionconnectedCallback(params) {
 function setHrefs(event) {
     try {
         let module = event.target.id;
-
+        let dynamicUrl;
         if (selectionType == 'dashboard') {
             dynamicUrl = '../IA_Dashboard/IA_Dashboard.html';
         } else if (selectionType == 'data') {
