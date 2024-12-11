@@ -7,8 +7,8 @@
     background-color: WHITE;
     background-image: none;
     border: 1px solid #747775;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     color: #1f1f1f;
@@ -171,7 +171,7 @@ body {
 
 .glass {
     background: rgba(255, 255, 255, 0.19);
-    border-radius: 16px;
+    border-radius: 15px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
@@ -300,7 +300,7 @@ body {
 .inputbox {
     width: 60%;
     /* height: 13%; */
-    border-radius: 20px;
+    border-radius: 15px;
     font-size: 13px;
     padding: 10px;
     border: 0.5px solid purple;
@@ -319,7 +319,7 @@ body {
     display: none;
     width: 30%;
     height: 45%;
-    border-radius: 20px;
+    border-radius: 15px;
     margin: auto;
 }
 

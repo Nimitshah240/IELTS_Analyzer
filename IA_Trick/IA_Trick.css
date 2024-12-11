@@ -101,7 +101,7 @@ main {
     width: 50%;
     backdrop-filter: blur(3.4px);
     border: 1px dashed;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 /* Button 63 */
@@ -154,7 +154,7 @@ h4 {
     /* Glass Effect */
     .glass {
         background: rgba(255, 255, 255, 0.19);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(7.4px);
         -webkit-backdrop-filter: blur(7.4px);
@@ -241,7 +241,7 @@ h4 {
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(7.4px);
         -webkit-backdrop-filter: blur(7.4px);
@@ -284,7 +284,7 @@ h4 {
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(7.4px);
         -webkit-backdrop-filter: blur(7.4px);
@@ -326,7 +326,7 @@ h4 {
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(7.4px);
         -webkit-backdrop-filter: blur(7.4px);
