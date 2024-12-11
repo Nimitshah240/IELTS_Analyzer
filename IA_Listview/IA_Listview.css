@@ -230,34 +230,7 @@ main {
 
 /* footer */
 
-.circle1,
-.circle2 {
-    height: 20rem;
-    width: 20rem;
-    border-radius: 50%;
-    background: linear-gradient(to right bottom,
-            rgba(255, 255, 255, 0.8),
-            rgba(255, 255, 255, 0.7));
-    position: absolute;
-}
-
-.circle1 {
-    top: 12%;
-    right: 18%;
-}
-
-.circle2 {
-    bottom: 8%;
-    left: 18%;
-}
-
 @media screen and (max-width: 640px) {
-
-    .circle1,
-    .circle2 {
-        height: 10rem;
-        width: 10rem;
-    }
 
     body {
         width: 100%;

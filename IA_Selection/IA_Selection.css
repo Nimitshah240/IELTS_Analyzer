@@ -64,26 +64,6 @@ body {
     border: 1px solid rgba(255, 255, 255, 1);
 }
 
-.circle1,
-.circle2 {
-    height: 20rem;
-    width: 20rem;
-    border-radius: 50%;
-    background: linear-gradient(to right bottom,
-            rgba(255, 255, 255, 0.8),
-            rgba(255, 255, 255, 0.7));
-    position: absolute;
-}
-
-.circle1 {
-    top: 12%;
-    right: 18%;
-}
-
-.circle2 {
-    bottom: 8%;
-    left: 18%;
-}
 
 /* glass */
 /* header */
@@ -227,16 +207,6 @@ body {
 /* Spinner */
 
 @media screen and (max-width: 640px) {
-
-    /* Glass Effect */
-    .circle1,
-    .circle2 {
-        height: 10rem;
-        width: 10rem;
-    }
-
-    /* Glass Effect */
-
     .companylogo {
         height: 20%;
         font-size: 22px;
