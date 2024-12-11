@@ -112,7 +112,7 @@ body {
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(7.4px);
         -webkit-backdrop-filter: blur(7.4px);
@@ -277,7 +277,7 @@ body {
         width: 270px;
         height: 80px;
         background: rgba(255, 255, 255, 0.09);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(1.9px);
         border: 1px solid rgba(255, 255, 255, 0.3);
@@ -292,7 +292,7 @@ body {
     .listening {
         width: 100%;
         height: 100%;
-        border-radius: 16px;
+        border-radius: 15px;
     }
 
     h4 {
@@ -363,7 +363,7 @@ body {
     .desc-field {
         width: 93%;
         height: 9%;
-        border-radius: 20px;
+        border-radius: 15px;
         font-size: 13px;
         padding: 10px;
         border: 0.5px solid purple;
@@ -377,7 +377,7 @@ body {
     .send-button {
         margin-bottom: 10%;
         height: 35px;
-        border-radius: 20px !important;
+        border-radius: 8px !important;
     }
 
     /* Contact-us  */
@@ -418,7 +418,7 @@ body {
 
     .highlight-icon {
         /* width: 10px; */
-        border-radius: 16px;
+        border-radius: 15px;
         border-top-right-radius: 5px;
         border-bottom-right-radius: 5px;
         height: 100%;
@@ -429,7 +429,7 @@ body {
     }
 
     .div-2-icon {
-        border-radius: 16px;
+        border-radius: 15px;
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
         right: 0px !important;
@@ -487,7 +487,7 @@ body {
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(7.4px);
         -webkit-backdrop-filter: blur(7.4px);
@@ -636,7 +636,7 @@ body {
         width: 190px;
         height: 200px;
         background: rgba(255, 255, 255, 0.09);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(1.9px);
         border: 1px solid rgba(255, 255, 255, 0.3);
@@ -657,7 +657,7 @@ body {
     .listening {
         width: 75%;
         height: 100%;
-        border-radius: 16px;
+        border-radius: 15px;
     }
 
     .second-box .intro-txt,
@@ -726,7 +726,7 @@ body {
     .desc-field {
         width: 75%;
         height: 9%;
-        border-radius: 20px;
+        border-radius: 15px;
         font-size: 13px;
         padding: 10px;
         border: 0.5px solid purple;
@@ -739,7 +739,7 @@ body {
 
     .send-button {
         height: 35px;
-        border-radius: 20px !important;
+        border-radius: 8px !important;
     }
 
     /* Contact-us  */
@@ -824,7 +824,7 @@ body {
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(7.4px);
         -webkit-backdrop-filter: blur(7.4px);
@@ -965,7 +965,7 @@ body {
         width: 225px;
         height: 165px;
         background: rgba(255, 255, 255, 0.09);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(1.9px);
         border: 1px solid rgba(255, 255, 255, 0.3);
@@ -986,7 +986,7 @@ body {
     .intro {
         width: 100%;
         height: 100%;
-        border-radius: 16px;
+        border-radius: 15px;
     }
 
     .second-box .intro-txt,
@@ -1055,7 +1055,7 @@ body {
     .desc-field {
         width: 75%;
         height: 9%;
-        border-radius: 20px;
+        border-radius: 15px;
         font-size: 13px;
         padding: 10px;
         border: 0.5px solid purple;
@@ -1068,7 +1068,7 @@ body {
 
     .send-button {
         height: 35px;
-        border-radius: 20px !important;
+        border-radius: 8px !important;
     }
 
     /* Contact-us  */
@@ -1141,7 +1141,7 @@ body {
 
     .glass {
         background: rgba(255, 255, 255, 0.19);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(7.4px);
         -webkit-backdrop-filter: blur(7.4px);
@@ -1282,7 +1282,7 @@ body {
         width: 260px;
         height: 200px;
         background: rgba(255, 255, 255, 0.09);
-        border-radius: 16px;
+        border-radius: 15px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         backdrop-filter: blur(1.9px);
         border: 1px solid rgba(255, 255, 255, 0.3);
@@ -1303,7 +1303,7 @@ body {
     .intro {
         width: 100%;
         height: 100%;
-        border-radius: 16px;
+        border-radius: 15px;
     }
 
     /* Highlight */
@@ -1366,7 +1366,7 @@ body {
     .desc-field {
         width: 60%;
         height: 9%;
-        border-radius: 20px;
+        border-radius: 15px;
         font-size: 13px;
         padding: 10px;
         border: 0.5px solid purple;
@@ -1379,7 +1379,7 @@ body {
 
     .send-button {
         height: 40px;
-        border-radius: 20px !important;
+        border-radius: 8px !important;
     }
 
     /* Contact-us  */

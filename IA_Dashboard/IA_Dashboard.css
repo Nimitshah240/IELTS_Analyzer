@@ -51,7 +51,7 @@ body {
 /* Glass */
 .glass {
     background: rgba(255, 255, 255, 0.19);
-    border-radius: 16px;
+    border-radius: 15px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(7.4px);
     -webkit-backdrop-filter: blur(7.4px);
@@ -197,7 +197,7 @@ body {
 .count-box {
     width: 33%;
     height: 100%;
-    border-radius: 10px;
+    border-radius: 15px;
 }
 
 .chart-section-3 {
@@ -390,7 +390,7 @@ body {
     width: 50%;
     height: 100%;
     background: rgba(255, 255, 255, 0.19);
-    border-radius: 16px;
+    border-radius: 15px;
     padding-left: 25px;
     padding-right: 25px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
