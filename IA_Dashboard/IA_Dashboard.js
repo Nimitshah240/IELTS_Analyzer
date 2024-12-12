@@ -51,7 +51,7 @@ function dashboardconnectedCallback() {
                     });
 
                     Array.from(document.getElementsByClassName('body_section')).forEach(element => {
-                        element.style.height ="fit-content"
+                        element.style.height = "fit-content"
                     });
                 } else {
                     createToast('error', 'No data found');
@@ -559,13 +559,13 @@ function tipopen(event) {
             correctquest = question_correct.get(key) * 100 / question_total.get(key);
 
             if (correctquest >= 80) {
-                excellentlist.push(key);
+                excellentlist.push(' ' + key);
             } else if (correctquest < 80 && correctquest >= 70) {
-                goodlist.push(key);
+                goodlist.push(' ' + key);
             } else if (correctquest < 70 && correctquest >= 60) {
-                avglist.push(key);
+                avglist.push(' ' + key);
             } else {
-                poorlist.push(key);
+                poorlist.push(' ' + key);
             }
         }
         // ----------------------------------------------------------------------------------
@@ -578,9 +578,9 @@ function tipopen(event) {
             correctquest = sectionscorrect.get(key) * 100 / sectiontotal.get(key);
 
             if (correctquest >= 75) {
-                goodlistsect.push(key.charAt(0).toUpperCase() + key.slice(1));
+                goodlistsect.push(' ' + key.charAt(0).toUpperCase() + key.slice(1));
             } else if (correctquest < 75) {
-                poorlistsect.push(key.charAt(0).toUpperCase() + key.slice(1));
+                poorlistsect.push(' ' + key.charAt(0).toUpperCase() + key.slice(1));
             }
         }
         // ----------------------------------------------------------------------------------
