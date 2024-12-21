@@ -25,13 +25,13 @@ a {
 
 main {
     width: 100%;
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    background-image: repeating-conic-gradient(from 119deg at 21% 50%, #1778c7 36%, #55ADF5 69%);
     overflow-x: hidden;
 }
 
 .contact-icons {
     width: 50%;
-    gap: 15px;
+    gap: 10px;
     font-size: 25px;
     padding-right: 5%;
     display: flex;
@@ -43,8 +43,7 @@ main {
     width: 40px;
     height: 40px;
     border-radius: 49px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
-    color: white;
+    color: black;
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -52,6 +51,7 @@ main {
 
 body {
     line-height: 1 !important;
+    background-image: repeating-conic-gradient(from 100deg at 30% 50%, #1778c7 66%, #55ADF5 85%, #1778c7 60%);
 }
 
 /* glass */
@@ -59,8 +59,7 @@ body {
     border-radius: 15px;
     background: rgba(255, 255, 255, 0.19);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(7.4px);
-    -webkit-backdrop-filter: blur(7.4px);
+    backdrop-filter: blur(1px);
     border: 1px solid rgba(255, 255, 255, 1);
 }
 
@@ -105,7 +104,7 @@ body {
     transition: 300ms;
     border-radius: 5px;
     display: block;
-    background: #106eea;
+    background: white;
 }
 
 .navbartransition:hover::after {
@@ -113,7 +112,7 @@ body {
 }
 
 .navbartransition:hover {
-    color: #106eea;
+    color: white;
 }
 
 /* header  */
@@ -144,7 +143,7 @@ body {
     gap: 10px;
     line-height: 40px;
     background: rgba(255, 255, 255, 0.19);
-    backdrop-filter: blur(7.4px);
+    backdrop-filter: blur(1px);
     border: 1px solid rgba(255, 255, 255, 1);
     box-shadow: inset 0 -3px 0 -1px #106eea;
     transition: box-shadow 0.5s ease-in-out;
@@ -161,7 +160,7 @@ body {
 }
 
 .box-icon {
-    color: #106eea;
+    color: black;
 }
 
 .button-title {
@@ -184,6 +183,7 @@ body {
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(7.4px);
     display: flex;
+    border-top: 1px solid white;
 }
 
 .copyright {
@@ -207,6 +207,10 @@ body {
 /* Spinner */
 
 @media screen and (max-width: 640px) {
+    .main {
+        background-image: repeating-conic-gradient(from 100deg at 30% 27%, #2b87d2 85%, #55ADF5 105%, #55ADF5 60%);
+    }
+
     .companylogo {
         height: 20%;
         font-size: 22px;

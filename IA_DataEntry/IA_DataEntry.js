@@ -9,6 +9,11 @@ let user_data = JSON.parse(localStorage.getItem('user_data'));
 user_id = user_data.user_id;
 let question_id = '';
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize data for Data entry page
+// Updated on - -
+// Input - none
 function dataentryconnectedCallback() {
     try {
         if ((JSON.parse(localStorage.getItem('question' + tdExam))).length == 0) {
@@ -29,6 +34,11 @@ function dataentryconnectedCallback() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set number of section depending on Reading or Listening module
+// Updated on - -
+// Input - none
 function sectionsetter() {
     try {
         let html;
@@ -79,6 +89,11 @@ function sectionsetter() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to open exam save or show data popup 
+// Updated on - -
+// Input - event
 function popupopen(event) {
     try {
 
@@ -115,6 +130,11 @@ function popupopen(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to close show data popup or close save exam div and redirect to list view
+// Updated on - -
+// Input - event
 function popupclose(event) {
     try {
         var type = event.target.id;
@@ -132,7 +152,11 @@ function popupclose(event) {
     }
 }
 
-// To get data on each save and new button click
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to get data on each "save and new" button click
+// Updated on - -
+// Input - event
 function getData(event) {
     try {
 
@@ -178,7 +202,11 @@ function getData(event) {
     }
 }
 
-// To save exam
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to save exam in DB
+// Updated on - -
+// Input - event
 function saveexam(event) {
     try {
         let exam_name = ''
@@ -252,6 +280,11 @@ function saveexam(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to get id of deleting question and open delete popup
+// Updated on - -
+// Input - event
 function deletequestion(event) {
     try {
         question_id = event.target.id;
@@ -271,6 +304,11 @@ function deletequestion(event) {
 
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to delete selected temporary or permanent question and close delete popup
+// Updated on - -
+// Input - event
 function del(event) {
     try {
         if (event.target.id == 'yes') {
@@ -310,7 +348,7 @@ function del(event) {
             }
         }
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
-            element.style.backdropFilter = "blur(7.4px)";
+            element.style.backdropFilter = "blur(1px)";
         });
         Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
             element.style.display = "none";
@@ -321,11 +359,21 @@ function del(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set spinner
+// Updated on - -
+// Input - none
 window.addEventListener("beforeunload", function (event) {
     document.getElementById("spinner").style.display = 'flex';
     document.getElementById("main").style.display = 'none';
 });
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to remove spinner
+// Updated on - -
+// Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
         document.getElementById("spinner").style.display = 'none';

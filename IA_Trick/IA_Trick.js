@@ -3,7 +3,12 @@ const module = urlSearchParams.get('module');
 var question_type;
 var at_question = 0;
 
-async function connectedCallbackTrick(event) {
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set trick for listening or reading module
+// Updated on - -
+// Input - none
+async function connectedCallbackTrick() {
     try {
         let button = document.getElementById("left");
         button.style.background = "Grey";
@@ -17,20 +22,24 @@ async function connectedCallbackTrick(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to change color of button on ending and starting of the page
+// Updated on - -
+// Input - event
 function arrow(event) {
     try {
-        console.log(event.target.id);
 
         let button
 
         // TO CHANGE COLOR OF BUTTONS FROM GREY TO ORIGINAL
         if (at_question == 0 && (event.target.id == 'right-button' || event.target.id == 'right')) {
             button = document.getElementById("left");
-            button.style.background = "linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB)";
+            button.style.background = 'white';
             button.style.pointerEvents = "all";
         } else if (at_question + 1 == question_type.length && (event.target.id == 'left-button' || event.target.id == "left")) {
             button = document.getElementById("right");
-            button.style.background = "linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB)";
+            button.style.background = 'white';
             button.style.pointerEvents = "all";
         }
 
@@ -60,6 +69,11 @@ function arrow(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to change question type on next or previous button click
+// Updated on - -
+// Input - none
 function question_change() {
     try {
         let fact_html = "";

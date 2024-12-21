@@ -6,15 +6,30 @@ var exam;
 let examdata = [];
 var del_exam_id = '';
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize data for list view onload of page
+// Updated on - -
+// Input - none
 function listviewconnectedCallback() {
-    Userlogo();
-    if (savedexam == 'yes') {
-        createToast('success', 'Exam has been saved');
-        window.history.pushState({}, document.title, `/IA_Code/IA_Listview/IA_Listview.html?module=${module}`);
+    try {
+        Userlogo();
+        if (savedexam == 'yes') {
+            createToast('success', 'Exam has been saved');
+            window.history.pushState({}, document.title, `/IA_Code/IA_Listview/IA_Listview.html?module=${module}`);
+        }
+        examData();// need to call once
+    } catch (error) {
+        createToast('error', 'Error while loading : ' + error.message);
     }
-    examData();// need to call once
 
 }
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to open data entry page while clicking on new button
+// Updated on - -
+// Input - event
 function setHref(event) {
     try {
 
@@ -31,6 +46,11 @@ function setHref(event) {
 
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to open selected exam
+// Updated on - -
+// Input - event
 function openexam(event) {
     try {
         let questions = [];
@@ -50,6 +70,11 @@ function openexam(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to get exam data of user while intializing page
+// Updated on - -
+// Input - none
 function examData() {
     try {
         if (localStorage.getItem('user_data') != null) {
@@ -157,6 +182,11 @@ function examData() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to get deleting exam id and open delete popup
+// Updated on - -
+// Input - event
 function deleteexam(event) {
     try {
         del_exam_id = event.target.id;
@@ -171,6 +201,11 @@ function deleteexam(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to delete exam from the DB and close delete popup
+// Updated on - -
+// Input - event
 function del(event) {
     try {
         if (event.target.id == 'yes') {
@@ -227,11 +262,21 @@ function del(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set spinner
+// Updated on - -
+// Input - none
 window.addEventListener("beforeunload", function (event) {
     document.getElementById("spinner").style.display = 'flex';
     document.getElementById("main").style.display = 'none';
 });
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to remove spinner
+// Updated on - -
+// Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
         document.getElementById("spinner").style.display = 'none';
