@@ -1,3 +1,6 @@
+const urlSearchParams = new URLSearchParams(window.location.search);
+let signin = '';
+signin = urlSearchParams.get('signedin');
 var examdata;
 var index = 0;
 var images = [];
