@@ -23,7 +23,7 @@ a {
 
 main {
     height: 100%;
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    background-image: repeating-conic-gradient(from 100deg at 30% 99%, #1778c7 66%, #55ADF5 85%, #55ADF5 0%);
     overflow-y: scroll;
 }
 
@@ -42,11 +42,10 @@ main::-webkit-scrollbar {
 
 /* Glass */
 .glass {
-    background: rgba(255, 255, 255, 0.19);
+    background: rgba(255, 255, 255, 0.19) !important;
     border-radius: 15px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(7.4px);
-    -webkit-backdrop-filter: blur(7.4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(1px);
     border: 1px solid rgba(255, 255, 255, 1);
 }
 
@@ -73,8 +72,7 @@ main::-webkit-scrollbar {
 .header {
     height: 12%;
     width: 100%;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
+    border-radius: 0px 0px 15px 15px !important;
     display: flex;
 }
 
@@ -106,7 +104,7 @@ main::-webkit-scrollbar {
     transition: 300ms;
     border-radius: 5px;
     display: block;
-    background: #106eea;
+    background: white;
 }
 
 .navbartransition:hover::after {
@@ -114,7 +112,7 @@ main::-webkit-scrollbar {
 }
 
 .navbartransition:hover {
-    color: #106eea;
+    color: white;
 }
 
 /* header  */
@@ -138,13 +136,13 @@ main::-webkit-scrollbar {
     background: rgba(255, 255, 255, 0.19);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(7.4px);
-    /* margin-top: 35px; */
     display: flex;
+    border-top: 1px solid white;
 }
 
 .contact-icons {
     width: 50%;
-    gap: 15px;
+    gap: 10px;
     font-size: 25px;
     padding-right: 5%;
     display: flex;
@@ -156,8 +154,7 @@ main::-webkit-scrollbar {
     width: 40px;
     height: 40px;
     border-radius: 49px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
-    color: white;
+    color: black;
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -175,20 +172,21 @@ main::-webkit-scrollbar {
 /* Body */
 
 .button-63 {
-    border: 0;
     width: 100px;
     font-size: 16px;
     height: 35px;
     border-radius: 8px;
     box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
-    color: #FFFFFF;
+    background-color: white;
+    color: black;
     font-family: Phantomsans, sans-serif;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: auto;
+    font-weight: 400;
+    border: 1px solid greenyellow;
 }
 
 .button-64:hover,
@@ -206,10 +204,15 @@ main::-webkit-scrollbar {
     border: 0;
     border-radius: 8px;
     box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
-    color: #FFFFFF;
+    background-color: white;
+    color: black;
     font-family: Phantomsans, sans-serif;
     cursor: pointer;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1px solid greenyellow;
 }
 
 .section-divider {
@@ -278,6 +281,8 @@ main::-webkit-scrollbar {
 
 .button {
     margin-bottom: 10px;
+    background-color: black;
+    color: white;
 }
 
 .front-div {
@@ -300,8 +305,8 @@ main::-webkit-scrollbar {
     width: 50%;
     z-index: 9;
     border-radius: 15px;
-    box-shadow: 0 0 29px 0 rgba(68, 88, 144, 0.12);
-    background-color: white;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.5);
+    background-color: white !important;
     height: fit-content;
 }
 
@@ -370,6 +375,10 @@ th {
 
 .button1 {
     margin: 0;
+    background-color: black;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .save-box {

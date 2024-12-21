@@ -24,13 +24,13 @@ a {
 
 main {
     line-height: 1 !important;
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    background-image: repeating-conic-gradient(from 100deg at 30% 99%, #1778c7 66%, #55ADF5 85%, #55ADF5 0%);
     overflow-x: hidden;
 }
 
 .contact-icons {
     width: 50%;
-    gap: 15px;
+    gap: 10px;
     font-size: 25px;
     padding-right: 5%;
     display: flex;
@@ -42,8 +42,7 @@ main {
     width: 40px;
     height: 40px;
     border-radius: 49px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
-    color: white;
+    color: black;
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -78,12 +77,34 @@ main {
 }
 
 .question-type {
-    height: 10%;
+    height: 8%;
+    font-size: 25px;
+    overflow: scroll;
+    text-overflow: inherit;
+    text-align: center;
+    padding: 10px;
+    overflow-wrap: break-word;
+    white-space: normal;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* height: 10%;
     font-size: 25px;
     overflow: scroll;
     text-overflow: inherit;
     white-space: nowrap;
     text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 300px;
+    border: 1px solid black;
+    padding: 10px;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal; */
 }
 
 .question-type::-webkit-scrollbar {
@@ -110,8 +131,8 @@ main {
     border: 0;
     border-radius: 8px;
     box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
-    color: #FFFFFF;
+    background-color: white;
+    color: black;
     font-family: Phantomsans, sans-serif;
     cursor: pointer;
 }
@@ -147,6 +168,9 @@ h4 {
 
 .ul-class {
     padding-left: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 @media screen and (max-width: 640px) {
@@ -181,6 +205,12 @@ h4 {
     /* header  */
 
     /* Body Section */
+    .question-type {
+        display: block;
+        font-size: 22px;
+        height: 15%;
+    }
+
     .trick {
         flex-direction: column;
         align-items: center;
@@ -206,6 +236,7 @@ h4 {
         backdrop-filter: blur(7.4px);
         margin-top: 35px;
         display: flex;
+        border-top: 1px solid white;
     }
 
     .copyright {
@@ -259,6 +290,7 @@ h4 {
         backdrop-filter: blur(7.4px);
         margin-top: 35px;
         display: flex;
+        border-top: 1px solid white;
     }
 
     .copyright {
@@ -400,7 +432,7 @@ h4 {
     transition: 300ms;
     border-radius: 5px;
     display: block;
-    background: #106eea;
+    background: white;
 }
 
 .navbartransition:hover::after {
@@ -408,7 +440,7 @@ h4 {
 }
 
 .navbartransition:hover {
-    color: #106eea;
+    color: white;
 }
 
 /* header  */

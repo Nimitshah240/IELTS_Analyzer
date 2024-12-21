@@ -12,6 +12,11 @@ var data = [];
 var maindata;
 var dynamicUrl = '../index.html';
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to open authentication/signin page
+// Updated on - -
+// Input - none
 function authentication(event) {
     let domain = new URL(window.location.href).origin;
     domain += '/IA_Code/IA_Authentication/IA_Authentication.html';
@@ -19,6 +24,11 @@ function authentication(event) {
     window.location.href = domain;
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize authentication page on load of page
+// Updated on - -
+// Input - none
 function connectedCallback() {
 
     if (localStorage.getItem('user_data') == 'undefined' || localStorage.getItem('user_data') == null) {
@@ -62,7 +72,12 @@ function connectedCallback() {
     }
 }
 
-function googleSignin(params) {
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to open google authentication page
+// Updated on - -
+// Input - none
+function googleSignin() {
     try {
         let oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
 
@@ -74,7 +89,7 @@ function googleSignin(params) {
             "client_id": "960583894295-h50j910bdioqrmlrargqs6hust6in4ap.apps.googleusercontent.com",
             "redirect_uri": "http://localhost/IA_Code/IA_Authentication/IA_Authentication.html",
             "response_type": "token",
-            "scope": "https://www.googleapis.com/auth/userinfo.profile",
+            "scope": "https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email",
             "include_granted_scope": 'true',
             'state': 'pass-through-value'
         }
@@ -94,6 +109,11 @@ function googleSignin(params) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to verify that user have google signed in or not and also user is available in DB or not
+// Updated on - -
+// Input - none
 function SignedIn() {
     try {
         let access_token = '';
@@ -146,6 +166,11 @@ function SignedIn() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to Signout user
+// Updated on - -
+// Input - event
 function Signout(event) {
     try {
         if (event.target.id == 'yes') {
@@ -170,6 +195,11 @@ function Signout(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to show signout page
+// Updated on - -
+// Input - none
 function showSignout() {
     try {
         document.getElementById('validation-box-signin').style.display = 'none';
@@ -181,6 +211,12 @@ function showSignout() {
         console.error(error);
     }
 }
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to check/get user from the DB
+// Updated on - -
+// Input - user_id
 function fetchUser(user_id) {
     try {
 
@@ -232,7 +268,12 @@ function fetchUser(user_id) {
     }
 }
 
-function continueClick(event) {
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to update db if user update any details or redirect user to home page
+// Updated on - -
+// Input - none
+function continueClick() {
     try {
         let temptype;
         let tempfirstname = document.getElementById("firstname").value;
@@ -280,6 +321,11 @@ function continueClick(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to show user login picture on header of every page 
+// Updated on - -
+// Input - none
 function Userlogo() {
     try {
 

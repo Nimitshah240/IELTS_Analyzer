@@ -1,7 +1,6 @@
 const urlSearchParams = new URLSearchParams(window.location.search);
 const module = urlSearchParams.get('module');
 const teachermode = urlSearchParams.get('teacher');
-// let user_id;
 if (teachermode == 'true') {
     user_id = JSON.parse(localStorage.getItem('student_id'));
 } else {
@@ -33,7 +32,13 @@ let question_total = new Map();
 let responseData = [];
 let bandtotal = new Map();
 let setcolor = [];
+let colorList = ['#ff4a86', '#aeff4a', '#ff90b3', '#ff4a53', '#ffed4a', '#a14aff', '#4aaeff', '#4affc9', '#ff4a4a', '#a172fd', '#4a5cff', '#ef6803', '#722e9a']
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize data of Reading or Listening of user for Dashboard view
+// Updated on - -
+// Input - none
 function dashboardconnectedCallback() {
     try {
 
@@ -122,7 +127,7 @@ function dashboardconnectedCallback() {
                 chart6();
                 chart7();
                 chart8();
-                chart9();
+                // chart9();
             } catch (error) {
                 createToast('error', 'Error while loading chart : ' + error.message)
             }
@@ -132,6 +137,11 @@ function dashboardconnectedCallback() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize chart 1
+// Updated on - -
+// Input - none
 function chart1() {
     try {
         // 1st Chart ------------------------------------------------------
@@ -145,9 +155,19 @@ function chart1() {
             data: {
                 labels: setlabel,
                 datasets: [{
-                    label: 'Count of correct/question type',
+                    label: 'Correct',
                     data: setdata,
                 }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                        labels: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    }
+                }
             }
         });
 
@@ -156,6 +176,11 @@ function chart1() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize count boxes
+// Updated on - -
+// Input - none
 function countbox() {
     try {
         let avg = [];
@@ -170,6 +195,11 @@ function countbox() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to calculate average of band
+// Updated on - -
+// Input - band
 function calculateAverage(numbers) {
     if (numbers.length === 0) {
         return 0;
@@ -180,6 +210,11 @@ function calculateAverage(numbers) {
     return roundToNearestHalf(average);
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize chart 3
+// Updated on - -
+// Input - none
 function chart3() {
     try {
         // 3rd Chart ------------------------------------------------------
@@ -193,9 +228,19 @@ function chart3() {
             data: {
                 labels: setlabel,
                 datasets: [{
-                    label: 'Count of correct/question type',
+                    label: 'Incorrect',
                     data: setdata,
                 }]
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false,
+                        labels: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    }
+                }
             }
         });
 
@@ -204,6 +249,11 @@ function chart3() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize chart 4
+// Updated on - -
+// Input - none
 function chart4() {
     try {
         // 4th Chart ----------------------------------------------------
@@ -214,27 +264,46 @@ function chart4() {
         for (let key of question_correct.keys()) {
             setlabel.push(key);
             setdata.push(question_correct.get(key));
-            setcolor.push(generateRandomHSLColor());
         }
 
-        const ctx = document.getElementById('chart4');
+        const ctx = document.getElementById('chart4').getContext('2d');
+        var purple_orange_gradient = ctx.createLinearGradient(0, 0, 0, 600);
+        purple_orange_gradient.addColorStop(0, '#008000');
+        purple_orange_gradient.addColorStop(0.5, '#ccff33');
+
         new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: setlabel,
                 datasets: [{
-                    label: 'Count of correct/question type',
+                    label: 'Correct',
                     data: setdata,
-                    borderWidth: 1,
-                    borderColor: 'white',
-                    fill: 'black',
-                    backgroundColor: setcolor,
+                    backgroundColor: purple_orange_gradient,
+                    hoverBackgroundColor: purple_orange_gradient,
+                    hoverBorderWidth: 2,
+                    hoverBorderColor: 'black'
                 }]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: 'rgba(255,255,255,1)'
+                        }
                     }
                 }
             }
@@ -244,6 +313,11 @@ function chart4() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize chart 5
+// Updated on - -
+// Input - none
 function chart5() {
     try {
         // 5th Chart ---------------------------------------------- 
@@ -255,19 +329,53 @@ function chart5() {
             setlabel.push(exammap.get(key).exam_name);
             setdata.push(exammap.get(key).score);
         }
-        const ctx = document.getElementById('chart5');
+        const ctx = document.getElementById('chart5').getContext('2d');
+        const gradientColor = ctx.createLinearGradient(0, 0, 0, 350);
+        gradientColor.addColorStop(0, '#5aedc9')
+        gradientColor.addColorStop(1, 'rgba(255, 255, 255, 0)')
 
         new Chart(ctx, {
             type: 'line',
             data: {
                 labels: setlabel,
-                datasets: [{
-                    label: 'My First Dataset',
-                    data: setdata,
-                    fill: false,
-                    borderColor: 'white',
-                    tension: 0.1
-                }]
+                datasets: [
+                    {
+                        label: '',
+                        data: setdata,
+                        fill: true,
+                        borderColor: 'rgb(44, 217, 255)',
+                        tension: 0.3,
+                        borderWidth: 2,
+                        fill: {
+                            target: 'origin',
+                            above: gradientColor,
+                            below: gradientColor
+                        },
+                    }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    },
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgb(255,255,255)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    }
+                }
             }
         });
 
@@ -276,6 +384,11 @@ function chart5() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize chart 6
+// Updated on - -
+// Input - none
 function chart6() {
     try {
 
@@ -289,23 +402,45 @@ function chart6() {
             setdata.push(question_incorrect.get(key));
         }
 
-        const ctx = document.getElementById('chart6');
+        const ctx = document.getElementById('chart6').getContext('2d');
+        var purple_orange_gradient = ctx.createLinearGradient(0, 0, 0, 600);
+        purple_orange_gradient.addColorStop(0, '#f63e02');
+        purple_orange_gradient.addColorStop(0.8, '#ffea00');
 
         new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: setlabel,
                 datasets: [{
-                    label: 'Count of incorrect/question type',
+                    label: 'Incorrect',
                     data: setdata,
-                    borderWidth: 1,
-                    backgroundColor: setcolor
+                    backgroundColor: purple_orange_gradient,
+                    hoverBackgroundColor: purple_orange_gradient,
+                    hoverBorderWidth: 2,
+                    hoverBorderColor: 'purple'
                 }]
             },
             options: {
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    },
+                    x: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: 'rgba(255,255,255,1)'
+                        }
                     }
                 }
             }
@@ -316,6 +451,11 @@ function chart6() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize chart 7
+// Updated on - -
+// Input - none
 function chart7() {
     // 7th chart -----------------------------------------------
     try {
@@ -356,18 +496,20 @@ function chart7() {
                 }
             }
         });
-
+        const ctx = document.getElementById('chart7');
         let dataset = [];
-        question_type.forEach(element => {
+        question_type.forEach((element, index) => {
             dataset.push({
                 'label': element,
                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
                 quest_score2.get(element) == undefined ? 0 : quest_score2.get(element),
                 quest_score3.get(element) == undefined ? 0 : quest_score3.get(element),
-                quest_score4.get(element) == undefined ? 0 : quest_score4.get(element)]
+                quest_score4.get(element) == undefined ? 0 : quest_score4.get(element)],
+                'backgroundColor': colorList.at(index),
+                'borderWidth': 2,
+                'borderColor': 'white'
             })
         });
-        const ctx = document.getElementById('chart7');
         new Chart(ctx, {
             type: 'bar',
             data: {
@@ -378,10 +520,24 @@ function chart7() {
                 indexAxis: 'y',
                 scales: {
                     x: {
-                        stacked: true
+                        stacked: true,
+                        ticks: {
+                            color: 'rgba(255,255,255,1)'
+                        }
                     },
                     y: {
-                        stacked: true
+                        stacked: true,
+                        ticks: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: 'rgba(255,255,255,1)'
+                        }
                     }
                 }
             }
@@ -392,6 +548,11 @@ function chart7() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize chart 8
+// Updated on - -
+// Input - none
 function chart8() {
     try {
         // 8th Chart -----------------------------------------------
@@ -433,13 +594,16 @@ function chart8() {
         });
 
         let dataset = [];
-        question_type.forEach(element => {
+        question_type.forEach((element, index) => {
             dataset.push({
                 'label': element,
                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
                 quest_score2.get(element) == undefined ? 0 : quest_score2.get(element),
                 quest_score3.get(element) == undefined ? 0 : quest_score3.get(element),
-                quest_score4.get(element) == undefined ? 0 : quest_score4.get(element)]
+                quest_score4.get(element) == undefined ? 0 : quest_score4.get(element)],
+                'backgroundColor': colorList.at(index),
+                'borderWidth': 2,
+                'borderColor': 'white'
             })
         });
         const ctx = document.getElementById('chart8');
@@ -453,10 +617,24 @@ function chart8() {
                 indexAxis: 'y',
                 scales: {
                     x: {
-                        stacked: true
+                        stacked: true,
+                        ticks: {
+                            color: 'rgba(255,255,255,1)'
+                        }
                     },
                     y: {
-                        stacked: true
+                        stacked: true,
+                        ticks: {
+                            color: 'rgba(255,255,255,1)'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: true,
+                        labels: {
+                            color: 'rgba(255,255,255,1)'
+                        }
                     }
                 }
             }
@@ -467,82 +645,104 @@ function chart8() {
     }
 }
 
-function chart9() {
-    try {
-        // 9th Chart --------------------------------------------
-        let quest_score1 = new Map();
-        let quest_score2 = new Map();
-        let quest_score3 = new Map();
-        let quest_score4 = new Map();
-        let question_type = [];
+// function chart9() {
+//     try {
+//         // 9th Chart --------------------------------------------
+//         let quest_score1 = new Map();
+//         let quest_score2 = new Map();
+//         let quest_score3 = new Map();
+//         let quest_score4 = new Map();
+//         let question_type = [];
 
-        responseData.forEach(element => {
-            if (!question_type.includes(element.question_type) && element.miss != '') {
-                question_type.push(element.question_type);
-            }
-            if (element.section == 1) {
-                if (quest_score1.has(element.question_type)) {
-                    quest_score1.set(element.question_type, quest_score1.get(element.question_type) + element.miss);
-                } else {
-                    quest_score1.set(element.question_type, element.miss);
-                }
-            } else if (element.section == 2) {
-                if (quest_score2.has(element.question_type)) {
-                    quest_score2.set(element.question_type, quest_score2.get(element.question_type) + element.miss);
-                } else {
-                    quest_score2.set(element.question_type, element.miss);
-                }
-            } else if (element.section == 3) {
-                if (quest_score3.has(element.question_type)) {
-                    quest_score3.set(element.question_type, quest_score3.get(element.question_type) + element.miss);
-                } else {
-                    quest_score3.set(element.question_type, element.miss);
-                }
-            } else if (element.section == 4) {
-                if (quest_score4.has(element.question_type)) {
-                    quest_score4.set(element.question_type, quest_score4.get(element.question_type) + element.miss);
-                } else {
-                    quest_score4.set(element.question_type, element.miss);
-                }
-            }
-        });
+//         responseData.forEach(element => {
+//             if (!question_type.includes(element.question_type) && element.miss != '') {
+//                 question_type.push(element.question_type);
+//             }
+//             if (element.section == 1) {
+//                 if (quest_score1.has(element.question_type)) {
+//                     quest_score1.set(element.question_type, quest_score1.get(element.question_type) + element.miss);
+//                 } else {
+//                     quest_score1.set(element.question_type, element.miss);
+//                 }
+//             } else if (element.section == 2) {
+//                 if (quest_score2.has(element.question_type)) {
+//                     quest_score2.set(element.question_type, quest_score2.get(element.question_type) + element.miss);
+//                 } else {
+//                     quest_score2.set(element.question_type, element.miss);
+//                 }
+//             } else if (element.section == 3) {
+//                 if (quest_score3.has(element.question_type)) {
+//                     quest_score3.set(element.question_type, quest_score3.get(element.question_type) + element.miss);
+//                 } else {
+//                     quest_score3.set(element.question_type, element.miss);
+//                 }
+//             } else if (element.section == 4) {
+//                 if (quest_score4.has(element.question_type)) {
+//                     quest_score4.set(element.question_type, quest_score4.get(element.question_type) + element.miss);
+//                 } else {
+//                     quest_score4.set(element.question_type, element.miss);
+//                 }
+//             }
+//         });
 
-        let dataset = [];
-        question_type.forEach(element => {
-            dataset.push({
-                'label': element,
-                'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
-                quest_score2.get(element) == undefined ? 0 : quest_score2.get(element),
-                quest_score3.get(element) == undefined ? 0 : quest_score3.get(element),
-                quest_score4.get(element) == undefined ? 0 : quest_score4.get(element)]
-            })
-        });
-        const ctx = document.getElementById('chart9');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Section 1', 'Section 2', 'Section 3', 'Section 4'],
-                datasets: dataset
-            },
-            options: {
-                indexAxis: 'y',
-                scales: {
-                    x: {
-                        stacked: true
-                    },
-                    y: {
-                        stacked: true
-                    }
-                }
-            }
-        });
+//         let dataset = [];
+//         question_type.forEach((element, index) => {
+//             dataset.push({
+//                 'label': element,
+//                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
+//                 quest_score2.get(element) == undefined ? 0 : quest_score2.get(element),
+//                 quest_score3.get(element) == undefined ? 0 : quest_score3.get(element),
+//                 quest_score4.get(element) == undefined ? 0 : quest_score4.get(element)],
+//                 'backgroundColor': colorList.at(index),
+//                 'borderWidth': 2,
+//                 'borderColor': 'white'
+//             })
+//         });
+//         const ctx = document.getElementById('chart9');
+//         new Chart(ctx, {
+//             type: 'bar',
+//             data: {
+//                 labels: ['Section 1', 'Section 2', 'Section 3', 'Section 4'],
+//                 datasets: dataset
+//             },
+//             options: {
+//                 indexAxis: 'y',
+//                 scales: {
+//                     x: {
+//                         stacked: true,
+//                         ticks: {
+//                             color: 'rgba(255,255,255,1)'
+//                         }
+//                     },
+//                     y: {
+//                         stacked: true,
+//                         ticks: {
+//                             color: 'rgba(255,255,255,1)'
+//                         }
+//                     }
+//                 },
+//                 plugins: {
+//                     legend: {
+//                         display: true,
+//                         labels: {
+//                             color: 'rgba(255,255,255,1)'
+//                         }
+//                     }
+//                 }
+//             }
+//         });
 
-    } catch (error) {
-        createToast('error', 'Error while loading chart 9 : ' + error.message)
-    }
-}
+//     } catch (error) {
+//         createToast('error', 'Error while loading chart 9 : ' + error.message)
+//     }
+// }
 
-function tipopen(event) {
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to open summary/tip box and also set values
+// Updated on - -
+// Input - none
+function tipopen() {
     try {
 
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
@@ -654,10 +854,15 @@ function tipopen(event) {
     }
 }
 
-function tipclose(event) {
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to close tip/summary box
+// Updated on - -
+// Input - none
+function tipclose() {
     try {
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
-            element.style.backdropFilter = "blur(7.4px)";
+            element.style.backdropFilter = "blur(1px)";
         });
         var tip_popup = document.getElementById('tip-popup');
         tip_popup.style.display = "none"
@@ -666,55 +871,24 @@ function tipclose(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set spinner
+// Updated on - -
+// Input - none
 window.addEventListener("beforeunload", function (event) {
     document.getElementById("spinner").style.display = 'flex';
     document.getElementById("main").style.display = 'none';
 });
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to remove spinner
+// Updated on - -
+// Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
         document.getElementById("spinner").style.display = 'none';
         document.getElementById("main").style.display = 'block';
     }
 });
-
-let hues = [];
-function generateRandomHSLColor() {
-    try {
-        const hue = huemethod();
-        const hslColor = `hsl(${hue}, 83%,54%)`;
-
-        if (!setcolor.includes(hslColor)) {
-            return hslColor;
-        } else {
-            generateRandomHSLColor();
-        }
-    } catch (error) {
-        createToast('error', 'Number problem');
-    }
-}
-
-function huemethod() {
-    try {
-        let number = Math.random() * 360;
-        var check = false;
-
-        for (let index = number - 20; index < number + 20; index++) {
-            if (hues.includes(index)) {
-                check = true;
-                break;
-            } else {
-
-                check = false;
-            }
-        }
-        if (!check) {
-            hues.push(number);
-            return Math.random() * 360;
-        } else {
-            huemethod()
-        }
-    } catch (error) {
-        createToast('error', 'Number problem');
-    }
-}

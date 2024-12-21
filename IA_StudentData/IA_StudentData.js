@@ -1,3 +1,9 @@
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize central student data page
+// Updated on - -
+// Input - none
 function connectedCallback() {
     try {
         if (sessionStorage.getItem('Check')) {
@@ -12,6 +18,12 @@ function connectedCallback() {
 
 }
 
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to check user is valid or not and also get data of students
+// Updated on - -
+// Input - none
 function checkuser() {
     try {
         var username = document.getElementById('username').value;
@@ -45,6 +57,12 @@ function checkuser() {
     }
 }
 
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set list view of student data
+// Updated on - -
+// Input - responsedata
 function setdata(responsedata) {
     try {
         let htmldata = ''
@@ -72,6 +90,12 @@ function setdata(responsedata) {
     }
 }
 
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to open dashboard of selected student
+// Updated on - -
+// Input - event
 function opendashboard(event) {
     try {
         let module = event.target.name;

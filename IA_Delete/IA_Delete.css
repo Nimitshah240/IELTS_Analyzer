@@ -11,6 +11,7 @@
 .delete-box {
     width: 30%;
     height: 40%;
+    background-color: white !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -47,11 +48,9 @@
 }
 
 .glass {
-    background: rgba(255, 255, 255, 0.19);
+    background: rgba(255, 255, 255, 1);
     border-radius: 15px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(7.4px);
-    -webkit-backdrop-filter: blur(7.4px);
     border: 1px solid rgba(255, 255, 255, 1);
 }
 
@@ -61,14 +60,14 @@
     border: 0;
     border-radius: 8px;
     box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
+    background-color: black;
     color: #FFFFFF;
     font-family: Phantomsans, sans-serif;
     cursor: pointer;
     width: 100px;
     height: 40px;
-    font-size: 20px;
-
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .button-63-delete:hover {

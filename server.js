@@ -30,7 +30,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -76,7 +76,7 @@ app.get('/api/examdata', (req, res) => {
         module.push('\'' + req.query.module + '\'');
     }
 
-    let query = `SELECT exam.*, question.* FROM exam LEFT JOIN question ON question.exam_id = exam.id WHERE exam.user_id = ${user_id} AND module IN (${module.join(', ')})`;
+    let query = `SELECT exam.*, question.* FROM exam LEFT JOIN question ON question.exam_id = exam.id WHERE exam.user_id = ${user_id} AND module IN (${module.join(', ')}) ORDER BY exam.date ASC`;
 
     connection.execute(query, (error, results, fields) => {
         if (error) {
