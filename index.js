@@ -86,11 +86,13 @@ async function fetchExamData() {
             .then(response => response.json())
             .then(responseData => {
                 responseData.forEach(element => {
+                    console.log('listening', element);
+                    
                     exammap.set(element.exam_id, { 'band': element.band, 'module': element.module });
                     if (element.module == 'Reading' && element.id != null) {
-                        reading_question_count++;
+                        reading_question_count+= element.total;
                     } else if (element.module == 'Listening' && element.id != null) {
-                        listening_question_count++;
+                        listening_question_count+= element.total;
                     }
                 });
 

@@ -33,6 +33,7 @@ let responseData = [];
 let bandtotal = new Map();
 let setcolor = [];
 let colorList = ['#ff4a86', '#aeff4a', '#ff90b3', '#ff4a53', '#ffed4a', '#a14aff', '#4aaeff', '#4affc9', '#ff4a4a', '#a172fd', '#4a5cff', '#ef6803', '#722e9a']
+let totalquestion = 0;
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -65,6 +66,7 @@ function dashboardconnectedCallback() {
                 responseData = responsedata;
                 responseData.forEach(element => {
                     // FOR CHART 2 and 5
+                    totalquestion += element.total;
                     if (exammap.has(element.exam_id)) {
                         exammap.set(element.exam_id, { 'exam_name': element.exam_name, 'date': element.date, 'score': exammap.get(element.exam_id).score + element.correct });
                     } else {
@@ -188,7 +190,7 @@ function countbox() {
             avg.push(element);
         });
         document.getElementById('examcount').innerHTML = exammap.size
-        document.getElementById('totalquestion').innerHTML = responseData.length
+        document.getElementById('totalquestion').innerHTML = totalquestion
         document.getElementById('avg-band').innerHTML = calculateAverage(avg);
     } catch (error) {
         console.log(error);
