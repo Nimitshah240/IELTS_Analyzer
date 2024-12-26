@@ -297,6 +297,9 @@ function deletequestion(event) {
         Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
             element.style.display = "block";
         });
+        Array.from(document.getElementsByClassName('info-container')).forEach(element => {
+            element.style.position = "static";
+        });
 
     } catch (error) {
         createToast('error', 'Error while deleting data : ' + error.message);
@@ -352,6 +355,9 @@ function del(event) {
         });
         Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
             element.style.display = "none";
+        });
+        Array.from(document.getElementsByClassName('info-container')).forEach(element => {
+            element.style.position = "relative";
         });
 
     } catch (error) {
