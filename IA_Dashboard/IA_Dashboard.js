@@ -32,7 +32,7 @@ let question_total = new Map();
 let responseData = [];
 let bandtotal = new Map();
 let setcolor = [];
-let colorList = ['#ff4a86', '#aeff4a', '#ff90b3', '#ff4a53', '#ffed4a', '#a14aff', '#4aaeff', '#4affc9', '#ff4a4a', '#a172fd', '#4a5cff', '#ef6803', '#722e9a']
+let colorList = ['#ff4a86', '#aeff4a', '#ff4a53', '#ffed4a', '#a14aff', '#ff90b3', '#4aaeff', '#4affc9', '#ff4a4a', '#a172fd', '#4a5cff', '#ef6803', '#722e9a']
 let totalquestion = 0;
 
 // Developer - Nimit Shah
@@ -280,6 +280,8 @@ function chart4() {
                 datasets: [{
                     label: 'Correct',
                     data: setdata,
+                    borderColor: 'white',
+                    borderWidth: 2,
                     backgroundColor: purple_orange_gradient,
                     hoverBackgroundColor: purple_orange_gradient,
                     hoverBorderWidth: 2,
@@ -416,10 +418,12 @@ function chart6() {
                 datasets: [{
                     label: 'Incorrect',
                     data: setdata,
+                    borderColor: 'white',
+                    borderWidth: 2,
                     backgroundColor: purple_orange_gradient,
                     hoverBackgroundColor: purple_orange_gradient,
                     hoverBorderWidth: 2,
-                    hoverBorderColor: 'purple'
+                    hoverBorderColor: 'black'
                 }]
             },
             options: {

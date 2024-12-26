@@ -396,8 +396,37 @@ th {
 
 /* Body */
 
+.info-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    font-size: large;
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: -100;
+    width: 300px;
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    z-index: 100;
+}
+
+.info-container:active .tooltip-text {
+    display: block;
+}
 
 @media screen and (max-width: 640px) {
+
+    .tooltip-text {
+        right: -90;
+        top: -50;
+    }
 
     /* header  */
 
@@ -493,6 +522,11 @@ th {
 
 @media screen and (min-width: 768px) {
 
+    .tooltip-text {
+        right: -90;
+        top: -50;
+    }
+
     .save-box {
         padding: 55px;
     }
@@ -532,6 +566,11 @@ th {
 }
 
 @media screen and (min-width: 1024px) {
+
+    .tooltip-text {
+        right: -100;
+        top: 30;
+    }
 
     .save-box {
         padding: 55px;

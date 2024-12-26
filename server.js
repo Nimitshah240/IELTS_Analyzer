@@ -52,7 +52,7 @@ app.get('/api/checkUser', (req, res) => {
 
 app.post('/api/updateUserData', (req, res) => {
     const receivedData = req.body;
-    if (receivedData.new) {
+    if (receivedData.new == true) {
         query = ` INSERT INTO user(id, name, lastname, number, type, privacy,email,location, fl_date, picture) VALUES ('${receivedData.user_id}','${receivedData.firstname}','${receivedData.lastname}','${receivedData.number}','${receivedData.type}','${receivedData.privacy}','${receivedData.email}','${receivedData.location}','${receivedData.fl_date}','${receivedData.picture}')`;
     } else {
         query = `UPDATE user SET name = '${receivedData.firstname}', lastname = '${receivedData.lastname}', number = '${receivedData.number}', type = '${receivedData.type}', privacy = '${receivedData.privacy}', email = '${receivedData.email}', location = '${receivedData.location}', fl_date = '${receivedData.fl_date}', picture = '${receivedData.picture}' WHERE id = ${receivedData.user_id}`;
