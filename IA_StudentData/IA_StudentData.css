@@ -23,8 +23,7 @@ a {
 }
 
 main {
-    /* background: linear-gradient(to right top, #65dfc9, #6cdbeb); */
-    background-image: repeating-conic-gradient(from 100deg at 30% 100%, #1778c7 66%, #55ADF5 85%, #55ADF5 0%);
+    background-color: #2BAACD;
     overflow-x: hidden;
 }
 
@@ -81,7 +80,6 @@ body {
     border: 0;
     border-radius: 8px;
     box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
     color: black;
     font-family: Phantomsans, sans-serif;
     cursor: pointer;
@@ -205,9 +203,14 @@ body {
 }
 
 .button {
-    height: 70%;
-    width: 20%;
-    font-size: 18px;
+    width: 135px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    cursor: pointer;
+    border: 1px solid greenyellow;
+    background-color: white;
 }
 
 /* List view */
@@ -286,7 +289,7 @@ body {
     width: 50%;
     height: 50%;
     color: white;
-    background-color: black;
+    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
 }
 
 /* List view */
@@ -367,6 +370,11 @@ body {
         font-size: 14px;
     }
 
+    .dashboard-button {
+        width: 75%;
+        font-size: 10px;
+    }
+
     /* List view */
 
     .validation-box {
@@ -421,6 +429,11 @@ body {
     .footer {
         margin-top: 2%;
     }
+
+    .dashboard-button {
+        width: 85%;
+        font-size: 15px;
+    }
 }
 
 @media screen and (min-width: 1024px) {
@@ -438,8 +451,8 @@ body {
         font-size: 18px;
         font-weight: bold;
     }
-}
 
-@media screen and (min-width: 1280px) {
-    /* For 1280px */
+    .dashboard-button {
+        width: 60%;
+    }
 }

@@ -1,10 +1,9 @@
 body {
     gap: 40px;
-    background-image: repeating-conic-gradient(from 35deg at 80% 70%, #1778c7 10%, #55ADF5 80%, #1778c7 0%);
     display: flex;
     align-items: center;
     flex-direction: column;
-    background-image: repeating-conic-gradient(from 100deg at 30% 50%, #1778c7 66%, #55ADF5 85%, #1778c7 60%);
+    background-color: #2BAACD;
 }
 
 a {
@@ -91,6 +90,10 @@ a {
     width: 90%;
     height: 520px;
     display: flex;
+}
+
+.hero-section {
+    height: 600px;
 }
 
 /* Hero section */
@@ -463,7 +466,7 @@ a {
 
     body {
         gap: 20px;
-        background-image: repeating-conic-gradient(from 100deg at 30% 27%, #2b87d2 85%, #55ADF5 105%, #55ADF5 60%);
+        background-color: #2BAACD;
     }
 
     .body {
@@ -586,10 +589,6 @@ a {
 
 @media screen and (min-width: 768px) {
 
-    body {
-        background-image: repeating-conic-gradient(from 100deg at 30% 39%, #1778c7 66%, #55ADF5 85%, #55ADF5 60%);
-    }
-
     .hero-main .title {
         font-size: 28px;
     }
@@ -646,7 +645,7 @@ a {
 @media (min-width: 1280px) {
 
     body {
-        background-image: repeating-conic-gradient(from 100deg at 30% 50%, #1778c7 66%, #55ADF5 85%, #55ADF5 0%);
+        background-color: #2BAACD;
     }
 
     .card {

@@ -7,8 +7,7 @@ body {
 .spinners {
     width: 100%;
     height: 100%;
-    /* background: linear-gradient(to right top, #65dfc9, #/6cdbeb); */
-    background: #1778c7;
+    background-color: #2BAACD;
     position: fixed;
     display: flex;
     justify-content: center;

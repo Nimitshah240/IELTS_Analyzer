@@ -34,9 +34,11 @@ let bandtotal = new Map();
 let setcolor = [];
 let colorList = ['#ff4a86', '#aeff4a', '#ff4a53', '#ffed4a', '#a14aff', '#ff90b3', '#4aaeff', '#4affc9', '#ff4a4a', '#a172fd', '#4a5cff', '#ef6803', '#722e9a']
 let totalquestion = 0;
-let fontStyle = '25px sans-serif';
 let textAroundposition = 0 + 155;
-
+if (screen.width >= 768 && screen.width < 1024) {
+    textAroundposition = 0 + 120;
+    console.log(textAroundposition);
+}
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to initialize data of Reading or Listening of user for Dashboard view
@@ -45,135 +47,171 @@ let textAroundposition = 0 + 155;
 function dashboardconnectedCallback() {
     try {
 
-        if (screen.width >= 768 && screen.width < 1024) {
-            textAroundposition = 0 + 105;
-            fontStyle = '20px sans-serif'
-        }
         Userlogo();
-        if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
-            fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
-                .then(response => response.json())
-                .then(responsedata => {
 
-                    if (responsedata.length > 0) {
-                        Array.from(document.getElementsByClassName('charts')).forEach(element => {
-                            element.style.display = "flex";
-                        });
-                        Array.from(document.getElementsByClassName('no_graph')).forEach(element => {
-                            element.style.display = "none";
-                        });
+        // Changes herer -------
+        Array.from(document.getElementsByClassName('charts')).forEach(element => {
+            element.style.display = "flex";
+        });
+        Array.from(document.getElementsByClassName('no_graph')).forEach(element => {
+            element.style.display = "none";
+        });
 
-                        Array.from(document.getElementsByClassName('body_section')).forEach(element => {
-                            element.style.height = "fit-content"
-                        });
-                    } else {
-                        createToast('error', 'No data found');
-                    }
+        Array.from(document.getElementsByClassName('body_section')).forEach(element => {
+            element.style.height = "fit-content"
+        });
 
-                    responseData = responsedata;
-                    responseData.forEach(element => {
-                        // FOR CHART 2 and 5
-                        totalquestion += element.total;
-                        if (exammap.has(element.exam_id)) {
-                            exammap.set(element.exam_id, { 'exam_name': element.exam_name, 'date': element.date, 'score': exammap.get(element.exam_id).score + element.correct });
-                        } else {
-                            bandtotal.set(element.exam_id, element.band)
-                            exammap.set(element.exam_id, { 'exam_name': element.exam_name, 'date': element.date, 'score': element.correct });
-                        }
+        const exammap = new Map();
+        const sectionscorrect = new Map();
+        sectionscorrect.set('section1', 0);
+        sectionscorrect.set('section2', 0);
+        sectionscorrect.set('section3', 0);
+        sectionscorrect.set('section4', 0);
 
-                        // FOR CHART 1 and 3
-                        if (element.section == 1) {
-                            sectionscorrect.set('section1', sectionscorrect.get('section1') + element.correct);
-                            sectionsincorrect.set('section1', sectionsincorrect.get('section1') + element.incorrect);
-                            sectiontotal.set('section1', sectiontotal.get('section1') + element.total);
-                        } else if (element.section == 2) {
-                            sectionscorrect.set('section2', sectionscorrect.get('section2') + element.correct);
-                            sectionsincorrect.set('section2', sectionsincorrect.get('section2') + element.incorrect);
-                            sectiontotal.set('section2', sectiontotal.get('section2') + element.total);
-                        } else if (element.section == 3) {
-                            sectionscorrect.set('section3', sectionscorrect.get('section3') + element.correct);
-                            sectionsincorrect.set('section3', sectionsincorrect.get('section3') + element.incorrect);
-                            sectiontotal.set('section3', sectiontotal.get('section3') + element.total);
-                        } else if (element.section == 4) {
-                            sectionscorrect.set('section4', sectionscorrect.get('section4') + element.correct);
-                            sectionsincorrect.set('section4', sectionsincorrect.get('section4') + element.incorrect);
-                            sectiontotal.set('section4', sectiontotal.get('section4') + element.total);
-                        }
+        const sectionsincorrect = new Map();
+        sectionsincorrect.set('section1', 0);
+        sectionsincorrect.set('section2', 0);
+        sectionsincorrect.set('section3', 0);
+        sectionsincorrect.set('section4', 0);
 
-                        //  FOR CHART 4 || Question wise correct map
-                        if (question_correct.has(element.question_type)) {
-                            question_correct.set(element.question_type, question_correct.get(element.question_type) + element.correct)
-                        } else {
-                            question_correct.set(element.question_type, element.correct);
-                        }
+        const sectiontotal = new Map();
+        sectiontotal.set('section1', 0);
+        sectiontotal.set('section2', 0);
+        sectiontotal.set('section3', 0);
+        sectiontotal.set('section4', 0);
 
-                        // FOR CHART 6 || Question wise incorrect map
-                        if (question_incorrect.has(element.question_type)) {
-                            question_incorrect.set(element.question_type, question_incorrect.get(element.question_type) + element.incorrect)
-                        } else {
-                            question_incorrect.set(element.question_type, element.incorrect);
-                        }
-
-                        // FOR TIP || Question wise total map
-                        if (question_total.has(element.question_type)) {
-                            question_total.set(element.question_type, question_total.get(element.question_type) + element.total)
-                        } else {
-                            question_total.set(element.question_type, element.total);
-                        }
-                    });
-
-                    drawChart();
-                }).catch(error => createToast('error', error));
+        let question_correct = new Map();
+        let question_incorrect = new Map();
+        let question_total = new Map();
+        let responseData = [];
+        let bandtotal = new Map();
+        let setcolor = [];
+        let colorList = ['#ff4a86', '#aeff4a', '#ff4a53', '#ffed4a', '#a14aff', '#ff90b3', '#4aaeff', '#4affc9', '#ff4a4a', '#a172fd', '#4a5cff', '#ef6803', '#722e9a']
+        let totalquestion = 0;
+        responseData = [
+            { id: 56, user_id: '112727238629250521382', exam_name: 'Reading 1', exam_id: 43, date: '2024-11-17T18:30:00.000Z', module: 'Reading', question_type: 'MCQ', section: 2, total: 4, miss: 0, incorrect: 0, correct: 4 },
+            { id: 57, user_id: '112727238629250521382', exam_name: 'Reading 2', exam_id: 44, date: '2024-11-18T18:30:00.000Z', module: 'Reading', question_type: 'Yes/No/Not Given', section: 1, total: 5, miss: 0, incorrect: 0, correct: 5 },
+            { id: 59, user_id: '112727238629250521382', exam_name: 'Reading 2', exam_id: 44, date: '2024-11-18T18:30:00.000Z', module: 'Reading', question_type: 'Summary Completion', section: 2, total: 14, miss: 0, incorrect: 10, correct: 4 },
+            { id: 58, user_id: '112727238629250521382', exam_name: 'Reading 2', exam_id: 44, date: '2024-11-18T18:30:00.000Z', module: 'Reading', question_type: 'Yes/No/Not Given', section: 1, total: 4, miss: 0, incorrect: 4, correct: 0 },
+            { id: 63, user_id: '112727238629250521382', exam_name: 'Reading 3', exam_id: 45, date: '2024-12-26T18:30:00.000Z', module: 'Reading', question_type: 'Note Completion', section: 3, total: 10, miss: 0, incorrect: 4, correct: 6 },
+            { id: 60, user_id: '112727238629250521382', exam_name: 'Reading 3', exam_id: 45, date: '2024-12-26T18:30:00.000Z', module: 'Reading', question_type: 'Matching Feature', section: 1, total: 5, miss: 0, incorrect: 4, correct: 1 },
+            { id: 65, user_id: '112727238629250521382', exam_name: 'Reading 3', exam_id: 45, date: '2024-12-26T18:30:00.000Z', module: 'Reading', question_type: 'Flow Chart', section: 1, total: 9, miss: 0, incorrect: 5, correct: 4 },
+            { id: 62, user_id: '112727238629250521382', exam_name: 'Reading 3', exam_id: 45, date: '2024-12-26T18:30:00.000Z', module: 'Reading', question_type: 'Table Completion', section: 3, total: 5, miss: 0, incorrect: 3, correct: 2 },
+            { id: 64, user_id: '112727238629250521382', exam_name: 'Reading 3', exam_id: 45, date: '2024-12-26T18:30:00.000Z', module: 'Reading', question_type: 'Match Paragraph', section: 2, total: 8, miss: 0, incorrect: 3, correct: 5 },
+            { id: 61, user_id: '112727238629250521382', exam_name: 'Reading 3', exam_id: 45, date: '2024-12-26T18:30:00.000Z', module: 'Reading', question_type: 'Matching Heading', section: 2, total: 9, miss: 0, incorrect: 6, correct: 3, }
+        ]
 
 
-            function drawChart() {
-                try {
-                    countbox();
-                    chart1();
-                    chart3();
-                    chart5();
-                    chart4();
-                    chart6();
-                    chart7();
-                    chart8();
-                    // chart9();
-                } catch (error) {
-                    createToast('error', 'Error while loading chart : ' + error.message)
-                }
+        responseData.forEach(element => {
+            // FOR CHART 2 and 5
+            totalquestion += element.total;
+            if (exammap.has(element.exam_id)) {
+                exammap.set(element.exam_id, { 'exam_name': element.exam_name, 'date': element.date, 'score': exammap.get(element.exam_id).score + element.correct });
+            } else {
+                bandtotal.set(element.exam_id, element.band)
+                exammap.set(element.exam_id, { 'exam_name': element.exam_name, 'date': element.date, 'score': element.correct });
             }
-        } else {
-            createToast('error', 'Please Login First')
+
+            // FOR CHART 1 and 3
+            if (element.section == 1) {
+                sectionscorrect.set('section1', sectionscorrect.get('section1') + element.correct);
+                sectionsincorrect.set('section1', sectionsincorrect.get('section1') + element.incorrect);
+                sectiontotal.set('section1', sectiontotal.get('section1') + element.total);
+            } else if (element.section == 2) {
+                sectionscorrect.set('section2', sectionscorrect.get('section2') + element.correct);
+                sectionsincorrect.set('section2', sectionsincorrect.get('section2') + element.incorrect);
+                sectiontotal.set('section2', sectiontotal.get('section2') + element.total);
+            } else if (element.section == 3) {
+                sectionscorrect.set('section3', sectionscorrect.get('section3') + element.correct);
+                sectionsincorrect.set('section3', sectionsincorrect.get('section3') + element.incorrect);
+                sectiontotal.set('section3', sectiontotal.get('section3') + element.total);
+            } else if (element.section == 4) {
+                sectionscorrect.set('section4', sectionscorrect.get('section4') + element.correct);
+                sectionsincorrect.set('section4', sectionsincorrect.get('section4') + element.incorrect);
+                sectiontotal.set('section4', sectiontotal.get('section4') + element.total);
+            }
+
+            //  FOR CHART 4 || Question wise correct map
+            if (question_correct.has(element.question_type)) {
+                question_correct.set(element.question_type, question_correct.get(element.question_type) + element.correct)
+            } else {
+                question_correct.set(element.question_type, element.correct);
+            }
+
+            // FOR CHART 6 || Question wise incorrect map
+            if (question_incorrect.has(element.question_type)) {
+                question_incorrect.set(element.question_type, question_incorrect.get(element.question_type) + element.incorrect)
+            } else {
+                question_incorrect.set(element.question_type, element.incorrect);
+            }
+
+            // FOR TIP || Question wise total map
+            if (question_total.has(element.question_type)) {
+                question_total.set(element.question_type, question_total.get(element.question_type) + element.total)
+            } else {
+                question_total.set(element.question_type, element.total);
+            }
+        });
+
+        drawChart();
+
+
+        function drawChart() {
+            try {
+                countbox(bandtotal, exammap, totalquestion);
+                chart1(sectionscorrect);
+                chart3(sectionsincorrect);
+                chart5(exammap);
+                chart4(question_correct);
+                chart6(question_incorrect);
+                chart7(responseData);
+                chart8(responseData);
+                // chart9();
+            } catch (error) {
+                createToast('error', 'Error while loading chart : ' + error.message)
+            }
         }
+
+
+
+
+
     } catch (error) {
         createToast('error', 'Error while loading chart : ' + error.message)
     }
 }
 
 
-const textAroundDoughnut1 = {
-    id: 'textAroundDoughnut',
-    beforeDatasetDraw(chart, args, plugins) {
-        const { ctx, data } = chart;
-        const xCenter = chart.getDatasetMeta(0).data[0].x;
-        const yCenter = chart.getDatasetMeta(0).data[0].y;
 
-        ctx.save();
-        ctx.font = fontStyle;
-        ctx.fillStyle = 'rgba(0,0,0,1)';
-        ctx.textAlign = 'center'
-        ctx.fillText('Correct', xCenter, textAroundposition);
-
-    }
-}
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to initialize chart 1
 // Updated on - -
 // Input - none
-function chart1() {
+function chart1(sectionscorrect) {
     try {
         // 1st Chart ------------------------------------------------------
 
+        let fontStyle = '25px sans-serif';
+        let textAroundposition = 0 + 155;
+        if (screen.width >= 768 && screen.width < 1024) {
+            textAroundposition = 0 + 105;
+            fontStyle = '20px sans-serif'
+        }
+        const textAroundDoughnut1 = {
+            id: 'textAroundDoughnut',
+            beforeDatasetDraw(chart, args, plugins) {
+                const { ctx, data } = chart;
+                const xCenter = chart.getDatasetMeta(0).data[0].x;
+                const yCenter = chart.getDatasetMeta(0).data[0].y;
+                ctx.save();
+                ctx.font = fontStyle;
+                ctx.fillStyle = 'rgba(0,0,0,1)';
+                ctx.textAlign = 'center'
+                ctx.fillText('Correct', xCenter, textAroundposition);
+
+            }
+        }
         let setlabel = ['Section 1', 'Section 2', 'Section 3', 'Section 4'];
         let setdata = [parseInt(sectionscorrect.get('section1')), parseInt(sectionscorrect.get('section2')), parseInt(sectionscorrect.get('section3')), parseInt(sectionscorrect.get('section4'))];
 
@@ -210,7 +248,7 @@ function chart1() {
 // Description - Use to initialize count boxes
 // Updated on - -
 // Input - none
-function countbox() {
+function countbox(bandtotal, exammap, totalquestion) {
     try {
         let avg = [];
         bandtotal.forEach(element => {
@@ -239,28 +277,35 @@ function calculateAverage(numbers) {
     return roundToNearestHalf(average);
 }
 
-const textAroundDoughnut = {
-    id: 'textAroundDoughnut',
-    beforeDatasetDraw(chart, args, plugins) {
-        const { ctx, data } = chart;
-        const xCenter = chart.getDatasetMeta(0).data[0].x;
-        const yCenter = chart.getDatasetMeta(0).data[0].y;
 
-        ctx.save();
-        ctx.font = fontStyle;
-        ctx.fillStyle = 'rgba(0,0,0,1)';
-        ctx.textAlign = 'center'
-        ctx.fillText('Incorrect', xCenter, textAroundposition);
-
-    }
-}
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to initialize chart 3
 // Updated on - -
 // Input - none
-function chart3() {
+function chart3(sectionsincorrect) {
     try {
+        let fontStyle = '25px sans-serif';
+        let textAroundposition = 0 + 155;
+        if (screen.width >= 768 && screen.width < 1024) {
+            textAroundposition = 0 + 105;
+            fontStyle = '20px sans-serif'
+        }
+        const textAroundDoughnut = {
+            id: 'textAroundDoughnut',
+            beforeDatasetDraw(chart, args, plugins) {
+                const { ctx, data } = chart;
+                const xCenter = chart.getDatasetMeta(0).data[0].x;
+                const yCenter = chart.getDatasetMeta(0).data[0].y;
+
+                ctx.save();
+                ctx.font = fontStyle;
+                ctx.fillStyle = 'rgba(0,0,0,1)';
+                ctx.textAlign = 'center'
+                ctx.fillText('Incorrect', xCenter, textAroundposition);
+
+            }
+        }
         // 3rd Chart ------------------------------------------------------
 
         let setlabel = ['Section 1', 'Section 2', 'Section 3', 'Section 4'];
@@ -299,7 +344,7 @@ function chart3() {
 // Description - Use to initialize chart 4
 // Updated on - -
 // Input - none
-function chart4() {
+function chart4(question_correct) {
     try {
         // 4th Chart ----------------------------------------------------
 
@@ -326,6 +371,7 @@ function chart4() {
                     borderColor: 'white',
                     borderWidth: 2,
                     borderRadius: 10,
+                    // barThickness: 50,
                     backgroundColor: purple_orange_gradient,
                     hoverBackgroundColor: purple_orange_gradient,
                     hoverBorderWidth: 2,
@@ -366,7 +412,7 @@ function chart4() {
 // Description - Use to initialize chart 5
 // Updated on - -
 // Input - none
-function chart5() {
+function chart5(exammap) {
     try {
         // 5th Chart ---------------------------------------------- 
 
@@ -437,7 +483,7 @@ function chart5() {
 // Description - Use to initialize chart 6
 // Updated on - -
 // Input - none
-function chart6() {
+function chart6(question_incorrect) {
     try {
 
         // 6th Chart ---------------------------------------------
@@ -465,6 +511,7 @@ function chart6() {
                     borderColor: 'white',
                     borderWidth: 2,
                     borderRadius: 10,
+                    // barThickness: 50,
                     backgroundColor: purple_orange_gradient,
                     hoverBackgroundColor: purple_orange_gradient,
                     hoverBorderWidth: 2,
@@ -507,9 +554,10 @@ function chart6() {
 // Description - Use to initialize chart 7
 // Updated on - -
 // Input - none
-function chart7() {
+function chart7(responseData) {
     // 7th chart -----------------------------------------------
     try {
+        let colorList = ['#ff4a86', '#aeff4a', '#ff4a53', '#ffed4a', '#a14aff', '#ff90b3', '#4aaeff', '#4affc9', '#ff4a4a', '#a172fd', '#4a5cff', '#ef6803', '#722e9a']
 
         let quest_score1 = new Map();
         let quest_score2 = new Map();
@@ -605,8 +653,10 @@ function chart7() {
 // Description - Use to initialize chart 8
 // Updated on - -
 // Input - none
-function chart8() {
+function chart8(responseData) {
     try {
+        let colorList = ['#ff4a86', '#aeff4a', '#ff4a53', '#ffed4a', '#a14aff', '#ff90b3', '#4aaeff', '#4affc9', '#ff4a4a', '#a172fd', '#4a5cff', '#ef6803', '#722e9a']
+
         // 8th Chart -----------------------------------------------
         let quest_score1 = new Map();
         let quest_score2 = new Map();
@@ -657,6 +707,7 @@ function chart8() {
                 'borderWidth': 0.5,
                 'borderColor': 'black',
                 borderRadius: 5,
+                // barThickness: 50,
             })
         });
         const ctx = document.getElementById('chart8');
@@ -698,98 +749,6 @@ function chart8() {
     }
 }
 
-// function chart9() {
-//     try {
-//         // 9th Chart --------------------------------------------
-//         let quest_score1 = new Map();
-//         let quest_score2 = new Map();
-//         let quest_score3 = new Map();
-//         let quest_score4 = new Map();
-//         let question_type = [];
-
-//         responseData.forEach(element => {
-//             if (!question_type.includes(element.question_type) && element.miss != '') {
-//                 question_type.push(element.question_type);
-//             }
-//             if (element.section == 1) {
-//                 if (quest_score1.has(element.question_type)) {
-//                     quest_score1.set(element.question_type, quest_score1.get(element.question_type) + element.miss);
-//                 } else {
-//                     quest_score1.set(element.question_type, element.miss);
-//                 }
-//             } else if (element.section == 2) {
-//                 if (quest_score2.has(element.question_type)) {
-//                     quest_score2.set(element.question_type, quest_score2.get(element.question_type) + element.miss);
-//                 } else {
-//                     quest_score2.set(element.question_type, element.miss);
-//                 }
-//             } else if (element.section == 3) {
-//                 if (quest_score3.has(element.question_type)) {
-//                     quest_score3.set(element.question_type, quest_score3.get(element.question_type) + element.miss);
-//                 } else {
-//                     quest_score3.set(element.question_type, element.miss);
-//                 }
-//             } else if (element.section == 4) {
-//                 if (quest_score4.has(element.question_type)) {
-//                     quest_score4.set(element.question_type, quest_score4.get(element.question_type) + element.miss);
-//                 } else {
-//                     quest_score4.set(element.question_type, element.miss);
-//                 }
-//             }
-//         });
-
-//         let dataset = [];
-//         question_type.forEach((element, index) => {
-//             dataset.push({
-//                 'label': element,
-//                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
-//                 quest_score2.get(element) == undefined ? 0 : quest_score2.get(element),
-//                 quest_score3.get(element) == undefined ? 0 : quest_score3.get(element),
-//                 quest_score4.get(element) == undefined ? 0 : quest_score4.get(element)],
-//                 'backgroundColor': colorList.at(index),
-//                 'borderWidth': 2,
-//                 'borderColor': 'white'
-//             })
-//         });
-//         const ctx = document.getElementById('chart9');
-//         new Chart(ctx, {
-//             type: 'bar',
-//             data: {
-//                 labels: ['Section 1', 'Section 2', 'Section 3', 'Section 4'],
-//                 datasets: dataset
-//             },
-//             options: {
-//                 indexAxis: 'y',
-//                 scales: {
-//                     x: {
-//                         stacked: true,
-//                         ticks: {
-//                             color: 'rgba(0,0,0,1)'
-//                         }
-//                     },
-//                     y: {
-//                         stacked: true,
-//                         ticks: {
-//                             color: 'rgba(0,0,0,1)'
-//                         }
-//                     }
-//                 },
-//                 plugins: {
-//                     legend: {
-//                         display: true,
-//                         labels: {
-//                             color: 'rgba(0,0,0,1)'
-//                         }
-//                     }
-//                 }
-//             }
-//         });
-
-//     } catch (error) {
-//         createToast('error', 'Error while loading chart 9 : ' + error.message)
-//     }
-// }
-
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to open summary/tip box and also set values
@@ -830,9 +789,9 @@ function tipopen() {
         for (let key of sectiontotal.keys()) {
             correctquest = sectionscorrect.get(key) * 100 / sectiontotal.get(key);
 
-            if (correctquest >= 80) {
+            if (correctquest >= 75) {
                 goodlistsect.push(' ' + key.charAt(0).toUpperCase() + key.slice(1));
-            } else if (correctquest < 80) {
+            } else if (correctquest < 75) {
                 poorlistsect.push(' ' + key.charAt(0).toUpperCase() + key.slice(1));
             }
         }

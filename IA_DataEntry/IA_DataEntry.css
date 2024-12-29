@@ -23,7 +23,7 @@ a {
 
 main {
     height: 100%;
-    background-image: repeating-conic-gradient(from 100deg at 30% 99%, #1778c7 66%, #55ADF5 85%, #55ADF5 0%);
+    background-color: #2BAACD;
     overflow-y: scroll;
 }
 

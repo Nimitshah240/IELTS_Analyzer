@@ -16,7 +16,7 @@ let question_id = '';
 // Input - none
 function dataentryconnectedCallback() {
     try {
-        if ((JSON.parse(localStorage.getItem('question' + tdExam))).length == 0) {
+        if ((JSON.parse(localStorage.getItem('question' + tdExam))) == null || (JSON.parse(localStorage.getItem('question' + tdExam))).length == 0) {
             exam_date = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
             exam_id = '';
             exam_name = '';
@@ -314,31 +314,43 @@ function deletequestion(event) {
 // Input - event
 function del(event) {
     try {
+        let permcount = 0;
         if (event.target.id == 'yes') {
             if (!question_id.includes('temp')) {
-                fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json'
+                question.forEach(element => {
+                    if (!JSON.stringify(element.id).includes('temp')) {
+                        permcount++;
                     }
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        for (let index = 0; index < 2; index++) {
-                            const divToRemove = document.getElementById(question_id);
-                            divToRemove.remove();
+                });
+                if (permcount > 1) {
+                    fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
                         }
-
-                        question.forEach((element, i) => {
-                            if (element.id == question_id) {
-                                question.splice(i, 1);
-                            }
-                        });
-                        localStorage.setItem('question' + tdExam, JSON.stringify(question))
-                        createToast('success', 'Question deleted');
                     })
-                    .catch(error =>
-                        createToast('error', 'Error while deleting data : ' + error.message));
+                        .then(response => response.json())
+                        .then(data => {
+                            for (let index = 0; index < 2; index++) {
+                                const divToRemove = document.getElementById(question_id);
+                                divToRemove.remove();
+                            }
+
+                            question.forEach((element, i) => {
+                                if (element.id == question_id) {
+                                    question.splice(i, 1);
+                                }
+                            });
+                            localStorage.setItem('question' + tdExam, JSON.stringify(question))
+                            createToast('success', 'Question deleted');
+                        })
+                        .catch(error =>
+                            createToast('error', 'Error while deleting data : ' + error.message));
+                } else {
+                    createToast('error', 'Cannot delete last stored type');
+                    createToast('info', 'Store new question and save exam before deleting last stored type');
+
+                }
             } else {
                 question.forEach((element, i) => {
                     if (element.id == question_id) {

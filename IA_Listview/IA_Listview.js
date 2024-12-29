@@ -77,7 +77,7 @@ function openexam(event) {
 // Input - none
 function examData() {
     try {
-        if (localStorage.getItem('user_data') != null) {
+        if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
             const user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
             fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
                 .then(response => response.json())
@@ -176,6 +176,8 @@ function examData() {
                     }
                 })
                 .catch(error => createToast('error', 'Error while fetching exams : ' + error.message));
+        } else {
+            createToast('error', 'Please Login First');
         }
     } catch (error) {
         createToast('error', 'Error while fetching exams : ' + error.message);
@@ -225,26 +227,30 @@ function del(event) {
                             examdata.splice(i, 1);
                         }
                     });
-
-                    let htmldata = '';
-                    examdata.forEach((element, index) => {
-                        htmldata +=
-                            '<div class="data" id=' + element.exam_id + '>' +
-                            '<div class="column index" onclick="openexam(event)" id=' + element.exam_id + '>' + (index + 1) + '</div>' +
-                            '<div class="column examname" onclick="openexam(event)" id=' + element.exam_id + '>' + element.exam_name + '</div>' +
-                            '<div class="column date" onclick="openexam(event)" id=' + element.exam_id + '>' + element.date + '</div>' +
-                            '<div class="column total" onclick="openexam(event)" id=' + element.exam_id + '>' + element.total + '</div>' +
-                            '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 1"] + '</div>' +
-                            '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 2"] + '</div>' +
-                            '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 3"] + '</div>' +
-                            '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 4"] + '</div>' +
-                            '<div class="column delete" onclick="deleteexam(event)" id=' + element.exam_id + `> <i class="fa fa-trash" id="${element.exam_id}" aria-hidden="true"></i>` +
-                            '</div>' +
-                            '</div>'
-                    });
-
-                    document.getElementById("table").innerHTML = htmldata;
                     createToast('success', 'Exam deleted');
+
+                    if (examdata.length > 0) {
+                        let htmldata = '';
+                        examdata.forEach((element, index) => {
+                            htmldata +=
+                                '<div class="data" id=' + element.exam_id + '>' +
+                                '<div class="column index" onclick="openexam(event)" id=' + element.exam_id + '>' + (index + 1) + '</div>' +
+                                '<div class="column examname" onclick="openexam(event)" id=' + element.exam_id + '>' + element.exam_name + '</div>' +
+                                '<div class="column date" onclick="openexam(event)" id=' + element.exam_id + '>' + element.date + '</div>' +
+                                '<div class="column total" onclick="openexam(event)" id=' + element.exam_id + '>' + element.total + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 1"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 2"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 3"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 4"] + '</div>' +
+                                '<div class="column delete" onclick="deleteexam(event)" id=' + element.exam_id + `> <i class="fa fa-trash" id="${element.exam_id}" aria-hidden="true"></i>` +
+                                '</div>' +
+                                '</div>'
+                        });
+
+                        document.getElementById("table").innerHTML = htmldata;
+                    } else {
+                        document.getElementById("table").innerHTML = '<span class="no_data">No Data Found!</span>';
+                    }
                 })
                 .catch(error => {
                     createToast('error', 'Error while deleting exam : ' + error.message);

@@ -134,18 +134,21 @@ app.post('/api/insertExam', (req, res) => {
 function questioninsert(receivedData, exam_id) {
     let query;
     let values = [];
+    let check = false;
     const queryBase = 'INSERT INTO question (user_id, exam_id, question_type, correct, incorrect, miss, total, section) VALUES ';
 
     receivedData.forEach(element => {
         if (JSON.stringify(element.id).includes("temp")) {
+            check = true;
             values.push(`(${element.user_id}, ${exam_id}, '${element.question_type}', ${element.correct}, ${element.incorrect}, ${element.miss}, ${element.total}, ${element.section})`);
         }
     });
     query = queryBase + values.join(', ');
-
-    connection.execute(query, (error, results, fields) => {
-        if (error) console.error(error);
-    });
+    if (check) {
+        connection.execute(query, (error, results, fields) => {
+            if (error) console.error(error);
+        });
+    }
 }
 
 app.delete('/api/deleteQuestion', (req, res) => {

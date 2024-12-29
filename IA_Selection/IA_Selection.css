@@ -25,7 +25,6 @@ a {
 
 main {
     width: 100%;
-    background-image: repeating-conic-gradient(from 119deg at 21% 50%, #1778c7 36%, #55ADF5 69%);
     overflow-x: hidden;
 }
 
@@ -51,7 +50,7 @@ main {
 
 body {
     line-height: 1 !important;
-    background-image: repeating-conic-gradient(from 100deg at 30% 50%, #1778c7 66%, #55ADF5 85%, #1778c7 60%);
+    background-color: #2BAACD;
 }
 
 /* glass */
@@ -207,9 +206,6 @@ body {
 /* Spinner */
 
 @media screen and (max-width: 640px) {
-    .main {
-        background-image: repeating-conic-gradient(from 100deg at 30% 27%, #2b87d2 85%, #55ADF5 105%, #55ADF5 60%);
-    }
 
     .companylogo {
         height: 20%;

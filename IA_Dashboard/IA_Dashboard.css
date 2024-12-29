@@ -25,11 +25,8 @@ a {
 }
 
 main {
-    overflow-x: hidden;
-    overflow-y: hidden;
-    background-image: repeating-conic-gradient(from 100deg at 30% 50%, #1778c7 66%, #55ADF5 85%, #55ADF5 0%);
-
-    /* background-color: #49A3EC; */
+    overflow: hidden;
+    background-color: #2BAACD;
 }
 
 
@@ -109,7 +106,7 @@ body {
 .count-box-title {
     height: 40%;
     font-size: 16px;
-    color: white;
+    color: black;
     text-align: center;
 }
 
@@ -150,6 +147,7 @@ body {
     width: 90%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     gap: 15px;
 }
 
@@ -157,13 +155,15 @@ body {
 .section-1-2-2 {
     height: 47%;
     width: 100%;
+    padding-left: 10px;
     display: flex;
+    align-items: center;
     flex-direction: column-reverse;
     justify-content: space-evenly;
 }
 
 .sub-title {
-    color: white;
+    color: black;
     margin: 0;
     padding-left: 10px;
 }
@@ -192,7 +192,7 @@ body {
     width: 32%;
     height: 100%;
     text-align: center;
-    color: white;
+    color: black;
 }
 
 .horizontal-chart {
@@ -219,7 +219,7 @@ body {
 .section-3-1-2 {
     width: 48%;
     text-align: center;
-    color: white;
+    color: black;
 }
 
 /* Chart */
@@ -228,9 +228,9 @@ body {
 .glass {
     border-radius: 15px;
     backdrop-filter: blur(1px);
-    box-shadow: 0 4px 8px rgba(255, 255, 255, 0.5) !important;
-    border: 1px solid #EFF0F6;
-    background-color: #0c2056;
+    box-shadow: 1px 0px 4px rgba(3, 3, 3, 0.5);
+    border: 1px solid #bfc4ca;
+    background-color: rgb(249, 249, 249);
 }
 
 /* Glass */
@@ -243,7 +243,6 @@ body {
     border-top-right-radius: 0px;
     display: flex;
     background: rgba(255, 255, 255, 0.19);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
 }
 
 .details {
@@ -293,7 +292,7 @@ body {
     height: 100%;
     padding: 10px;
     gap: 10px;
-    color: white;
+    color: black;
     overflow-y: scroll;
     scrollbar-width: none;
     display: flex;
@@ -441,6 +440,32 @@ body {
 }
 
 @media screen and (max-width: 640px) {
+    body {
+        width: 150%;
+        height: 150%;
+    }
+
+    .overall-performance {
+        height: 350px;
+    }
+
+    .count-box-count {
+        font-size: 20px;
+    }
+
+    .d-chart {
+        width: 100%;
+        align-items: center;
+    }
+
+    .section-1-2-1,
+    .section-1-2-2 {
+        width: 90%;
+    }
+
+    .doughnut-chart {
+        width: 300px !important;
+    }
 
     a.slide-up {
         margin-top: 10%;
@@ -461,6 +486,10 @@ body {
     }
 
     /* header  */
+
+    .header {
+        height: 80px;
+    }
 
     .companylogo {
         height: 20%;
