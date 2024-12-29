@@ -15,27 +15,27 @@
 </head>
 
 <body onload="listviewconnectedCallback()">
-    <div class="circle1"></div>
-    <div class="circle2"></div>
 
     <!-- Delete popup -->
 
     <div class="delete-popup">
         <div class="delete-pop">
-            <div class="header-delete"> DELETE </div>
-            <div class="body-delete">
-                <div class="delete-icon">
-                    <div class="trash">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
+            <div class="delete-box glass">
+                <div class="header-delete"> DELETE </div>
+                <div class="body-delete">
+                    <div class="delete-icon">
+                        <div class="trash">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="delete-text">
+                        Do you want to delete?
                     </div>
                 </div>
-                <div class="delete-text">
-                    Do you want to delete?
+                <div class="footer-delete">
+                    <button class="button-63-delete" onclick="del(event)" role="button" id="yes">Delete</button>
+                    <button class="button-63-delete" onclick="del(event)" role="button" id="no">Cancel</button>
                 </div>
-            </div>
-            <div class="footer-delete">
-                <button class="button-63-delete" onclick="del(event)" role="button" id="yes">Delete</button>
-                <button class="button-63-delete" onclick="del(event)" role="button" id="no">Cancel</button>
             </div>
         </div>
     </div>
@@ -51,8 +51,9 @@
     <main id="main">
         <div class="header glass">
             <div class="logo">
-                <h1 class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></h1>
-                <h5 class="descrip">Score more than 8 bands</h5>
+                <h1 class="companylogo"> <a href="../index.html">IELTS <span style="color: white;">Analyzer.</span></a>
+                </h1>
+                <h5 class="descrip"><a href="../index.html">Score more than 8 bands</a></h5>
             </div>
             <div class="details">
                 <button class="button-63 tip-open-button" onclick="setHref(event)">New</button>

@@ -8,10 +8,13 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='./IA_Dashboard.js'></script>
+    <!-- <script src='./sampledata.js'></script> -->
+
     <script src='../IA_Authentication/IA_Authentication.js'></script>
     <script src='../IA_Toast/IA_Toast.js'></script>
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
 </head>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <body onload="dashboardconnectedCallback()">
@@ -26,11 +29,12 @@
     <main id="main">
         <div class="header glass">
             <div class="logo">
-                <h1 class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></h1>
-                <h5 class="descrip">Score more than 8 bands</h5>
+                <h1 class="companylogo"> <a href="../index.html">IELTS <span
+                            style="color: white;">Analyzer.</span></a></h1>
+                <h5 class="descrip"><a href="../index.html">Score more than 8 bands</a></h5>
             </div>
             <div class="details">
-                <button class="button-63 tip-open-button" onclick="tipopen(event)">TIP</button>
+                <button class="button-63 tip-open-button" onclick="tipopen(event)">Tip</button>
                 <a class=" navbartransition" href="../index.html">Home</a>
                 <i class="fa fa-user" id="not-log" style="font-size: 30px;" onclick="authentication(event)"
                     aria-hidden="true"></i>
@@ -72,86 +76,98 @@
                 No Data Found !
             </div>
             <div class="charts">
-                <div class="chart-section-1">
-                    <div class="chart-section-1-1">
-                        <div class="chart-section-1-1-1">
-                            <!-- Line Chart/ Exam performance -->
-                            <canvas id="chart5" class="glass"></canvas>
-                        </div>
-                        <div class="chart-section-1-1-2">
-                            <!-- Counts -->
-                            <div class="count-box exam-count glass">
-                                <!-- Exam Count -->
-                                <div class="wave-container wave-container1">
-                                    <span id="examcount">-</span>
-                                </div>
-                                <div class="wave wave1">
-                                    Total Exams
-                                </div>
-
+                <div class="section-1">
+                    <div class="section-1-1">
+                        <div class="glass overall-performance">
+                            <div class="title">
+                                Overall Performance
                             </div>
-                            <div class="count-box question-count glass">
-                                <!-- Question count  -->
-                                <div class="wave-container wave-container2">
-                                    <span id="totalquestion">-</span>
+                            <div class="countboxes">
+                                <div class="count-box glass">
+                                    <!-- Exam Count -->
+                                    <div class="count-box-count">
+                                        <span id="examcount">-</span>
+                                    </div>
+                                    <div class="count-box-title">
+                                        Total Exams
+                                    </div>
                                 </div>
-                                <div class="wave wave2">
-                                    Total Questions Attempt
+                                <div class="count-box glass">
+                                    <!-- Question count  -->
+                                    <div class="count-box-count">
+                                        <span id="totalquestion">-</span>
+                                    </div>
+                                    <div class="count-box-title">
+                                        Total Questions
+                                    </div>
+                                </div>
+                                <div class="count-box glass">
+                                    <!-- Average band -->
+                                    <div class="count-box-count">
+                                        <span id="avg-band">-</span>
+                                    </div>
+                                    <div class="count-box-title">
+                                        Average Band
+                                    </div>
                                 </div>
                             </div>
-                            <div class="count-box avg-band glass">
-                                <!-- Average band -->
-                                <div class="wave-container wave-container3">
-                                    <span id="avg-band">-</span>
-                                </div>
-                                <div class="wave wave3">
-                                    Average Band
-                                </div>
+                            <div class="chart5">
+                                <canvas id="chart5" class="line-chart"></canvas> <!-- Line chart-->
                             </div>
-                            <!-- </div> -->
                         </div>
                     </div>
-                    <div class="chart-section-1-2">
-                        <!-- Doughnuts -->
-                        <div class="Doughnut">
-                            <!-- Section wise correct  -->
-                            <canvas id="chart1" class="glass"></canvas>
-                        </div>
-                        <div class="Doughnut">
-                            <!-- Section wise incorrect -->
-                            <canvas id="chart3" class="glass"></canvas>
+                    <div class="section-1-2">
+                        <div class="glass section-wise-performance">
+                            <div class="d-chart">
+                                <div class="section-1-2-1">
+                                    <canvas id="chart1" class="doughnut-chart "></canvas>
+                                </div>
+                                <div class="section-1-2-2">
+                                    <canvas id="chart3" class="doughnut-chart "></canvas>
+                                </div>
+                            </div>
+                            <div class="title title-2">Section wise performance</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="chart-section-2">
-                    <!-- Question Type/section -->
-                    <div class="color-bar">
-                        <!-- Correct question type / section -->
-                        <canvas id="chart7" class="glass"></canvas>
-                    </div>
-                    <div class="color-bar">
-                        <!-- Incorrect question type / section -->
-                        <canvas id="chart8" class="glass"></canvas>
-                    </div>
-                    <div class="color-bar">
-                        <!-- Missed question type / section -->
-                        <canvas id="chart9" class="glass"></canvas>
+                <div class="section-3">
+                    <div class="glass Question-wise-performance">
+                        <div class="title"> Question wise performance </div>
+                        <div class="section-3-1">
+                            <div class="section-3-1-1">
+                                <h4>Correct</h4>
+                                <canvas id="chart4" class=""></canvas>
+                            </div>
+                            <div class="section-3-1-2">
+                                <h4>Incorrect</h4>
+                                <canvas id="chart6" class=""></canvas>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="chart-section-3">
-                    <div class="black-bar">
-                        <!--Correct Question Type -->
-                        <canvas id="chart4" class="glass chart4-6"></canvas>
-                    </div>
-                    <div class="black-bar">
-                        <!--Incorrect Question type -->
-                        <canvas id="chart6" class="glass chart4-6"></canvas>
+                <div class="section-2">
+                    <div class="glass question-section-wise">
+                        <div class="title">
+                            Question-Section wise performance
+                        </div>
+                        <div class="section-2-1">
+                            <div class="section-2-1-1">
+                                <h4>Correct</h4>
+                                <canvas id="chart7" class="horizontal-chart"></canvas>
+                            </div>
+                            <div class="section-2-1-2">
+                                <h4>Incorrect</h4>
+                                <canvas id="chart8" class="horizontal-chart"></canvas>
+                            </div>
+                            <!-- <div class="section-2-1-3">
+                                <h4>Missed</h4>
+                                <canvas id="chart9" class="horizontal-chart"></canvas>
+                            </div> -->
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class=" footer">
             <div class="copyright">
                 © Copyright Nimit Shah. All Rights Reserved.

@@ -7,8 +7,8 @@
     background-color: WHITE;
     background-image: none;
     border: 1px solid #747775;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     color: #1f1f1f;
@@ -88,6 +88,7 @@
 }
 
 .gsi-material-button:not(:disabled):active .gsi-material-button-state,
+
 .gsi-material-button:not(:disabled):focus .gsi-material-button-state {
     background-color: #303030;
     opacity: 12%;
@@ -129,7 +130,7 @@ a {
 
 main {
     height: 100%;
-    background: linear-gradient(to right top, #65dfc9, #6cdbeb);
+    background-color: #2BAACD;
     overflow-x: hidden;
 }
 
@@ -150,7 +151,7 @@ body {
 
 .contact-icons {
     width: 50%;
-    gap: 15px;
+    gap: 10px;
     font-size: 25px;
     padding-right: 5%;
     display: flex;
@@ -162,8 +163,7 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 49px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
-    color: white;
+    color: black;
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -171,10 +171,9 @@ body {
 
 .glass {
     background: rgba(255, 255, 255, 0.19);
-    border-radius: 16px;
+    border-radius: 15px;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(7.4px);
-    -webkit-backdrop-filter: blur(7.4px);
+    backdrop-filter: blur(1px);
     border: 1px solid rgba(255, 255, 255, 1);
 }
 
@@ -184,13 +183,16 @@ body {
 /* Button 63 */
 /* CSS */
 .button-63 {
-    border: 0;
     border-radius: 8px;
     box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
-    background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
-    color: #FFFFFF;
+    background-color: white;
+    color: black;
     font-family: Phantomsans, sans-serif;
     cursor: pointer;
+    border: 1px solid greenyellow;
+    font-size: 16px;
+    font-weight: 400;
+
 }
 
 .button-63:hover {
@@ -247,7 +249,7 @@ body {
     transition: 300ms;
     border-radius: 5px;
     display: block;
-    background: #106eea;
+    background: white;
 }
 
 .navbartransition:hover::after {
@@ -255,7 +257,7 @@ body {
 }
 
 .navbartransition:hover {
-    color: #106eea;
+    color: white;
 }
 
 /* header  */
@@ -300,7 +302,7 @@ body {
 .inputbox {
     width: 60%;
     /* height: 13%; */
-    border-radius: 20px;
+    border-radius: 15px;
     font-size: 13px;
     padding: 10px;
     border: 0.5px solid purple;
@@ -319,7 +321,7 @@ body {
     display: none;
     width: 30%;
     height: 45%;
-    border-radius: 20px;
+    border-radius: 15px;
     margin: auto;
 }
 
@@ -362,9 +364,10 @@ body {
     width: 100%;
     background: rgba(255, 255, 255, 0.19);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(7.4px);
+    backdrop-filter: blur(1px);
     margin-top: 35px;
     display: flex;
+    border-top: 1px solid white;
 }
 
 .copyright {
@@ -398,7 +401,7 @@ body {
     }
 
     .validation-box-signout {
-        width: 100%;
+        width: 90%;
         height: 40%;
     }
 
@@ -432,7 +435,7 @@ body {
     }
 
     .validation-box-signout {
-        width: 70%;
+        width: 60%;
         height: 35%;
     }
 }

@@ -1,57 +1,74 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const slideInDiv = document.querySelector(".second-box");
-    if (slideInDiv != null) {
-        const observerOptions = {
-            threshold: 0.1 // Trigger when 50% of the div is visible
-        };
-        const observerCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    slideInDiv.classList.add("active");
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-        observer.observe(slideInDiv);
-    }
-});
-
-document.addEventListener("DOMContentLoaded", () => {
-    const slideInDiv1 = document.querySelector(".third-box");
-    if (slideInDiv1 != null) {
-        const observerOptions = {
-            threshold: 0.27 // Trigger when 50% of the div is visible
-        };
-        const observerCallback = (entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    slideInDiv1.classList.add("active");
-                }
-            });
-        };
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-        observer.observe(slideInDiv1);
-    }
-});
-
-
+const urlSearchParams = new URLSearchParams(window.location.search);
+let signin = '';
+signin = urlSearchParams.get('signedin');
 var examdata;
+var index = 0;
+var images = [];
+var readingimage = [];
+var readingimageElement;
+var imageElement;
 
-function indexconnectedCallback(event) {
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialise data onloading home page
+// Updated on - -
+// Input - none
+function indexconnectedCallback() {
     try {
+        images[0] = ['Asset\/2148573970.jpg'];
+        images[1] = ['Asset\/2148524577.jpg'];
+        readingimage = ['Asset\/2149200171.jpg', 'Asset\/1209.jpg']
+        imageElement = document.getElementById('listening-img');
+        readingimageElement = document.getElementById('reading-img');
+
+
+        change();
         Userlogo();
-        if (JSON.parse(localStorage.getItem('user_data')) != null ) {
+
+        if (JSON.parse(localStorage.getItem('user_data')) != null) {
+            if (signin) {
+                window.history.pushState({}, document.title, "/IA_Code/index.html");
+                createToast('success', "Welcome " + JSON.parse(localStorage.getItem('user_data')).firstname)
+            }
             fetchExamData();// Control api callout
         }
-        
+
     } catch (error) {
         createToast('error', 'Error while loading : ' + error.message);
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to change photo of reading and listening div in every 6 seconds
+// Updated on - -
+// Input - none
+function change() {
+    try {
+        imageElement.classList.add('hidden');
+        readingimageElement.classList.add('hidden');
+        setTimeout(() => {
+            // For listening
+            index = (index + 1) % images.length;
+            imageElement.src = images[index];
+            imageElement.classList.remove('hidden');
 
+            // For reading
+            readingimageElement.src = readingimage[index];
+            readingimageElement.classList.remove('hidden');
+        }, 1000);
+
+    } catch (error) {
+        createToast('error', 'Error while changing image : ' + error.message);
+    }
+}
+setInterval(change, 6000);
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - It use to get user exam data to show on home page.
+// Updated on - -
+// Input - none
 async function fetchExamData() {
     try {
         const user_data = JSON.parse(localStorage.getItem('user_data'));
@@ -69,11 +86,13 @@ async function fetchExamData() {
             .then(response => response.json())
             .then(responseData => {
                 responseData.forEach(element => {
+                    console.log('listening', element);
+                    
                     exammap.set(element.exam_id, { 'band': element.band, 'module': element.module });
                     if (element.module == 'Reading' && element.id != null) {
-                        reading_question_count++;
+                        reading_question_count+= element.total;
                     } else if (element.module == 'Listening' && element.id != null) {
-                        listening_question_count++;
+                        listening_question_count+= element.total;
                     }
                 });
 
@@ -87,12 +106,12 @@ async function fetchExamData() {
                     }
                 });
 
-                document.getElementById("listening-band").innerHTML = calculateAverage(listeningband) + ' Band';
-                document.getElementById("reading-band").innerHTML = calculateAverage(readingband) + ' Band';
-                document.getElementById("question-count-listening").innerHTML = listening_question_count + ' Question';
-                document.getElementById("question-count-reading").innerHTML = reading_question_count + ' Question';
-                document.getElementById("count-listening").innerHTML = listening_exam_count + ' Exam';
-                document.getElementById("count-reading").innerHTML = reading_exam_count + ' Exam';
+                document.getElementById("listening-band").innerHTML = calculateAverage(listeningband);
+                document.getElementById("reading-band").innerHTML = calculateAverage(readingband);
+                document.getElementById("question-count-listening").innerHTML = listening_question_count;
+                document.getElementById("question-count-reading").innerHTML = reading_question_count;
+                document.getElementById("count-listening").innerHTML = listening_exam_count;
+                document.getElementById("count-reading").innerHTML = reading_exam_count;
             })
             .catch(error => createToast('error', 'Error while fetching exam data : ' + error));
 
@@ -101,6 +120,11 @@ async function fetchExamData() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to calculate average band of user.
+// Updated on - -
+// Input - band
 function calculateAverage(numbers) {
     if (numbers.length === 0) {
         return 0;
@@ -111,6 +135,11 @@ function calculateAverage(numbers) {
     return roundToNearestHalf(average);
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set URL link of pages such as DATA, DASHBOARD, TRICK page
+// Updated on - -
+// Input - event
 function setHref(event) {
     try {
 
@@ -133,6 +162,11 @@ function setHref(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to save feedback of any user.
+// Updated on - -
+// Input - none
 function sendemail() {
     try {
         let user_id = ((localStorage.getItem('user_data'))) == null ? "" : JSON.parse(localStorage.getItem('user_data')).user_id;
@@ -142,7 +176,7 @@ function sendemail() {
         let data = { 'user_id': user_id, 'name': name, 'email': email, 'message': message };
         var re = /\S+@\S+\.\S+/;
 
-        if (data.name != '' && data.email != '' && re.test(email)) {
+        if (data.name.trim() != '' && data.email.trim() != '' && re.test(email)) {
             fetch('http://localhost:3000/api/feedback', {
                 method: 'POST',
                 headers: {
@@ -167,14 +201,29 @@ function sendemail() {
     }
 }
 
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set spinner
+// Updated on - -
+// Input - none
 window.addEventListener("beforeunload", function (event) {
+    Array.from(document.getElementById('main')).forEach(element => {
+        element.style.display = "none"
+    });
     document.getElementById("spinner").style.display = 'flex';
-    document.getElementById("main").style.display = 'none';
 });
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to remove spinner
+// Updated on - -
+// Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
         document.getElementById("spinner").style.display = 'none';
-        document.getElementById("main").style.display = 'block';
+        Array.from(document.getElementById('main')).forEach(element => {
+            element.style.display = "block"
+        });
     }
 });

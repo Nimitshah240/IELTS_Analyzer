@@ -2,19 +2,30 @@ const urlSearchParams = new URLSearchParams(window.location.search);
 var module = urlSearchParams.get('module');
 var tdExam = urlSearchParams.get('tdExam')
 var question = [];
-
-question = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? [] : JSON.parse(localStorage.getItem('question' + tdExam));
-let exam_name = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
-let exam_id = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_id;
+let exam_name = '';
+let exam_id = '';
+let exam_date = '';
 let user_data = JSON.parse(localStorage.getItem('user_data'));
 user_id = user_data.user_id;
 let question_id = '';
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to initialize data for Data entry page
+// Updated on - -
+// Input - none
 function dataentryconnectedCallback() {
     try {
-
-        if (!JSON.parse(localStorage.getItem('user_data'))) {
-            createToast('error', 'Please login first')
+        if ((JSON.parse(localStorage.getItem('question' + tdExam))) == null || (JSON.parse(localStorage.getItem('question' + tdExam))).length == 0) {
+            exam_date = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
+            exam_id = '';
+            exam_name = '';
+        } else {
+            exam_id = JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_id
+            exam_name = JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
+            exam_date = new Date(JSON.parse(localStorage.getItem('question' + tdExam))[0].date);
+            exam_date = `${exam_date.getFullYear()}-${('0' + (exam_date.getMonth() + 1)).slice(-2)}-${('0' + exam_date.getDate()).slice(-2)}`;
+            question = JSON.parse(localStorage.getItem('question' + tdExam));
         }
         sectionsetter();
         Userlogo();
@@ -23,6 +34,11 @@ function dataentryconnectedCallback() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set number of section depending on Reading or Listening module
+// Updated on - -
+// Input - none
 function sectionsetter() {
     try {
         let html;
@@ -73,6 +89,11 @@ function sectionsetter() {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to open exam save or show data popup 
+// Updated on - -
+// Input - event
 function popupopen(event) {
     try {
 
@@ -80,18 +101,13 @@ function popupopen(event) {
         var type = event.target.id;
 
         if (type == 'save') {
-            let exam_date = new Date((JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].date);
-            let year = exam_date.getFullYear();
-            let month = ('0' + (exam_date.getMonth() + 1)).slice(-2);
-            let day = ('0' + exam_date.getDate()).slice(-2);
-            exam_date = `${year}-${month}-${day}`;
 
             document.getElementById('examdate').value = exam_date;
-            document.getElementById('examname').value = (JSON.parse(localStorage.getItem('question' + tdExam))) == null ? "" : JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
+            document.getElementById('examname').value = exam_name;
             document.getElementById('save-div').style.display = 'flex';
 
         } else {
-            var sectiondata = '<tr><th colspan="5"> Question Type</th></tr><tr><th> Correct </th><th> Incorrect </th><th> Missed </th><th> Total </th><th> Delete </th></tr >';
+            var sectiondata = '<tr class="header-table"><th colspan="5"> Question Type</th></tr><tr class="header-table"><th> Correct </th><th> Incorrect </th><th> Missed </th><th> Total </th><th> Delete </th></tr>';
             question.forEach(element => {
                 if (element.section == section) {
                     sectiondata +=
@@ -101,7 +117,7 @@ function popupopen(event) {
                         '<td>' + element.incorrect + '</td>' +
                         '<td>' + element.miss + '</td>' +
                         '<td> ' + element.total + ' </td>' +
-                        `<td id = ${element.id} onclick="deletequestion(event)"><i class="fa fa-trash" aria-hidden="true"id=${element.id}></i> </td> </tr>`;
+                        `<td id = "${element.id}" onclick="deletequestion(event)" class="question-delete"><i class="fa fa-trash" aria-hidden="true"id=${element.id}></i> </td> </tr>`;
                 }
             });
             document.getElementById('show-div').style.display = 'flex';
@@ -114,6 +130,11 @@ function popupopen(event) {
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to close show data popup or close save exam div and redirect to list view
+// Updated on - -
+// Input - event
 function popupclose(event) {
     try {
         var type = event.target.id;
@@ -131,7 +152,11 @@ function popupclose(event) {
     }
 }
 
-// To get data on each save and new button click
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to get data on each "save and new" button click
+// Updated on - -
+// Input - event
 function getData(event) {
     try {
 
@@ -152,10 +177,10 @@ function getData(event) {
             {
                 "band": "",
                 "correct": correct,
-                "date": "",
+                "date": exam_date,
                 "exam_id": exam_id == "" ? "" : exam_id,
                 "exam_name": exam_name == "" ? "" : exam_name,
-                "id": "",
+                "id": "temp_" + question.length,
                 "incorrect": incorrect,
                 "miss": miss,
                 "module": module,
@@ -170,80 +195,99 @@ function getData(event) {
         document.getElementById('incorrect' + event.target.id).value = 0;
         document.getElementById('miss' + event.target.id).value = 0
         selectElement.value = 'MCQ';
+        createToast('success', 'Question saved temporarily');
+
     } catch (error) {
         createToast('error', 'Error while getting data : ' + error.message);
     }
 }
 
-// To save exam
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to save exam in DB
+// Updated on - -
+// Input - event
 function saveexam(event) {
     try {
-        let exam_name = document.getElementById('examname').value;
-        let exam_date = document.getElementById('examdate').value;
-        exam_date = new Date(exam_date);
-        exam_date = exam_date.toISOString().slice(0, 10);
-        let correct = 0;
-        let band = 0;
-        if (exam_name == '' || exam_date == '') {
-            console.log('Please enter value');
+        let exam_name = ''
+        let exam_date = ''
+        exam_name = document.getElementById('examname').value;
+        exam_date = document.getElementById('examdate').value;
+
+        if (exam_date == '' || exam_name.trim() == '') {
+            createToast('error', 'Fill require details');
         } else {
-            question.forEach(element => {
-                element.date = exam_date;
-                element.exam_name = exam_name;
-                correct += element.correct;
-            });
 
-            if (user_data.type == 'general' && module == 'Reading') {
-                if (correct >= 15 && correct <= 18) { band = 4; }
-                else if (correct >= 19 && correct <= 22) { band = 4.5; }
-                else if (correct >= 23 && correct <= 26) { band = 5; }
-                else if (correct >= 27 && correct <= 29) { band = 5.5; }
-                else if (correct >= 30 && correct <= 31) { band = 6; }
-                else if (correct >= 32 && correct <= 33) { band = 6.5; }
-                else if (correct >= 34 && correct <= 35) { band = 7; }
-                else if (correct == 36) { band = 7.5; }
-                else if (correct >= 37 && correct <= 38) { band = 8; }
-                else if (correct == 39) { band = 8.5 }
-                else if (correct == 40) { band = 9; }
+            if (question.length > 0) {
+                let correct = 0;
+                let band = 0;
+                exam_date = new Date(exam_date);
+
+                exam_date = exam_date.toISOString().slice(0, 10);
+                question.forEach(element => {
+                    element.date = exam_date;
+                    element.exam_name = exam_name;
+                    correct += element.correct;
+                });
+
+                if (user_data.type == 'general' && module == 'Reading') {
+                    if (correct >= 15 && correct <= 18) { band = 4; }
+                    else if (correct >= 19 && correct <= 22) { band = 4.5; }
+                    else if (correct >= 23 && correct <= 26) { band = 5; }
+                    else if (correct >= 27 && correct <= 29) { band = 5.5; }
+                    else if (correct >= 30 && correct <= 31) { band = 6; }
+                    else if (correct >= 32 && correct <= 33) { band = 6.5; }
+                    else if (correct >= 34 && correct <= 35) { band = 7; }
+                    else if (correct == 36) { band = 7.5; }
+                    else if (correct >= 37 && correct <= 38) { band = 8; }
+                    else if (correct == 39) { band = 8.5 }
+                    else if (correct == 40) { band = 9; }
+                } else {
+                    if (correct >= 10 && correct <= 12) { band = 4; }
+                    else if (correct >= 13 && correct <= 15) { band = 4.5; }
+                    else if (correct >= 16 && correct <= 17) { band = 5; }
+                    else if (correct >= 18 && correct <= 22) { band = 5.5; }
+                    else if (correct >= 23 && correct <= 25) { band = 6; }
+                    else if (correct >= 26 && correct <= 29) { band = 6.5 }
+                    else if (correct >= 30 && correct <= 31) { band = 7; }
+                    else if (correct >= 32 && correct <= 34) { band = 7.5; }
+                    else if (correct >= 35 && correct <= 36) { band = 8; }
+                    else if (correct >= 37 && correct <= 38) { band = 8.5 }
+                    else if (correct >= 39 && correct <= 40) { band = 9; }
+                }
+
+                question.forEach(element => {
+                    element.band = band;
+                });
+
+                fetch('http://localhost:3000/api/insertExam', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'exam_id': exam_id == "" ? "" : exam_id
+                    },
+                    body: JSON.stringify(question),
+                }).then(response => {
+                    popupclose(event);
+
+                });
             } else {
-                if (correct >= 10 && correct <= 12) { band = 4; }
-                else if (correct >= 13 && correct <= 15) { band = 4.5; }
-                else if (correct >= 16 && correct <= 17) { band = 5; }
-                else if (correct >= 18 && correct <= 22) { band = 5.5; }
-                else if (correct >= 23 && correct <= 25) { band = 6; }
-                else if (correct >= 26 && correct <= 29) { band = 6.5 }
-                else if (correct >= 30 && correct <= 31) { band = 7; }
-                else if (correct >= 32 && correct <= 34) { band = 7.5; }
-                else if (correct >= 35 && correct <= 36) { band = 8; }
-                else if (correct >= 37 && correct <= 38) { band = 8.5 }
-                else if (correct >= 39 && correct <= 40) { band = 9; }
+                createToast('error', 'There is no question to save');
             }
-
-            question.forEach(element => {
-                element.band = band;
-            });
-
-            fetch('http://localhost:3000/api/insertExam', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'exam_id': exam_id == "" ? "" : exam_id
-                },
-                body: JSON.stringify(question),
-            }).then(response => {
-                popupclose(event);
-
-            });
         }
     } catch (error) {
         createToast('error', 'Error while saving data : ' + error.message);
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to get id of deleting question and open delete popup
+// Updated on - -
+// Input - event
 function deletequestion(event) {
     try {
         question_id = event.target.id;
-
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
             element.style.backdropFilter = "none";
         });
@@ -253,6 +297,9 @@ function deletequestion(event) {
         Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
             element.style.display = "block";
         });
+        Array.from(document.getElementsByClassName('info-container')).forEach(element => {
+            element.style.position = "static";
+        });
 
     } catch (error) {
         createToast('error', 'Error while deleting data : ' + error.message);
@@ -260,51 +307,91 @@ function deletequestion(event) {
 
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to delete selected temporary or permanent question and close delete popup
+// Updated on - -
+// Input - event
 function del(event) {
     try {
+        let permcount = 0;
         if (event.target.id == 'yes') {
-            fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    for (let index = 0; index < 2; index++) {
-                        const divToRemove = document.getElementById(question_id);
-                        divToRemove.remove();
+            if (!question_id.includes('temp')) {
+                question.forEach(element => {
+                    if (!JSON.stringify(element.id).includes('temp')) {
+                        permcount++;
                     }
-
-                    question.forEach((element, i) => {
-                        if (element.id == question_id) {
-                            question.splice(i, 1);
+                });
+                if (permcount > 1) {
+                    fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json'
                         }
-                    });
-                    localStorage.setItem('question' + tdExam, JSON.stringify(question))
-                    createToast('success', 'Question deleted');
-                })
-                .catch(error =>
-                    createToast('error', 'Error while deleting data : ' + error.message));
-        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            for (let index = 0; index < 2; index++) {
+                                const divToRemove = document.getElementById(question_id);
+                                divToRemove.remove();
+                            }
 
+                            question.forEach((element, i) => {
+                                if (element.id == question_id) {
+                                    question.splice(i, 1);
+                                }
+                            });
+                            localStorage.setItem('question' + tdExam, JSON.stringify(question))
+                            createToast('success', 'Question deleted');
+                        })
+                        .catch(error =>
+                            createToast('error', 'Error while deleting data : ' + error.message));
+                } else {
+                    createToast('error', 'Cannot delete last stored type');
+                    createToast('info', 'Store new question and save exam before deleting last stored type');
+
+                }
+            } else {
+                question.forEach((element, i) => {
+                    if (element.id == question_id) {
+                        question.splice(i, 1);
+                    }
+                });
+                localStorage.setItem('question' + tdExam, JSON.stringify(question))
+                createToast('success', 'Question deleted');
+
+            }
+        }
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
-            element.style.backdropFilter = "blur(7.4px)";
+            element.style.backdropFilter = "blur(1px)";
         });
         Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
             element.style.display = "none";
         });
+        Array.from(document.getElementsByClassName('info-container')).forEach(element => {
+            element.style.position = "relative";
+        });
 
     } catch (error) {
         createToast('error', 'Error while deleting data : ' + error.message);
     }
 }
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set spinner
+// Updated on - -
+// Input - none
 window.addEventListener("beforeunload", function (event) {
     document.getElementById("spinner").style.display = 'flex';
     document.getElementById("main").style.display = 'none';
 });
 
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to remove spinner
+// Updated on - -
+// Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
         document.getElementById("spinner").style.display = 'none';

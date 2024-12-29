@@ -20,20 +20,22 @@
 
     <div class="delete-popup">
         <div class="delete-pop">
-            <div class="header-delete"> DELETE </div>
-            <div class="body-delete">
-                <div class="delete-icon">
-                    <div class="trash">
-                        <i class="fa fa-trash" aria-hidden="true"></i>
+            <div class="delete-box glass">
+                <div class="header-delete"> DELETE </div>
+                <div class="body-delete">
+                    <div class="delete-icon">
+                        <div class="trash">
+                            <i class="fa fa-trash" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                    <div class="delete-text">
+                        Do you want to delete?
                     </div>
                 </div>
-                <div class="delete-text">
-                    Do you want to delete?
+                <div class="footer-delete">
+                    <button class="button-63-delete" onclick="del(event)" role="button" id="yes">Delete</button>
+                    <button class="button-63-delete" onclick="del(event)" role="button" id="no">Cancel</button>
                 </div>
-            </div>
-            <div class="footer-delete">
-                <button class="button-63-delete" onclick="del(event)" role="button" id="yes">Delete</button>
-                <button class="button-63-delete" onclick="del(event)" role="button" id="no">Cancel</button>
             </div>
         </div>
     </div>
@@ -50,11 +52,13 @@
     <main id="main">
         <div class="header glass">
             <div class="logo">
-                <h1 class="companylogo"> IELTS <span style="color: #106eea;">Analyzer.</span></h1>
-                <h5 class="descrip">Score more than 8 bands</h5>
+                <h1 class="companylogo"> <a href="../index.html">IELTS <span style="color: white;">Analyzer.</span></a>
+                </h1>
+                <h5 class="descrip"><a href="../index.html">Score more than 8 bands</a></h5>
             </div>
             <div class="details">
-                <a class="navbartransition" href="#" id="save" onclick="popupopen(event)">Save</a>
+                <!-- <a class="navbartransition" href="#" id="save" onclick="popupopen(event)">Save</a> -->
+                <button class="button-64 tip-open-button" id="save" onclick="popupopen(event)">Save</button>
                 <a class="navbartransition" href="../index.html">Home</a>
                 <i class="fa fa-user" id="not-log" style="font-size: 30px;" onclick="authentication(event)"
                     aria-hidden="true"></i>
@@ -65,24 +69,32 @@
         <div class="section-divider">
             <div class="section1 glass">
                 <div class="upper-section">
-                    <div class="section-title"> Section 1</div>
+                    <div class="section-title">
+                        Section 1
+                        <div class="info-container">
+                            <i class="fa fa-info-circle" id="info1"
+                                title="Choose the question type and mention the total correct, incorrect, and missed answers. Avoid repeating individual answers."></i>
+                            <div class="tooltip-text tooltip-text-1">Choose the question type and mention the total correct, incorrect,
+                                and missed answers. Avoid repeating individual answers.</div>
+                        </div>
+                    </div>
                     <div class="section-dataentry">
                         <div class="question-type">
                             <label for="question-type"> Question Type :</label>
-                            <select name="Question Type" id="question1" class="questions">
+                            <select class="text-field" name="Question Type" id="question1" class="questions">
                             </select>
                         </div>
                         <div class="correct-answer">
                             <label for="correct"> Correct Answer :</label>
-                            <input type="number" id="correct1" value="0">
+                            <input class="text-field" type="number" id="correct1" value="0">
                         </div>
                         <div class="incorrect-answer">
                             <label for="incorrect"> Incorrect Answer :</label>
-                            <input type="number" id="incorrect1" value="0">
+                            <input class="text-field" type="number" id="incorrect1" value="0">
                         </div>
                         <div class="missed-answer">
                             <label for="missed"> Missed Answer :</label>
-                            <input type="number" id="miss1" value="0">
+                            <input class="text-field" type="number" id="miss1" value="0">
                         </div>
                         <div class=" button-63" id="1" onclick="getData(event)">
                             <div id="1">Save & New</div>
@@ -95,24 +107,32 @@
             </div>
             <div class="section2 glass">
                 <div class="upper-section">
-                    <div class="section-title"> Section 2</div>
+                    <div class="section-title">
+                        Section 2
+                        <div class="info-container">
+                            <i class="fa fa-info-circle" id="info4"
+                                title="Choose the question type and mention the total correct, incorrect, and missed answers. Avoid repeating individual answers."></i>
+                            <div class="tooltip-text">Choose the question type and mention the total correct, incorrect,
+                                and missed answers. Avoid repeating individual answers.</div>
+                        </div>
+                    </div>
                     <div class="section-dataentry">
                         <div class="question-type">
                             <label for="question-type"> Question Type :</label>
-                            <select name="Question Type" id="question2" class="questions">
+                            <select class="text-field" name="Question Type" id="question2" class="questions">
                             </select>
                         </div>
                         <div class="correct-answer">
                             <label for="correct"> Correct Answer :</label>
-                            <input type="number" id="correct2" value="0">
+                            <input class="text-field" type="number" id="correct2" value="0">
                         </div>
                         <div class="incorrect-answer">
                             <label for="incorrect"> Incorrect Answer :</label>
-                            <input type="number" id="incorrect2" value="0">
+                            <input class="text-field" type="number" id="incorrect2" value="0">
                         </div>
                         <div class="missed-answer">
                             <label for="missed"> Missed Answer :</label>
-                            <input type="number" id="miss2" value="0">
+                            <input class="text-field" type="number" id="miss2" value="0">
                         </div>
                         <div class=" button-63" id="2" onclick="getData(event)">
                             <div id="2">Save & New</div>
@@ -125,24 +145,32 @@
             </div>
             <div class="section3 glass">
                 <div class="upper-section">
-                    <div class="section-title"> Section 3</div>
+                    <div class="section-title">
+                        Section 3
+                        <div class="info-container">
+                            <i class="fa fa-info-circle" id="info4"
+                                title="Choose the question type and mention the total correct, incorrect, and missed answers. Avoid repeating individual answers."></i>
+                            <div class="tooltip-text">Choose the question type and mention the total correct, incorrect,
+                                and missed answers. Avoid repeating individual answers.</div>
+                        </div>
+                    </div>
                     <div class="section-dataentry">
                         <div class="question-type">
                             <label for="question-type"> Question Type :</label>
-                            <select name="Question Type" id="question3" class="questions">
+                            <select class="text-field" name="Question Type" id="question3" class="questions">
                             </select>
                         </div>
                         <div class="correct-answer">
                             <label for="correct"> Correct Answer :</label>
-                            <input type="number" id="correct3" value="0">
+                            <input class="text-field" type="number" id="correct3" value="0">
                         </div>
                         <div class="incorrect-answer">
                             <label for="incorrect"> Incorrect Answer :</label>
-                            <input type="number" id="incorrect3" value="0">
+                            <input class="text-field" type="number" id="incorrect3" value="0">
                         </div>
                         <div class="missed-answer">
                             <label for="missed"> Missed Answer :</label>
-                            <input type="number" id="miss3" value="0">
+                            <input class="text-field" type="number" id="miss3" value="0">
                         </div>
                         <div class=" button-63" id="3" onclick="getData(event)">
                             <div id="3">Save & New</div>
@@ -155,24 +183,32 @@
             </div>
             <div class="section4 glass" id="section4">
                 <div class="upper-section">
-                    <div class="section-title"> Section 4</div>
+                    <div class="section-title">
+                        Section 4
+                        <div class="info-container">
+                            <i class="fa fa-info-circle" id="info4"
+                                title="Choose the question type and mention the total correct, incorrect, and missed answers. Avoid repeating individual answers."></i>
+                            <div class="tooltip-text">Choose the question type and mention the total correct, incorrect,
+                                and missed answers. Avoid repeating individual answers.</div>
+                        </div>
+                    </div>
                     <div class="section-dataentry">
                         <div class="question-type">
                             <label for="question-type"> Question Type :</label>
-                            <select name="Question Type" id="question4" class="questions">
+                            <select class="text-field" name="Question Type" id="question4" class="questions">
                             </select>
                         </div>
                         <div class="correct-answer">
                             <label for="correct"> Correct Answer :</label>
-                            <input type="number" id="correct4" value="0">
+                            <input class="text-field" type="number" id="correct4" value="0">
                         </div>
                         <div class="incorrect-answer">
                             <label for="incorrect"> Incorrect Answer :</label>
-                            <input type="number" id="incorrect4" value="0">
+                            <input class="text-field" type="number" id="incorrect4" value="0">
                         </div>
                         <div class="missed-answer">
                             <label for="missed"> Missed Answer :</label>
-                            <input type="number" id="miss4" value="0">
+                            <input class="text-field" type="number" id="miss4" value="0">
                         </div>
                         <div class=" button-63" id="4" onclick="getData(event)">
                             <div id="4">Save & New</div>
@@ -200,16 +236,16 @@
 
             <div class="front-div save-div glass" id="save-div">
                 <div class="shadowdiv"></div>
-                <div class="show-data show-data1">
+                <div class="show-data show-data1 glass">
                     <div class="data-title"> Save</div>
                     <div class="save-data show-data1">
                         <div class="incorrect-answer">
                             <label for="exam-name"><span style="color: red;">*</span> Exam Name:</label>
-                            <input type="text" id="examname">
+                            <input type="text" class="inputbox" id="examname">
                         </div>
                         <div class="incorrect-answer">
                             <label for="exam-date"><span style="color: red;">*</span> Exam Date :</label>
-                            <input type="date" id="examdate">
+                            <input type="date" class="inputbox" id="examdate">
                         </div>
                     </div>
                     <div class="savebutton">
