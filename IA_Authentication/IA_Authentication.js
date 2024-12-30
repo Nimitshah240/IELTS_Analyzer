@@ -87,7 +87,7 @@ function googleSignin() {
 
         let params = {
             "client_id": "960583894295-h50j910bdioqrmlrargqs6hust6in4ap.apps.googleusercontent.com",
-            "redirect_uri": "http://localhost/IA_Code/IA_Authentication/IA_Authentication.html",
+            "redirect_uri": "https://ieltsanalyzer.netlify.app/IA_Authentication/IA_Authentication.html",
             "response_type": "token",
             "scope": "https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email",
             "include_granted_scope": 'true',
