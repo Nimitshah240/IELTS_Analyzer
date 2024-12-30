@@ -332,7 +332,7 @@ function Userlogo() {
         if (localStorage.getItem('user_data') != null && document.getElementById("not-log")) {
             document.getElementById('not-log').style.display = 'none';
             document.getElementById('login-img').style.display = 'block';
-            document.getElementById('login-img').setAttribute('src', data.picture);
+            document.getElementById('login-img').setAttribute('src', JSON.parse(localStorage.getItem('user_data')).picture);
         }
     } catch (error) {
         createToast('error', 'Error while fetching user data : ' + error.message);
