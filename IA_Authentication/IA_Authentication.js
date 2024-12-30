@@ -220,7 +220,7 @@ function showSignout() {
 function fetchUser(user_id) {
     try {
 
-        fetch(`http://localhost:3000/api/checkUser?user_id=${user_id}`)
+        fetch(`https://ielts-analyzer.onrender.com/api/checkUser?user_id=${user_id}`)
             .then(response => response.json())
             .then(responsedata => {
                 document.getElementById('continue').style.display = 'block';
@@ -297,7 +297,7 @@ function continueClick() {
                 data.type = temptype;
                 data.privacy = tempprivacy;
 
-                fetch('http://localhost:3000/api/updateUserData', {
+                fetch('https://ielts-analyzer.onrender.com/api/updateUserData', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

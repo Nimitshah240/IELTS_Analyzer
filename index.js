@@ -82,7 +82,7 @@ async function fetchExamData() {
         let listeningband = [];
         let exammap = new Map();
 
-        fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
+        fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
             .then(response => response.json())
             .then(responseData => {
                 responseData.forEach(element => {
@@ -177,7 +177,7 @@ function sendemail() {
         var re = /\S+@\S+\.\S+/;
 
         if (data.name.trim() != '' && data.email.trim() != '' && re.test(email)) {
-            fetch('http://localhost:3000/api/feedback', {
+            fetch('https://ielts-analyzer.onrender.com/api/feedback', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
