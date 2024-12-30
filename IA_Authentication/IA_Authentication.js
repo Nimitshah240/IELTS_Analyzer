@@ -10,7 +10,7 @@ var user_location;
 var user_id;
 var data = [];
 var maindata;
-var dynamicUrl = '../index.html';
+var dynamicUrl = '../';
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -148,7 +148,7 @@ function SignedIn() {
                     delete info.sub;
                     maindata = info;
                     picture = info.picture;
-                    dynamicUrl = '../index.html?signedin=true';
+                    dynamicUrl = '../?signedin=true';
                     if (info) {
                         let today = new Date();
                         let year = today.getFullYear();
@@ -183,7 +183,7 @@ function Signout(event) {
             }).then(() => {
                 localStorage.removeItem('authInfo');
                 localStorage.removeItem('user_data');
-                dynamicUrl = '../index.html';
+                dynamicUrl = '../';
                 window.location.href = dynamicUrl;
             })
         } else {
