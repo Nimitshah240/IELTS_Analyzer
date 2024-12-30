@@ -127,7 +127,7 @@ function SignedIn() {
         let info = JSON.parse(JSON.stringify(params));
         access_token = info['access_token'];
         localStorage.setItem("authInfo", info['access_token']);
-        window.history.pushState({}, document.title, "/IA_Code/IA_Authentication/IA_Authentication.html");
+        window.history.pushState({}, document.title, "/IA_Authentication/IA_Authentication.html");
 
         if (access_token != '') {
             fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
