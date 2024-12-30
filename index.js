@@ -27,7 +27,7 @@ function indexconnectedCallback() {
 
         if (JSON.parse(localStorage.getItem('user_data')) != null) {
             if (signin) {
-                window.history.pushState({}, document.title, "/IA_Code/index.html");
+                window.history.pushState({}, document.title, "/index.html");
                 createToast('success', "Welcome " + JSON.parse(localStorage.getItem('user_data')).firstname)
             }
             fetchExamData();// Control api callout
