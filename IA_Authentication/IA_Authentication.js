@@ -19,7 +19,7 @@ var dynamicUrl = '../index.html';
 // Input - none
 function authentication(event) {
     let domain = new URL(window.location.href).origin;
-    domain += '/IA_Code/IA_Authentication/IA_Authentication.html';
+    domain += '/IA_Authentication/IA_Authentication.html';
     event.target.href = domain;
     window.location.href = domain;
 }
