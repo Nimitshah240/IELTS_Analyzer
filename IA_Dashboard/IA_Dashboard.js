@@ -220,7 +220,7 @@ function countbox() {
         document.getElementById('totalquestion').innerHTML = totalquestion
         document.getElementById('avg-band').innerHTML = calculateAverage(avg);
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 

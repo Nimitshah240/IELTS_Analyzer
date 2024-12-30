@@ -110,6 +110,6 @@ function opendashboard(event) {
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }

@@ -37,7 +37,6 @@ let totalquestion = 0;
 let textAroundposition = 0 + 155;
 if (screen.width >= 768 && screen.width < 1024) {
     textAroundposition = 0 + 120;
-    console.log(textAroundposition);
 }
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -258,7 +257,7 @@ function countbox(bandtotal, exammap, totalquestion) {
         document.getElementById('totalquestion').innerHTML = totalquestion
         document.getElementById('avg-band').innerHTML = calculateAverage(avg);
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
