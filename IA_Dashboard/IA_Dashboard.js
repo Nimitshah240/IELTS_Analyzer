@@ -32,10 +32,10 @@ let question_total = new Map();
 let responseData = [];
 let bandtotal = new Map();
 let setcolor = [];
-let colorList = ['#ff4a86', '#aeff4a', '#ff4a53', '#ffed4a', '#a14aff', '#ff90b3', '#4aaeff', '#4affc9', '#ff4a4a', '#a172fd', '#4a5cff', '#ef6803', '#722e9a']
 let totalquestion = 0;
 let fontStyle = '25px sans-serif';
 let textAroundposition = 0 + 155;
+colorList = ['#17ffee', '#6917d0', '#cc17ff', '#17ffa4', '#ff1791', '#95e214', '#ee9b00', '#94d2bd', '#cdff03', '#007cbe', '#bdb2ff', '#ede7b1', '#d3a588'];
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -557,7 +557,8 @@ function chart7() {
                 quest_score3.get(element) == undefined ? 0 : quest_score3.get(element),
                 quest_score4.get(element) == undefined ? 0 : quest_score4.get(element)],
                 'backgroundColor': colorList.at(index),
-                'borderWidth': 0.5,
+                'borderWidth': 1,
+                hoverBorderWidth: 2,
                 'borderColor': 'black',
                 borderRadius: 5,
             })
@@ -654,7 +655,8 @@ function chart8() {
                 quest_score3.get(element) == undefined ? 0 : quest_score3.get(element),
                 quest_score4.get(element) == undefined ? 0 : quest_score4.get(element)],
                 'backgroundColor': colorList.at(index),
-                'borderWidth': 0.5,
+                'borderWidth': 1,
+                hoverBorderWidth: 2,
                 'borderColor': 'black',
                 borderRadius: 5,
             })

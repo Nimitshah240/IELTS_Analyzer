@@ -474,6 +474,7 @@ a {
     }
 
     .footer-section-1-1 {
+        height: 40%;
         border-radius: 0px;
         border-top: 1px solid white;
     }
@@ -567,10 +568,6 @@ a {
         width: 80%;
     }
 
-    .footer-section-1-1 {
-        height: 30%;
-    }
-
     .footer-section-1-2 {
         height: 60%;
         padding: 25px;
@@ -622,7 +619,8 @@ a {
     }
 
     .footer-section-1-1 {
-        height: 30%;
+        height: 40%;
+        padding-top: 20px;
     }
 
     .footer-section-1-2 {
