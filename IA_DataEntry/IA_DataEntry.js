@@ -260,7 +260,7 @@ function saveexam(event) {
                     element.band = band;
                 });
 
-                fetch('http://localhost:3000/api/insertExam', {
+                fetch('https://ielts-analyzer.onrender.com/api/insertExam', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -323,7 +323,7 @@ function del(event) {
                     }
                 });
                 if (permcount > 1) {
-                    fetch(`http://localhost:3000/api/deleteQuestion?question_id=${question_id}`, {
+                    fetch(`https://ielts-analyzer.onrender.com/api/deleteQuestion?question_id=${question_id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json'

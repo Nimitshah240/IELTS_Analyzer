@@ -79,7 +79,7 @@ function examData() {
     try {
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
             const user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
-            fetch(`http://localhost:3000/api/examdata?user_id=${user_id}&module=${module}`)
+            fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
                 .then(response => response.json())
                 .then(responseData => {
                     question = responseData;
@@ -211,7 +211,7 @@ function deleteexam(event) {
 function del(event) {
     try {
         if (event.target.id == 'yes') {
-            fetch(`http://localhost:3000/api/deleteExam?exam_id=${del_exam_id}`, {
+            fetch(`https://ielts-analyzer.onrender.com/api/deleteExam?exam_id=${del_exam_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
