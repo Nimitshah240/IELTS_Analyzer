@@ -27,7 +27,7 @@ function indexconnectedCallback() {
 
         if (JSON.parse(localStorage.getItem('user_data')) != null) {
             if (signin) {
-                window.history.pushState({}, document.title, "/IA_Code/index.html");
+                window.history.pushState({}, document.title, "/");
                 createToast('success', "Welcome " + JSON.parse(localStorage.getItem('user_data')).firstname)
             }
             fetchExamData();// Control api callout
@@ -85,9 +85,7 @@ async function fetchExamData() {
         fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
             .then(response => response.json())
             .then(responseData => {
-                responseData.forEach(element => {
-                    console.log('listening', element);
-                    
+                responseData.forEach(element => {                  
                     exammap.set(element.exam_id, { 'band': element.band, 'module': element.module });
                     if (element.module == 'Reading' && element.id != null) {
                         reading_question_count+= element.total;

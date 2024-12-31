@@ -25,6 +25,7 @@ a {
 
 main {
     width: 100%;
+    background-color: #2BAACD;
     overflow-x: hidden;
 }
 
@@ -50,7 +51,6 @@ main {
 
 body {
     line-height: 1 !important;
-    background-color: #2BAACD;
 }
 
 /* glass */
@@ -121,7 +121,6 @@ body {
 .button-63 {
     border: 0;
     border-radius: 8px;
-    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
     background-image: linear-gradient(144deg, #AF40FF, #42a5f3 50%, #00DDEB);
     color: #FFFFFF;
     font-family: Phantomsans, sans-serif;
@@ -214,10 +213,15 @@ body {
 
     .descrip {
         font-size: 12px;
+        margin: 0px 0px 10px;
     }
 
     .details {
         gap: 15px;
+    }
+
+    .navbartransition {
+        display: none;
     }
 
     /* buttons */

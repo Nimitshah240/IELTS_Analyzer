@@ -10,7 +10,7 @@ var user_location;
 var user_id;
 var data = [];
 var maindata;
-var dynamicUrl = '../index.html';
+var dynamicUrl = '../';
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -19,7 +19,7 @@ var dynamicUrl = '../index.html';
 // Input - none
 function authentication(event) {
     let domain = new URL(window.location.href).origin;
-    domain += '/IA_Code/IA_Authentication/IA_Authentication.html';
+    domain += '/IA_Authentication/IA_Authentication.html';
     event.target.href = domain;
     window.location.href = domain;
 }
@@ -87,7 +87,7 @@ function googleSignin() {
 
         let params = {
             "client_id": "960583894295-h50j910bdioqrmlrargqs6hust6in4ap.apps.googleusercontent.com",
-            "redirect_uri": "http://localhost/IA_Code/IA_Authentication/IA_Authentication.html",
+            "redirect_uri": "https://ieltsanalyzer.netlify.app/ia_authentication/ia_authentication.html",
             "response_type": "token",
             "scope": "https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email",
             "include_granted_scope": 'true',
@@ -127,7 +127,7 @@ function SignedIn() {
         let info = JSON.parse(JSON.stringify(params));
         access_token = info['access_token'];
         localStorage.setItem("authInfo", info['access_token']);
-        window.history.pushState({}, document.title, "/IA_Code/IA_Authentication/IA_Authentication.html");
+        window.history.pushState({}, document.title, "/IA_Authentication/IA_Authentication.html");
 
         if (access_token != '') {
             fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -148,7 +148,7 @@ function SignedIn() {
                     delete info.sub;
                     maindata = info;
                     picture = info.picture;
-                    dynamicUrl = '../index.html?signedin=true';
+                    dynamicUrl = '../?signedin=true';
                     if (info) {
                         let today = new Date();
                         let year = today.getFullYear();
@@ -183,7 +183,7 @@ function Signout(event) {
             }).then(() => {
                 localStorage.removeItem('authInfo');
                 localStorage.removeItem('user_data');
-                dynamicUrl = '../index.html';
+                dynamicUrl = '../';
                 window.location.href = dynamicUrl;
             })
         } else {
@@ -332,7 +332,7 @@ function Userlogo() {
         if (localStorage.getItem('user_data') != null && document.getElementById("not-log")) {
             document.getElementById('not-log').style.display = 'none';
             document.getElementById('login-img').style.display = 'block';
-            document.getElementById('login-img').setAttribute('src', data.picture);
+            document.getElementById('login-img').setAttribute('src', JSON.parse(localStorage.getItem('user_data')).picture);
         }
     } catch (error) {
         createToast('error', 'Error while fetching user data : ' + error.message);

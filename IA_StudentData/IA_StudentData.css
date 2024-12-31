@@ -79,7 +79,6 @@ body {
 .button-63 {
     border: 0;
     border-radius: 8px;
-    box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
     color: black;
     font-family: Phantomsans, sans-serif;
     cursor: pointer;
@@ -328,6 +327,7 @@ body {
 
     .descrip {
         font-size: 12px;
+        margin: 0px 0px 10px;
     }
 
     .details {
