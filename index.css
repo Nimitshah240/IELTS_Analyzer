@@ -24,6 +24,7 @@ a {
     height: 12%;
     width: 100%;
     border-radius: 0px 0px 15px 15px !important;
+    box-shadow: 1px 0px 4px rgba(3, 3, 3, 0.5);
     display: flex;
     line-height: 1;
 
