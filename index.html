@@ -23,144 +23,146 @@
     <!-- Toast -->
     <ul class="notifications" id="notifications"> </ul>
     <!-- Toast -->
+    <main>
+        <div class="header glass" id="main">
+            <div class="logo">
+                <h1 class="companylogo"> <a href="../index.html">IELTS <span style="color: white;">Analyzer.</span></a>
+                </h1>
+                <h5 class="descrip"><a href="../index.html">Score more than 8 bands</a></h5>
+            </div>
+            <div class="details">
+                <a class="navbartransition " href="#overview">Overall</a>
+                <a class="navbartransition" href="#contact">Contact</a>
+                <i class="fa fa-user" id="not-log" style="font-size: 30px;" onclick="authentication(event)"
+                    aria-hidden="true"></i>
+                <img id="login-img" class="login-img" onclick="authentication(event)" />
+            </div>
+        </div>
 
-    <div class="header glass" id="main">
-        <div class="logo">
-            <h1 class="companylogo"> <a href="../index.html">IELTS <span style="color: white;">Analyzer.</span></a>
-            </h1>
-            <h5 class="descrip"><a href="../index.html">Score more than 8 bands</a></h5>
-        </div>
-        <div class="details">
-            <a class="navbartransition " href="#overview">Overall</a>
-            <a class="navbartransition" href="#contact">Contact</a>
-            <i class="fa fa-user" id="not-log" style="font-size: 30px;" onclick="authentication(event)"
-                aria-hidden="true"></i>
-            <img id="login-img" class="login-img" onclick="authentication(event)" />
-        </div>
-    </div>
-
-    <div class="body" id="main">
-        <div class="hero-section glass">
-            <div class="hero-main">
-                <div class="hero">
-                    <div class="title">
-                        You haven't analyzed your IELTS test yet. </div>
-                    <div class="sub-title">
-                        Let's explore your results now!
-                    </div>
-                    <div class="buttons">
-                        <button class="button" onclick="setHref(event)" id="data">Data</button>
-                        <button class="button" onclick="setHref(event)" id="dashboard">Dashboard</button>
-                        <button class="button" onclick="setHref(event)" id="tips">Trick</button>
+        <div class="body" id="main">
+            <div class="hero-section glass">
+                <div class="hero-main">
+                    <div class="hero">
+                        <div class="title">
+                            You haven't analyzed your IELTS test yet. </div>
+                        <div class="sub-title">
+                            Let's explore your results now!
+                        </div>
+                        <div class="buttons">
+                            <button class="button" onclick="setHref(event)" id="data">Data</button>
+                            <button class="button" onclick="setHref(event)" id="dashboard">Dashboard</button>
+                            <button class="button" onclick="setHref(event)" id="tips">Trick</button>
+                        </div>
                     </div>
                 </div>
+                <div class="hero-img">
+                    <img src="Asset\6917.jpg" class="dashboard-img" alt="">
+                </div>
             </div>
-            <div class="hero-img">
-                <img src="Asset\6917.jpg" class="dashboard-img" alt="">
-            </div>
-        </div>
-        <div class="reading-section glass" id="overview">
-            <div class="reading-section-1">
-                <img src="Asset\2149200171.jpg" id="reading-img" class="dashboard-img reading-img" alt="">
-            </div>
-            <div class="reading-section-pre-2">
-                <div class="reading-title">Reading Performance</div>
-                <div class="reading-section-2">
-                    <div class="card">
-                        <div class="score" id="count-reading"> - </div>
-                        <div class="performance-title"> Exams </div>
-                    </div>
-                    <div class="card">
-                        <div class="score" id="question-count-reading"> - </div>
-                        <div class="performance-title"> Questions </div>
-                    </div>
-                    <div class="card">
-                        <div class="score" id="reading-band"> - </div>
-                        <div class="performance-title">Avg. Band </div>
+            <div class="reading-section glass" id="overview">
+                <div class="reading-section-1">
+                    <img src="Asset\2149200171.jpg" id="reading-img" class="dashboard-img reading-img" alt="">
+                </div>
+                <div class="reading-section-pre-2">
+                    <div class="reading-title">Reading Performance</div>
+                    <div class="reading-section-2">
+                        <div class="card">
+                            <div class="score" id="count-reading"> - </div>
+                            <div class="performance-title"> Exams </div>
+                        </div>
+                        <div class="card">
+                            <div class="score" id="question-count-reading"> - </div>
+                            <div class="performance-title"> Questions </div>
+                        </div>
+                        <div class="card">
+                            <div class="score" id="reading-band"> - </div>
+                            <div class="performance-title">Avg. Band </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="listening-section glass">
-            <div class="listening-section-pre-1">
-                <div class="listening-title">Listening Performance</div>
-                <div class="listening-section-1">
-                    <div class="card">
-                        <div class="score" id="count-listening"> - </div>
-                        <div class="performance-title"> Exams</div>
+            <div class="listening-section glass">
+                <div class="listening-section-pre-1">
+                    <div class="listening-title">Listening Performance</div>
+                    <div class="listening-section-1">
+                        <div class="card">
+                            <div class="score" id="count-listening"> - </div>
+                            <div class="performance-title"> Exams</div>
+                        </div>
+                        <div class="card">
+                            <div class="score" id="question-count-listening"> - </div>
+                            <div class="performance-title"> Questions </div>
+                        </div>
+                        <div class="card">
+                            <div class="score" id="listening-band"> - </div>
+                            <div class="performance-title">Avg. Band </div>
+                        </div>
                     </div>
-                    <div class="card">
-                        <div class="score" id="question-count-listening"> - </div>
-                        <div class="performance-title"> Questions </div>
-                    </div>
-                    <div class="card">
-                        <div class="score" id="listening-band"> - </div>
-                        <div class="performance-title">Avg. Band </div>
-                    </div>
                 </div>
-            </div>
-            <div class="listening-section-2">
-                <img src="" id="listening-img" class="dashboard-img listening-img" alt="">
-            </div>
-        </div>
-    </div>
-    <div class="footer glass" id="main">
-        <div class="footer-section-1">
-            <div class="footer-section-1-1">
-                <div class="more">Links</div>
-                <div class="pages">
-                    <u><a href="./IA_Selection/IA_Selection.html?type=data">Data</a></u>
-                    <u><a href="./IA_Selection/IA_Selection.html?type=dashboard">Dashboard</a></u>
-                    <u> <a href="./IA_Selection/IA_Selection.html?type=trick">Trick</a></u>
-                    <u><a href="Asset\IELTS ANALYZER MANUAL.pdf" download>Manual</a></u>
-                </div>
-            </div>
-            <div class="footer-section-1-2">
-                <div class="footer-details">
-                    <div class="details-head"> Email :</div>
-                    <div> nimitshah240@gmail.com </div>
-                </div>
-                <div class="footer-details">
-                    <div class="details-head "> Phone : </div>
-                    <div> +91 6353756701</div>
-                </div>
-                <div class="footer-details">
-                    <div class="details-head "> Address : </div>
-                    <div> 123 xyz building, abc district, ABC state, India, 380013</div>
-                </div>
-            </div>
-            <div class="footer-section-1-3">
-                © Copyright Nimit Shah. All Rights Reserved.
-            </div>
-        </div>
-        <div class="footer-section-2">
-            <div class="glass">
-                <div class="contact-us" id="contact">
-                    Contact Us
-                </div>
-                <div class="input-box">
-                    <input type="text" placeholder="Name*" class="text-field" id="name">
-                    <input type="email" placeholder="Email*" class="text-field" id="email">
-                    <textarea type="text-area" placeholder="Type your message here" class="desc-field"
-                        id="message"></textarea>
-                    <button class="send-button" onclick="sendemail(event)" id="data">Send</button>
-                </div>
-                <div class="contact-button">
-                    <a href="mailto:nimitshah240@gmail.com">
-                        <i class="fa fa-envelope-o contact-icon" aria-hidden="true"></i>
-                    </a>
-                    <a href="https://wa.me/6353756701">
-                        <i class="fa fa-whatsapp contact-icon" aria-hidden="true"></i>
-                    </a>
-                    <a href="https://www.instagram.com/_nimittt_3000_/">
-                        <i class="fa fa-instagram contact-icon" aria-hidden="true"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/nimit-shah-4623411b8/">
-                        <i class="fa fa-linkedin contact-icon" aria-hidden="true"></i>
-                    </a>
+                <div class="listening-section-2">
+                    <img src="" id="listening-img" class="dashboard-img listening-img" alt="">
                 </div>
             </div>
         </div>
-    </div>
+        <div class="footer glass" id="main">
+            <div class="footer-section-1">
+                <div class="footer-section-1-1">
+                    <div class="more">Links</div>
+                    <div class="pages">
+                        <u><a href="./IA_Selection/IA_Selection.html?type=data">Data</a></u>
+                        <u><a href="./IA_Selection/IA_Selection.html?type=dashboard">Dashboard</a></u>
+                        <u> <a href="./IA_Selection/IA_Selection.html?type=trick">Trick</a></u>
+                        <u><a href="Asset\IELTS ANALYZER MANUAL.pdf" download>Manual</a></u>
+                    </div>
+                </div>
+                <div class="footer-section-1-2">
+                    <div class="footer-details">
+                        <div class="details-head"> Email :</div>
+                        <div> nimitshah240@gmail.com </div>
+                    </div>
+                    <div class="footer-details">
+                        <div class="details-head "> Phone : </div>
+                        <div> +91 6353756701</div>
+                    </div>
+                    <div class="footer-details">
+                        <div class="details-head "> Address : </div>
+                        <div> 123 xyz building, abc district, ABC state, India, 380013</div>
+                    </div>
+                </div>
+                <div class="footer-section-1-3">
+                    © Copyright Nimit Shah. All Rights Reserved.
+                </div>
+            </div>
+            <div class="footer-section-2">
+                <div class="glass">
+                    <div class="contact-us" id="contact">
+                        Contact Us
+                    </div>
+                    <div class="input-box">
+                        <input type="text" placeholder="Name*" class="text-field" id="name">
+                        <input type="email" placeholder="Email*" class="text-field" id="email">
+                        <textarea type="text-area" placeholder="Type your message here" class="desc-field"
+                            id="message"></textarea>
+                        <button class="send-button" onclick="sendemail(event)" id="data">Send</button>
+                    </div>
+                    <div class="contact-button">
+                        <a href="mailto:nimitshah240@gmail.com">
+                            <i class="fa fa-envelope-o contact-icon" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://wa.me/6353756701">
+                            <i class="fa fa-whatsapp contact-icon" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.instagram.com/_nimittt_3000_/">
+                            <i class="fa fa-instagram contact-icon" aria-hidden="true"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/nimit-shah-4623411b8/">
+                            <i class="fa fa-linkedin contact-icon" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
+
 </html>

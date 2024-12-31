@@ -35,11 +35,11 @@ function arrow(event) {
         // TO CHANGE COLOR OF BUTTONS FROM GREY TO ORIGINAL
         if (at_question == 0 && (event.target.id == 'right-button' || event.target.id == 'right')) {
             button = document.getElementById("left");
-            button.style.background = 'white';
+            button.style.background = 'black';
             button.style.pointerEvents = "all";
         } else if (at_question + 1 == question_type.length && (event.target.id == 'left-button' || event.target.id == "left")) {
             button = document.getElementById("right");
-            button.style.background = 'white';
+            button.style.background = 'black';
             button.style.pointerEvents = "all";
         }
 
