@@ -59,12 +59,13 @@ main {
 
 /* Spinner */
 .body-section {
-    margin: 35px;
+    margin: 20px;
     height: 100%;
 }
 
 .box {
     height: 100%;
+    background-color: whitesmoke !important;
     display: flex;
     flex-direction: row;
 }
@@ -85,26 +86,9 @@ main {
     padding: 10px;
     overflow-wrap: break-word;
     white-space: normal;
-
     display: flex;
     align-items: center;
     justify-content: center;
-    /* height: 10%;
-    font-size: 25px;
-    overflow: scroll;
-    text-overflow: inherit;
-    white-space: nowrap;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    border: 1px solid black;
-    padding: 10px;
-    text-align: left;
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    white-space: normal; */
 }
 
 .question-type::-webkit-scrollbar {
@@ -130,8 +114,8 @@ main {
 .button-63 {
     border: 0;
     border-radius: 8px;
-    background-color: white;
-    color: black;
+    background-color: black;
+    color: white;
     font-family: Phantomsans, sans-serif;
     cursor: pointer;
 }
@@ -400,6 +384,7 @@ h4 {
     width: 100%;
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
+    box-shadow: 1px 0px 4px rgba(3, 3, 3, 0.5);
     display: flex;
 }
 

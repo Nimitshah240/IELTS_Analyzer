@@ -71,6 +71,7 @@ body {
     border-top-left-radius: 0px;
     border-top-right-radius: 0px;
     display: flex;
+    box-shadow: 1px 0px 4px rgba(3, 3, 3, 0.5);
 }
 
 .details {

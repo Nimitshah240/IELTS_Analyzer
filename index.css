@@ -1,8 +1,5 @@
-body {
+main {
     gap: 40px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
     background-color: #2BAACD;
 }
 
@@ -27,7 +24,6 @@ a {
     box-shadow: 1px 0px 4px rgba(3, 3, 3, 0.5);
     display: flex;
     line-height: 1;
-
 }
 
 .logo {
@@ -80,6 +76,7 @@ a {
     max-width: 1440px;
     width: 100%;
     gap: 40px;
+    margin: 25px 0px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -91,6 +88,7 @@ a {
     width: 90%;
     height: 520px;
     display: flex;
+    background-color: whitesmoke;
 }
 
 .hero-section {
@@ -156,7 +154,8 @@ a {
     font-weight: 400;
     cursor: pointer;
     border: 1px solid greenyellow;
-    background-color: white;
+    background-color: black;
+    color: white;
 }
 
 
@@ -168,13 +167,13 @@ a {
     width: 230px;
     height: 250px;
     border-radius: 15px;
-    backdrop-filter: blur(1px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     background: #fff;
     text-align: center;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    border: 1px solid #e1dede;
 }
 
 .score {
@@ -257,7 +256,6 @@ a {
 
 .listening-img {
     transition: opacity 1s ease-in-out;
-    /* Smooth fade transition */
     opacity: 1;
 }
 
@@ -271,6 +269,15 @@ a {
     font-size: 24px;
     height: 10%;
     font-weight: bold;
+}
+
+.hero-main,
+.listening-section-pre-1 {
+    border-right: 1px solid #e1dede;
+}
+
+.reading-section-pre-2 {
+    border-left: 1px solid #e1dede;
 }
 
 /* Body */
@@ -404,7 +411,8 @@ a {
     font-weight: 400;
     cursor: pointer;
     border: 1px solid greenyellow;
-    background-color: white;
+    background-color: black;
+    color: white;
 }
 
 .send-button:hover,
@@ -447,6 +455,14 @@ a {
 /* Footer */
 
 @media screen and (max-width: 640px) {
+
+    .hero-main,
+    .listening-section-pre-1,
+    .reading-section-pre-2 {
+        border: 0px;
+        border-top: 1px solid #e1dede;
+        border-radius: 0px 0px;
+    }
 
     .companylogo {
         height: 20%;
@@ -495,7 +511,8 @@ a {
 
     .hero-main .button {
         font-weight: 600;
-        font-size: 13px;
+        font-size: 12px;
+        font-weight: 500;
     }
 
     .performance-title {
@@ -638,8 +655,6 @@ a {
         width: 90%;
     }
 }
-
-@media screen and (min-width: 1024px) {}
 
 @media (min-width: 1280px) {
 
