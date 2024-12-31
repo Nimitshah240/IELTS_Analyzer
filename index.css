@@ -335,7 +335,7 @@ a {
 }
 
 .details-head {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 600;
 }
 
@@ -454,6 +454,7 @@ a {
 
     .descrip {
         font-size: 12px;
+        margin: 0px 0px 10px;
     }
 
     .details {
@@ -466,7 +467,6 @@ a {
 
     body {
         gap: 20px;
-        background-color: #2BAACD;
     }
 
     .body {
@@ -641,10 +641,6 @@ a {
 @media screen and (min-width: 1024px) {}
 
 @media (min-width: 1280px) {
-
-    body {
-        background-color: #2BAACD;
-    }
 
     .card {
         width: 30%;
