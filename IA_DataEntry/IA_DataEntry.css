@@ -44,7 +44,7 @@ main::-webkit-scrollbar {
 .glass {
     background: rgba(255, 255, 255, 0.19) !important;
     border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+    box-shadow: 1px 0px 4px rgba(3, 3, 3, 0.5) !important;
     backdrop-filter: blur(1px);
     border: 1px solid rgba(255, 255, 255, 1);
 }
