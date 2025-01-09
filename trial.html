@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Analyzer</title>
+    <link rel="stylesheet" href="trial.css">
+    <script src='./IA_Authentication/IA_Authentication.js'></script>
+    <script src='./index.js'></script>
+    <script src='./IA_Toast/IA_Toast.js'></script>
+    <link rel='stylesheet' href='./IA_Toast/IA_Toast.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="icon" href="Asset\icon.svg" type="image/icon type">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body onload="indexconnectedCallback()">
+    <!-- Spinner -->
+    <iframe src="../IA_Spinner/IA_Spinner.html" id="spinner" class="spinner" frameborder="0"></iframe>
+    <!-- Spinner -->
+    <!-- Toast -->
+    <ul class="notifications" id="notifications"> </ul>
+    <!-- Toast -->
+
+    <main id="main">
+        <header>
+            <nav class="navbar" id="navbar">
+                <div class="logo" id="logo">
+                    IELTS ANALYZER
+                </div>
+                <div class="links">
+                    <a class="navbartransition" href="#about">About</a>
+                    <a class="navbartransition " href="#services">Services</a>
+                    <a class="navbartransition " href="#reviews">Reviews</a>
+                    <a class="navbartransition" href="#contact">Contact</a>
+                    <i class="fa fa-user" id="not-log" style="font-size: 30px; cursor:pointer;"
+                        onclick="authentication(event)" aria-hidden="true"></i>
+                    <img id="login-img" class="login-img" onclick="authentication(event)" />
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero" id="hero">
+            <div class="hero-content" id="hero-content">
+                <div class="slide-indicator text1" id="slide-indicator">01 / 02</div>
+                <h1 class="title">IELTS ANALYZER</h1>
+                <p class="description" id="hero-text">Welcome to IELTS ANALYZER. We specialize in transforming IELTS
+                    exam
+                    data into
+                    insightful visualizations that enhance understanding and facilitate better preparation for
+                    test-takers.
+                </p>
+                <div class="buttons" id="buttons">
+                    <!-- buttons come from js -->
+                </div>
+            </div>
+        </section>
+
+        <section class="desc" id="about">
+            <h2 class="desc-header">
+                Learn more about us
+            </h2>
+            <p class="desc-text">
+                At IELTS ANALYZER, we focus on making IELTS exam data accessible and comprehensible. Our innovative
+                visualizations allow students to grasp their performance metrics clearly, enabling informed study
+                strategies. Experience the power of data-driven insights with IELTS ANALYZER.
+            </p>
+        </section>
+
+        <section class="particulars" id="services">
+            <div class="particular-1">
+                <h2 class="particular-header">
+                    Data visualization
+                </h2>
+                <p class="particular-text">
+                    Leveraging our expertise in data analysis, we create tailored visual representations of IELTS
+                    results,
+                    ensuring you can easily interpret your performance and track your progress over time.
+                </p>
+            </div>
+            <div class="particular-1 particular-2">
+                <h2 class="particular-header">Personalized insights</h2>
+                <p class="particular-text">
+                    Our dedicated team provides individualized insights based on your IELTS data, helping you understand
+                    your unique strengths and weaknesses, which allows for targeted preparation as you work towards
+                    achieving your desired score.
+                </p>
+            </div>
+            <div class="particular-1">
+                <h2 class="particular-header">
+                    Strategic Approach
+                </h2>
+                <p class="particular-text">
+                    At IELTS ANALYZER, we empower you with the knowledge and strategies to tackle various question
+                    types effectively, helping you enhance your skills and maximize your IELTS score. Trust us to guide
+                    your preparation with precision and confidence.
+                </p>
+            </div>
+        </section>
+
+        <section class="testimonials-box" id="reviews">
+            <h2 class="testimonials-header">
+                Testimonials
+            </h2>
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <img src="Asset\double-quote.svg" class="double-quote" alt="Nim">
+                    <div class="testimonial-name">Nimit Shah</div>
+                    <div class="testimonial-text">
+                        IELTS ANALYZER transformed my understanding of my exam data! Their visual
+                        tools made it easy to see where I needed to focus my studies, and the insights I gained were
+                        invaluable. The process was straightforward and empowering.
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <img src="Asset\double-quote.svg" class="double-quote" alt="Nim">
+                    <div class="testimonial-name">Deepak Patel</div>
+                    <div class="testimonial-text">
+                        IELTS ANALYZER transformed my understanding of my exam data! Their visual
+                        tools made it easy to see where I needed to focus my studies, and the insights I gained were
+                        invaluable. The process was straightforward and empowering.
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <img src="Asset\double-quote.svg" class="double-quote" alt="Nim">
+                    <div class="testimonial-name">Simran Soni</div>
+                    <div class="testimonial-text">
+                        IELTS ANALYZER transformed my understanding of my exam data! Their visual
+                        tools made it easy to see where I needed to focus my studies, and the insights I gained were
+                        invaluable. The process was straightforward and empowering.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer id="contact">
+            <h2 class="footer-header"> Contact Us</h2>
+            <div class="contact-boxes">
+                <div class="contact-box">
+                    <div class="contact-icon">
+                        <img src="Asset\mobile.svg" alt="">
+                    </div>
+                    <div class="contact-header">Contact</div>
+                    <div class="contact-details">
+                        nimitshah240@gmail.com <br>
+                        +91 6353756701
+                    </div>
+                </div>
+                <div class="contact-box">
+                    <div class="contact-icon">
+                        <img src="Asset\pin.svg" alt="">
+                    </div>
+                    <div class="contact-header">Location</div>
+                    <div class="contact-details">
+                        Pragati Nagar Street, Ahmedabad <br>
+                        Gujarat, 380013
+                    </div>
+                </div>
+                <div class="contact-box">
+                    <div class="contact-icon">
+                        <img src="Asset/clock.svg" alt="">
+                    </div>
+                    <div class="contact-header">Working Hours</div>
+                    <div class="contact-details">
+                        Open: 10:00 am <br>
+                        Closed: 17:00 pm
+                    </div>
+                </div>
+            </div>
+            <div class="rights">
+                <div class="footers-icons">
+                    <a href="mailto:nimitshah240@gmail.com">
+                        <i class="fa fa-envelope-o contact-icon" aria-hidden="true"></i>
+                    </a>
+                    <a href="https://wa.me/6353756701">
+                        <i class="fa fa-whatsapp contact-icon" aria-hidden="true"></i>
+                    </a>
+                    <a href="https://www.instagram.com/_nimittt_3000_/">
+                        <i class="fa fa-instagram contact-icon" aria-hidden="true"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/nimit-shah-4623411b8/">
+                        <i class="fa fa-linkedin contact-icon" aria-hidden="true"></i>
+                    </a>
+                </div>
+                <div class="footer-right">
+                    All Rights Reserved. IELTS ANALYZER
+                </div>
+            </div>
+        </footer>
+    </main>
+</body>
+
+</html>

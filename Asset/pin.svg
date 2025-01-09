@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="84" height="104" viewBox="0 0 64 64">
+  <!-- Pin -->
+  <circle cx="32" cy="15" r="15" fill="#22967A" />
+  <line x1="32" y1="30" x2="32" y2="54" stroke="#22967A" stroke-width="4" stroke-linecap="round" />
+  <!-- Circular base -->
+  <ellipse cx="32" cy="58" rx="18" ry="6" fill="none" stroke="#22967A" stroke-width="4" />
+</svg>
