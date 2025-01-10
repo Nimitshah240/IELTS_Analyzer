@@ -49,7 +49,7 @@ function indexconnectedCallback() {
                 window.history.pushState({}, document.title, "/");
                 createToast('success', "Welcome " + JSON.parse(localStorage.getItem('user_data')).firstname)
             }
-            fetchExamData();// Control api callout
+            // fetchExamData();// Control api callout
         }
 
     } catch (error) {
