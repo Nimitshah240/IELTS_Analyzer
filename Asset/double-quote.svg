@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="56" height="130" viewBox="0 0 56 54" fill="black">
+  <!-- Define the linear gradient -->
+  <defs>
+    <linearGradient id="text-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color: rgb(34, 150, 122); stop-opacity: 1" />
+      <stop offset="96%" style="stop-color: rgb(21, 77, 66); stop-opacity: 1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Apply the gradient to the text -->
+  <text x="14" y="28" fill="url(#text-gradient)" font-family="Arial, sans-serif" font-size="80" font-weight="bold">
+    &#8220;
+  </text>
+</svg>

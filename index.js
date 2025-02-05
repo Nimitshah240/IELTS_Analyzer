@@ -4,9 +4,30 @@ signin = urlSearchParams.get('signedin');
 var examdata;
 var index = 0;
 var images = [];
-var readingimage = [];
-var readingimageElement;
 var imageElement;
+let hero;
+let numText;
+let heroContent;
+let heroText;
+const slides = [
+    { image: "Asset\/5790b59f9d49b818ca27538455000a07.jpg", text: "01 / 02", heroText: 'Welcome to IELTS ANALYZER. We specialize in transforming IELTS exam data into insightful visualizations that enhance understanding and facilitate better preparation for test-takers.', button: ["Data", "Dashboard"], buttonURL: ['data', 'dashboard'] },
+    { image: "Asset\/380764fbad3e9dd30345b06511ed756e.jpg", text: "02 / 02", heroText: 'On the Tricks page, you will find a collection of effective techniques and strategies designed to help you master the art of answering reading and listening questions, improving your skills and performance.', button: ['Knowledge'], buttonURL: ['tips'] }
+];
+
+window.addEventListener('scroll', () => {
+    const logo = document.getElementById('logo');
+    const navbar = document.getElementById('navbar');
+
+    if (window.scrollY > 50) {
+        navbar.style.backgroundColor = '#161F1E'
+        navbar.style.justifyContent = 'space-between';
+        logo.style.display = 'block';
+    } else {
+        logo.style.display = 'none';
+        navbar.style.justifyContent = 'flex-end';
+        navbar.style.backgroundColor = 'transparent'
+    }
+});
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -15,14 +36,12 @@ var imageElement;
 // Input - none
 function indexconnectedCallback() {
     try {
-        images[0] = ['Asset\/2148573970.jpg'];
-        images[1] = ['Asset\/2148524577.jpg'];
-        readingimage = ['Asset\/2149200171.jpg', 'Asset\/1209.jpg']
-        imageElement = document.getElementById('listening-img');
-        readingimageElement = document.getElementById('reading-img');
+        hero = document.getElementById("hero");
+        heroContent = document.getElementById("hero-content");
+        numText = document.getElementById("slide-indicator");
+        heroText = document.getElementById("hero-text");
 
-
-        change();
+        updateSlide();
         Userlogo();
 
         if (JSON.parse(localStorage.getItem('user_data')) != null) {
@@ -30,7 +49,7 @@ function indexconnectedCallback() {
                 window.history.pushState({}, document.title, "/");
                 createToast('success', "Welcome " + JSON.parse(localStorage.getItem('user_data')).firstname)
             }
-            fetchExamData();// Control api callout
+            // fetchExamData();// Control api callout
         }
 
     } catch (error) {
@@ -43,95 +62,104 @@ function indexconnectedCallback() {
 // Description - Use to change photo of reading and listening div in every 6 seconds
 // Updated on - -
 // Input - none
-function change() {
+let currentIndex = 0;
+function updateSlide() {
     try {
-        imageElement.classList.add('hidden');
-        readingimageElement.classList.add('hidden');
+        const currentSlide = slides[currentIndex];
+        hero.style.backgroundImage = `url(${currentSlide.image})`;
+        heroContent.style.animation = "none"; // Reset animation
+        heroContent.offsetHeight; // Trigger reflow to restart animation
+        heroContent.style.animation = "slideText 1s forwards";
+        heroText.textContent = currentSlide.heroText;
         setTimeout(() => {
-            // For listening
-            index = (index + 1) % images.length;
-            imageElement.src = images[index];
-            imageElement.classList.remove('hidden');
+            numText.textContent = currentSlide.text;
 
-            // For reading
-            readingimageElement.src = readingimage[index];
-            readingimageElement.classList.remove('hidden');
-        }, 1000);
+        }, 500);
+        let htmlbuttons = '';
+        currentSlide.button.forEach((element, index) => {
+            if (index % 2 === 0 || index === 0) {
+                htmlbuttons += `<button class="btn btn-primary green-button" onclick="setHref(event)" id="${currentSlide.buttonURL[index]}">${element}</button>`
+            } else {
+                htmlbuttons += `<button class="btn btn-primary white-button" onclick="setHref(event)" id="${currentSlide.buttonURL[index]}">${element}</button>`
+            }
+        });
 
+        document.getElementById("buttons").innerHTML = htmlbuttons;
+        currentIndex = (currentIndex + 1) % slides.length;
     } catch (error) {
-        createToast('error', 'Error while changing image : ' + error.message);
+        createToast('error', 'Error while loading : ' + error.message);
     }
 }
-setInterval(change, 6000);
+setInterval(updateSlide, 5000);
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
-// Description - It use to get user exam data to show on home page.
-// Updated on - -
+// Description - It use to get user exam data to show on home page (NOT IN USE ANYMORE, REMOVE IT IN CLEANUP PROCESS).
+// Updated on - 05/02/2025 
 // Input - none
-async function fetchExamData() {
-    try {
-        const user_data = JSON.parse(localStorage.getItem('user_data'));
-        const user_id = user_data.user_id;
-        const module = undefined;
-        let listening_exam_count = 0;
-        let reading_exam_count = 0;
-        let reading_question_count = 0;
-        let listening_question_count = 0;
-        let readingband = [];
-        let listeningband = [];
-        let exammap = new Map();
+// async function fetchExamData() {
+//     try {
+//         const user_data = JSON.parse(localStorage.getItem('user_data'));
+//         const user_id = user_data.user_id;
+//         const module = undefined;
+//         let listening_exam_count = 0;
+//         let reading_exam_count = 0;
+//         let reading_question_count = 0;
+//         let listening_question_count = 0;
+//         let readingband = [];
+//         let listeningband = [];
+//         let exammap = new Map();
 
-        fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
-            .then(response => response.json())
-            .then(responseData => {
-                responseData.forEach(element => {                  
-                    exammap.set(element.exam_id, { 'band': element.band, 'module': element.module });
-                    if (element.module == 'Reading' && element.id != null) {
-                        reading_question_count+= element.total;
-                    } else if (element.module == 'Listening' && element.id != null) {
-                        listening_question_count+= element.total;
-                    }
-                });
+//         fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
+//             .then(response => response.json())
+//             .then(responseData => {
+//                 responseData.forEach(element => {
+//                     exammap.set(element.exam_id, { 'band': element.band, 'module': element.module });
+//                     if (element.module == 'Reading' && element.id != null) {
+//                         reading_question_count += element.total;
+//                     } else if (element.module == 'Listening' && element.id != null) {
+//                         listening_question_count += element.total;
+//                     }
+//                 });
 
-                exammap.forEach(element => {
-                    if (element.module == 'Reading') {
-                        reading_exam_count++;
-                        readingband.push(element.band);
-                    } else {
-                        listening_exam_count++;
-                        listeningband.push(element.band);
-                    }
-                });
+//                 exammap.forEach(element => {
+//                     if (element.module == 'Reading') {
+//                         reading_exam_count++;
+//                         readingband.push(element.band);
+//                     } else {
+//                         listening_exam_count++;
+//                         listeningband.push(element.band);
+//                     }
+//                 });
 
-                document.getElementById("listening-band").innerHTML = calculateAverage(listeningband);
-                document.getElementById("reading-band").innerHTML = calculateAverage(readingband);
-                document.getElementById("question-count-listening").innerHTML = listening_question_count;
-                document.getElementById("question-count-reading").innerHTML = reading_question_count;
-                document.getElementById("count-listening").innerHTML = listening_exam_count;
-                document.getElementById("count-reading").innerHTML = reading_exam_count;
-            })
-            .catch(error => createToast('error', 'Error while fetching exam data : ' + error));
+//                 document.getElementById("listening-band").innerHTML = calculateAverage(listeningband);
+//                 document.getElementById("reading-band").innerHTML = calculateAverage(readingband);
+//                 document.getElementById("question-count-listening").innerHTML = listening_question_count;
+//                 document.getElementById("question-count-reading").innerHTML = reading_question_count;
+//                 document.getElementById("count-listening").innerHTML = listening_exam_count;
+//                 document.getElementById("count-reading").innerHTML = reading_exam_count;
+//             })
+//             .catch(error => createToast('error', 'Error while fetching exam data : ' + error));
 
-    } catch (error) {
-        createToast('error', 'Error while fetching exam data : ' + error);
-    }
-}
+//     } catch (error) {
+//         createToast('error', 'Error while fetching exam data : ' + error);
+//     }
+// }
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
-// Description - Use to calculate average band of user.
-// Updated on - -
+// Description - Use to calculate average band of user (NOT IN USE ANYMORE, REMOVE IT IN CLEANUP PROCESS).
+// Updated on - 05/02/2025
 // Input - band
-function calculateAverage(numbers) {
-    if (numbers.length === 0) {
-        return 0;
-    }
-    const sum = numbers.reduce((acc, curr) => acc + curr, 0);
-    const average = sum / numbers.length;
-    const roundToNearestHalf = (num) => Math.round(num * 2) / 2;
-    return roundToNearestHalf(average);
-}
+// function calculateAverage(numbers) {
+//     if (numbers.length === 0) {
+//         return 0;
+//     }
+//     const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+//     const average = sum / numbers.length;
+//     const roundToNearestHalf = (num) => Math.round(num * 2) / 2;
+//     return roundToNearestHalf(average);
+// }
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -162,42 +190,42 @@ function setHref(event) {
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
-// Description - Use to save feedback of any user.
-// Updated on - -
+// Description - Use to save feedback of any user. (NOT IN USE ANYMORE, REMOVE IT IN CLEANUP PROCESS).
+// Updated on - 05/02/2025
 // Input - none
-function sendemail() {
-    try {
-        let user_id = ((localStorage.getItem('user_data'))) == null ? "" : JSON.parse(localStorage.getItem('user_data')).user_id;
-        var name = document.getElementById('name').value;
-        var email = document.getElementById('email').value;
-        var message = document.getElementById('message').value;
-        let data = { 'user_id': user_id, 'name': name, 'email': email, 'message': message };
-        var re = /\S+@\S+\.\S+/;
+// function sendemail() {
+//     try {
+//         let user_id = ((localStorage.getItem('user_data'))) == null ? "" : JSON.parse(localStorage.getItem('user_data')).user_id;
+//         var name = document.getElementById('name').value;
+//         var email = document.getElementById('email').value;
+//         var message = document.getElementById('message').value;
+//         let data = { 'user_id': user_id, 'name': name, 'email': email, 'message': message };
+//         var re = /\S+@\S+\.\S+/;
 
-        if (data.name.trim() != '' && data.email.trim() != '' && re.test(email)) {
-            fetch('https://ielts-analyzer.onrender.com/api/feedback', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            })
-                .then(() => {
-                    name = document.getElementById('name').value = '';
-                    email = document.getElementById('email').value = '';
-                    message = document.getElementById('message').value = '';
-                    createToast('success', 'Thank you for your feedback');
-                })
-                .catch(error => createToast('error', 'Error while sending email : ' + error.message));
+//         if (data.name.trim() != '' && data.email.trim() != '' && re.test(email)) {
+//             fetch('https://ielts-analyzer.onrender.com/api/feedback', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                 },
+//                 body: JSON.stringify(data),
+//             })
+//                 .then(() => {
+//                     name = document.getElementById('name').value = '';
+//                     email = document.getElementById('email').value = '';
+//                     message = document.getElementById('message').value = '';
+//                     createToast('success', 'Thank you for your feedback');
+//                 })
+//                 .catch(error => createToast('error', 'Error while sending email : ' + error.message));
 
-        } else {
-            createToast('error', 'Please fill required data');
-        }
+//         } else {
+//             createToast('error', 'Please fill required data');
+//         }
 
-    } catch (error) {
-        createToast('error', 'Error while sending email : ' + error.message);
-    }
-}
+//     } catch (error) {
+//         createToast('error', 'Error while sending email : ' + error.message);
+//     }
+// }
 
 
 // Developer - Nimit Shah
@@ -206,9 +234,7 @@ function sendemail() {
 // Updated on - -
 // Input - none
 window.addEventListener("beforeunload", function (event) {
-    Array.from(document.getElementById('main')).forEach(element => {
-        element.style.display = "none"
-    });
+    document.getElementById("main").style.display = 'none';
     document.getElementById("spinner").style.display = 'flex';
 });
 
@@ -219,9 +245,7 @@ window.addEventListener("beforeunload", function (event) {
 // Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
+        document.getElementById("main").style.display = 'block';
         document.getElementById("spinner").style.display = 'none';
-        Array.from(document.getElementById('main')).forEach(element => {
-            element.style.display = "block"
-        });
     }
 });

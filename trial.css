@@ -349,12 +349,6 @@ footer {
     font-family: 'Montserrat' !important;
 }
 
-.login-img {
-    width: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
 @keyframes slideText {
     0% {
         transform: translateX(30%);
