@@ -27,20 +27,20 @@
     <!-- Toast -->
 
     <main id="main">
-        <div class="header glass">
-            <div class="logo">
-                <h1 class="companylogo"> <a href="../index.html">IELTS <span
-                            style="color: white;">Analyzer.</span></a></h1>
-                <h5 class="descrip"><a href="../index.html">Score more than 8 bands</a></h5>
-            </div>
-            <div class="details">
-                <button class="button-63 tip-open-button" onclick="tipopen(event)">Tip</button>
-                <a class=" navbartransition" href="../index.html">Home</a>
-                <i class="fa fa-user" id="not-log" style="font-size: 30px;" onclick="authentication(event)"
-                    aria-hidden="true"></i>
-                <img id="login-img" class="login-img" onclick="authentication(event)" />
-            </div>
-        </div>
+        <header>
+            <nav class="navbar" id="navbar">
+                <div class="logo" id="logo">
+                    IELTS ANALYZER
+                </div>
+                <div class="links">
+                    <button class="button-63 tip-open-button" onclick="tipopen(event)">Tip</button>
+                    <a class="navbartransition" href="../index.html">Home</a>
+                    <i class="fa fa-user" id="not-log" style="font-size: 30px; cursor:pointer;"
+                        onclick="authentication(event)" aria-hidden="true"></i>
+                    <img id="login-img" class="login-img" onclick="authentication(event)" />
+                </div>
+            </nav>
+        </header>
         <div class="body_section">
             <div class="tip-popup" id="tip-popup">
                 <div class="tip-box">
@@ -159,10 +159,6 @@
                                 <h4>Incorrect</h4>
                                 <canvas id="chart8" class="horizontal-chart"></canvas>
                             </div>
-                            <!-- <div class="section-2-1-3">
-                                <h4>Missed</h4>
-                                <canvas id="chart9" class="horizontal-chart"></canvas>
-                            </div> -->
                         </div>
                     </div>
                 </div>
