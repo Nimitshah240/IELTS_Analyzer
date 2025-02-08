@@ -4,46 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ielts Analyzer</title>
-    <link rel="icon" href=".\Asset\icon.svg" type="image/icon type">
+    <link rel='stylesheet' href='./IA_Dashboard.css'>
     <link rel='stylesheet' href='./trial.css'>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='./IA_Dashboard.js'></script>
+    <script src='./IA_Dashboard/IA_Dashboard.js'></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- <script src='./IA_Dashboard/sampledata.js'></script> -->
+    <link rel="icon" href="..\Asset\icon.svg" type="image/icon type">
     <script src='./IA_Authentication/IA_Authentication.js'></script>
-    <script src='./IA_Listview.js'></script>
-    <script src='./IA_Listview/IA_Listview.js'></script>
     <script src='./IA_Toast/IA_Toast.js'></script>
     <link rel='stylesheet' href='./IA_Toast/IA_Toast.css'>
-    <link rel='stylesheet' href='./IA_Delete/IA_Delete.css'>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<body onload="listviewconnectedCallback()">
+<body onload="dashboardconnectedCallback()">
 
-    <!-- Delete popup -->
-
-    <div class="delete-popup">
-        <div class="delete-pop">
-            <div class="delete-box glass">
-                <div class="header-delete"> DELETE </div>
-                <div class="body-delete">
-                    <div class="delete-icon">
-                        <div class="trash">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                    <div class="delete-text">
-                        Do you want to delete?
-                    </div>
-                </div>
-                <div class="footer-delete">
-                    <button class="button-63-delete" onclick="del(event)" role="button" id="yes">Delete</button>
-                    <button class="button-63-delete" onclick="del(event)" role="button" id="no">Cancel</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Delete popup -->
     <!-- Spinner -->
     <iframe src="../IA_Spinner/IA_Spinner.html" id="spinner" class="spinner" frameborder="0"></iframe>
     <!-- Spinner -->
@@ -58,7 +36,7 @@
                     IELTS ANALYZER
                 </div>
                 <div class="links">
-                    <button class="button-63 tip-open-button" onclick="setHref(event)">New</button>
+                    <button class="button-63 tip-open-button" onclick="tipopen(event)">Tip</button>
                     <a class="navbartransition" href="../index.html">Home</a>
                     <i class="fa fa-user" id="not-log" style="font-size: 30px; cursor:pointer;"
                         onclick="authentication(event)" aria-hidden="true"></i>
@@ -66,25 +44,126 @@
                 </div>
             </nav>
         </header>
-
         <div class="body_section">
-            <div class="dataheader ">
-                <div class="tableheader">
-                    <div class="column index"> Index </div>
-                    <div class="column examname"> Exam </div>
-                    <div class="column date"> Exam Date </div>
-                    <div class="column total"> Total </div>
-                    <div class="column section"> Section 1</div>
-                    <div class="column section"> Section 2</div>
-                    <div class="column section"> Section 3</div>
-                    <div class="column section"> Section 4</div>
-                    <div class="column delete"> Delete</div>
+            <div class="tip-popup" id="tip-popup">
+                <div class="tip-box">
+                    <h4 class="tip-header"><b>Your IELTS Performance Summary</b></h4>
+                    <br>
+                    <ul>
+                        <li>
+                            <b>Excellent:</b><span id="excellent"></span>
+                        </li>
+                        <br>
+                        <li>
+                            <b>Good:</b><span id="good"></span>
+                        </li>
+                        <br>
+                        <li>
+                            <b>Average:</b> <span id="average"></span>
+                        </li>
+                        <br>
+                        <li>
+                            <b> Needs Improvement:</b> <span id="poor"></span>
+                        </li>
+                        <br>
+                    </ul>
+                    <span id="section-summary"></span><br><br>
+                    Remember, consistent practice and targeted improvement will help you achieve your desired band
+                    score! Enhance your performance by exploring our dedicated <a id="trick"><span
+                            style="color:blue">Tricks</span></a> section.<br><br>
+                    <div class="popupclose-div"><button class="button-63 popupclose-button"
+                            onclick="tipclose(event)">Close</button></div>
                 </div>
             </div>
-            <div class="list">
-                <div class="table" id="table">
-                    <span class="no_data">No Data Found!</span>
-                    <!-- Data will show here using js  -->
+            <div class="no_graph">
+                No Data Found !
+            </div>
+            <div class="charts">
+                <div class="section-1">
+                    <div class="section-1-1">
+                        <div class="glass overall-performance">
+                            <div class="title">
+                                Overall Performance
+                            </div>
+                            <div class="countboxes">
+                                <div class="count-box glass">
+                                    <!-- Exam Count -->
+                                    <div class="count-box-count">
+                                        <span id="examcount">-</span>
+                                    </div>
+                                    <div class="count-box-title">
+                                        Total Exams
+                                    </div>
+                                </div>
+                                <div class="count-box glass">
+                                    <!-- Question count  -->
+                                    <div class="count-box-count">
+                                        <span id="totalquestion">-</span>
+                                    </div>
+                                    <div class="count-box-title">
+                                        Total Questions
+                                    </div>
+                                </div>
+                                <div class="count-box glass">
+                                    <!-- Average band -->
+                                    <div class="count-box-count">
+                                        <span id="avg-band">-</span>
+                                    </div>
+                                    <div class="count-box-title">
+                                        Average Band
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="chart5">
+                                <canvas id="chart5" class="line-chart"></canvas> <!-- Line chart-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-1-2">
+                        <div class="glass section-wise-performance">
+                            <div class="d-chart">
+                                <div class="section-1-2-1">
+                                    <canvas id="chart1" class="doughnut-chart "></canvas>
+                                </div>
+                                <div class="section-1-2-2">
+                                    <canvas id="chart3" class="doughnut-chart "></canvas>
+                                </div>
+                            </div>
+                            <div class="title title-2">Section wise performance</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-3">
+                    <div class="glass Question-wise-performance">
+                        <div class="title"> Question wise performance </div>
+                        <div class="section-3-1">
+                            <div class="section-3-1-1">
+                                <h4>Correct</h4>
+                                <canvas id="chart4" class=""></canvas>
+                            </div>
+                            <div class="section-3-1-2">
+                                <h4>Incorrect</h4>
+                                <canvas id="chart6" class=""></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="section-2">
+                    <div class="glass question-section-wise">
+                        <div class="title">
+                            Question-Section wise performance
+                        </div>
+                        <div class="section-2-1">
+                            <div class="section-2-1-1">
+                                <h4>Correct</h4>
+                                <canvas id="chart7" class="horizontal-chart"></canvas>
+                            </div>
+                            <div class="section-2-1-2">
+                                <h4>Incorrect</h4>
+                                <canvas id="chart8" class="horizontal-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -107,7 +186,6 @@
                 </a>
             </div>
         </div>
-
     </main>
 </body>
 
