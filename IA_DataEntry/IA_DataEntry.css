@@ -46,6 +46,11 @@ main::-webkit-scrollbar {
     border: 1px solid rgba(183, 183, 183, 1) !important;
 }
 
+.background-divider {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(7.5px);
+}
+
 /* Glass */
 
 /* Delete */
