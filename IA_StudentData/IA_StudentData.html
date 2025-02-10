@@ -12,6 +12,7 @@
     <script src='../IA_Toast/IA_Toast.js'></script>
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body onload="connectedCallback(event)">
@@ -24,13 +25,13 @@
     <!-- Toast -->
 
     <main id="main">
-        <div class="header glass">
-            <div class="logo">
-                <h1 class="companylogo"> <a href="../index.html">IELTS <span
-                            style="color: white;">Analyzer.</span></a></h1>
-                <h5 class="descrip"><a href="../index.html">Score more than 8 bands</a></h5>
-            </div>
-        </div>
+        <header>
+            <nav class="navbar" id="navbar">
+                <div class="logo" id="logo">
+                    IELTS ANALYZER
+                </div>
+            </nav>
+        </header>
 
         <div class="body_section glass" id="body-section">
             <div class="validation-box glass" id="validation-box">
