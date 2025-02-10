@@ -12,6 +12,7 @@
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
     <link rel='stylesheet' href='./IA_Authentication.css'>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body onload="connectedCallback(event)">
@@ -24,16 +25,20 @@
     <!-- Toast -->
 
     <main id="main">
-        <div class="header glass">
-            <div class="logo">
-                <h1 class="companylogo"> <a href="../index.html">IELTS <span
-                            style="color: white;">Analyzer.</span></a></h1>
-                <h5 class="descrip"><a href="../index.html">Score more than 8 bands</a></h5>
-            </div>
-            <div class="details">
-                <a class=" navbartransition" href="../index.html">Home</a>
-            </div>
-        </div>
+        <header>
+            <nav class="navbar" id="navbar">
+                <div class="logo" id="logo">
+                    IELTS ANALYZER
+                </div>
+                <div class="links">
+                    <button class="button-63 tip-open-button" id="save" onclick="popupopen(event)"></button>
+                    <a class="navbartransition" href="../index.html">Home</a>
+                    <i class="fa fa-user" id="not-log" style="font-size: 30px; cursor:pointer;"
+                        onclick="authentication(event)" aria-hidden="true"></i>
+                    <img id="login-img" class="login-img" onclick="authentication(event)" />
+                </div>
+            </nav>
+        </header>
 
         <div class="body_section">
             <!-- Signin div -->
@@ -94,7 +99,7 @@
                         </div>
                     </button>
                     <button class="button-63 button" onclick="continueClick(event)" id="continue">Continue</button>
-                    <button class="button-63 button" onclick="showSignout(event)" id="signout">Sign Out</button>
+                    <button class="button-63 button-64 button" onclick="showSignout(event)" id="signout">Sign Out</button>
 
                 </div>
             </div>
@@ -109,7 +114,7 @@
                 </div>
                 <div class="validation-box-footer-signout">
                     <button class="button-63 button" onclick="Signout(event)" id="yes">Yes</button>
-                    <button class="button-63 button" onclick="Signout(event)" id="no">No</button>
+                    <button class="button-63 button-64 button" onclick="Signout(event)" id="no">No</button>
                 </div>
             </div>
         </div>
