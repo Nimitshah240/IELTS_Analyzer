@@ -1,16 +1,10 @@
 html {
     scroll-behavior: smooth;
+    scrollbar-width: none;
 }
 
 a {
     text-decoration: none !important;
-}
-
-.login-img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: none;
 }
 
 .g-icon {
@@ -22,11 +16,90 @@ a {
     cursor: pointer;
 }
 
+/* Glass Effect */
+
+.glass {
+    background-image: linear-gradient(-180deg, rgb(226, 238, 236) 0%, rgb(255, 255, 255) 96%);
+    border-radius: 15px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.4px);
+    -webkit-backdrop-filter: blur(7.4px);
+    border: 1px solid #BDBDBD;
+}
+
+/* Glass Effect */
+
 main {
     line-height: 1 !important;
-    background-color: #2BAACD;
+    /* background-color: #2BAACD; */
     overflow-x: hidden;
 }
+
+
+/* New Header */
+
+.logo {
+    color: white;
+    font-size: 20px;
+    font-family: 'Montserrat' !important;
+}
+
+.login-img {
+    width: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 20px 50px;
+    background: #161F1E;
+    width: 100%;
+    color: white;
+    z-index: 100;
+    position: fixed;
+    justify-content: space-between;
+    border-bottom: 1px solid white;
+}
+
+.navbartransition {
+    color: white;
+}
+
+.tip-open-button {
+    width: 43%;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 400;
+    background-color: transparent;
+    height: 0px;
+    border: 0px;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    height: 100%;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+}
+
+/* New Header */
 
 .contact-icons {
     width: 50%;
@@ -46,6 +119,7 @@ main {
     display: flex !important;
     align-items: center;
     justify-content: center;
+    color: white;
 }
 
 /* Spinner */
@@ -60,7 +134,8 @@ main {
 /* Spinner */
 .body-section {
     margin: 20px;
-    height: 100%;
+    height: 80vh;
+    margin-top: 5%;
 }
 
 .box {
@@ -114,7 +189,8 @@ main {
 .button-63 {
     border: 0;
     border-radius: 8px;
-    background-color: black;
+    border: 1px solid #BDBDBD;
+    background-image: linear-gradient(-180deg, rgb(34, 150, 122) 0%, rgb(21, 77, 66) 96%);
     color: white;
     font-family: Phantomsans, sans-serif;
     cursor: pointer;
@@ -156,37 +232,56 @@ h4 {
     gap: 15px;
 }
 
+
+/* Footer  */
+.footer {
+    height: 50px;
+    width: 100%;
+    background-color: #161F1E;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(7.4px);
+    margin-top: 35px;
+    display: flex;
+    border-top: 1px solid white;
+    color: white;
+}
+
+.copyright {
+    width: 50%;
+    padding-left: 5%;
+    font-size: 15px;
+    margin: auto 0px;
+}
+
+/* Footer  */
 @media screen and (max-width: 640px) {
 
-    /* Glass Effect */
-    .glass {
-        background: rgba(255, 255, 255, 0.19);
-        border-radius: 15px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7.4px);
-        -webkit-backdrop-filter: blur(7.4px);
-        border: 1px solid rgba(255, 255, 255, 1);
+    /* header  */
+
+    .navbartransition {
+        display: none;
     }
 
-    /* Glass Effect */
+    .navbar {
+        padding: 20px 10px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .links {
+        width: 30%;
+    }
+
+    .tip-open-button {
+        width: 50%;
+        padding: 5px;
+    }
 
     /* header  */
 
-    .companylogo {
-        height: 20%;
-        font-size: 22px;
-    }
 
-    .descrip {
-        font-size: 12px;
-        margin: 0px 0px 10px;
-    }
-
-    .details {
-        gap: 15px;
-    }
-
-    /* header  */
 
     /* Body Section */
     .question-type {
@@ -208,26 +303,18 @@ h4 {
         overflow-y: scroll;
     }
 
+    .body-section {
+        height: 100vh;
+        margin-top: 22%;
+    }
+
     /* Body Section */
 
 
     /* Footer  */
-    .footer {
-        height: 50px;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.19);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7.4px);
-        margin-top: 35px;
-        display: flex;
-        border-top: 1px solid white;
-    }
 
     .copyright {
-        width: 50%;
-        padding-left: 5%;
         font-size: 12px;
-        margin: auto 0px;
     }
 
     .contact-icons {
@@ -252,39 +339,13 @@ h4 {
 
 @media screen and (min-width: 768px) {
 
-    /* Glass Effect */
-
-    .glass {
-        background: rgba(255, 255, 255, 0.19);
-        border-radius: 15px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7.4px);
-        -webkit-backdrop-filter: blur(7.4px);
-        border: 1px solid rgba(255, 255, 255, 1);
+    .links {
+        width: 25%;
     }
 
-    /* Glass Effect */
-
-    /* Footer  */
-    .footer {
-        height: 50px;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.19);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7.4px);
-        margin-top: 35px;
-        display: flex;
-        border-top: 1px solid white;
+    .tip-open-button {
+        width: 25%;
     }
-
-    .copyright {
-        width: 50%;
-        padding-left: 5%;
-        font-size: 15px;
-        margin: auto 0px;
-    }
-
-    /* Footer  */
 
     .button-63 {
         width: 110px;
@@ -292,84 +353,36 @@ h4 {
         font-size: 20px;
     }
 
+    .body-section {
+        height: 85vh;
+        margin-top: 12%;
+    }
+
 }
 
 @media screen and (min-width: 1024px) {
 
-    /* Glass Effect */
-
-    .glass {
-        background: rgba(255, 255, 255, 0.19);
-        border-radius: 15px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7.4px);
-        -webkit-backdrop-filter: blur(7.4px);
-        border: 1px solid rgba(255, 255, 255, 1);
+    .tip-open-button {
+        width: 33%;
     }
 
-    /* Glass Effect */
-
-    /* Footer  */
-    .footer {
-        height: 50px;
-        width: 100%;
-        margin-top: 35px;
-        background: rgba(255, 255, 255, 0.19);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7.4px);
-        display: flex;
+    .links {
+        width: 15%;
     }
-
-    .copyright {
-        width: 50%;
-        padding-left: 5%;
-        font-size: 15px;
-        margin: auto 0px;
-    }
-
-    /* Footer  */
 
     .button-63 {
         width: 110px;
         height: 45px;
         font-size: 20px;
     }
+
+    .body-section {
+        height: 80vh;
+        margin-top: 6%;
+    }
 }
 
 @media screen and (min-width: 1280px) {
-
-    /* Glass Effect */
-
-    .glass {
-        background: rgba(255, 255, 255, 0.19);
-        border-radius: 15px;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7.4px);
-        -webkit-backdrop-filter: blur(7.4px);
-        border: 1px solid rgba(255, 255, 255, 1);
-    }
-
-    /* Glass Effect */
-
-    /* Footer  */
-    .footer {
-        height: 50px;
-        width: 100%;
-        background: rgba(255, 255, 255, 0.19);
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(7.4px);
-        margin-top: 35px;
-        display: flex;
-    }
-
-    .copyright {
-        width: 50%;
-        padding-left: 5%;
-        font-size: 15px;
-        margin: auto 0px;
-    }
-
-    /* Footer  */
 
     .button-63 {
         width: 50px;
@@ -377,55 +390,3 @@ h4 {
         font-size: 20px;
     }
 }
-
-/* header */
-.header {
-    height: 12%;
-    width: 100%;
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    box-shadow: 1px 0px 4px rgba(3, 3, 3, 0.5);
-    display: flex;
-}
-
-.details {
-    width: 40%;
-    gap: 25px;
-    padding-right: 6%;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.logo {
-    width: 60%;
-    height: 100%;
-    padding-left: 5%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.companylogo {
-    height: 25%;
-}
-
-.navbartransition::after {
-    content: '';
-    width: 0px;
-    height: 3px;
-    transition: 300ms;
-    border-radius: 5px;
-    display: block;
-    background: white;
-}
-
-.navbartransition:hover::after {
-    width: 100%;
-}
-
-.navbartransition:hover {
-    color: white;
-}
-
-/* header  */

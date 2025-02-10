@@ -11,7 +11,8 @@ var at_question = 0;
 async function connectedCallbackTrick() {
     try {
         let button = document.getElementById("left");
-        button.style.background = "Grey";
+        button.style.color = "grey";
+        button.style.backgroundImage = "linear-gradient(-180deg, rgb(255, 255, 255) 0%, rgb(226, 238, 236) 96%)";
         button.style.pointerEvents = "none";
         question_type = question(module);
         question_change();
@@ -35,11 +36,13 @@ function arrow(event) {
         // TO CHANGE COLOR OF BUTTONS FROM GREY TO ORIGINAL
         if (at_question == 0 && (event.target.id == 'right-button' || event.target.id == 'right')) {
             button = document.getElementById("left");
-            button.style.background = 'black';
+            button.style.color = "white";
+            button.style.backgroundImage = 'linear-gradient(-180deg, rgb(34, 150, 122) 0%, rgb(21, 77, 66) 96%)';
             button.style.pointerEvents = "all";
         } else if (at_question + 1 == question_type.length && (event.target.id == 'left-button' || event.target.id == "left")) {
             button = document.getElementById("right");
-            button.style.background = 'black';
+            button.style.color = "white";
+            button.style.backgroundImage = 'linear-gradient(-180deg, rgb(34, 150, 122) 0%, rgb(21, 77, 66) 96%)';
             button.style.pointerEvents = "all";
         }
 
@@ -55,12 +58,14 @@ function arrow(event) {
         // TO CHANGE COLOR OF BUTTONS TO GREY
         if (at_question + 1 == question_type.length) {
             button = document.getElementById("right");
-            button.style.background = "Grey";
+            button.style.color = "grey";
+            button.style.backgroundImage = "linear-gradient(-180deg, rgb(255, 255, 255) 0%, rgb(226, 238, 236) 96%)";
             button.style.pointerEvents = "none";
 
         } else if (at_question == 0) {
             button = document.getElementById("left");
-            button.style.background = "Grey";
+            button.style.color = "grey";
+            button.style.backgroundImage = "linear-gradient(-180deg, rgb(255, 255, 255) 0%, rgb(226, 238, 236) 96%)";
             button.style.pointerEvents = "none";
 
         }

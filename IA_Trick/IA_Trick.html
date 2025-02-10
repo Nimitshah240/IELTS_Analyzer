@@ -13,6 +13,7 @@
     <script src='../IA_Authentication/IA_Authentication.js'></script>
     <script src='../IA_Toast/IA_Toast.js'></script>
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
 <body onload="connectedCallbackTrick(event)">
@@ -25,19 +26,20 @@
     <!-- Toast -->
 
     <main id="main">
-        <div class="header glass">
-            <div class="logo">
-                <h1 class="companylogo"> <a href="../index.html">IELTS <span style="color: white">Analyzer.</span></a>
-                </h1>
-                <h5 class="descrip"><a href="../index.html">Score more than 8 bands</a></h5>
-            </div>
-            <div class="details">
-                <a class="navbartransition" href="../index.html">Home</a>
-                <i class="fa fa-user" id="not-log" style="font-size: 30px;" onclick="authentication(event)"
-                    aria-hidden="true"></i>
-                <img id="login-img" class="login-img" onclick="authentication(event)" />
-            </div>
-        </div>
+        <header>
+            <nav class="navbar" id="navbar">
+                <div class="logo" id="logo">
+                    IELTS ANALYZER
+                </div>
+                <div class="links">
+                    <button class="tip-open-button" onclick="setHrefss(event)"></button>
+                    <a class="navbartransition" href="../index.html">Home</a>
+                    <i class="fa fa-user" id="not-log" style="font-size: 30px; cursor:pointer;"
+                        onclick="authentication(event)" aria-hidden="true"></i>
+                    <img id="login-img" class="login-img" onclick="authentication(event)" />
+                </div>
+            </nav>
+        </header>
         <div class="body-section">
             <div class="glass box">
                 <div class="left-button" onclick="arrow(event)" id="left-button">
