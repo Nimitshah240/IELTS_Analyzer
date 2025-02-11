@@ -85,6 +85,7 @@ main::-webkit-scrollbar {
     z-index: 100;
     position: fixed;
     justify-content: space-between;
+    border-bottom: 1px solid white;
 }
 
 .links {
@@ -207,7 +208,7 @@ main::-webkit-scrollbar {
 }
 
 .section-divider {
-    height: 81vh;
+    height: fit-content;
     margin-top: 5%;
     width: 100%;
     gap: 30px;
@@ -463,7 +464,6 @@ th {
         flex-direction: column;
         justify-content: normal;
         margin: 80px 1% 10px;
-        height: 85vh;
         overflow-y: scroll;
     }
 
@@ -549,7 +549,6 @@ th {
     }
 
     .section-divider {
-        height: 100vh;
         padding-top: 5%;
         overflow-y: scroll;
         flex-direction: column;

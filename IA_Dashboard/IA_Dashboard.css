@@ -259,6 +259,7 @@ body {
     z-index: 100;
     position: fixed;
     justify-content: space-between;
+    border-bottom: 1px solid white;
 }
 
 .links {
@@ -393,6 +394,7 @@ body {
 
 .tip-box {
     width: 50%;
+    margin-top: 100px;
     height: fit-content;
     background: rgba(255, 255, 255, 1.7);
     border-radius: 15px;
