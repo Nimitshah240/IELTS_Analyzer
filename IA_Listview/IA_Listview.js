@@ -60,7 +60,7 @@ function openexam(event) {
             }
         });
 
-        localStorage.setItem("question" + event.target.id, JSON.stringify(questions));
+        sessionStorage.setItem("question" + event.target.id, JSON.stringify(questions));
 
         var dynamicUrl = '../IA_DataEntry/IA_DataEntry.html?module=' + module + '&tdExam=' + event.target.id;
         event.target.href = dynamicUrl;

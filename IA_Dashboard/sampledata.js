@@ -2,7 +2,7 @@ const urlSearchParams = new URLSearchParams(window.location.search);
 const module = urlSearchParams.get('module');
 const teachermode = urlSearchParams.get('teacher');
 if (teachermode == 'true') {
-    user_id = JSON.parse(localStorage.getItem('student_id'));
+    user_id = JSON.parse(sessionStorage.getItem('student_id'));
 } else {
     user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
 }

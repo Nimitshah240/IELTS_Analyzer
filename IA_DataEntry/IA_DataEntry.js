@@ -16,16 +16,16 @@ let question_id = '';
 // Input - none
 function dataentryconnectedCallback() {
     try {
-        if ((JSON.parse(localStorage.getItem('question' + tdExam))) == null || (JSON.parse(localStorage.getItem('question' + tdExam))).length == 0) {
+        if ((JSON.parse(sessionStorage.getItem('question' + tdExam))) == null || (JSON.parse(sessionStorage.getItem('question' + tdExam))).length == 0) {
             exam_date = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
             exam_id = '';
             exam_name = '';
         } else {
-            exam_id = JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_id
-            exam_name = JSON.parse(localStorage.getItem('question' + tdExam))[0].exam_name;
-            exam_date = new Date(JSON.parse(localStorage.getItem('question' + tdExam))[0].date);
+            exam_id = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].exam_id
+            exam_name = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].exam_name;
+            exam_date = new Date(JSON.parse(sessionStorage.getItem('question' + tdExam))[0].date);
             exam_date = `${exam_date.getFullYear()}-${('0' + (exam_date.getMonth() + 1)).slice(-2)}-${('0' + exam_date.getDate()).slice(-2)}`;
-            question = JSON.parse(localStorage.getItem('question' + tdExam));
+            question = JSON.parse(sessionStorage.getItem('question' + tdExam));
         }
         sectionsetter();
         Userlogo();
@@ -341,7 +341,7 @@ function del(event) {
                                     question.splice(i, 1);
                                 }
                             });
-                            localStorage.setItem('question' + tdExam, JSON.stringify(question))
+                            sessionStorage.setItem('question' + tdExam, JSON.stringify(question))
                             createToast('success', 'Question deleted');
                         })
                         .catch(error =>
@@ -357,7 +357,7 @@ function del(event) {
                         question.splice(i, 1);
                     }
                 });
-                localStorage.setItem('question' + tdExam, JSON.stringify(question))
+                sessionStorage.setItem('question' + tdExam, JSON.stringify(question))
                 createToast('success', 'Question deleted');
 
             }
