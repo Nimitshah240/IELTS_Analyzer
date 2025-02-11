@@ -18,14 +18,16 @@ window.addEventListener('scroll', () => {
     const logo = document.getElementById('logo');
     const navbar = document.getElementById('navbar');
 
-    if (window.scrollY > 50) {
+    if (window.scrollY > 0) {
         navbar.style.backgroundColor = '#161F1E'
         navbar.style.justifyContent = 'space-between';
+        navbar.style.borderBottom = '1px solid white';
         logo.style.display = 'block';
     } else {
         logo.style.display = 'none';
         navbar.style.justifyContent = 'flex-end';
         navbar.style.backgroundColor = 'transparent'
+        navbar.style.borderBottom = '0px';
     }
 });
 

@@ -276,11 +276,14 @@ body {
     .body_section {
         margin: 80px 1% 10px;
         height: 85vh;
+        justify-content: center;
     }
 
     .box {
         text-align: left;
-        width: 80%;
+        width: 90%;
+        position: relative;
+        left: 0;
     }
 
     .buttons {

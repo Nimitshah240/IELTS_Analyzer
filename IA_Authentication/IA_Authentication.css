@@ -236,6 +236,7 @@ body {
     z-index: 100;
     position: fixed;
     justify-content: space-between;
+    border-bottom: 1px solid white;
 }
 
 .links {
@@ -503,5 +504,9 @@ body {
     .validation-box-signout {
         width: 30%;
         height: 45%;
+    }
+
+    .tip-open-button {
+        width: 33%;
     }
 }
