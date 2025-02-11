@@ -100,7 +100,7 @@ function opendashboard(event) {
     try {
         let module = event.target.name;
         let user_id = event.target.id;
-        localStorage.setItem('student_id', user_id);
+        sessionStorage.setItem('student_id', user_id);
         let dynamicUrl = '../IA_Dashboard/IA_Dashboard.html';
         if (module == 'Reading') {
             dynamicUrl += '?module=Reading&teacher=true';
