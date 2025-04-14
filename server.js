@@ -17,7 +17,7 @@ const connection = mysql.createConnection({
     user: 'freedb_nimitshah240@', // replace with your MySQL username
     password: 'd%#cs&?cDvzy*9W', // replace with your MySQL password
     database: 'freedb_portfoliowebsite', // replace with your database name
-    port: 3306 // default MySQL port
+    port: process.env.DB_PORT || 3306 // default MySQL port
 });
 
 connection.connect((err) => {
