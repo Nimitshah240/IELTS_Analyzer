@@ -41,7 +41,13 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
-app.use(cors());
+app.use(cors({
+  origin: 'https://ieltsanalyzer.netlify.app',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  credentials: true,
+}));
+
+
 
 app.get('/api/checkUser', (req, res) => {
     const user_id = req.query.user_id;
