@@ -527,7 +527,7 @@ body {
     }
 
     .tip-popup {
-        height: 100vh;
+        height: 100%;
     }
 
     .tip-open-button {
