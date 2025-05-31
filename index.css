@@ -227,7 +227,7 @@ body {
 .testimonial-card {
     box-shadow: rgba(13, 3, 28, 0.15) 0px 6px 20px;
     width: 400px;
-    height: 400px;
+    height: 100%;
     border-radius: 10px;
     position: relative;
 }
@@ -236,7 +236,7 @@ body {
     display: flex;
     gap: 40px;
     justify-content: center;
-    padding: 0px 70px;
+    /* padding: 0px 70px; */
 }
 
 .testimonials-box {
@@ -531,13 +531,13 @@ footer {
         overflow-y: auto;
         gap: 40px;
         justify-content: center;
-        padding: 0px 70px;
+        padding: 0pz;
         height: 100%;
     }
 
     .testimonial-card {
         width: 400px;
-        height: 400px;
+        height: 100%;
     }
 
     .testimonial-text {
