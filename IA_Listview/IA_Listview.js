@@ -82,6 +82,12 @@ function examData() {
             fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
                 .then(response => response.json())
                 .then(responseData => {
+                    console.log(responseData);
+
+                    console.log("stringify");
+
+                    console.log(JSON.stringify(responseData));
+
                     question = responseData;
                     if (question.length > 0) {
 

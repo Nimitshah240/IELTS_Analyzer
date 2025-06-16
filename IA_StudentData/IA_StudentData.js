@@ -31,6 +31,10 @@ function checkuser() {
         fetch(`https://ielts-analyzer.onrender.com/api/studentdata?username=${username}&password=${password}`)
             .then(response => response.json())
             .then(responsedata => {
+                console.log(responsedata);
+                console.log("stringify");
+
+                console.log(JSON.stringify(responsedata));
 
                 if (responsedata == 'Invalid User') {
                     createToast('error', 'Invalid User');

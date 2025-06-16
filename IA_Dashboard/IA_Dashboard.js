@@ -55,6 +55,12 @@ function dashboardconnectedCallback() {
                 .then(response => response.json())
                 .then(responsedata => {
 
+                    console.log(responsedata);
+
+                    console.log("stringify");
+
+                    console.log(JSON.stringify(responsedata));
+
                     if (responsedata.length > 0) {
                         Array.from(document.getElementsByClassName('charts')).forEach(element => {
                             element.style.display = "flex";

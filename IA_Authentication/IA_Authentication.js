@@ -223,6 +223,14 @@ function fetchUser(user_id) {
         fetch(`https://ielts-analyzer.onrender.com/api/checkUser?user_id=${user_id}`)
             .then(response => response.json())
             .then(responsedata => {
+
+                console.log(responsedata);
+
+                console.log("stringify");
+
+                console.log(JSON.stringify(responsedata));
+
+
                 document.getElementById('continue').style.display = 'block';
                 document.getElementById('google-button').style.display = 'none';
                 document.getElementById("firstname").disabled = false;
