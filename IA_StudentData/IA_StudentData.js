@@ -28,7 +28,7 @@ function checkuser() {
     try {
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-        fetch(`https://ielts-analyzer.onrender.com/api/studentdata?username=${username}&password=${password}`)
+        fetch(`http://localhost:8080/studentApi/allStudentData?username=${username}&password=${password}`)
             .then(response => response.json())
             .then(responsedata => {
 
@@ -65,22 +65,24 @@ function checkuser() {
 // Input - responsedata
 function setdata(responsedata) {
     try {
+        console.log(responsedata);
+        
         let htmldata = ''
         responsedata.forEach((element, index) => {
-            let date = new Date(element.fl_date);
+            let date = new Date(element.loginDate);
             let year = date.getFullYear();
             let month = ('0' + (date.getMonth() + 1)).slice(-2);
             let day = ('0' + date.getDate()).slice(-2);
             date = `${year}-${month}-${day}`;
             htmldata +=
-                '<div class="data" id=' + element.id + '>' +
-                '<div class="column index"  id=' + element.id + '>' + (index + 1) + '</div>' +
-                '<div class="column studentname"  id=' + element.id + '>' + element.name + '</div>' +
-                '<div class="column date"  id=' + element.id + '>' + date + '</div>' +
-                '<div class="column total"  id=' + element.id + '>' + element.reading_count + '</div>' +
-                '<div class="column dashboard dash" onclick="opendashboard(event)" id=' + element.id + '> <button class="button-63 dashboard-button" name="Reading" id=' + element.id + '>Dashboard</button>' + '</div>' +
-                '<div class="column total"  id=' + element.id + '>' + element.listening_count + '</div>' +
-                '<div class="column dashboard dash" onclick="opendashboard(event)" id=' + element.id + '>' + '<button class="button-63 dashboard-button" name="Listening" id=' + element.id + '>Dashboard</button>' + '</div>' +
+                '<div class="data" id=' + element.studentId + '>' +
+                '<div class="column index"  id=' + element.studentId + '>' + (index + 1) + '</div>' +
+                '<div class="column studentname"  id=' + element.studentId + '>' + element.name + '</div>' +
+                '<div class="column date"  id=' + element.studentId + '>' + date + '</div>' +
+                '<div class="column total"  id=' + element.studentId + '>' + element.reading_count + '</div>' +
+                '<div class="column dashboard dash" onclick="opendashboard(event)" id=' + element.studentId + '> <button class="button-63 dashboard-button" name="Reading" id=' + element.studentId + '>Dashboard</button>' + '</div>' +
+                '<div class="column total"  id=' + element.studentId + '>' + element.listening_count + '</div>' +
+                '<div class="column dashboard dash" onclick="opendashboard(event)" id=' + element.studentId + '>' + '<button class="button-63 dashboard-button" name="Listening" id=' + element.studentId + '>Dashboard</button>' + '</div>' +
                 '</div>'
         });
 

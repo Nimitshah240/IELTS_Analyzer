@@ -220,7 +220,7 @@ function showSignout() {
 function fetchUser(user_id) {
     try {
 
-        fetch(`https://ielts-analyzer.onrender.com/api/checkUser?user_id=${user_id}`)
+        fetch(`http://localhost:8080/studentApi/student?user_id=${user_id}`)
             .then(response => response.json())
             .then(responsedata => {
                 document.getElementById('continue').style.display = 'block';
@@ -297,7 +297,7 @@ function continueClick() {
                 data.type = temptype;
                 data.privacy = tempprivacy;
 
-                fetch('https://ielts-analyzer.onrender.com/api/updateUserData', {
+                fetch('http://localhost:8080/studentApi/updateStudent', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

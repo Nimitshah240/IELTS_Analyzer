@@ -51,7 +51,7 @@ function dashboardconnectedCallback() {
         }
         Userlogo();
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
-            fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
+            fetch(`http://localhost:8080/studentApi/examData?user_id=${user_id}&module=${module}`)
                 .then(response => response.json())
                 .then(responsedata => {
 

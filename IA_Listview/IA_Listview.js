@@ -55,7 +55,7 @@ function openexam(event) {
     try {
         let questions = [];
         question.forEach(element => {
-            if (element.exam_id == event.target.id) {
+            if (element.examId == event.target.id) {
                 questions.push(element);
             }
         });
@@ -79,9 +79,15 @@ function examData() {
     try {
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
             const user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
-            fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
+            fetch(`http://localhost:8080/studentApi/examData?user_id=${user_id}&module=${module}`)
                 .then(response => response.json())
                 .then(responseData => {
+<<<<<<< Updated upstream
+=======
+
+                    console.log(responseData);
+                    
+>>>>>>> Stashed changes
                     question = responseData;
                     if (question.length > 0) {
 
@@ -94,53 +100,54 @@ function examData() {
 
                         // Setting map for examid and date
                         responseData.forEach(element => {
-                            Exammap.set(element.exam_id, {
-                                'Name': element.exam_name,
-                                'Date': element.date
+                            Exammap.set(element.examId, {
+                                'Name': element.examName,
+                                'Date': element.examDate
                             });
-                        });
+                        });                        
 
                         // Calculating section wise marks for exach exam
                         question.forEach(element => {
+                            
                             if (element.section == 1) {
-                                if (Section1.has(element.exam_id)) {
-                                    Section1.set(element.exam_id, Section1.get(element.exam_id) + element.correct);
+                                if (Section1.has(element.examId)) {
+                                    Section1.set(element.examId, Section1.get(element.examId) + element.correct);
                                 } else {
-                                    Section1.set(element.exam_id, element.correct);
+                                    Section1.set(element.examId, element.correct);
                                 }
                             } else if (element.section == 2) {
-                                if (Section2.has(element.exam_id)) {
-                                    Section2.set(element.exam_id, Section2.get(element.exam_id) + element.correct);
+                                if (Section2.has(element.examId)) {
+                                    Section2.set(element.examId, Section2.get(element.examId) + element.correct);
                                 } else {
-                                    Section2.set(element.exam_id, element.correct);
+                                    Section2.set(element.examId, element.correct);
                                 }
                             } else if (element.section == 3) {
-                                if (Section3.has(element.exam_id)) {
-                                    Section3.set(element.exam_id, Section3.get(element.exam_id) + element.correct);
+                                if (Section3.has(element.examId)) {
+                                    Section3.set(element.examId, Section3.get(element.examId) + element.correct);
                                 } else {
-                                    Section3.set(element.exam_id, element.correct);
+                                    Section3.set(element.examId, element.correct);
                                 }
                             } else if (element.section == 4) {
-                                if (Section4.has(element.exam_id)) {
-                                    Section4.set(element.exam_id, Section4.get(element.exam_id) + element.correct);
+                                if (Section4.has(element.examId)) {
+                                    Section4.set(element.examId, Section4.get(element.examId) + element.correct);
                                 } else {
-                                    Section4.set(element.exam_id, element.correct);
+                                    Section4.set(element.examId, element.correct);
                                 }
                             }
-                        });
+                        });                        
 
                         // Arranging Data in Variable
                         for (const key of Exammap.keys()) {
-                            let exam_date = new Date(Exammap.get(key).Date);
-                            let year = exam_date.getFullYear();
-                            let month = ('0' + (exam_date.getMonth() + 1)).slice(-2);
-                            let day = ('0' + exam_date.getDate()).slice(-2);
-                            exam_date = `${year}-${month}-${day}`;
+                            let examDate = new Date(Exammap.get(key).Date);
+                            let year = examDate.getFullYear();
+                            let month = ('0' + (examDate.getMonth() + 1)).slice(-2);
+                            let day = ('0' + examDate.getDate()).slice(-2);
+                            examDate = `${year}-${month}-${day}`;
 
                             examdata.push({
-                                'exam_id': key,
-                                'exam_name': Exammap.get(key).Name,
-                                'date': exam_date,
+                                'examId': key,
+                                'examName': Exammap.get(key).Name,
+                                'examDate': examDate,
                                 'Section 1': (Section1.get(key) == undefined ? 0 : Section1.get(key)),
                                 'Section 2': (Section2.get(key) == undefined ? 0 : Section2.get(key)),
                                 'Section 3': (Section3.get(key) == undefined ? 0 : Section3.get(key)),
@@ -154,18 +161,18 @@ function examData() {
 
 
                         //Setting data to html
-                        examdata.forEach((element, index) => {
+                        examdata.forEach((element, index) => {                            
                             htmldata +=
-                                '<div class="data" id=' + element.exam_id + '>' +
-                                '<div class="column index" onclick="openexam(event)" id=' + element.exam_id + '>' + (index + 1) + '</div>' +
-                                '<div class="column examname" onclick="openexam(event)" id=' + element.exam_id + '>' + element.exam_name + '</div>' +
-                                '<div class="column date" onclick="openexam(event)" id=' + element.exam_id + '>' + element.date + '</div>' +
-                                '<div class="column total" onclick="openexam(event)" id=' + element.exam_id + '>' + element.total + '</div>' +
-                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 1"] + '</div>' +
-                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 2"] + '</div>' +
-                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 3"] + '</div>' +
-                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 4"] + '</div>' +
-                                '<div class="column delete" onclick="deleteexam(event)" id=' + element.exam_id + `> <i class="fa fa-trash" id="${element.exam_id}" aria-hidden="true"></i>` +
+                                '<div class="data" id=' + element.examId + '>' +
+                                '<div class="column index" onclick="openexam(event)" id=' + element.examId + '>' + (index + 1) + '</div>' +
+                                '<div class="column examname" onclick="openexam(event)" id=' + element.examId + '>' + element.examName + '</div>' +
+                                '<div class="column date" onclick="openexam(event)" id=' + element.examId + '>' + element. examDate + '</div>' +
+                                '<div class="column total" onclick="openexam(event)" id=' + element.examId + '>' + element.total + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 1"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 2"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 3"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 4"] + '</div>' +
+                                '<div class="column delete" onclick="deleteexam(event)" id=' + element.examId + `> <i class="fa fa-trash" id="${element.examId}" aria-hidden="true"></i>` +
                                 '</div>' +
                                 '</div>'
                         });
@@ -211,7 +218,7 @@ function deleteexam(event) {
 function del(event) {
     try {
         if (event.target.id == 'yes') {
-            fetch(`https://ielts-analyzer.onrender.com/api/deleteExam?exam_id=${del_exam_id}`, {
+            fetch(`http://localhost:8080/studentApi/deleteExam?examId=${del_exam_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -223,7 +230,7 @@ function del(event) {
                     const divToRemove = document.getElementById(del_exam_id);
                     divToRemove.remove();
                     examdata.forEach((element, i) => {
-                        if (element.exam_id == del_exam_id) {
+                        if (element.examId == del_exam_id) {
                             examdata.splice(i, 1);
                         }
                     });
@@ -233,16 +240,16 @@ function del(event) {
                         let htmldata = '';
                         examdata.forEach((element, index) => {
                             htmldata +=
-                                '<div class="data" id=' + element.exam_id + '>' +
-                                '<div class="column index" onclick="openexam(event)" id=' + element.exam_id + '>' + (index + 1) + '</div>' +
-                                '<div class="column examname" onclick="openexam(event)" id=' + element.exam_id + '>' + element.exam_name + '</div>' +
-                                '<div class="column date" onclick="openexam(event)" id=' + element.exam_id + '>' + element.date + '</div>' +
-                                '<div class="column total" onclick="openexam(event)" id=' + element.exam_id + '>' + element.total + '</div>' +
-                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 1"] + '</div>' +
-                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 2"] + '</div>' +
-                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 3"] + '</div>' +
-                                '<div class="column section" onclick="openexam(event)" id=' + element.exam_id + '>' + element["Section 4"] + '</div>' +
-                                '<div class="column delete" onclick="deleteexam(event)" id=' + element.exam_id + `> <i class="fa fa-trash" id="${element.exam_id}" aria-hidden="true"></i>` +
+                                '<div class="data" id=' + element.examId + '>' +
+                                '<div class="column index" onclick="openexam(event)" id=' + element.examId + '>' + (index + 1) + '</div>' +
+                                '<div class="column examname" onclick="openexam(event)" id=' + element.examId + '>' + element.examName + '</div>' +
+                                '<div class="column date" onclick="openexam(event)" id=' + element.examId + '>' + element.examDate + '</div>' +
+                                '<div class="column total" onclick="openexam(event)" id=' + element.examId + '>' + element.total + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 1"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 2"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 3"] + '</div>' +
+                                '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 4"] + '</div>' +
+                                '<div class="column delete" onclick="deleteexam(event)" id=' + element.examId + `> <i class="fa fa-trash" id="${element.examId}" aria-hidden="true"></i>` +
                                 '</div>' +
                                 '</div>'
                         });

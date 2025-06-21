@@ -2,12 +2,12 @@ const urlSearchParams = new URLSearchParams(window.location.search);
 var module = urlSearchParams.get('module');
 var tdExam = urlSearchParams.get('tdExam')
 var question = [];
-let exam_name = '';
-let exam_id = '';
-let exam_date = '';
+let examName = '';
+let examId = '';
+let examDate = '';
 let user_data = JSON.parse(localStorage.getItem('user_data'));
-user_id = user_data.user_id;
-let question_id = '';
+studentId = user_data.user_id;
+let questionId = '';
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -17,14 +17,14 @@ let question_id = '';
 function dataentryconnectedCallback() {
     try {
         if ((JSON.parse(sessionStorage.getItem('question' + tdExam))) == null || (JSON.parse(sessionStorage.getItem('question' + tdExam))).length == 0) {
-            exam_date = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
-            exam_id = '';
-            exam_name = '';
+            examDate = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
+            examId = '';
+            examName = '';
         } else {
-            exam_id = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].exam_id
-            exam_name = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].exam_name;
-            exam_date = new Date(JSON.parse(sessionStorage.getItem('question' + tdExam))[0].date);
-            exam_date = `${exam_date.getFullYear()}-${('0' + (exam_date.getMonth() + 1)).slice(-2)}-${('0' + exam_date.getDate()).slice(-2)}`;
+            examId = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].examId
+            examName = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].examName;
+            examDate = new Date(JSON.parse(sessionStorage.getItem('question' + tdExam))[0].date);
+            examDate = `${examDate.getFullYear()}-${('0' + (examDate.getMonth() + 1)).slice(-2)}-${('0' + examDate.getDate()).slice(-2)}`;
             question = JSON.parse(sessionStorage.getItem('question' + tdExam));
         }
         sectionsetter();
@@ -102,16 +102,18 @@ function popupopen(event) {
 
         if (type == 'save') {
 
-            document.getElementById('examdate').value = exam_date;
-            document.getElementById('examname').value = exam_name;
+            document.getElementById('examdate').value = examDate;
+            document.getElementById('examname').value = examName;
             document.getElementById('save-div').style.display = 'flex';
 
         } else {
             var sectiondata = '<tr class="header-table"><th colspan="5"> Question Type</th></tr><tr class="header-table"><th> Correct </th><th> Incorrect </th><th> Missed </th><th> Total </th><th> Delete </th></tr>';
             question.forEach(element => {
+                console.log("Nimit L: " + element.id);
+
                 if (element.section == section) {
                     sectiondata +=
-                        `<tr><td colspan="5" id = ${element.id}>` + element.question_type + '</td></tr >' +
+                        `<tr><td colspan="5" id = ${element.id}>` + element.questionType + '</td></tr >' +
                         `<tr id = ${element.id}>` +
                         '<td>' + element.correct + '</td>' +
                         '<td>' + element.incorrect + '</td>' +
@@ -161,7 +163,7 @@ function getData(event) {
     try {
 
         const selectElement = document.getElementById('question' + event.target.id);
-        const question_type = selectElement.value;
+        const questionType = selectElement.value;
 
         let correct = 0;
         let incorrect = 0;
@@ -177,17 +179,17 @@ function getData(event) {
             {
                 "band": "",
                 "correct": correct,
-                "date": exam_date,
-                "exam_id": exam_id == "" ? "" : exam_id,
-                "exam_name": exam_name == "" ? "" : exam_name,
+                "date": examDate,
+                "examId": examId == "" ? "" : examId,
+                "examName": examName == "" ? "" : examName,
                 "id": "temp_" + question.length,
                 "incorrect": incorrect,
                 "miss": miss,
                 "module": module,
-                "question_type": question_type,
+                "questionType": questionType,
                 "section": event.target.id,
                 "total": total,
-                "user_id": user_id,
+                "studentId": studentId,
             }
         )
 
@@ -209,24 +211,24 @@ function getData(event) {
 // Input - event
 function saveexam(event) {
     try {
-        let exam_name = ''
-        let exam_date = ''
-        exam_name = document.getElementById('examname').value;
-        exam_date = document.getElementById('examdate').value;
+        let examName = ''
+        let examDate = ''
+        examName = document.getElementById('examname').value;
+        examDate = document.getElementById('examdate').value;
 
-        if (exam_date == '' || exam_name.trim() == '') {
+        if (examDate == '' || examName.trim() == '') {
             createToast('error', 'Fill require details');
         } else {
 
             if (question.length > 0) {
                 let correct = 0;
                 let band = 0;
-                exam_date = new Date(exam_date);
+                examDate = new Date(examDate);
 
-                exam_date = exam_date.toISOString().slice(0, 10);
+                examDate = examDate.toISOString().slice(0, 10);
                 question.forEach(element => {
-                    element.date = exam_date;
-                    element.exam_name = exam_name;
+                    element.examDate = examDate;
+                    element.examName = examName;
                     correct += element.correct;
                 });
 
@@ -258,13 +260,15 @@ function saveexam(event) {
 
                 question.forEach(element => {
                     element.band = band;
+                    console.log(JSON.stringify(element));
+
                 });
 
-                fetch('https://ielts-analyzer.onrender.com/api/insertExam', {
+                fetch('http://localhost:8080/studentApi/insertExam', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
-                        'exam_id': exam_id == "" ? "" : exam_id
+                        'examId': examId == "" ? "" : examId
                     },
                     body: JSON.stringify(question),
                 }).then(response => {
@@ -287,7 +291,7 @@ function saveexam(event) {
 // Input - event
 function deletequestion(event) {
     try {
-        question_id = event.target.id;
+        questionId = event.target.id;
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
             element.style.backdropFilter = "none";
         });
@@ -316,14 +320,14 @@ function del(event) {
     try {
         let permcount = 0;
         if (event.target.id == 'yes') {
-            if (!question_id.includes('temp')) {
+            if (!questionId.includes('temp')) {
                 question.forEach(element => {
                     if (!JSON.stringify(element.id).includes('temp')) {
                         permcount++;
                     }
                 });
                 if (permcount > 1) {
-                    fetch(`https://ielts-analyzer.onrender.com/api/deleteQuestion?question_id=${question_id}`, {
+                    fetch(`http://localhost:8080/studentApi/deleteQuestion?questionId=${questionId}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json'
@@ -332,12 +336,12 @@ function del(event) {
                         .then(response => response.json())
                         .then(data => {
                             for (let index = 0; index < 2; index++) {
-                                const divToRemove = document.getElementById(question_id);
+                                const divToRemove = document.getElementById(questionId);
                                 divToRemove.remove();
                             }
 
                             question.forEach((element, i) => {
-                                if (element.id == question_id) {
+                                if (element.id == questionId) {
                                     question.splice(i, 1);
                                 }
                             });
@@ -353,7 +357,7 @@ function del(event) {
                 }
             } else {
                 question.forEach((element, i) => {
-                    if (element.id == question_id) {
+                    if (element.id == questionId) {
                         question.splice(i, 1);
                     }
                 });
