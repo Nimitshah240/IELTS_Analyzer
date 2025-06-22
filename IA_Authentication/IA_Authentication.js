@@ -1,13 +1,13 @@
-var firstname = '';
-var lastname = '';
+var firstName = '';
+var lastName = '';
 var email = '';
 var number = '';
 var type = '';
 var privacy = false;
 var picture;
-var fl_date;
+var loginDate;
 var user_location;
-var user_id;
+var id;
 var data = [];
 var maindata;
 var dynamicUrl = '../';
@@ -41,8 +41,8 @@ function connectedCallback() {
         }
     } else {
         data = JSON.parse(localStorage.getItem('user_data'));
-        firstname = data.firstname;
-        lastname = data.lastname;
+        firstName = data.firstName;
+        lastName = data.lastName;
         email = data.email;
         number = data.number;
         privacy = data.privacy;
@@ -54,8 +54,8 @@ function connectedCallback() {
             document.getElementById("lastname").disabled = false;
             document.getElementById("email").disabled = true;
             document.getElementById("number").disabled = false;
-            firstname = document.getElementById("firstname").value = data.firstname;
-            lastname = document.getElementById("lastname").value = data.lastname;
+            firstName = document.getElementById("firstname").value = data.name;
+            lastName = document.getElementById("lastname").value = data.lastName;
             email = document.getElementById("email").value = data.email;
             number = document.getElementById("number").value = data.number;
             if (type == 'academic') {
@@ -87,7 +87,7 @@ function googleSignin() {
 
         let params = {
             "client_id": "960583894295-h50j910bdioqrmlrargqs6hust6in4ap.apps.googleusercontent.com",
-            "redirect_uri": "https://ieltsanalyzer.netlify.app/ia_authentication/ia_authentication.html",
+            "redirect_uri": "http://localhost/Projects/Ielts%20Analyzer/IA_Client/IA_Authentication/IA_Authentication.html",
             "response_type": "token",
             "scope": "https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email",
             "include_granted_scope": 'true',
@@ -144,7 +144,7 @@ function SignedIn() {
                     return data.json();
                 })
                 .then((info) => {
-                    info.user_id = info.sub;
+                    info.id = info.sub;
                     delete info.sub;
                     maindata = info;
                     picture = info.picture;
@@ -155,8 +155,8 @@ function SignedIn() {
                         let month = ('0' + (today.getMonth() + 1)).slice(-2);
                         let day = ('0' + today.getDate()).slice(-2);
                         today = `${year}-${month}-${day}`;
-                        fl_date = today;
-                        fetchUser(info.user_id);
+                        loginDate = today;
+                        fetchUser(info.id);
                     }
                 });
         }
@@ -216,11 +216,11 @@ function showSignout() {
 // Developed on - 21/12/2024
 // Description - Use to check/get user from the DB
 // Updated on - -
-// Input - user_id
-function fetchUser(user_id) {
+// Input - id
+function fetchUser(id) {
     try {
 
-        fetch(`http://localhost:8080/studentApi/student?user_id=${user_id}`)
+        fetch(`http://localhost:8080/studentApi/student?user_id=${id}`)
             .then(response => response.json())
             .then(responsedata => {
                 document.getElementById('continue').style.display = 'block';
@@ -229,16 +229,19 @@ function fetchUser(user_id) {
                 document.getElementById("lastname").disabled = false;
                 document.getElementById("number").disabled = false;
                 if (responsedata.length > 0) {
+
                     // User is already availabe in DB
                     // Setting data in fields
                     let tempdata = responsedata[0];
-                    user_id = tempdata.id;
-                    firstname = document.getElementById("firstname").value = tempdata.name;
-                    lastname = document.getElementById("lastname").value = tempdata.lastname;
+                    console.log(tempdata.privacy);
+
+                    id = tempdata.id;
+                    firstName = document.getElementById("firstname").value = tempdata.name;
+                    lastName = document.getElementById("lastname").value = tempdata.lastName;
                     email = document.getElementById("email").value = tempdata.email;
                     number = document.getElementById("number").value = tempdata.number;
                     picture = tempdata.picture;
-                    fl_date = tempdata.fl_date;
+                    loginDate = tempdata.loginDate;
                     user_location = tempdata.location;
                     type = tempdata.type
                     if (type == 'academic') {
@@ -246,20 +249,20 @@ function fetchUser(user_id) {
                     } else if (type == 'general') {
                         document.getElementById("General").checked = true;
                     }
-                    if (tempdata.privacy == 'true') {
+                    if (tempdata.privacy == true) {
                         privacy = document.getElementById("privacy").checked = true;
                     }
-                    data = { 'new': false, 'user_id': user_id, 'firstname': firstname, 'lastname': lastname, 'email': email, 'number': number, 'type': type, 'privacy': privacy, 'location': user_location, 'fl_date': fl_date, 'picture': picture };
+                    data = { 'new': false, 'id': id, 'name': firstName, 'lastName': lastName, 'email': email, 'number': number, 'type': type, 'privacy': privacy, 'location': user_location, 'loginDate': loginDate, 'picture': picture };
                 } else {
                     // New user is sign in
-                    user_id = maindata.user_id;
-                    firstname = document.getElementById("firstname").value = maindata.given_name;
-                    lastname = document.getElementById("lastname").value = maindata.family_name;
+                    id = maindata.id;
+                    firstName = document.getElementById("firstname").value = maindata.given_name;
+                    lastName = document.getElementById("lastname").value = maindata.family_name;
                     email = document.getElementById("email").value = maindata.email;
                     // number = document.getElementById("number").value = maindata.number;
                     picture = maindata.picture;
                     user_location = '';
-                    data = { 'new': true, 'user_id': maindata.user_id, 'firstname': maindata.given_name, 'lastname': maindata.family_name, 'email': maindata.email, 'number': 'number', 'type': 'academic', 'privacy': '', 'location': '', 'fl_date': fl_date, 'picture': maindata.picture };
+                    data = { 'new': true, 'id': maindata.id, 'name': maindata.given_name, 'lastName': maindata.family_name, 'email': maindata.email, 'number': 'number', 'type': 'academic', 'privacy': '', 'location': '', 'loginDate': loginDate, 'picture': maindata.picture };
                 }
 
             }).catch(error => createToast('error', error));
@@ -276,8 +279,8 @@ function fetchUser(user_id) {
 function continueClick() {
     try {
         let temptype;
-        let tempfirstname = document.getElementById("firstname").value;
-        let templastname = document.getElementById("lastname").value;
+        let tempname = document.getElementById("firstname").value;
+        let templastName = document.getElementById("lastname").value;
         let tempemail = document.getElementById("email").value;
         let tempnumber = document.getElementById("number").value;
         if (document.getElementById("Academic").checked == true) { // Change here
@@ -288,14 +291,16 @@ function continueClick() {
         let tempprivacy = document.getElementById("privacy").checked;
 
         // Checking for changes in data
-        if (tempfirstname.trim() != '' && tempemail.trim() != '' && tempnumber.trim() != '' && tempprivacy) {
-            if (firstname != tempfirstname || lastname != templastname || email != tempemail || number != tempnumber || temptype != type) {
-                data.firstname = tempfirstname;
-                data.lastname = templastname;
+        if (tempname.trim() != '' && tempemail.trim() != '' && tempnumber.trim() != '' && tempprivacy) {
+            if (firstName != tempname || lastName != templastName || email != tempemail || number != tempnumber || temptype != type) {
+                data.name = tempname;
+                data.lastName = templastName;
                 data.email = tempemail;
                 data.number = tempnumber;
                 data.type = temptype;
                 data.privacy = tempprivacy;
+                console.log(JSON.stringify(data));
+
 
                 fetch('http://localhost:8080/studentApi/updateStudent', {
                     method: 'POST',
