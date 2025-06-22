@@ -74,11 +74,11 @@ function dashboardconnectedCallback() {
                     responseData.forEach(element => {
                         // FOR CHART 2 and 5
                         totalquestion += element.total;
-                        if (exammap.has(element.exam_id)) {
-                            exammap.set(element.exam_id, { 'exam_name': element.exam_name, 'date': element.date, 'score': exammap.get(element.exam_id).score + element.correct });
+                        if (exammap.has(element.examId)) {
+                            exammap.set(element.examId, { 'examName': element.examName, 'date': element.examDate, 'score': exammap.get(element.examId).score + element.correct });
                         } else {
-                            bandtotal.set(element.exam_id, element.band)
-                            exammap.set(element.exam_id, { 'exam_name': element.exam_name, 'date': element.date, 'score': element.correct });
+                            bandtotal.set(element.examId, element.band)
+                            exammap.set(element.examId, { 'examName': element.examName, 'date': element.examDate, 'score': element.correct });
                         }
 
                         // FOR CHART 1 and 3
@@ -101,24 +101,24 @@ function dashboardconnectedCallback() {
                         }
 
                         //  FOR CHART 4 || Question wise correct map
-                        if (question_correct.has(element.question_type)) {
-                            question_correct.set(element.question_type, question_correct.get(element.question_type) + element.correct)
+                        if (question_correct.has(element.questionType)) {
+                            question_correct.set(element.questionType, question_correct.get(element.questionType) + element.correct)
                         } else {
-                            question_correct.set(element.question_type, element.correct);
+                            question_correct.set(element.questionType, element.correct);
                         }
 
                         // FOR CHART 6 || Question wise incorrect map
-                        if (question_incorrect.has(element.question_type)) {
-                            question_incorrect.set(element.question_type, question_incorrect.get(element.question_type) + element.incorrect)
+                        if (question_incorrect.has(element.questionType)) {
+                            question_incorrect.set(element.questionType, question_incorrect.get(element.questionType) + element.incorrect)
                         } else {
-                            question_incorrect.set(element.question_type, element.incorrect);
+                            question_incorrect.set(element.questionType, element.incorrect);
                         }
 
                         // FOR TIP || Question wise total map
-                        if (question_total.has(element.question_type)) {
-                            question_total.set(element.question_type, question_total.get(element.question_type) + element.total)
+                        if (question_total.has(element.questionType)) {
+                            question_total.set(element.questionType, question_total.get(element.questionType) + element.total)
                         } else {
-                            question_total.set(element.question_type, element.total);
+                            question_total.set(element.questionType, element.total);
                         }
                     });
 
@@ -374,7 +374,7 @@ function chart5() {
         let setlabel = [];
 
         for (const key of exammap.keys()) {
-            setlabel.push(exammap.get(key).exam_name);
+            setlabel.push(exammap.get(key).examName);
             setdata.push(exammap.get(key).score);
         }
         const ctx = document.getElementById('chart5').getContext('2d');
@@ -515,41 +515,41 @@ function chart7() {
         let quest_score2 = new Map();
         let quest_score3 = new Map();
         let quest_score4 = new Map();
-        let question_type = [];
+        let questionType = [];
 
         responseData.forEach(element => {
-            if (!question_type.includes(element.question_type) && element.correct != '') {
-                question_type.push(element.question_type);
+            if (!questionType.includes(element.questionType) && element.correct != '') {
+                questionType.push(element.questionType);
             }
             if (element.section == 1) {
-                if (quest_score1.has(element.question_type)) {
-                    quest_score1.set(element.question_type, quest_score1.get(element.question_type) + element.correct);
+                if (quest_score1.has(element.questionType)) {
+                    quest_score1.set(element.questionType, quest_score1.get(element.questionType) + element.correct);
                 } else {
-                    quest_score1.set(element.question_type, element.correct);
+                    quest_score1.set(element.questionType, element.correct);
                 }
             } else if (element.section == 2) {
-                if (quest_score2.has(element.question_type)) {
-                    quest_score2.set(element.question_type, quest_score2.get(element.question_type) + element.correct);
+                if (quest_score2.has(element.questionType)) {
+                    quest_score2.set(element.questionType, quest_score2.get(element.questionType) + element.correct);
                 } else {
-                    quest_score2.set(element.question_type, element.correct);
+                    quest_score2.set(element.questionType, element.correct);
                 }
             } else if (element.section == 3) {
-                if (quest_score3.has(element.question_type)) {
-                    quest_score3.set(element.question_type, quest_score3.get(element.question_type) + element.correct);
+                if (quest_score3.has(element.questionType)) {
+                    quest_score3.set(element.questionType, quest_score3.get(element.questionType) + element.correct);
                 } else {
-                    quest_score3.set(element.question_type, element.correct);
+                    quest_score3.set(element.questionType, element.correct);
                 }
             } else if (element.section == 4) {
-                if (quest_score4.has(element.question_type)) {
-                    quest_score4.set(element.question_type, quest_score4.get(element.question_type) + element.correct);
+                if (quest_score4.has(element.questionType)) {
+                    quest_score4.set(element.questionType, quest_score4.get(element.questionType) + element.correct);
                 } else {
-                    quest_score4.set(element.question_type, element.correct);
+                    quest_score4.set(element.questionType, element.correct);
                 }
             }
         });
         const ctx = document.getElementById('chart7');
         let dataset = [];
-        question_type.forEach((element, index) => {
+        questionType.forEach((element, index) => {
             dataset.push({
                 'label': element,
                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
@@ -613,41 +613,41 @@ function chart8() {
         let quest_score2 = new Map();
         let quest_score3 = new Map();
         let quest_score4 = new Map();
-        let question_type = [];
+        let questionType = [];
 
         responseData.forEach(element => {
-            if (!question_type.includes(element.question_type) && element.incorrect != '') {
-                question_type.push(element.question_type);
+            if (!questionType.includes(element.questionType) && element.incorrect != '') {
+                questionType.push(element.questionType);
             }
             if (element.section == 1) {
-                if (quest_score1.has(element.question_type)) {
-                    quest_score1.set(element.question_type, quest_score1.get(element.question_type) + element.incorrect);
+                if (quest_score1.has(element.questionType)) {
+                    quest_score1.set(element.questionType, quest_score1.get(element.questionType) + element.incorrect);
                 } else {
-                    quest_score1.set(element.question_type, element.incorrect);
+                    quest_score1.set(element.questionType, element.incorrect);
                 }
             } else if (element.section == 2) {
-                if (quest_score2.has(element.question_type)) {
-                    quest_score2.set(element.question_type, quest_score2.get(element.question_type) + element.incorrect);
+                if (quest_score2.has(element.questionType)) {
+                    quest_score2.set(element.questionType, quest_score2.get(element.questionType) + element.incorrect);
                 } else {
-                    quest_score2.set(element.question_type, element.incorrect);
+                    quest_score2.set(element.questionType, element.incorrect);
                 }
             } else if (element.section == 3) {
-                if (quest_score3.has(element.question_type)) {
-                    quest_score3.set(element.question_type, quest_score3.get(element.question_type) + element.incorrect);
+                if (quest_score3.has(element.questionType)) {
+                    quest_score3.set(element.questionType, quest_score3.get(element.questionType) + element.incorrect);
                 } else {
-                    quest_score3.set(element.question_type, element.incorrect);
+                    quest_score3.set(element.questionType, element.incorrect);
                 }
             } else if (element.section == 4) {
-                if (quest_score4.has(element.question_type)) {
-                    quest_score4.set(element.question_type, quest_score4.get(element.question_type) + element.incorrect);
+                if (quest_score4.has(element.questionType)) {
+                    quest_score4.set(element.questionType, quest_score4.get(element.questionType) + element.incorrect);
                 } else {
-                    quest_score4.set(element.question_type, element.incorrect);
+                    quest_score4.set(element.questionType, element.incorrect);
                 }
             }
         });
 
         let dataset = [];
-        question_type.forEach((element, index) => {
+        questionType.forEach((element, index) => {
             dataset.push({
                 'label': element,
                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
@@ -707,41 +707,41 @@ function chart8() {
 //         let quest_score2 = new Map();
 //         let quest_score3 = new Map();
 //         let quest_score4 = new Map();
-//         let question_type = [];
+//         let questionType = [];
 
 //         responseData.forEach(element => {
-//             if (!question_type.includes(element.question_type) && element.miss != '') {
-//                 question_type.push(element.question_type);
+//             if (!questionType.includes(element.questionType) && element.miss != '') {
+//                 questionType.push(element.questionType);
 //             }
 //             if (element.section == 1) {
-//                 if (quest_score1.has(element.question_type)) {
-//                     quest_score1.set(element.question_type, quest_score1.get(element.question_type) + element.miss);
+//                 if (quest_score1.has(element.questionType)) {
+//                     quest_score1.set(element.questionType, quest_score1.get(element.questionType) + element.miss);
 //                 } else {
-//                     quest_score1.set(element.question_type, element.miss);
+//                     quest_score1.set(element.questionType, element.miss);
 //                 }
 //             } else if (element.section == 2) {
-//                 if (quest_score2.has(element.question_type)) {
-//                     quest_score2.set(element.question_type, quest_score2.get(element.question_type) + element.miss);
+//                 if (quest_score2.has(element.questionType)) {
+//                     quest_score2.set(element.questionType, quest_score2.get(element.questionType) + element.miss);
 //                 } else {
-//                     quest_score2.set(element.question_type, element.miss);
+//                     quest_score2.set(element.questionType, element.miss);
 //                 }
 //             } else if (element.section == 3) {
-//                 if (quest_score3.has(element.question_type)) {
-//                     quest_score3.set(element.question_type, quest_score3.get(element.question_type) + element.miss);
+//                 if (quest_score3.has(element.questionType)) {
+//                     quest_score3.set(element.questionType, quest_score3.get(element.questionType) + element.miss);
 //                 } else {
-//                     quest_score3.set(element.question_type, element.miss);
+//                     quest_score3.set(element.questionType, element.miss);
 //                 }
 //             } else if (element.section == 4) {
-//                 if (quest_score4.has(element.question_type)) {
-//                     quest_score4.set(element.question_type, quest_score4.get(element.question_type) + element.miss);
+//                 if (quest_score4.has(element.questionType)) {
+//                     quest_score4.set(element.questionType, quest_score4.get(element.questionType) + element.miss);
 //                 } else {
-//                     quest_score4.set(element.question_type, element.miss);
+//                     quest_score4.set(element.questionType, element.miss);
 //                 }
 //             }
 //         });
 
 //         let dataset = [];
-//         question_type.forEach((element, index) => {
+//         questionType.forEach((element, index) => {
 //             dataset.push({
 //                 'label': element,
 //                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),

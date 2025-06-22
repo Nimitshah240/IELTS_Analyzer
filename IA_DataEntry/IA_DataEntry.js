@@ -182,7 +182,7 @@ function getData(event) {
                 "date": examDate,
                 "examId": examId == "" ? "" : examId,
                 "examName": examName == "" ? "" : examName,
-                "id": "temp_" + question.length,
+                "id": question.length,
                 "incorrect": incorrect,
                 "miss": miss,
                 "module": module,

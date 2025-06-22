@@ -82,12 +82,6 @@ function examData() {
             fetch(`http://localhost:8080/studentApi/examData?user_id=${user_id}&module=${module}`)
                 .then(response => response.json())
                 .then(responseData => {
-<<<<<<< Updated upstream
-=======
-
-                    console.log(responseData);
-                    
->>>>>>> Stashed changes
                     question = responseData;
                     if (question.length > 0) {
 
@@ -104,11 +98,9 @@ function examData() {
                                 'Name': element.examName,
                                 'Date': element.examDate
                             });
-                        });                        
-
+                        });
                         // Calculating section wise marks for exach exam
                         question.forEach(element => {
-                            
                             if (element.section == 1) {
                                 if (Section1.has(element.examId)) {
                                     Section1.set(element.examId, Section1.get(element.examId) + element.correct);
@@ -134,7 +126,7 @@ function examData() {
                                     Section4.set(element.examId, element.correct);
                                 }
                             }
-                        });                        
+                        });
 
                         // Arranging Data in Variable
                         for (const key of Exammap.keys()) {
@@ -161,12 +153,12 @@ function examData() {
 
 
                         //Setting data to html
-                        examdata.forEach((element, index) => {                            
+                        examdata.forEach((element, index) => {
                             htmldata +=
                                 '<div class="data" id=' + element.examId + '>' +
                                 '<div class="column index" onclick="openexam(event)" id=' + element.examId + '>' + (index + 1) + '</div>' +
                                 '<div class="column examname" onclick="openexam(event)" id=' + element.examId + '>' + element.examName + '</div>' +
-                                '<div class="column date" onclick="openexam(event)" id=' + element.examId + '>' + element. examDate + '</div>' +
+                                '<div class="column date" onclick="openexam(event)" id=' + element.examId + '>' + element.examDate + '</div>' +
                                 '<div class="column total" onclick="openexam(event)" id=' + element.examId + '>' + element.total + '</div>' +
                                 '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 1"] + '</div>' +
                                 '<div class="column section" onclick="openexam(event)" id=' + element.examId + '>' + element["Section 2"] + '</div>' +

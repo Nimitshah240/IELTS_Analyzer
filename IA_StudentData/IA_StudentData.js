@@ -65,8 +65,6 @@ function checkuser() {
 // Input - responsedata
 function setdata(responsedata) {
     try {
-        console.log(responsedata);
-        
         let htmldata = ''
         responsedata.forEach((element, index) => {
             let date = new Date(element.loginDate);
@@ -75,14 +73,14 @@ function setdata(responsedata) {
             let day = ('0' + date.getDate()).slice(-2);
             date = `${year}-${month}-${day}`;
             htmldata +=
-                '<div class="data" id=' + element.studentId + '>' +
-                '<div class="column index"  id=' + element.studentId + '>' + (index + 1) + '</div>' +
-                '<div class="column studentname"  id=' + element.studentId + '>' + element.name + '</div>' +
-                '<div class="column date"  id=' + element.studentId + '>' + date + '</div>' +
-                '<div class="column total"  id=' + element.studentId + '>' + element.reading_count + '</div>' +
-                '<div class="column dashboard dash" onclick="opendashboard(event)" id=' + element.studentId + '> <button class="button-63 dashboard-button" name="Reading" id=' + element.studentId + '>Dashboard</button>' + '</div>' +
-                '<div class="column total"  id=' + element.studentId + '>' + element.listening_count + '</div>' +
-                '<div class="column dashboard dash" onclick="opendashboard(event)" id=' + element.studentId + '>' + '<button class="button-63 dashboard-button" name="Listening" id=' + element.studentId + '>Dashboard</button>' + '</div>' +
+                '<div class="data" id=' + element.id + '>' +
+                '<div class="column index"  id=' + element.id + '>' + (index + 1) + '</div>' +
+                '<div class="column studentname"  id=' + element.id + '>' + element.name + '</div>' +
+                '<div class="column date"  id=' + element.id + '>' + date + '</div>' +
+                '<div class="column total"  id=' + element.id + '>' + element.reading_count + '</div>' +
+                '<div class="column dashboard dash" onclick="opendashboard(event)" id=' + element.id + '> <button class="button-63 dashboard-button" name="Reading" id=' + element.id + '>Dashboard</button>' + '</div>' +
+                '<div class="column total"  id=' + element.id + '>' + element.listening_count + '</div>' +
+                '<div class="column dashboard dash" onclick="opendashboard(event)" id=' + element.id + '>' + '<button class="button-63 dashboard-button" name="Listening" id=' + element.id + '>Dashboard</button>' + '</div>' +
                 '</div>'
         });
 
@@ -102,7 +100,7 @@ function opendashboard(event) {
     try {
         let module = event.target.name;
         let user_id = event.target.id;
-        sessionStorage.setItem('student_id', user_id);
+        sessionStorage.setItem('student_id', JSON.stringify(user_id));
         let dynamicUrl = '../IA_Dashboard/IA_Dashboard.html';
         if (module == 'Reading') {
             dynamicUrl += '?module=Reading&teacher=true';
