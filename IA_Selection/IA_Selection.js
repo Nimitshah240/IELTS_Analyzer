@@ -1,13 +1,5 @@
 const urlSearchParams = new URLSearchParams(window.location.search);
 const selectionType = urlSearchParams.get('type');
-const slides = [
-    {
-        image: "../Asset\/5790b59f9d49b818ca27538455000a07.jpg", header: "Dashboard", description: `Great! Let's start analyzing your score now. 🚀Get ready for detailed insights and improvements! ✅.'`
-    },
-    { image: "../Asset\/380764fbad3e9dd30345b06511ed756e.jpg", header: "Data", description: `Share your IELTS data, and I'll generate deep insights to help you improve! 📊🚀` },
-    { image: "../Asset\/380764fbad3e9dd30345b06511ed756e.jpg", header: "Knowledge", description: `Here lies a vast treasury of knowledge—dive in, explore, and unlock endless possibilities! 📚✨🚀` }
-
-];
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -16,27 +8,30 @@ const slides = [
 // Input - none
 async function selectionconnectedCallback() {
     try {
-        const myDiv = document.getElementById('main');
-        const myDivheader = document.getElementById('header');
-        const myDivdescription = document.getElementById('description');
+
         await getEnglishJsonFile("../en_properties.json")
         Userlogo();
+
         if (selectionType == 'listview') {
-            myDiv.style.backgroundImage = `url('${slides[1].image}')`;
-            myDivheader.innerText = `${slides[1].header}`;
-            myDivdescription.innerText = `${slides[1].description}`;
+            setTextsImages(1);
         } else if (selectionType == 'dashboard') {
-            myDiv.style.backgroundImage = `url('${slides[0].image}')`;
-            myDivheader.innerText = `${slides[0].header}`;
-            myDivdescription.innerText = `${slides[0].description}`;
+            setTextsImages(0);
         } else if (selectionType == 'trick') {
-            myDiv.style.backgroundImage = `url('${slides[2].image}')`;
-            myDivheader.innerText = `${slides[2].header}`;
-            myDivdescription.innerText = `${slides[2].description}`;
+            setTextsImages(2);
         }
     } catch (error) {
         console.error(error);
     }
+}
+
+function setTextsImages(count) {
+    const myDiv = document.getElementById('main');
+    const myDivheader = document.getElementById('header');
+    const myDivdescription = document.getElementById('description');
+
+    myDiv.style.backgroundImage = `url('${enProperties.slides[count].image}')`;
+    myDivheader.innerText = `${enProperties.slides[count].header}`;
+    myDivdescription.innerText = `${enProperties.slides[count].description}`;
 }
 
 // Developer - Nimit Shah

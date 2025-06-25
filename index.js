@@ -9,10 +9,6 @@ let hero;
 let numText;
 let heroContent;
 let heroText;
-const slides = [
-    { image: "Asset\/5790b59f9d49b818ca27538455000a07.jpg", text: "01 / 02", heroText: 'Welcome to IELTS ANALYZER. We specialize in transforming IELTS exam data into insightful visualizations that enhance understanding and facilitate better preparation for test-takers.', button: ["Data", "Dashboard"], buttonURL: ['listview', 'dashboard'] },
-    { image: "Asset\/380764fbad3e9dd30345b06511ed756e.jpg", text: "02 / 02", heroText: 'On the Tricks page, you will find a collection of effective techniques and strategies designed to help you master the art of answering reading and listening questions, improving your skills and performance.', button: ['Knowledge'], buttonURL: ['trick'] }
-];
 
 window.addEventListener('scroll', () => {
     const logo = document.getElementById('logo');
@@ -68,7 +64,8 @@ async function indexconnectedCallback() {
 let currentIndex = 0;
 function updateSlide() {
     try {
-        const currentSlide = slides[currentIndex];
+        currentIndex = currentIndex == 2 ? 0 : currentIndex;
+        const currentSlide = enProperties.slides[currentIndex];
         hero.style.backgroundImage = `url(${currentSlide.image})`;
         heroContent.style.animation = "none"; // Reset animation
         heroContent.offsetHeight; // Trigger reflow to restart animation
@@ -88,81 +85,12 @@ function updateSlide() {
         });
 
         document.getElementById("buttons").innerHTML = htmlbuttons;
-        currentIndex = (currentIndex + 1) % slides.length;
+        currentIndex = (currentIndex + 1) % enProperties.slides.length;
     } catch (error) {
         createToast('error', 'Error while loading : ' + error.message);
     }
 }
 setInterval(updateSlide, 5000);
-
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - It use to get user exam data to show on home page (NOT IN USE ANYMORE, REMOVE IT IN CLEANUP PROCESS).
-// Updated on - 05/02/2025 
-// Input - none
-// async function fetchExamData() {
-//     try {
-//         const user_data = JSON.parse(localStorage.getItem('user_data'));
-//         const user_id = user_data.user_id;
-//         const module = undefined;
-//         let listening_exam_count = 0;
-//         let reading_exam_count = 0;
-//         let reading_question_count = 0;
-//         let listening_question_count = 0;
-//         let readingband = [];
-//         let listeningband = [];
-//         let exammap = new Map();
-
-//         fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
-//             .then(response => response.json())
-//             .then(responseData => {
-//                 responseData.forEach(element => {
-//                     exammap.set(element.exam_id, { 'band': element.band, 'module': element.module });
-//                     if (element.module == 'Reading' && element.id != null) {
-//                         reading_question_count += element.total;
-//                     } else if (element.module == 'Listening' && element.id != null) {
-//                         listening_question_count += element.total;
-//                     }
-//                 });
-
-//                 exammap.forEach(element => {
-//                     if (element.module == 'Reading') {
-//                         reading_exam_count++;
-//                         readingband.push(element.band);
-//                     } else {
-//                         listening_exam_count++;
-//                         listeningband.push(element.band);
-//                     }
-//                 });
-
-//                 document.getElementById("listening-band").innerHTML = calculateAverage(listeningband);
-//                 document.getElementById("reading-band").innerHTML = calculateAverage(readingband);
-//                 document.getElementById("question-count-listening").innerHTML = listening_question_count;
-//                 document.getElementById("question-count-reading").innerHTML = reading_question_count;
-//                 document.getElementById("count-listening").innerHTML = listening_exam_count;
-//                 document.getElementById("count-reading").innerHTML = reading_exam_count;
-//             })
-//             .catch(error => createToast('error', 'Error while fetching exam data : ' + error));
-
-//     } catch (error) {
-//         createToast('error', 'Error while fetching exam data : ' + error);
-//     }
-// }
-
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - Use to calculate average band of user (NOT IN USE ANYMORE, REMOVE IT IN CLEANUP PROCESS).
-// Updated on - 05/02/2025
-// Input - band
-// function calculateAverage(numbers) {
-//     if (numbers.length === 0) {
-//         return 0;
-//     }
-//     const sum = numbers.reduce((acc, curr) => acc + curr, 0);
-//     const average = sum / numbers.length;
-//     const roundToNearestHalf = (num) => Math.round(num * 2) / 2;
-//     return roundToNearestHalf(average);
-// }
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -181,46 +109,6 @@ async function setHref(event) {
         createToast('error', 'Error while redirecting : ' + error.message);
     }
 }
-
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - Use to save feedback of any user. (NOT IN USE ANYMORE, REMOVE IT IN CLEANUP PROCESS).
-// Updated on - 05/02/2025
-// Input - none
-// function sendemail() {
-//     try {
-//         let user_id = ((localStorage.getItem('user_data'))) == null ? "" : JSON.parse(localStorage.getItem('user_data')).user_id;
-//         var name = document.getElementById('name').value;
-//         var email = document.getElementById('email').value;
-//         var message = document.getElementById('message').value;
-//         let data = { 'user_id': user_id, 'name': name, 'email': email, 'message': message };
-//         var re = /\S+@\S+\.\S+/;
-
-//         if (data.name.trim() != '' && data.email.trim() != '' && re.test(email)) {
-//             fetch('https://ielts-analyzer.onrender.com/api/feedback', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                 },
-//                 body: JSON.stringify(data),
-//             })
-//                 .then(() => {
-//                     name = document.getElementById('name').value = '';
-//                     email = document.getElementById('email').value = '';
-//                     message = document.getElementById('message').value = '';
-//                     createToast('success', 'Thank you for your feedback');
-//                 })
-//                 .catch(error => createToast('error', 'Error while sending email : ' + error.message));
-
-//         } else {
-//             createToast('error', 'Please fill required data');
-//         }
-
-//     } catch (error) {
-//         createToast('error', 'Error while sending email : ' + error.message);
-//     }
-// }
-
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024

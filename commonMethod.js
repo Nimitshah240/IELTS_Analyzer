@@ -12,9 +12,9 @@ async function getEnglishJsonFile(jsonFileLocation) {
     }
 }
 
-async function getFilePaths(params, jsonFileLocation) {
+async function getFilePaths(params) {
     try {
-        await getEnglishJsonFile(jsonFileLocation)
+        await getEnglishJsonFile("../en_properties.json")
         let url = enProperties.dynamicURL + enProperties.dynamicURLEndPoints[params];
         return url;
     } catch (error) {
@@ -23,22 +23,22 @@ async function getFilePaths(params, jsonFileLocation) {
 
 }
 
-async function setAnchorHref(params, jsonFileLocation) {
+async function setAnchorHref(params) {
     try {
         var element = document.getElementsByName(params);
         element.forEach(async ele => {
-            ele.href = await getFilePaths(params, jsonFileLocation);
+            ele.href = await getFilePaths(params);
         });
     } catch (error) {
         console.error(error);
     }
 }
 
-async function setIframeSrc(params, jsonFileLocation) {
+async function setIframeSrc(params) {
     try {
         var element = document.getElementsByName(params);
         element.forEach(async ele => {
-            ele.src = await getFilePaths(params, jsonFileLocation);
+            ele.src = await getFilePaths(params);
         });
     } catch (error) {
         console.error(error);

@@ -25,5 +25,48 @@
         "toast": "/IA_Toast/IA_Toast.html",
         "index": "/index.html",
         "authentication": "/IA_Authentication/IA_Authentication.html"
-    }
+    },
+    "slides": [
+        {
+            "image": "/Projects/Ielts%20Analyzer/IA_Client/Asset\/5790b59f9d49b818ca27538455000a07.jpg",
+            "text": "01 / 02",
+            "heroText": "Welcome to IELTS ANALYZER. We specialize in transforming IELTS exam data into insightful visualizations that enhance understanding and facilitate better preparation for test-takers.",
+            "button": [
+                "Data",
+                "Dashboard"
+            ],
+            "buttonURL": [
+                "listview",
+                "dashboard"
+            ],
+            "header": "Dashboard",
+            "description": "Great! Let's start analyzing your score now. 🚀Get ready for detailed insights and improvements! ✅."
+        },
+        {
+            "image": "/Projects/Ielts%20Analyzer/IA_Client/Asset\/380764fbad3e9dd30345b06511ed756e.jpg",
+            "text": "02 / 02",
+            "heroText": "On the Tricks page, you will find a collection of effective techniques and strategies designed to help you master the art of answering reading and listening questions, improving your skills and performance.",
+            "button": [
+                "Knowledge"
+            ],
+            "buttonURL": [
+                "trick"
+            ],
+            "header": "Data",
+            "description": "Share your IELTS data, and I'll generate deep insights to help you improve! 📊🚀"
+        },
+        {
+            "image": "/Projects/Ielts%20Analyzer/IA_Client/Asset\/380764fbad3e9dd30345b06511ed756e.jpg",
+            "text": "",
+            "heroText": "",
+            "button": [
+                ""
+            ],
+            "buttonURL": [
+                ""
+            ],
+            "header": "Knowledge",
+            "description": "Here lies a vast treasury of knowledge—dive in, explore, and unlock endless possibilities! 📚✨🚀"
+        }
+    ]
 }

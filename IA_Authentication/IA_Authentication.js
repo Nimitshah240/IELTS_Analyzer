@@ -30,6 +30,7 @@ async function authentication(event) {
 // Input - none
 async function connectedCallback() {
     await getEnglishJsonFile('../en_properties.json');
+    Userlogo();
     if (localStorage.getItem('user_data') == 'undefined' || localStorage.getItem('user_data') == null) {
         if (document.getElementById('firstname')) {
             document.getElementById('google-button').style.display = 'block';
@@ -148,7 +149,7 @@ async function SignedIn() {
                     delete info.sub;
                     maindata = info;
                     picture = info.picture;
-                    dynamicUrl = await getFilePaths("index") + "?signedin=true";
+                    dynamicUrl = await getFilePaths("index");
                     if (info) {
                         let today = new Date();
                         let year = today.getFullYear();
@@ -334,8 +335,8 @@ async function continueClick() {
 // Input - none
 async function Userlogo() {
     try {
-        await setAnchorHref("index", "../en_properties.json");
-        await setIframeSrc("spinner", "../en_properties.json");
+        await setAnchorHref("index");
+        await setIframeSrc("spinner");
         if (localStorage.getItem('user_data') != null && document.getElementById("not-log")) {
             document.getElementById('not-log').style.display = 'none';
             document.getElementById('login-img').style.display = 'block';
