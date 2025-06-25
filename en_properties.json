@@ -1,0 +1,29 @@
+{
+    "versionNumber": "1.0.0",
+    "versionDate": "11-09-2024",
+    "apiURL": "http://localhost:8080",
+    "apiEndPoints": {
+        "studentApi": "/studentApi",
+        "examData": "/examData",
+        "student": "/student",
+        "updateStudent": "/updateStudent",
+        "allStudentData": "/allStudentData",
+        "deleteQuestion": "/deleteQuestion",
+        "deleteExam": "/deleteExam",
+        "insertExam": "/insertExam"
+    },
+    "dynamicURL": "/Projects/Ielts%20Analyzer/IA_Client",
+    "dynamicURLEndPoints": {
+        "trick": "/IA_Trick/IA_Trick.html",
+        "dashboard": "/IA_Dashboard/IA_Dashboard.html",
+        "dataentry": "/IA_DataEntry/IA_DataEntry.html",
+        "delete": "/IA_Delete/IA_Delete.html",
+        "listview": "/IA_ListView/IA_ListView.html",
+        "selection": "/IA_Selection/IA_Selection.html",
+        "spinner": "/IA_Spinner/IA_Spinner.html",
+        "studentdata": "/IA_StudentData/IA_StudentData.html",
+        "toast": "/IA_Toast/IA_Toast.html",
+        "index": "/index.html",
+        "authentication": "/IA_Authentication/IA_Authentication.html"
+    }
+}

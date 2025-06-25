@@ -4,7 +4,7 @@ const teachermode = urlSearchParams.get('teacher');
 if (teachermode == 'true') {
     user_id = JSON.parse(sessionStorage.getItem('student_id'));
 } else {
-    user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
+    user_id = JSON.parse(localStorage.getItem('user_data')).id;
 }
 
 const exammap = new Map();
@@ -42,16 +42,18 @@ colorList = ['#17ffee', '#6917d0', '#cc17ff', '#17ffa4', '#ff1791', '#95e214', '
 // Description - Use to initialize data of Reading or Listening of user for Dashboard view
 // Updated on - -
 // Input - none
-function dashboardconnectedCallback() {
+async function dashboardconnectedCallback() {
     try {
 
+        await getEnglishJsonFile('../en_properties.json');
         if (screen.width >= 768 && screen.width < 1024) {
             textAroundposition = 0 + 105;
             fontStyle = '20px sans-serif'
         }
         Userlogo();
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.examData
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
-            fetch(`http://localhost:8080/studentApi/examData?user_id=${user_id}&module=${module}`)
+            fetch(`${apiURL}?user_id=${user_id}&module=${module}`)
                 .then(response => response.json())
                 .then(responsedata => {
 
@@ -797,7 +799,7 @@ function chart8() {
 // Description - Use to open summary/tip box and also set values
 // Updated on - -
 // Input - none
-function tipopen() {
+async function tipopen() {
     try {
 
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
@@ -896,13 +898,8 @@ function tipopen() {
         document.getElementById('section-summary').innerHTML = sectiontext
 
         // Setting href for Trick anchor tag
-        let href = "../IA_Trick/IA_Trick.html?module=";
-        if (module == 'Listening') {
-            href += 'Listening';
-        } else {
-            href += 'Reading';
-        }
-        document.getElementById('trick').href = href
+        dynamicUrl = await getFilePaths("trick") + `?module=${module}`;
+        document.getElementById('trick').href = dynamicUrl
 
     } catch (error) {
         createToast('error', 'Failed to open Tip. Try refreshing page.');

@@ -1,11 +1,11 @@
-
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to initialize central student data page
 // Updated on - -
 // Input - none
-function connectedCallback() {
+async function connectedCallback() {
     try {
+        await getEnglishJsonFile('../en_properties.json');
         if (sessionStorage.getItem('Check')) {
             document.getElementById('validation-box').style.display = 'none';
             document.getElementById('body-section').style.display = 'block';
@@ -28,7 +28,8 @@ function checkuser() {
     try {
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-        fetch(`http://localhost:8080/studentApi/allStudentData?username=${username}&password=${password}`)
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.allStudentData;
+        fetch(`${apiURL}?username=${username}&password=${password}`)
             .then(response => response.json())
             .then(responsedata => {
 
@@ -96,17 +97,13 @@ function setdata(responsedata) {
 // Description - Use to open dashboard of selected student
 // Updated on - -
 // Input - event
-function opendashboard(event) {
+async function opendashboard(event) {
     try {
         let module = event.target.name;
         let user_id = event.target.id;
         sessionStorage.setItem('student_id', JSON.stringify(user_id));
-        let dynamicUrl = '../IA_Dashboard/IA_Dashboard.html';
-        if (module == 'Reading') {
-            dynamicUrl += '?module=Reading&teacher=true';
-        } else {
-            dynamicUrl += '?module=Listening&teacher=true';
-        }
+        dynamicUrl = await getFilePaths("dashboard") + "?module=" + module + "&teacher=true";
+
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
     } catch (error) {

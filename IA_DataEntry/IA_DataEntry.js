@@ -6,7 +6,7 @@ let examName = '';
 let examId = '';
 let examDate = '';
 let user_data = JSON.parse(localStorage.getItem('user_data'));
-studentId = user_data.user_id;
+studentId = user_data.id;
 let questionId = '';
 
 // Developer - Nimit Shah
@@ -14,8 +14,10 @@ let questionId = '';
 // Description - Use to initialize data for Data entry page
 // Updated on - -
 // Input - none
-function dataentryconnectedCallback() {
+async function dataentryconnectedCallback() {
     try {
+        await getEnglishJsonFile("../en_properties.json");
+        apiURL = enProperties.apiURL;
         if ((JSON.parse(sessionStorage.getItem('question' + tdExam))) == null || (JSON.parse(sessionStorage.getItem('question' + tdExam))).length == 0) {
             examDate = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
             examId = '';
@@ -23,7 +25,7 @@ function dataentryconnectedCallback() {
         } else {
             examId = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].examId
             examName = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].examName;
-            examDate = new Date(JSON.parse(sessionStorage.getItem('question' + tdExam))[0].date);
+            examDate = new Date(JSON.parse(sessionStorage.getItem('question' + tdExam))[0].examDate);
             examDate = `${examDate.getFullYear()}-${('0' + (examDate.getMonth() + 1)).slice(-2)}-${('0' + examDate.getDate()).slice(-2)}`;
             question = JSON.parse(sessionStorage.getItem('question' + tdExam));
         }
@@ -109,7 +111,6 @@ function popupopen(event) {
         } else {
             var sectiondata = '<tr class="header-table"><th colspan="5"> Question Type</th></tr><tr class="header-table"><th> Correct </th><th> Incorrect </th><th> Missed </th><th> Total </th><th> Delete </th></tr>';
             question.forEach(element => {
-                console.log("Nimit L: " + element.id);
 
                 if (element.section == section) {
                     sectiondata +=
@@ -137,11 +138,11 @@ function popupopen(event) {
 // Description - Use to close show data popup or close save exam div and redirect to list view
 // Updated on - -
 // Input - event
-function popupclose(event) {
+async function popupclose(event) {
     try {
         var type = event.target.id;
         if (type == 'save') {
-            dynamicUrl = '../IA_Listview/IA_Listview.html?module=' + module + '&savedexam=yes';
+            dynamicUrl = await getFilePaths("listview") + "?module=" + module + '&savedexam=yes';
             event.target.href = dynamicUrl;
             window.location.href = dynamicUrl;
         } else {
@@ -260,11 +261,10 @@ function saveexam(event) {
 
                 question.forEach(element => {
                     element.band = band;
-                    console.log(JSON.stringify(element));
 
                 });
-
-                fetch('http://localhost:8080/studentApi/insertExam', {
+                apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.insertExam;
+                fetch(apiURL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

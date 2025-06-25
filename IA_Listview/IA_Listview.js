@@ -11,12 +11,14 @@ var del_exam_id = '';
 // Description - Use to initialize data for list view onload of page
 // Updated on - -
 // Input - none
-function listviewconnectedCallback() {
+async function listviewconnectedCallback() {
     try {
+        await getEnglishJsonFile('../en_properties.json');
         Userlogo();
         if (savedexam == 'yes') {
             createToast('success', 'Exam has been saved');
-            window.history.pushState({}, document.title, `/IA_Listview/IA_Listview.html?module=${module}`);
+            dynamicUrl = await getFilePaths("listview") + "?module=" + module;
+            window.history.pushState({}, document.title, dynamicUrl);
         }
         examData();// need to call once
     } catch (error) {
@@ -30,11 +32,11 @@ function listviewconnectedCallback() {
 // Description - Use to open data entry page while clicking on new button
 // Updated on - -
 // Input - event
-function setHref(event) {
+async function setHref(event) {
     try {
 
         if ((localStorage.getItem('user_data')) != null) {
-            var dynamicUrl = '../IA_DataEntry/IA_DataEntry.html?module=' + module;
+            dynamicUrl = await getFilePaths("dataentry") + "?module=" + module;
             event.target.href = dynamicUrl;
             window.location.href = dynamicUrl;
         } else {
@@ -51,7 +53,7 @@ function setHref(event) {
 // Description - Use to open selected exam
 // Updated on - -
 // Input - event
-function openexam(event) {
+async function openexam(event) {
     try {
         let questions = [];
         question.forEach(element => {
@@ -62,7 +64,7 @@ function openexam(event) {
 
         sessionStorage.setItem("question" + event.target.id, JSON.stringify(questions));
 
-        var dynamicUrl = '../IA_DataEntry/IA_DataEntry.html?module=' + module + '&tdExam=' + event.target.id;
+        dynamicUrl = await getFilePaths("dataentry") + "?module=" + module + '&tdExam=' + event.target.id;
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
     } catch (error) {
@@ -78,8 +80,9 @@ function openexam(event) {
 function examData() {
     try {
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
-            const user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
-            fetch(`http://localhost:8080/studentApi/examData?user_id=${user_id}&module=${module}`)
+            const user_id = JSON.parse(localStorage.getItem('user_data')).id;
+            apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.examData
+            fetch(`${apiURL}?user_id=${user_id}&module=${module}`)
                 .then(response => response.json())
                 .then(responseData => {
                     question = responseData;
@@ -210,7 +213,8 @@ function deleteexam(event) {
 function del(event) {
     try {
         if (event.target.id == 'yes') {
-            fetch(`http://localhost:8080/studentApi/deleteExam?examId=${del_exam_id}`, {
+            apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.deleteExam;
+            fetch(`${apiURL}?examId=${del_exam_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'

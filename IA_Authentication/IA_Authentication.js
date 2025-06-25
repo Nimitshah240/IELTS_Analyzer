@@ -10,18 +10,17 @@ var user_location;
 var id;
 var data = [];
 var maindata;
-var dynamicUrl = '../';
+var user_id;
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to open authentication/signin page
 // Updated on - -
 // Input - none
-function authentication(event) {
-    let domain = new URL(window.location.href).origin;
-    domain += '/IA_Authentication/IA_Authentication.html';
-    event.target.href = domain;
-    window.location.href = domain;
+async function authentication(event) {
+    dynamicUrl = await getFilePaths("authentication");
+    event.target.href = dynamicUrl;
+    window.location.href = dynamicUrl;
 }
 
 // Developer - Nimit Shah
@@ -29,8 +28,8 @@ function authentication(event) {
 // Description - Use to initialize authentication page on load of page
 // Updated on - -
 // Input - none
-function connectedCallback() {
-
+async function connectedCallback() {
+    await getEnglishJsonFile('../en_properties.json');
     if (localStorage.getItem('user_data') == 'undefined' || localStorage.getItem('user_data') == null) {
         if (document.getElementById('firstname')) {
             document.getElementById('google-button').style.display = 'block';
@@ -114,7 +113,7 @@ function googleSignin() {
 // Description - Use to verify that user have google signed in or not and also user is available in DB or not
 // Updated on - -
 // Input - none
-function SignedIn() {
+async function SignedIn() {
     try {
         let access_token = '';
         let params = {}
@@ -127,7 +126,8 @@ function SignedIn() {
         let info = JSON.parse(JSON.stringify(params));
         access_token = info['access_token'];
         localStorage.setItem("authInfo", info['access_token']);
-        window.history.pushState({}, document.title, "/IA_Authentication/IA_Authentication.html");
+        dynamicUrl = await getFilePaths("authentication");
+        window.history.pushState({}, document.title, dynamicUrl);
 
         if (access_token != '') {
             fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -143,12 +143,12 @@ function SignedIn() {
                     }
                     return data.json();
                 })
-                .then((info) => {
+                .then(async (info) => {
                     info.id = info.sub;
                     delete info.sub;
                     maindata = info;
                     picture = info.picture;
-                    dynamicUrl = '../?signedin=true';
+                    dynamicUrl = await getFilePaths("index") + "?signedin=true";
                     if (info) {
                         let today = new Date();
                         let year = today.getFullYear();
@@ -171,7 +171,7 @@ function SignedIn() {
 // Description - Use to Signout user
 // Updated on - -
 // Input - event
-function Signout(event) {
+async function Signout(event) {
     try {
         if (event.target.id == 'yes') {
             let access_token = localStorage.getItem('authInfo');
@@ -180,14 +180,14 @@ function Signout(event) {
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded'
                 }
-            }).then(() => {
+            }).then(async () => {
                 localStorage.removeItem('authInfo');
                 localStorage.removeItem('user_data');
-                dynamicUrl = '../';
+                dynamicUrl = await getFilePaths("index");
                 window.location.href = dynamicUrl;
             })
         } else {
-            dynamicUrl = './IA_Authentication.html';
+            dynamicUrl = await getFilePaths("authentication");
             window.location.href = dynamicUrl;
         }
     } catch (error) {
@@ -219,8 +219,9 @@ function showSignout() {
 // Input - id
 function fetchUser(id) {
     try {
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.student;
 
-        fetch(`http://localhost:8080/studentApi/student?user_id=${id}`)
+        fetch(`${apiURL}?user_id=${id}`)
             .then(response => response.json())
             .then(responsedata => {
                 document.getElementById('continue').style.display = 'block';
@@ -233,8 +234,6 @@ function fetchUser(id) {
                     // User is already availabe in DB
                     // Setting data in fields
                     let tempdata = responsedata[0];
-                    console.log(tempdata.privacy);
-
                     id = tempdata.id;
                     firstName = document.getElementById("firstname").value = tempdata.name;
                     lastName = document.getElementById("lastname").value = tempdata.lastName;
@@ -276,7 +275,7 @@ function fetchUser(id) {
 // Description - Use to update db if user update any details or redirect user to home page
 // Updated on - -
 // Input - none
-function continueClick() {
+async function continueClick() {
     try {
         let temptype;
         let tempname = document.getElementById("firstname").value;
@@ -299,22 +298,24 @@ function continueClick() {
                 data.number = tempnumber;
                 data.type = temptype;
                 data.privacy = tempprivacy;
-                console.log(JSON.stringify(data));
 
+                apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.updateStudent;
 
-                fetch('http://localhost:8080/studentApi/updateStudent', {
+                fetch(apiURL, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(data),
-                }).then(response => {
+                }).then(async response => {
                     data.new = false
                     localStorage.setItem('user_data', JSON.stringify(data));
+                    dynamicUrl = await getFilePaths("index");
                     window.location.href = dynamicUrl;
                 }).catch(error => console.error('Error:', error.message));
             } else {
                 localStorage.setItem('user_data', JSON.stringify(data));
+                dynamicUrl = await getFilePaths("index") + "?signedin=true";
                 window.location.href = dynamicUrl;
             }
         } else {
@@ -331,9 +332,10 @@ function continueClick() {
 // Description - Use to show user login picture on header of every page 
 // Updated on - -
 // Input - none
-function Userlogo() {
+async function Userlogo() {
     try {
-
+        await setAnchorHref("index", "../en_properties.json");
+        await setIframeSrc("spinner", "../en_properties.json");
         if (localStorage.getItem('user_data') != null && document.getElementById("not-log")) {
             document.getElementById('not-log').style.display = 'none';
             document.getElementById('login-img').style.display = 'block';

@@ -10,8 +10,8 @@ let numText;
 let heroContent;
 let heroText;
 const slides = [
-    { image: "Asset\/5790b59f9d49b818ca27538455000a07.jpg", text: "01 / 02", heroText: 'Welcome to IELTS ANALYZER. We specialize in transforming IELTS exam data into insightful visualizations that enhance understanding and facilitate better preparation for test-takers.', button: ["Data", "Dashboard"], buttonURL: ['data', 'dashboard'] },
-    { image: "Asset\/380764fbad3e9dd30345b06511ed756e.jpg", text: "02 / 02", heroText: 'On the Tricks page, you will find a collection of effective techniques and strategies designed to help you master the art of answering reading and listening questions, improving your skills and performance.', button: ['Knowledge'], buttonURL: ['tips'] }
+    { image: "Asset\/5790b59f9d49b818ca27538455000a07.jpg", text: "01 / 02", heroText: 'Welcome to IELTS ANALYZER. We specialize in transforming IELTS exam data into insightful visualizations that enhance understanding and facilitate better preparation for test-takers.', button: ["Data", "Dashboard"], buttonURL: ['listview', 'dashboard'] },
+    { image: "Asset\/380764fbad3e9dd30345b06511ed756e.jpg", text: "02 / 02", heroText: 'On the Tricks page, you will find a collection of effective techniques and strategies designed to help you master the art of answering reading and listening questions, improving your skills and performance.', button: ['Knowledge'], buttonURL: ['trick'] }
 ];
 
 window.addEventListener('scroll', () => {
@@ -36,22 +36,23 @@ window.addEventListener('scroll', () => {
 // Description - Use to initialise data onloading home page
 // Updated on - -
 // Input - none
-function indexconnectedCallback() {
+async function indexconnectedCallback() {
     try {
         hero = document.getElementById("hero");
         heroContent = document.getElementById("hero-content");
         numText = document.getElementById("slide-indicator");
         heroText = document.getElementById("hero-text");
+        await getEnglishJsonFile('en_properties.json');
+        document.getElementById('version-number').innerText = enProperties.versionNumber;
+        document.getElementById('version-date').innerText = enProperties.versionDate;
 
         updateSlide();
         Userlogo();
 
-        if (JSON.parse(localStorage.getItem('user_data')) != null) {
-            if (signin) {
-                window.history.pushState({}, document.title, "/");
-                createToast('success', "Welcome " + JSON.parse(localStorage.getItem('user_data')).firstname)
-            }
-            // fetchExamData();// Control api callout
+        if (JSON.parse(localStorage.getItem('user_data')) != null && signin) {
+            createToast('success', "Welcome " + JSON.parse(localStorage.getItem('user_data')).name);
+            dynamicUrl = await getFilePaths("index");
+            window.history.pushState({}, document.title, dynamicUrl);
         }
 
     } catch (error) {
@@ -168,20 +169,11 @@ setInterval(updateSlide, 5000);
 // Description - Use to set URL link of pages such as DATA, DASHBOARD, TRICK page
 // Updated on - -
 // Input - event
-function setHref(event) {
+async function setHref(event) {
     try {
 
-        var dynamicUrl;
         let buttonId = event.target.id;
-
-        if (buttonId == 'data') {
-            dynamicUrl = './IA_Selection/IA_Selection.html?type=data';
-        } else if (buttonId == 'dashboard') {
-            dynamicUrl = './IA_Selection/IA_Selection.html?type=dashboard';
-        } else if (buttonId == 'tips') {
-            dynamicUrl = './IA_Selection/IA_Selection.html?type=trick';
-        }
-
+        dynamicUrl = await getFilePaths("selection") + "?type=" + buttonId;
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
 
