@@ -10,7 +10,11 @@
         "allStudentData": "/allStudentData",
         "deleteQuestion": "/deleteQuestion",
         "deleteExam": "/deleteExam",
-        "insertExam": "/insertExam"
+        "insertExam": "/insertExam",
+        "dashboard": "/dashboard",
+        "base": "/base",
+        "data": "/data",
+        "master": "/master"
     },
     "dynamicURL": "/Projects/Ielts%20Analyzer/IA_Client",
     "dynamicURLEndPoints": {
