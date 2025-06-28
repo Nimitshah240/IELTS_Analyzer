@@ -24,37 +24,34 @@ async function connectedCallback() {
 // Description - Use to check user is valid or not and also get data of students
 // Updated on - -
 // Input - none
-function checkuser() {
+async function checkuser() {
     try {
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-        apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.allStudentData;
-        fetch(`${apiURL}?username=${username}&password=${password}`)
-            .then(response => response.json())
-            .then(responsedata => {
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.master + enProperties.apiEndPoints.allStudentData + `?username=${username}&password=${password}`;
+        let responsedata = await apiCallOuts(apiURL, 'GET', null);
 
-                if (responsedata == 'Invalid User') {
-                    createToast('error', 'Invalid User');
-                } else {
-                    sessionStorage.setItem('Check', true)
-                    createToast('success', 'Valid User');
-                    document.getElementById('validation-box').style.display = 'none';
-                    document.getElementById('body-section').style.display = 'block';
-                    document.getElementById('dataheader').style.display = 'block';
-                }
-                if (responsedata.length != 0 && responsedata != 'Invalid User') {
-                    sessionStorage.setItem('Data', JSON.stringify(responsedata))
-                    setdata(responsedata);
-                }
+        if (responsedata == 'Invalid User') {
+            createToast('error', 'Invalid User');
+        } else {
+            sessionStorage.setItem('Check', true)
+            createToast('success', 'Valid User');
+            document.getElementById('validation-box').style.display = 'none';
+            document.getElementById('body-section').style.display = 'block';
+            document.getElementById('dataheader').style.display = 'block';
+        }
+        if (responsedata.length != 0 && responsedata != 'Invalid User') {
+            sessionStorage.setItem('Data', JSON.stringify(responsedata))
+            setdata(responsedata);
+        }
 
-                if (responsedata.length == 0) {
-                    document.getElementById('no_data').style.display = 'flex';
-                    createToast('error', 'No data found');
-                }
+        if (responsedata.length == 0) {
+            document.getElementById('no_data').style.display = 'flex';
+            createToast('error', 'No data found');
+        }
 
-            }).catch(error => createToast('error', error));
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while getting data : ' + error.message);
     }
 }
 

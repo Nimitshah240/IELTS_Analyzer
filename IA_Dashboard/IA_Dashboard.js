@@ -51,82 +51,78 @@ async function dashboardconnectedCallback() {
             fontStyle = '20px sans-serif'
         }
         Userlogo();
-        apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.examData
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
-            fetch(`${apiURL}?user_id=${user_id}&module=${module}`)
-                .then(response => response.json())
-                .then(responsedata => {
+            apiURL = enProperties.apiURL + enProperties.apiEndPoints.dashboard + `?user_id=${user_id}&module=${module}`;
+            let responsedata = await apiCallOuts(apiURL, 'GET', null);
 
-                    if (responsedata.length > 0) {
-                        Array.from(document.getElementsByClassName('charts')).forEach(element => {
-                            element.style.display = "flex";
-                        });
-                        Array.from(document.getElementsByClassName('no_graph')).forEach(element => {
-                            element.style.display = "none";
-                        });
+            if (responsedata.length > 0) {
+                Array.from(document.getElementsByClassName('charts')).forEach(element => {
+                    element.style.display = "flex";
+                });
+                Array.from(document.getElementsByClassName('no_graph')).forEach(element => {
+                    element.style.display = "none";
+                });
 
-                        Array.from(document.getElementsByClassName('body_section')).forEach(element => {
-                            element.style.height = "fit-content"
-                        });
-                    } else {
-                        createToast('error', 'No data found');
-                    }
+                Array.from(document.getElementsByClassName('body_section')).forEach(element => {
+                    element.style.height = "fit-content"
+                });
+            } else {
+                createToast('error', 'No data found');
+            }
 
-                    responseData = responsedata;
-                    responseData.forEach(element => {
-                        // FOR CHART 2 and 5
-                        totalquestion += element.total;
-                        if (exammap.has(element.examId)) {
-                            exammap.set(element.examId, { 'examName': element.examName, 'date': element.examDate, 'score': exammap.get(element.examId).score + element.correct });
-                        } else {
-                            bandtotal.set(element.examId, element.band)
-                            exammap.set(element.examId, { 'examName': element.examName, 'date': element.examDate, 'score': element.correct });
-                        }
+            responseData = responsedata;
+            responseData.forEach(element => {
+                // FOR CHART 2 and 5
+                totalquestion += element.total;
+                if (exammap.has(element.examId)) {
+                    exammap.set(element.examId, { 'examName': element.examName, 'date': element.examDate, 'score': exammap.get(element.examId).score + element.correct });
+                } else {
+                    bandtotal.set(element.examId, element.band)
+                    exammap.set(element.examId, { 'examName': element.examName, 'date': element.examDate, 'score': element.correct });
+                }
 
-                        // FOR CHART 1 and 3
-                        if (element.section == 1) {
-                            sectionscorrect.set('section1', sectionscorrect.get('section1') + element.correct);
-                            sectionsincorrect.set('section1', sectionsincorrect.get('section1') + element.incorrect);
-                            sectiontotal.set('section1', sectiontotal.get('section1') + element.total);
-                        } else if (element.section == 2) {
-                            sectionscorrect.set('section2', sectionscorrect.get('section2') + element.correct);
-                            sectionsincorrect.set('section2', sectionsincorrect.get('section2') + element.incorrect);
-                            sectiontotal.set('section2', sectiontotal.get('section2') + element.total);
-                        } else if (element.section == 3) {
-                            sectionscorrect.set('section3', sectionscorrect.get('section3') + element.correct);
-                            sectionsincorrect.set('section3', sectionsincorrect.get('section3') + element.incorrect);
-                            sectiontotal.set('section3', sectiontotal.get('section3') + element.total);
-                        } else if (element.section == 4) {
-                            sectionscorrect.set('section4', sectionscorrect.get('section4') + element.correct);
-                            sectionsincorrect.set('section4', sectionsincorrect.get('section4') + element.incorrect);
-                            sectiontotal.set('section4', sectiontotal.get('section4') + element.total);
-                        }
+                // FOR CHART 1 and 3
+                if (element.section == 1) {
+                    sectionscorrect.set('section1', sectionscorrect.get('section1') + element.correct);
+                    sectionsincorrect.set('section1', sectionsincorrect.get('section1') + element.incorrect);
+                    sectiontotal.set('section1', sectiontotal.get('section1') + element.total);
+                } else if (element.section == 2) {
+                    sectionscorrect.set('section2', sectionscorrect.get('section2') + element.correct);
+                    sectionsincorrect.set('section2', sectionsincorrect.get('section2') + element.incorrect);
+                    sectiontotal.set('section2', sectiontotal.get('section2') + element.total);
+                } else if (element.section == 3) {
+                    sectionscorrect.set('section3', sectionscorrect.get('section3') + element.correct);
+                    sectionsincorrect.set('section3', sectionsincorrect.get('section3') + element.incorrect);
+                    sectiontotal.set('section3', sectiontotal.get('section3') + element.total);
+                } else if (element.section == 4) {
+                    sectionscorrect.set('section4', sectionscorrect.get('section4') + element.correct);
+                    sectionsincorrect.set('section4', sectionsincorrect.get('section4') + element.incorrect);
+                    sectiontotal.set('section4', sectiontotal.get('section4') + element.total);
+                }
 
-                        //  FOR CHART 4 || Question wise correct map
-                        if (question_correct.has(element.questionType)) {
-                            question_correct.set(element.questionType, question_correct.get(element.questionType) + element.correct)
-                        } else {
-                            question_correct.set(element.questionType, element.correct);
-                        }
+                //  FOR CHART 4 || Question wise correct map
+                if (question_correct.has(element.questionType)) {
+                    question_correct.set(element.questionType, question_correct.get(element.questionType) + element.correct)
+                } else {
+                    question_correct.set(element.questionType, element.correct);
+                }
 
-                        // FOR CHART 6 || Question wise incorrect map
-                        if (question_incorrect.has(element.questionType)) {
-                            question_incorrect.set(element.questionType, question_incorrect.get(element.questionType) + element.incorrect)
-                        } else {
-                            question_incorrect.set(element.questionType, element.incorrect);
-                        }
+                // FOR CHART 6 || Question wise incorrect map
+                if (question_incorrect.has(element.questionType)) {
+                    question_incorrect.set(element.questionType, question_incorrect.get(element.questionType) + element.incorrect)
+                } else {
+                    question_incorrect.set(element.questionType, element.incorrect);
+                }
 
-                        // FOR TIP || Question wise total map
-                        if (question_total.has(element.questionType)) {
-                            question_total.set(element.questionType, question_total.get(element.questionType) + element.total)
-                        } else {
-                            question_total.set(element.questionType, element.total);
-                        }
-                    });
+                // FOR TIP || Question wise total map
+                if (question_total.has(element.questionType)) {
+                    question_total.set(element.questionType, question_total.get(element.questionType) + element.total)
+                } else {
+                    question_total.set(element.questionType, element.total);
+                }
+            });
 
-                    drawChart();
-                }).catch(error => createToast('error', error));
-
+            drawChart();
 
             function drawChart() {
                 try {

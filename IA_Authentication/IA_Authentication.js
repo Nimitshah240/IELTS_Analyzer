@@ -77,7 +77,7 @@ async function connectedCallback() {
 // Description - Use to open google authentication page
 // Updated on - -
 // Input - none
-function googleSignin() {
+async function googleSignin() {
     try {
         let oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
 
@@ -87,7 +87,7 @@ function googleSignin() {
 
         let params = {
             "client_id": "960583894295-h50j910bdioqrmlrargqs6hust6in4ap.apps.googleusercontent.com",
-            "redirect_uri": "http://localhost/Projects/Ielts%20Analyzer/IA_Client/IA_Authentication/IA_Authentication.html",
+            "redirect_uri": `${await getFilePaths('authentication')}`,
             "response_type": "token",
             "scope": "https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email",
             "include_granted_scope": 'true',
@@ -218,56 +218,51 @@ function showSignout() {
 // Description - Use to check/get user from the DB
 // Updated on - -
 // Input - id
-function fetchUser(id) {
+async function fetchUser(id) {
     try {
-        apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.student;
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?user_id=${id}`;
+        let responsedata = await apiCallOuts(apiURL, 'GET', null);
 
-        fetch(`${apiURL}?user_id=${id}`)
-            .then(response => response.json())
-            .then(responsedata => {
-                document.getElementById('continue').style.display = 'block';
-                document.getElementById('google-button').style.display = 'none';
-                document.getElementById("firstname").disabled = false;
-                document.getElementById("lastname").disabled = false;
-                document.getElementById("number").disabled = false;
-                if (responsedata.length > 0) {
+        document.getElementById('continue').style.display = 'block';
+        document.getElementById('google-button').style.display = 'none';
+        document.getElementById("firstname").disabled = false;
+        document.getElementById("lastname").disabled = false;
+        document.getElementById("number").disabled = false;
+        if (responsedata.length > 0) {
+            // User is already availabe in DB
+            // Setting data in fields
+            let tempdata = responsedata[0];
+            id = tempdata.id;
+            firstName = document.getElementById("firstname").value = tempdata.name;
+            lastName = document.getElementById("lastname").value = tempdata.lastName;
+            email = document.getElementById("email").value = tempdata.email;
+            number = document.getElementById("number").value = tempdata.number;
+            picture = tempdata.picture;
+            loginDate = tempdata.loginDate;
+            user_location = tempdata.location;
+            type = tempdata.type
+            if (type == 'academic') {
+                document.getElementById("Academic").checked = true;
+            } else if (type == 'general') {
+                document.getElementById("General").checked = true;
+            }
+            if (tempdata.privacy == true) {
+                privacy = document.getElementById("privacy").checked = true;
+            }
+            data = { 'new': false, 'id': id, 'name': firstName, 'lastName': lastName, 'email': email, 'number': number, 'type': type, 'privacy': privacy, 'location': user_location, 'loginDate': loginDate, 'picture': picture };
+        } else {
+            // New user is sign in
+            id = maindata.id;
+            firstName = document.getElementById("firstname").value = maindata.given_name;
+            lastName = document.getElementById("lastname").value = maindata.family_name;
+            email = document.getElementById("email").value = maindata.email;
+            picture = maindata.picture;
+            user_location = '';
+            data = { 'new': true, 'id': maindata.id, 'name': maindata.given_name, 'lastName': maindata.family_name, 'email': maindata.email, 'number': 'number', 'type': 'academic', 'privacy': '', 'location': '', 'picture': maindata.picture }; //nimit, loginDate add karje if kai fate to 26/06 
+        }
 
-                    // User is already availabe in DB
-                    // Setting data in fields
-                    let tempdata = responsedata[0];
-                    id = tempdata.id;
-                    firstName = document.getElementById("firstname").value = tempdata.name;
-                    lastName = document.getElementById("lastname").value = tempdata.lastName;
-                    email = document.getElementById("email").value = tempdata.email;
-                    number = document.getElementById("number").value = tempdata.number;
-                    picture = tempdata.picture;
-                    loginDate = tempdata.loginDate;
-                    user_location = tempdata.location;
-                    type = tempdata.type
-                    if (type == 'academic') {
-                        document.getElementById("Academic").checked = true;
-                    } else if (type == 'general') {
-                        document.getElementById("General").checked = true;
-                    }
-                    if (tempdata.privacy == true) {
-                        privacy = document.getElementById("privacy").checked = true;
-                    }
-                    data = { 'new': false, 'id': id, 'name': firstName, 'lastName': lastName, 'email': email, 'number': number, 'type': type, 'privacy': privacy, 'location': user_location, 'loginDate': loginDate, 'picture': picture };
-                } else {
-                    // New user is sign in
-                    id = maindata.id;
-                    firstName = document.getElementById("firstname").value = maindata.given_name;
-                    lastName = document.getElementById("lastname").value = maindata.family_name;
-                    email = document.getElementById("email").value = maindata.email;
-                    // number = document.getElementById("number").value = maindata.number;
-                    picture = maindata.picture;
-                    user_location = '';
-                    data = { 'new': true, 'id': maindata.id, 'name': maindata.given_name, 'lastName': maindata.family_name, 'email': maindata.email, 'number': 'number', 'type': 'academic', 'privacy': '', 'location': '', 'loginDate': loginDate, 'picture': maindata.picture };
-                }
-
-            }).catch(error => createToast('error', error));
     } catch (error) {
-        createToast('error', error)
+        createToast('error', 'Error while user : ' + error.message)
     }
 }
 
@@ -300,20 +295,15 @@ async function continueClick() {
                 data.type = temptype;
                 data.privacy = tempprivacy;
 
-                apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.updateStudent;
+                apiURL = enProperties.apiURL + enProperties.apiEndPoints.student;
+                await apiCallOuts(apiURL, 'POST', JSON.stringify(data))
+                    .then(async () => {
+                        data.new = false
+                        localStorage.setItem('user_data', JSON.stringify(data));
+                        dynamicUrl = await getFilePaths("index");
+                        window.location.href = dynamicUrl;
+                    }).catch(error => createToast('error', error.message));;
 
-                fetch(apiURL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                }).then(async response => {
-                    data.new = false
-                    localStorage.setItem('user_data', JSON.stringify(data));
-                    dynamicUrl = await getFilePaths("index");
-                    window.location.href = dynamicUrl;
-                }).catch(error => console.error('Error:', error.message));
             } else {
                 localStorage.setItem('user_data', JSON.stringify(data));
                 dynamicUrl = await getFilePaths("index") + "?signedin=true";

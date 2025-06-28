@@ -3,7 +3,7 @@ let apiURL;
 var dynamicUrl;
 
 async function getEnglishJsonFile(jsonFileLocation) {
-    try {        
+    try {
         const res = await fetch(jsonFileLocation);
         const data = await res.json();
         enProperties = data;
@@ -43,4 +43,31 @@ async function setIframeSrc(params) {
     } catch (error) {
         console.error(error);
     }
+}
+
+async function apiCallOuts(apiURL, method, body) {
+    try {
+        let header =
+        {
+            method: `${method}`,
+            headers: { 'Content-Type': 'application/json' }
+        }
+
+        if (method == 'POST' || method == 'PUT') {
+            header.body = body
+        }
+
+        let response = await fetch(`${apiURL}`, header)
+        if (response.status == 200) {
+            let data = await response.json();
+            return data;
+        }
+        throw new Error("Server Error");
+
+    } catch (error) {
+        console.log(error);
+
+        throw new Error("Server Error");
+    }
+
 }

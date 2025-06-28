@@ -2,6 +2,7 @@
     "versionNumber": "1.0.0",
     "versionDate": "11-09-2024",
     "apiURL": "http://localhost:8080",
+    "apiURL(local)": "http://localhost:8080",
     "apiEndPoints": {
         "studentApi": "/studentApi",
         "examData": "/examData",
@@ -16,7 +17,8 @@
         "data": "/data",
         "master": "/master"
     },
-    "dynamicURL": "/Projects/Ielts%20Analyzer/IA_Client",
+    "dynamicURL": "http://127.0.0.1:5501",
+    "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",
     "dynamicURLEndPoints": {
         "trick": "/IA_Trick/IA_Trick.html",
         "dashboard": "/IA_Dashboard/IA_Dashboard.html",
@@ -32,7 +34,7 @@
     },
     "slides": [
         {
-            "image": "/Projects/Ielts%20Analyzer/IA_Client/Asset\/5790b59f9d49b818ca27538455000a07.jpg",
+            "image": "/Asset\/5790b59f9d49b818ca27538455000a07.jpg",
             "text": "01 / 02",
             "heroText": "Welcome to IELTS ANALYZER. We specialize in transforming IELTS exam data into insightful visualizations that enhance understanding and facilitate better preparation for test-takers.",
             "button": [
@@ -47,7 +49,7 @@
             "description": "Great! Let's start analyzing your score now. 🚀Get ready for detailed insights and improvements! ✅."
         },
         {
-            "image": "/Projects/Ielts%20Analyzer/IA_Client/Asset\/380764fbad3e9dd30345b06511ed756e.jpg",
+            "image": "/Asset\/380764fbad3e9dd30345b06511ed756e.jpg",
             "text": "02 / 02",
             "heroText": "On the Tricks page, you will find a collection of effective techniques and strategies designed to help you master the art of answering reading and listening questions, improving your skills and performance.",
             "button": [
@@ -60,7 +62,7 @@
             "description": "Share your IELTS data, and I'll generate deep insights to help you improve! 📊🚀"
         },
         {
-            "image": "/Projects/Ielts%20Analyzer/IA_Client/Asset\/380764fbad3e9dd30345b06511ed756e.jpg",
+            "image": "/Asset\/380764fbad3e9dd30345b06511ed756e.jpg",
             "text": "",
             "heroText": "",
             "button": [

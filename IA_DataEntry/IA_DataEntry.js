@@ -17,7 +17,6 @@ let questionId = '';
 async function dataentryconnectedCallback() {
     try {
         await getEnglishJsonFile("../en_properties.json");
-        apiURL = enProperties.apiURL;
         if ((JSON.parse(sessionStorage.getItem('question' + tdExam))) == null || (JSON.parse(sessionStorage.getItem('question' + tdExam))).length == 0) {
             examDate = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
             examId = '';
@@ -210,7 +209,7 @@ function getData(event) {
 // Description - Use to save exam in DB
 // Updated on - -
 // Input - event
-function saveexam(event) {
+async function saveexam(event) {
     try {
         let examName = ''
         let examDate = ''
@@ -263,17 +262,13 @@ function saveexam(event) {
                     element.band = band;
 
                 });
-                apiURL = enProperties.apiURL + enProperties.apiEndPoints.studentApi + enProperties.apiEndPoints.insertExam;
-                fetch(apiURL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'examId': examId == "" ? "" : examId
-                    },
-                    body: JSON.stringify(question),
-                }).then(response => {
+                apiURL = enProperties.apiURL + enProperties.apiEndPoints.data;
+                await apiCallOuts(apiURL, 'POST', JSON.stringify(question)).then(() => {
                     popupclose(event);
-
+                }).catch(error => {
+                    event.target.id = ''
+                    popupclose(event);
+                    createToast('error', 'Error while saving data : ' + error.message);
                 });
             } else {
                 createToast('error', 'There is no question to save');
@@ -316,7 +311,7 @@ function deletequestion(event) {
 // Description - Use to delete selected temporary or permanent question and close delete popup
 // Updated on - -
 // Input - event
-function del(event) {
+async function del(event) {
     try {
         let permcount = 0;
         if (event.target.id == 'yes') {
@@ -327,29 +322,25 @@ function del(event) {
                     }
                 });
                 if (permcount > 1) {
-                    fetch(`http://localhost:8080/studentApi/deleteQuestion?questionId=${questionId}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then(response => response.json())
-                        .then(data => {
-                            for (let index = 0; index < 2; index++) {
-                                const divToRemove = document.getElementById(questionId);
-                                divToRemove.remove();
-                            }
+                    apiURL = enProperties.apiURL + enProperties.apiEndPoints.data + enProperties.apiEndPoints.deleteQuestion + `?questionId=${questionId}`;
 
-                            question.forEach((element, i) => {
-                                if (element.id == questionId) {
-                                    question.splice(i, 1);
-                                }
-                            });
-                            sessionStorage.setItem('question' + tdExam, JSON.stringify(question))
-                            createToast('success', 'Question deleted');
-                        })
-                        .catch(error =>
-                            createToast('error', 'Error while deleting data : ' + error.message));
+                    await apiCallOuts(apiURL, 'DELETE', JSON.stringify(question)).then(() => {
+
+                        for (let index = 0; index < 2; index++) {
+                            const divToRemove = document.getElementById(questionId);
+                            divToRemove.remove();
+                        }
+
+                        question.forEach((element, i) => {
+                            if (element.id == questionId) {
+                                question.splice(i, 1);
+                            }
+                        });
+                        sessionStorage.setItem('question' + tdExam, JSON.stringify(question))
+                        createToast('success', 'Question deleted');
+                    }).catch(error => {
+                        createToast('error', 'Error while deleting data : ' + error.message);
+                    });
                 } else {
                     createToast('error', 'Cannot delete last stored type');
                     createToast('info', 'Store new question and save exam before deleting last stored type');
