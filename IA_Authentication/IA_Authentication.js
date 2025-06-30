@@ -11,6 +11,7 @@ var id;
 var data = [];
 var maindata;
 var user_id;
+var insCode;
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -46,6 +47,7 @@ async function connectedCallback() {
         email = data.email;
         number = data.number;
         privacy = data.privacy;
+        insCode = data.insCode;
         type = data.type;
         if (document.getElementById("firstname")) {
             document.getElementById('continue').style.display = 'block';
@@ -58,6 +60,7 @@ async function connectedCallback() {
             lastName = document.getElementById("lastname").value = data.lastName;
             email = document.getElementById("email").value = data.email;
             number = document.getElementById("number").value = data.number;
+            insCode = document.getElementById("insCode").value = data.insCode;
             if (type == 'academic') {
                 document.getElementById("Academic").checked = true;
             } else if (type == 'general') {
@@ -237,6 +240,7 @@ async function fetchUser(id) {
             lastName = document.getElementById("lastname").value = tempdata.lastName;
             email = document.getElementById("email").value = tempdata.email;
             number = document.getElementById("number").value = tempdata.number;
+            insCode = document.getElementById("insCode").value = data.insCode;
             picture = tempdata.picture;
             loginDate = tempdata.loginDate;
             user_location = tempdata.location;
@@ -258,7 +262,7 @@ async function fetchUser(id) {
             email = document.getElementById("email").value = maindata.email;
             picture = maindata.picture;
             user_location = '';
-            data = { 'new': true, 'id': maindata.id, 'name': maindata.given_name, 'lastName': maindata.family_name, 'email': maindata.email, 'number': 'number', 'type': 'academic', 'privacy': '', 'location': '', 'picture': maindata.picture }; //nimit, loginDate add karje if kai fate to 26/06 
+            data = { 'new': true, 'id': maindata.id, 'name': maindata.given_name, 'lastName': maindata.family_name, 'email': maindata.email, 'number': 'number', 'type': 'academic', 'privacy': '', 'location': '', 'picture': maindata.picture, 'insCode': '' }; //nimit, loginDate add karje if kai fate to 26/06 
         }
 
     } catch (error) {
@@ -278,6 +282,7 @@ async function continueClick() {
         let templastName = document.getElementById("lastname").value;
         let tempemail = document.getElementById("email").value;
         let tempnumber = document.getElementById("number").value;
+        let tempinsCode = document.getElementById("insCode").value;
         if (document.getElementById("Academic").checked == true) { // Change here
             temptype = 'academic';
         } else if (document.getElementById("General").checked == true) { // Change here
@@ -294,6 +299,7 @@ async function continueClick() {
                 data.number = tempnumber;
                 data.type = temptype;
                 data.privacy = tempprivacy;
+                data.insCode = tempinsCode;
 
                 apiURL = enProperties.apiURL + enProperties.apiEndPoints.student;
                 await apiCallOuts(apiURL, 'POST', JSON.stringify(data))
