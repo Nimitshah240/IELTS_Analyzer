@@ -5,6 +5,7 @@ var question;
 var exam;
 let examdata = [];
 var del_exam_id = '';
+let studentId = JSON.parse(localStorage.getItem('user_data')).id;
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -211,7 +212,12 @@ async function del(event) {
     try {
         if (event.target.id == 'yes') {
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.data + enProperties.apiEndPoints.deleteExam + `?examId=${del_exam_id}`;
-            await apiCallOuts(apiURL, 'DELETE', null).then(() => {
+            let deleteExamBody = {
+                "examId": del_exam_id,
+                "studentId": studentId,
+                "module": module
+            }
+            await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteExamBody)).then(() => {
                 const divToRemove = document.getElementById(del_exam_id);
                 divToRemove.remove();
                 examdata.forEach((element, i) => {

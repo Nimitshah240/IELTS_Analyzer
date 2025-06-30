@@ -53,7 +53,7 @@ async function apiCallOuts(apiURL, method, body) {
             headers: { 'Content-Type': 'application/json' }
         }
 
-        if (method == 'POST' || method == 'PUT') {
+        if (method != 'GET' && (body != undefined || body != null)) {
             header.body = body
         }
 

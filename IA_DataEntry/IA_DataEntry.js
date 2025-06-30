@@ -323,8 +323,13 @@ async function del(event) {
                 });
                 if (permcount > 1) {
                     apiURL = enProperties.apiURL + enProperties.apiEndPoints.data + enProperties.apiEndPoints.deleteQuestion + `?questionId=${questionId}`;
-
-                    await apiCallOuts(apiURL, 'DELETE', JSON.stringify(question)).then(() => {
+                    let deleteQuestionBody = {
+                        "questionId": questionId,
+                        "studentId": studentId,
+                        "module": module
+                    }
+                                        
+                    await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteQuestionBody)).then(() => {
 
                         for (let index = 0; index < 2; index++) {
                             const divToRemove = document.getElementById(questionId);
