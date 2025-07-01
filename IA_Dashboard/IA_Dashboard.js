@@ -52,6 +52,7 @@ async function dashboardconnectedCallback() {
         }
         Userlogo();
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
+
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.dashboard + `?user_id=${user_id}&module=${module}`;
             let responsedata = await apiCallOuts(apiURL, 'GET', null);
 

@@ -28,6 +28,7 @@ async function checkuser() {
     try {
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
+
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.master + enProperties.apiEndPoints.allStudentData + `?username=${username}&password=${password}`;
         let responsedata = await apiCallOuts(apiURL, 'GET', null);
 

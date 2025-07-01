@@ -84,6 +84,7 @@ async function examData() {
             const user_id = JSON.parse(localStorage.getItem('user_data')).id;
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.data + `?user_id=${user_id}&module=${module}`;
 
+
             let responseData = await apiCallOuts(apiURL, 'GET', null);
             question = responseData;
             if (question.length > 0) {

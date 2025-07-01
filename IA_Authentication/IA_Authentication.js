@@ -223,6 +223,7 @@ async function fetchUser(id) {
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?user_id=${id}`;
         let responsedata = await apiCallOuts(apiURL, 'GET', null);
 
+
         document.getElementById('continue').style.display = 'block';
         document.getElementById('google-button').style.display = 'none';
         document.getElementById("firstname").disabled = false;
