@@ -1,27 +1,26 @@
-var firstname = '';
-var lastname = '';
+var firstName = '';
+var lastName = '';
 var email = '';
 var number = '';
 var type = '';
 var privacy = false;
 var picture;
-var fl_date;
+var loginDate;
 var user_location;
-var user_id;
+var id;
 var data = [];
 var maindata;
-var dynamicUrl = '../';
+var user_id;
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to open authentication/signin page
 // Updated on - -
 // Input - none
-function authentication(event) {
-    let domain = new URL(window.location.href).origin;
-    domain += '/IA_Authentication/IA_Authentication.html';
-    event.target.href = domain;
-    window.location.href = domain;
+async function authentication(event) {
+    dynamicUrl = await getFilePaths("authentication");
+    event.target.href = dynamicUrl;
+    window.location.href = dynamicUrl;
 }
 
 // Developer - Nimit Shah
@@ -29,8 +28,9 @@ function authentication(event) {
 // Description - Use to initialize authentication page on load of page
 // Updated on - -
 // Input - none
-function connectedCallback() {
-
+async function connectedCallback() {
+    await getEnglishJsonFile('../en_properties.json');
+    Userlogo();
     if (localStorage.getItem('user_data') == 'undefined' || localStorage.getItem('user_data') == null) {
         if (document.getElementById('firstname')) {
             document.getElementById('google-button').style.display = 'block';
@@ -41,8 +41,8 @@ function connectedCallback() {
         }
     } else {
         data = JSON.parse(localStorage.getItem('user_data'));
-        firstname = data.firstname;
-        lastname = data.lastname;
+        firstName = data.firstName;
+        lastName = data.lastName;
         email = data.email;
         number = data.number;
         privacy = data.privacy;
@@ -54,8 +54,8 @@ function connectedCallback() {
             document.getElementById("lastname").disabled = false;
             document.getElementById("email").disabled = true;
             document.getElementById("number").disabled = false;
-            firstname = document.getElementById("firstname").value = data.firstname;
-            lastname = document.getElementById("lastname").value = data.lastname;
+            firstName = document.getElementById("firstname").value = data.name;
+            lastName = document.getElementById("lastname").value = data.lastName;
             email = document.getElementById("email").value = data.email;
             number = document.getElementById("number").value = data.number;
             if (type == 'academic') {
@@ -77,7 +77,7 @@ function connectedCallback() {
 // Description - Use to open google authentication page
 // Updated on - -
 // Input - none
-function googleSignin() {
+async function googleSignin() {
     try {
         let oauth2Endpoint = "https://accounts.google.com/o/oauth2/v2/auth";
 
@@ -87,7 +87,7 @@ function googleSignin() {
 
         let params = {
             "client_id": "960583894295-h50j910bdioqrmlrargqs6hust6in4ap.apps.googleusercontent.com",
-            "redirect_uri": "https://ieltsanalyzer.netlify.app/ia_authentication/ia_authentication.html",
+            "redirect_uri": `${await getFilePaths('authentication')}`,
             "response_type": "token",
             "scope": "https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email",
             "include_granted_scope": 'true',
@@ -114,7 +114,7 @@ function googleSignin() {
 // Description - Use to verify that user have google signed in or not and also user is available in DB or not
 // Updated on - -
 // Input - none
-function SignedIn() {
+async function SignedIn() {
     try {
         let access_token = '';
         let params = {}
@@ -127,7 +127,8 @@ function SignedIn() {
         let info = JSON.parse(JSON.stringify(params));
         access_token = info['access_token'];
         localStorage.setItem("authInfo", info['access_token']);
-        window.history.pushState({}, document.title, "/IA_Authentication/IA_Authentication.html");
+        dynamicUrl = await getFilePaths("authentication");
+        window.history.pushState({}, document.title, dynamicUrl);
 
         if (access_token != '') {
             fetch("https://www.googleapis.com/oauth2/v3/userinfo", {
@@ -143,20 +144,20 @@ function SignedIn() {
                     }
                     return data.json();
                 })
-                .then((info) => {
-                    info.user_id = info.sub;
+                .then(async (info) => {
+                    info.id = info.sub;
                     delete info.sub;
                     maindata = info;
                     picture = info.picture;
-                    dynamicUrl = '../?signedin=true';
+                    dynamicUrl = await getFilePaths("index");
                     if (info) {
                         let today = new Date();
                         let year = today.getFullYear();
                         let month = ('0' + (today.getMonth() + 1)).slice(-2);
                         let day = ('0' + today.getDate()).slice(-2);
                         today = `${year}-${month}-${day}`;
-                        fl_date = today;
-                        fetchUser(info.user_id);
+                        loginDate = today;
+                        fetchUser(info.id);
                     }
                 });
         }
@@ -171,7 +172,7 @@ function SignedIn() {
 // Description - Use to Signout user
 // Updated on - -
 // Input - event
-function Signout(event) {
+async function Signout(event) {
     try {
         if (event.target.id == 'yes') {
             let access_token = localStorage.getItem('authInfo');
@@ -180,14 +181,14 @@ function Signout(event) {
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded'
                 }
-            }).then(() => {
+            }).then(async () => {
                 localStorage.removeItem('authInfo');
                 localStorage.removeItem('user_data');
-                dynamicUrl = '../';
+                dynamicUrl = await getFilePaths("index");
                 window.location.href = dynamicUrl;
             })
         } else {
-            dynamicUrl = './IA_Authentication.html';
+            dynamicUrl = await getFilePaths("authentication");
             window.location.href = dynamicUrl;
         }
     } catch (error) {
@@ -216,63 +217,53 @@ function showSignout() {
 // Developed on - 21/12/2024
 // Description - Use to check/get user from the DB
 // Updated on - -
-// Input - user_id
-function fetchUser(user_id) {
+// Input - id
+async function fetchUser(id) {
     try {
-
-        fetch(`https://ielts-analyzer.onrender.com/api/checkUser?user_id=${user_id}`)
-            .then(response => response.json())
-            .then(responsedata => {
-
-                console.log(responsedata);
-
-                console.log("stringify");
-
-                console.log(JSON.stringify(responsedata));
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?user_id=${id}`;
+        let responsedata = await apiCallOuts(apiURL, 'GET', null);
 
 
-                document.getElementById('continue').style.display = 'block';
-                document.getElementById('google-button').style.display = 'none';
-                document.getElementById("firstname").disabled = false;
-                document.getElementById("lastname").disabled = false;
-                document.getElementById("number").disabled = false;
-                if (responsedata.length > 0) {
-                    // User is already availabe in DB
-                    // Setting data in fields
-                    let tempdata = responsedata[0];
-                    user_id = tempdata.id;
-                    firstname = document.getElementById("firstname").value = tempdata.name;
-                    lastname = document.getElementById("lastname").value = tempdata.lastname;
-                    email = document.getElementById("email").value = tempdata.email;
-                    number = document.getElementById("number").value = tempdata.number;
-                    picture = tempdata.picture;
-                    fl_date = tempdata.fl_date;
-                    user_location = tempdata.location;
-                    type = tempdata.type
-                    if (type == 'academic') {
-                        document.getElementById("Academic").checked = true;
-                    } else if (type == 'general') {
-                        document.getElementById("General").checked = true;
-                    }
-                    if (tempdata.privacy == 'true') {
-                        privacy = document.getElementById("privacy").checked = true;
-                    }
-                    data = { 'new': false, 'user_id': user_id, 'firstname': firstname, 'lastname': lastname, 'email': email, 'number': number, 'type': type, 'privacy': privacy, 'location': user_location, 'fl_date': fl_date, 'picture': picture };
-                } else {
-                    // New user is sign in
-                    user_id = maindata.user_id;
-                    firstname = document.getElementById("firstname").value = maindata.given_name;
-                    lastname = document.getElementById("lastname").value = maindata.family_name;
-                    email = document.getElementById("email").value = maindata.email;
-                    // number = document.getElementById("number").value = maindata.number;
-                    picture = maindata.picture;
-                    user_location = '';
-                    data = { 'new': true, 'user_id': maindata.user_id, 'firstname': maindata.given_name, 'lastname': maindata.family_name, 'email': maindata.email, 'number': 'number', 'type': 'academic', 'privacy': '', 'location': '', 'fl_date': fl_date, 'picture': maindata.picture };
-                }
+        document.getElementById('continue').style.display = 'block';
+        document.getElementById('google-button').style.display = 'none';
+        document.getElementById("firstname").disabled = false;
+        document.getElementById("lastname").disabled = false;
+        document.getElementById("number").disabled = false;
+        if (responsedata.length > 0) {
+            // User is already availabe in DB
+            // Setting data in fields
+            let tempdata = responsedata[0];
+            id = tempdata.id;
+            firstName = document.getElementById("firstname").value = tempdata.name;
+            lastName = document.getElementById("lastname").value = tempdata.lastName;
+            email = document.getElementById("email").value = tempdata.email;
+            number = document.getElementById("number").value = tempdata.number;
+            picture = tempdata.picture;
+            loginDate = tempdata.loginDate;
+            user_location = tempdata.location;
+            type = tempdata.type
+            if (type == 'academic') {
+                document.getElementById("Academic").checked = true;
+            } else if (type == 'general') {
+                document.getElementById("General").checked = true;
+            }
+            if (tempdata.privacy == true) {
+                privacy = document.getElementById("privacy").checked = true;
+            }
+            data = { 'new': false, 'id': id, 'name': firstName, 'lastName': lastName, 'email': email, 'number': number, 'type': type, 'privacy': privacy, 'location': user_location, 'loginDate': loginDate, 'picture': picture };
+        } else {
+            // New user is sign in
+            id = maindata.id;
+            firstName = document.getElementById("firstname").value = maindata.given_name;
+            lastName = document.getElementById("lastname").value = maindata.family_name;
+            email = document.getElementById("email").value = maindata.email;
+            picture = maindata.picture;
+            user_location = '';
+            data = { 'new': true, 'id': maindata.id, 'name': maindata.given_name, 'lastName': maindata.family_name, 'email': maindata.email, 'number': 'number', 'type': 'academic', 'privacy': '', 'location': '', 'picture': maindata.picture }; //nimit, loginDate add karje if kai fate to 26/06 
+        }
 
-            }).catch(error => createToast('error', error));
     } catch (error) {
-        createToast('error', error)
+        createToast('error', 'Error while user : ' + error.message)
     }
 }
 
@@ -281,11 +272,11 @@ function fetchUser(user_id) {
 // Description - Use to update db if user update any details or redirect user to home page
 // Updated on - -
 // Input - none
-function continueClick() {
+async function continueClick() {
     try {
         let temptype;
-        let tempfirstname = document.getElementById("firstname").value;
-        let templastname = document.getElementById("lastname").value;
+        let tempname = document.getElementById("firstname").value;
+        let templastName = document.getElementById("lastname").value;
         let tempemail = document.getElementById("email").value;
         let tempnumber = document.getElementById("number").value;
         if (document.getElementById("Academic").checked == true) { // Change here
@@ -296,28 +287,27 @@ function continueClick() {
         let tempprivacy = document.getElementById("privacy").checked;
 
         // Checking for changes in data
-        if (tempfirstname.trim() != '' && tempemail.trim() != '' && tempnumber.trim() != '' && tempprivacy) {
-            if (firstname != tempfirstname || lastname != templastname || email != tempemail || number != tempnumber || temptype != type) {
-                data.firstname = tempfirstname;
-                data.lastname = templastname;
+        if (tempname.trim() != '' && tempemail.trim() != '' && tempnumber.trim() != '' && tempprivacy) {
+            if (firstName != tempname || lastName != templastName || email != tempemail || number != tempnumber || temptype != type) {
+                data.name = tempname;
+                data.lastName = templastName;
                 data.email = tempemail;
                 data.number = tempnumber;
                 data.type = temptype;
                 data.privacy = tempprivacy;
 
-                fetch('https://ielts-analyzer.onrender.com/api/updateUserData', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data),
-                }).then(response => {
-                    data.new = false
-                    localStorage.setItem('user_data', JSON.stringify(data));
-                    window.location.href = dynamicUrl;
-                }).catch(error => console.error('Error:', error.message));
+                apiURL = enProperties.apiURL + enProperties.apiEndPoints.student;
+                await apiCallOuts(apiURL, 'POST', JSON.stringify(data))
+                    .then(async () => {
+                        data.new = false
+                        localStorage.setItem('user_data', JSON.stringify(data));
+                        dynamicUrl = await getFilePaths("index");
+                        window.location.href = dynamicUrl;
+                    }).catch(error => createToast('error', error.message));;
+
             } else {
                 localStorage.setItem('user_data', JSON.stringify(data));
+                dynamicUrl = await getFilePaths("index") + "?signedin=true";
                 window.location.href = dynamicUrl;
             }
         } else {
@@ -334,9 +324,10 @@ function continueClick() {
 // Description - Use to show user login picture on header of every page 
 // Updated on - -
 // Input - none
-function Userlogo() {
+async function Userlogo() {
     try {
-
+        await setAnchorHref("index");
+        await setIframeSrc("spinner");
         if (localStorage.getItem('user_data') != null && document.getElementById("not-log")) {
             document.getElementById('not-log').style.display = 'none';
             document.getElementById('login-img').style.display = 'block';

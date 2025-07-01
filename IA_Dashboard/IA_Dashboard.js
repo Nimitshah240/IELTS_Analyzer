@@ -4,7 +4,7 @@ const teachermode = urlSearchParams.get('teacher');
 if (teachermode == 'true') {
     user_id = JSON.parse(sessionStorage.getItem('student_id'));
 } else {
-    user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
+    user_id = JSON.parse(localStorage.getItem('user_data')).id;
 }
 
 const exammap = new Map();
@@ -42,95 +42,88 @@ colorList = ['#17ffee', '#6917d0', '#cc17ff', '#17ffa4', '#ff1791', '#95e214', '
 // Description - Use to initialize data of Reading or Listening of user for Dashboard view
 // Updated on - -
 // Input - none
-function dashboardconnectedCallback() {
+async function dashboardconnectedCallback() {
     try {
 
+        await getEnglishJsonFile('../en_properties.json');
         if (screen.width >= 768 && screen.width < 1024) {
             textAroundposition = 0 + 105;
             fontStyle = '20px sans-serif'
         }
         Userlogo();
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
-            fetch(`https://ielts-analyzer.onrender.com/api/examdata?user_id=${user_id}&module=${module}`)
-                .then(response => response.json())
-                .then(responsedata => {
 
-                    console.log(responsedata);
+            apiURL = enProperties.apiURL + enProperties.apiEndPoints.dashboard + `?user_id=${user_id}&module=${module}`;
+            let responsedata = await apiCallOuts(apiURL, 'GET', null);
 
-                    console.log("stringify");
+            if (responsedata.length > 0) {
+                Array.from(document.getElementsByClassName('charts')).forEach(element => {
+                    element.style.display = "flex";
+                });
+                Array.from(document.getElementsByClassName('no_graph')).forEach(element => {
+                    element.style.display = "none";
+                });
 
-                    console.log(JSON.stringify(responsedata));
+                Array.from(document.getElementsByClassName('body_section')).forEach(element => {
+                    element.style.height = "fit-content"
+                });
+            } else {
+                createToast('error', 'No data found');
+            }
 
-                    if (responsedata.length > 0) {
-                        Array.from(document.getElementsByClassName('charts')).forEach(element => {
-                            element.style.display = "flex";
-                        });
-                        Array.from(document.getElementsByClassName('no_graph')).forEach(element => {
-                            element.style.display = "none";
-                        });
+            responseData = responsedata;
+            responseData.forEach(element => {
+                // FOR CHART 2 and 5
+                totalquestion += element.total;
+                if (exammap.has(element.examId)) {
+                    exammap.set(element.examId, { 'examName': element.examName, 'date': element.examDate, 'score': exammap.get(element.examId).score + element.correct });
+                } else {
+                    bandtotal.set(element.examId, element.band)
+                    exammap.set(element.examId, { 'examName': element.examName, 'date': element.examDate, 'score': element.correct });
+                }
 
-                        Array.from(document.getElementsByClassName('body_section')).forEach(element => {
-                            element.style.height = "fit-content"
-                        });
-                    } else {
-                        createToast('error', 'No data found');
-                    }
+                // FOR CHART 1 and 3
+                if (element.section == 1) {
+                    sectionscorrect.set('section1', sectionscorrect.get('section1') + element.correct);
+                    sectionsincorrect.set('section1', sectionsincorrect.get('section1') + element.incorrect);
+                    sectiontotal.set('section1', sectiontotal.get('section1') + element.total);
+                } else if (element.section == 2) {
+                    sectionscorrect.set('section2', sectionscorrect.get('section2') + element.correct);
+                    sectionsincorrect.set('section2', sectionsincorrect.get('section2') + element.incorrect);
+                    sectiontotal.set('section2', sectiontotal.get('section2') + element.total);
+                } else if (element.section == 3) {
+                    sectionscorrect.set('section3', sectionscorrect.get('section3') + element.correct);
+                    sectionsincorrect.set('section3', sectionsincorrect.get('section3') + element.incorrect);
+                    sectiontotal.set('section3', sectiontotal.get('section3') + element.total);
+                } else if (element.section == 4) {
+                    sectionscorrect.set('section4', sectionscorrect.get('section4') + element.correct);
+                    sectionsincorrect.set('section4', sectionsincorrect.get('section4') + element.incorrect);
+                    sectiontotal.set('section4', sectiontotal.get('section4') + element.total);
+                }
 
-                    responseData = responsedata;
-                    responseData.forEach(element => {
-                        // FOR CHART 2 and 5
-                        totalquestion += element.total;
-                        if (exammap.has(element.exam_id)) {
-                            exammap.set(element.exam_id, { 'exam_name': element.exam_name, 'date': element.date, 'score': exammap.get(element.exam_id).score + element.correct });
-                        } else {
-                            bandtotal.set(element.exam_id, element.band)
-                            exammap.set(element.exam_id, { 'exam_name': element.exam_name, 'date': element.date, 'score': element.correct });
-                        }
+                //  FOR CHART 4 || Question wise correct map
+                if (question_correct.has(element.questionType)) {
+                    question_correct.set(element.questionType, question_correct.get(element.questionType) + element.correct)
+                } else {
+                    question_correct.set(element.questionType, element.correct);
+                }
 
-                        // FOR CHART 1 and 3
-                        if (element.section == 1) {
-                            sectionscorrect.set('section1', sectionscorrect.get('section1') + element.correct);
-                            sectionsincorrect.set('section1', sectionsincorrect.get('section1') + element.incorrect);
-                            sectiontotal.set('section1', sectiontotal.get('section1') + element.total);
-                        } else if (element.section == 2) {
-                            sectionscorrect.set('section2', sectionscorrect.get('section2') + element.correct);
-                            sectionsincorrect.set('section2', sectionsincorrect.get('section2') + element.incorrect);
-                            sectiontotal.set('section2', sectiontotal.get('section2') + element.total);
-                        } else if (element.section == 3) {
-                            sectionscorrect.set('section3', sectionscorrect.get('section3') + element.correct);
-                            sectionsincorrect.set('section3', sectionsincorrect.get('section3') + element.incorrect);
-                            sectiontotal.set('section3', sectiontotal.get('section3') + element.total);
-                        } else if (element.section == 4) {
-                            sectionscorrect.set('section4', sectionscorrect.get('section4') + element.correct);
-                            sectionsincorrect.set('section4', sectionsincorrect.get('section4') + element.incorrect);
-                            sectiontotal.set('section4', sectiontotal.get('section4') + element.total);
-                        }
+                // FOR CHART 6 || Question wise incorrect map
+                if (question_incorrect.has(element.questionType)) {
+                    question_incorrect.set(element.questionType, question_incorrect.get(element.questionType) + element.incorrect)
+                } else {
+                    question_incorrect.set(element.questionType, element.incorrect);
+                }
 
-                        //  FOR CHART 4 || Question wise correct map
-                        if (question_correct.has(element.question_type)) {
-                            question_correct.set(element.question_type, question_correct.get(element.question_type) + element.correct)
-                        } else {
-                            question_correct.set(element.question_type, element.correct);
-                        }
+                // FOR TIP || Question wise total map
+                if (question_total.has(element.questionType)) {
+                    question_total.set(element.questionType, question_total.get(element.questionType) + element.total)
+                } else {
+                    question_total.set(element.questionType, element.total);
+                }
+            });
 
-                        // FOR CHART 6 || Question wise incorrect map
-                        if (question_incorrect.has(element.question_type)) {
-                            question_incorrect.set(element.question_type, question_incorrect.get(element.question_type) + element.incorrect)
-                        } else {
-                            question_incorrect.set(element.question_type, element.incorrect);
-                        }
-
-                        // FOR TIP || Question wise total map
-                        if (question_total.has(element.question_type)) {
-                            question_total.set(element.question_type, question_total.get(element.question_type) + element.total)
-                        } else {
-                            question_total.set(element.question_type, element.total);
-                        }
-                    });
-
-                    drawChart();
-                }).catch(error => createToast('error', error));
-
+            drawChart();
 
             function drawChart() {
                 try {
@@ -380,7 +373,7 @@ function chart5() {
         let setlabel = [];
 
         for (const key of exammap.keys()) {
-            setlabel.push(exammap.get(key).exam_name);
+            setlabel.push(exammap.get(key).examName);
             setdata.push(exammap.get(key).score);
         }
         const ctx = document.getElementById('chart5').getContext('2d');
@@ -521,41 +514,41 @@ function chart7() {
         let quest_score2 = new Map();
         let quest_score3 = new Map();
         let quest_score4 = new Map();
-        let question_type = [];
+        let questionType = [];
 
         responseData.forEach(element => {
-            if (!question_type.includes(element.question_type) && element.correct != '') {
-                question_type.push(element.question_type);
+            if (!questionType.includes(element.questionType) && element.correct != '') {
+                questionType.push(element.questionType);
             }
             if (element.section == 1) {
-                if (quest_score1.has(element.question_type)) {
-                    quest_score1.set(element.question_type, quest_score1.get(element.question_type) + element.correct);
+                if (quest_score1.has(element.questionType)) {
+                    quest_score1.set(element.questionType, quest_score1.get(element.questionType) + element.correct);
                 } else {
-                    quest_score1.set(element.question_type, element.correct);
+                    quest_score1.set(element.questionType, element.correct);
                 }
             } else if (element.section == 2) {
-                if (quest_score2.has(element.question_type)) {
-                    quest_score2.set(element.question_type, quest_score2.get(element.question_type) + element.correct);
+                if (quest_score2.has(element.questionType)) {
+                    quest_score2.set(element.questionType, quest_score2.get(element.questionType) + element.correct);
                 } else {
-                    quest_score2.set(element.question_type, element.correct);
+                    quest_score2.set(element.questionType, element.correct);
                 }
             } else if (element.section == 3) {
-                if (quest_score3.has(element.question_type)) {
-                    quest_score3.set(element.question_type, quest_score3.get(element.question_type) + element.correct);
+                if (quest_score3.has(element.questionType)) {
+                    quest_score3.set(element.questionType, quest_score3.get(element.questionType) + element.correct);
                 } else {
-                    quest_score3.set(element.question_type, element.correct);
+                    quest_score3.set(element.questionType, element.correct);
                 }
             } else if (element.section == 4) {
-                if (quest_score4.has(element.question_type)) {
-                    quest_score4.set(element.question_type, quest_score4.get(element.question_type) + element.correct);
+                if (quest_score4.has(element.questionType)) {
+                    quest_score4.set(element.questionType, quest_score4.get(element.questionType) + element.correct);
                 } else {
-                    quest_score4.set(element.question_type, element.correct);
+                    quest_score4.set(element.questionType, element.correct);
                 }
             }
         });
         const ctx = document.getElementById('chart7');
         let dataset = [];
-        question_type.forEach((element, index) => {
+        questionType.forEach((element, index) => {
             dataset.push({
                 'label': element,
                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
@@ -619,41 +612,41 @@ function chart8() {
         let quest_score2 = new Map();
         let quest_score3 = new Map();
         let quest_score4 = new Map();
-        let question_type = [];
+        let questionType = [];
 
         responseData.forEach(element => {
-            if (!question_type.includes(element.question_type) && element.incorrect != '') {
-                question_type.push(element.question_type);
+            if (!questionType.includes(element.questionType) && element.incorrect != '') {
+                questionType.push(element.questionType);
             }
             if (element.section == 1) {
-                if (quest_score1.has(element.question_type)) {
-                    quest_score1.set(element.question_type, quest_score1.get(element.question_type) + element.incorrect);
+                if (quest_score1.has(element.questionType)) {
+                    quest_score1.set(element.questionType, quest_score1.get(element.questionType) + element.incorrect);
                 } else {
-                    quest_score1.set(element.question_type, element.incorrect);
+                    quest_score1.set(element.questionType, element.incorrect);
                 }
             } else if (element.section == 2) {
-                if (quest_score2.has(element.question_type)) {
-                    quest_score2.set(element.question_type, quest_score2.get(element.question_type) + element.incorrect);
+                if (quest_score2.has(element.questionType)) {
+                    quest_score2.set(element.questionType, quest_score2.get(element.questionType) + element.incorrect);
                 } else {
-                    quest_score2.set(element.question_type, element.incorrect);
+                    quest_score2.set(element.questionType, element.incorrect);
                 }
             } else if (element.section == 3) {
-                if (quest_score3.has(element.question_type)) {
-                    quest_score3.set(element.question_type, quest_score3.get(element.question_type) + element.incorrect);
+                if (quest_score3.has(element.questionType)) {
+                    quest_score3.set(element.questionType, quest_score3.get(element.questionType) + element.incorrect);
                 } else {
-                    quest_score3.set(element.question_type, element.incorrect);
+                    quest_score3.set(element.questionType, element.incorrect);
                 }
             } else if (element.section == 4) {
-                if (quest_score4.has(element.question_type)) {
-                    quest_score4.set(element.question_type, quest_score4.get(element.question_type) + element.incorrect);
+                if (quest_score4.has(element.questionType)) {
+                    quest_score4.set(element.questionType, quest_score4.get(element.questionType) + element.incorrect);
                 } else {
-                    quest_score4.set(element.question_type, element.incorrect);
+                    quest_score4.set(element.questionType, element.incorrect);
                 }
             }
         });
 
         let dataset = [];
-        question_type.forEach((element, index) => {
+        questionType.forEach((element, index) => {
             dataset.push({
                 'label': element,
                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
@@ -713,41 +706,41 @@ function chart8() {
 //         let quest_score2 = new Map();
 //         let quest_score3 = new Map();
 //         let quest_score4 = new Map();
-//         let question_type = [];
+//         let questionType = [];
 
 //         responseData.forEach(element => {
-//             if (!question_type.includes(element.question_type) && element.miss != '') {
-//                 question_type.push(element.question_type);
+//             if (!questionType.includes(element.questionType) && element.miss != '') {
+//                 questionType.push(element.questionType);
 //             }
 //             if (element.section == 1) {
-//                 if (quest_score1.has(element.question_type)) {
-//                     quest_score1.set(element.question_type, quest_score1.get(element.question_type) + element.miss);
+//                 if (quest_score1.has(element.questionType)) {
+//                     quest_score1.set(element.questionType, quest_score1.get(element.questionType) + element.miss);
 //                 } else {
-//                     quest_score1.set(element.question_type, element.miss);
+//                     quest_score1.set(element.questionType, element.miss);
 //                 }
 //             } else if (element.section == 2) {
-//                 if (quest_score2.has(element.question_type)) {
-//                     quest_score2.set(element.question_type, quest_score2.get(element.question_type) + element.miss);
+//                 if (quest_score2.has(element.questionType)) {
+//                     quest_score2.set(element.questionType, quest_score2.get(element.questionType) + element.miss);
 //                 } else {
-//                     quest_score2.set(element.question_type, element.miss);
+//                     quest_score2.set(element.questionType, element.miss);
 //                 }
 //             } else if (element.section == 3) {
-//                 if (quest_score3.has(element.question_type)) {
-//                     quest_score3.set(element.question_type, quest_score3.get(element.question_type) + element.miss);
+//                 if (quest_score3.has(element.questionType)) {
+//                     quest_score3.set(element.questionType, quest_score3.get(element.questionType) + element.miss);
 //                 } else {
-//                     quest_score3.set(element.question_type, element.miss);
+//                     quest_score3.set(element.questionType, element.miss);
 //                 }
 //             } else if (element.section == 4) {
-//                 if (quest_score4.has(element.question_type)) {
-//                     quest_score4.set(element.question_type, quest_score4.get(element.question_type) + element.miss);
+//                 if (quest_score4.has(element.questionType)) {
+//                     quest_score4.set(element.questionType, quest_score4.get(element.questionType) + element.miss);
 //                 } else {
-//                     quest_score4.set(element.question_type, element.miss);
+//                     quest_score4.set(element.questionType, element.miss);
 //                 }
 //             }
 //         });
 
 //         let dataset = [];
-//         question_type.forEach((element, index) => {
+//         questionType.forEach((element, index) => {
 //             dataset.push({
 //                 'label': element,
 //                 'data': [quest_score1.get(element) == undefined ? 0 : quest_score1.get(element),
@@ -803,7 +796,7 @@ function chart8() {
 // Description - Use to open summary/tip box and also set values
 // Updated on - -
 // Input - none
-function tipopen() {
+async function tipopen() {
     try {
 
         Array.from(document.getElementsByClassName('glass')).forEach(element => {
@@ -902,13 +895,8 @@ function tipopen() {
         document.getElementById('section-summary').innerHTML = sectiontext
 
         // Setting href for Trick anchor tag
-        let href = "../IA_Trick/IA_Trick.html?module=";
-        if (module == 'Listening') {
-            href += 'Listening';
-        } else {
-            href += 'Reading';
-        }
-        document.getElementById('trick').href = href
+        dynamicUrl = await getFilePaths("trick") + `?module=${module}`;
+        document.getElementById('trick').href = dynamicUrl
 
     } catch (error) {
         createToast('error', 'Failed to open Tip. Try refreshing page.');

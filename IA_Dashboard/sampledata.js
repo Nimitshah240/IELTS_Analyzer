@@ -4,7 +4,7 @@ const teachermode = urlSearchParams.get('teacher');
 if (teachermode == 'true') {
     user_id = JSON.parse(sessionStorage.getItem('student_id'));
 } else {
-    user_id = JSON.parse(localStorage.getItem('user_data')).user_id;
+    user_id = JSON.parse(localStorage.getItem('user_data')).id;
 }
 
 const exammap = new Map();

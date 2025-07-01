@@ -1,11 +1,11 @@
-
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to initialize central student data page
 // Updated on - -
 // Input - none
-function connectedCallback() {
+async function connectedCallback() {
     try {
+        await getEnglishJsonFile('../en_properties.json');
         if (sessionStorage.getItem('Check')) {
             document.getElementById('validation-box').style.display = 'none';
             document.getElementById('body-section').style.display = 'block';
@@ -24,40 +24,35 @@ function connectedCallback() {
 // Description - Use to check user is valid or not and also get data of students
 // Updated on - -
 // Input - none
-function checkuser() {
+async function checkuser() {
     try {
         var username = document.getElementById('username').value;
         var password = document.getElementById('password').value;
-        fetch(`https://ielts-analyzer.onrender.com/api/studentdata?username=${username}&password=${password}`)
-            .then(response => response.json())
-            .then(responsedata => {
-                console.log(responsedata);
-                console.log("stringify");
 
-                console.log(JSON.stringify(responsedata));
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.master + enProperties.apiEndPoints.allStudentData + `?username=${username}&password=${password}`;
+        let responsedata = await apiCallOuts(apiURL, 'GET', null);
 
-                if (responsedata == 'Invalid User') {
-                    createToast('error', 'Invalid User');
-                } else {
-                    sessionStorage.setItem('Check', true)
-                    createToast('success', 'Valid User');
-                    document.getElementById('validation-box').style.display = 'none';
-                    document.getElementById('body-section').style.display = 'block';
-                    document.getElementById('dataheader').style.display = 'block';
-                }
-                if (responsedata.length != 0 && responsedata != 'Invalid User') {
-                    sessionStorage.setItem('Data', JSON.stringify(responsedata))
-                    setdata(responsedata);
-                }
+        if (responsedata == 'Invalid User') {
+            createToast('error', 'Invalid User');
+        } else {
+            sessionStorage.setItem('Check', true)
+            createToast('success', 'Valid User');
+            document.getElementById('validation-box').style.display = 'none';
+            document.getElementById('body-section').style.display = 'block';
+            document.getElementById('dataheader').style.display = 'block';
+        }
+        if (responsedata.length != 0 && responsedata != 'Invalid User') {
+            sessionStorage.setItem('Data', JSON.stringify(responsedata))
+            setdata(responsedata);
+        }
 
-                if (responsedata.length == 0) {
-                    document.getElementById('no_data').style.display = 'flex';
-                    createToast('error', 'No data found');
-                }
+        if (responsedata.length == 0) {
+            document.getElementById('no_data').style.display = 'flex';
+            createToast('error', 'No data found');
+        }
 
-            }).catch(error => createToast('error', error));
     } catch (error) {
-        console.error(error);
+        createToast('error', 'Error while getting data : ' + error.message);
     }
 }
 
@@ -71,7 +66,7 @@ function setdata(responsedata) {
     try {
         let htmldata = ''
         responsedata.forEach((element, index) => {
-            let date = new Date(element.fl_date);
+            let date = new Date(element.loginDate);
             let year = date.getFullYear();
             let month = ('0' + (date.getMonth() + 1)).slice(-2);
             let day = ('0' + date.getDate()).slice(-2);
@@ -100,17 +95,13 @@ function setdata(responsedata) {
 // Description - Use to open dashboard of selected student
 // Updated on - -
 // Input - event
-function opendashboard(event) {
+async function opendashboard(event) {
     try {
         let module = event.target.name;
         let user_id = event.target.id;
-        sessionStorage.setItem('student_id', user_id);
-        let dynamicUrl = '../IA_Dashboard/IA_Dashboard.html';
-        if (module == 'Reading') {
-            dynamicUrl += '?module=Reading&teacher=true';
-        } else {
-            dynamicUrl += '?module=Listening&teacher=true';
-        }
+        sessionStorage.setItem('student_id', JSON.stringify(user_id));
+        dynamicUrl = await getFilePaths("dashboard") + "?module=" + module + "&teacher=true";
+
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
     } catch (error) {

@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src=./IA_DataEntry.js></script>
     <script src='../IA_Authentication/IA_Authentication.js'></script>
+    <script src='../commonMethod.js'></script>
     <script src='../IA_Toast/IA_Toast.js'></script>
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
     <link rel='stylesheet' href='../IA_Delete/IA_Delete.css'>
@@ -46,7 +47,7 @@
     <!-- Delete popup -->
 
     <!-- Spinner -->
-    <iframe src="../IA_Spinner/IA_Spinner.html" id="spinner" class="spinner" frameborder="0"></iframe>
+    <iframe name="spinner" id="spinner" class="spinner" frameborder="0"></iframe>
     <!-- Spinner -->
     <!-- Toast -->
     <ul class="notifications" id="notifications"> </ul>
@@ -56,12 +57,12 @@
         <header>
             <nav class="navbar" id="navbar">
                 <div class="logo" id="logo">
-                    <a href="../index.html">IELTS ANALYZER</a>
+                    <a name="index">IELTS ANALYZER</a>
 
                 </div>
                 <div class="links">
                     <button class="button-63 tip-open-button" id="save" onclick="popupopen(event)">Save</button>
-                    <a class="navbartransition" href="../index.html">Home</a>
+                    <a class="navbartransition" name="index">Home</a>
                     <i class="fa fa-user" id="not-log" style="font-size: 30px; cursor:pointer;"
                         onclick="authentication(event)" aria-hidden="true"></i>
                     <img id="login-img" class="login-img" onclick="authentication(event)" />
@@ -100,8 +101,8 @@
                             <label for="missed"> Missed Answer :</label>
                             <input class="text-field" type="number" id="miss1" value="0">
                         </div>
-                        <div class=" button-63" id="1" onclick="getData(event)">
-                            <div id="1">Save & New</div>
+                        <div class=" button-63" data-section="1" onclick="getData(event)">
+                            <div data-section="1">Save & New</div>
                         </div>
                         <div class=" button-63 button-64" data-section="1" onclick="popupopen(event)">
                             <div data-section="1">Show</div>
@@ -138,8 +139,8 @@
                             <label for="missed"> Missed Answer :</label>
                             <input class="text-field" type="number" id="miss2" value="0">
                         </div>
-                        <div class=" button-63" id="2" onclick="getData(event)">
-                            <div id="2">Save & New</div>
+                        <div class=" button-63" data-section="2" onclick="getData(event)">
+                            <div data-section="2">Save & New</div>
                         </div>
                         <div class=" button-63 button-64" data-section="2" onclick="popupopen(event)">
                             <div data-section="2">Show</div>
@@ -176,8 +177,8 @@
                             <label for="missed"> Missed Answer :</label>
                             <input class="text-field" type="number" id="miss3" value="0">
                         </div>
-                        <div class=" button-63" id="3" onclick="getData(event)">
-                            <div id="3">Save & New</div>
+                        <div class=" button-63" data-section="3" onclick="getData(event)">
+                            <div data-section="3">Save & New</div>
                         </div>
                         <div class=" button-63 button-64" data-section="3" onclick="popupopen(event)">
                             <div data-section="3">Show</div>
@@ -214,8 +215,8 @@
                             <label for="missed"> Missed Answer :</label>
                             <input class="text-field" type="number" id="miss4" value="0">
                         </div>
-                        <div class=" button-63" id="4" onclick="getData(event)">
-                            <div id="4">Save & New</div>
+                        <div class=" button-63" data-section="4" onclick="getData(event)">
+                            <div data-section="4">Save & New</div>
                         </div>
                         <div class=" button-63 button-64" data-section="4" onclick="popupopen(event)">
                             <div data-section="4">Show</div>
