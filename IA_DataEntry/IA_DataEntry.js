@@ -162,7 +162,9 @@ async function popupclose(event) {
 function getData(event) {
     try {
 
-        const selectElement = document.getElementById('question' + event.target.id);
+        let section = event.target.dataset.section;
+
+        const selectElement = document.getElementById('question' + section);
         const questionType = selectElement.value;
 
         let correct = 0;
@@ -170,9 +172,9 @@ function getData(event) {
         let miss = 0;
         let total;
 
-        correct = parseInt(document.getElementById('correct' + event.target.id).value);
-        incorrect = parseInt(document.getElementById('incorrect' + event.target.id).value);
-        miss = parseInt(document.getElementById('miss' + event.target.id).value);
+        correct = parseInt(document.getElementById('correct' + section).value);
+        incorrect = parseInt(document.getElementById('incorrect' + section).value);
+        miss = parseInt(document.getElementById('miss' + section).value);
         total = correct + incorrect + miss;
 
         question.push(
@@ -182,20 +184,20 @@ function getData(event) {
                 "date": examDate,
                 "examId": examId == "" ? "" : examId,
                 "examName": examName == "" ? "" : examName,
-                "id": question.length,
+                "id": question.length + 1,
                 "incorrect": incorrect,
                 "miss": miss,
                 "module": module,
                 "questionType": questionType,
-                "section": event.target.id,
+                "section": section,
                 "total": total,
                 "studentId": studentId,
             }
         )
 
-        document.getElementById('correct' + event.target.id).value = 0;
-        document.getElementById('incorrect' + event.target.id).value = 0;
-        document.getElementById('miss' + event.target.id).value = 0
+        document.getElementById('correct' + section).value = 0;
+        document.getElementById('incorrect' + section).value = 0;
+        document.getElementById('miss' + section).value = 0
         selectElement.value = 'MCQ';
         createToast('success', 'Question saved temporarily');
 
@@ -341,7 +343,9 @@ async function del(event) {
                                 question.splice(i, 1);
                             }
                         });
-                        sessionStorage.setItem('question' + tdExam, JSON.stringify(question))
+                        if (tdExam != null)
+                            sessionStorage.setItem('question' + tdExam, JSON.stringify(question))
+
                         createToast('success', 'Question deleted');
                     }).catch(error => {
                         createToast('error', 'Error while deleting data : ' + error.message);
@@ -357,7 +361,9 @@ async function del(event) {
                         question.splice(i, 1);
                     }
                 });
-                sessionStorage.setItem('question' + tdExam, JSON.stringify(question))
+                if (tdExam != null)
+                    sessionStorage.setItem('question' + tdExam, JSON.stringify(question));
+
                 createToast('success', 'Question deleted');
 
             }

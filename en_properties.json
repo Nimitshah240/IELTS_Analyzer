@@ -1,7 +1,7 @@
 {
     "versionNumber": "1.0.0",
     "versionDate": "11-09-2024",
-    "apiURL": "http://localhost:8080",
+    "apiURL": "https://ia-server-esnt.onrender.com",
     "apiURL(local)": "http://localhost:8080",
     "apiEndPoints": {
         "studentApi": "/studentApi",
@@ -17,7 +17,7 @@
         "data": "/data",
         "master": "/master"
     },
-    "dynamicURL": "http://127.0.0.1:5501",
+    "dynamicURL": "https://ieltsanalyzer.netlify.app",
     "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",
     "dynamicURLEndPoints": {
         "trick": "/IA_Trick/IA_Trick.html",
