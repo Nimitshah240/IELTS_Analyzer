@@ -7,7 +7,7 @@ const connection = mysql.createConnection({
     password: '1b5a8aff5a0f26a15d897aa535b295bb4a55883d', // replace with your MySQL password
     database: 'ieltsanalyser_reasongome', // replace with your database name
     port: 3306 // default MySQL port
-    
+
     // host: 'localhost',
     // user: 'root', // replace with your MySQL username
     // // password: 'root', // replace with your MySQL password
@@ -43,9 +43,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 app.use(cors({
-  origin: 'https://ieltsanalyzer.netlify.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true,
+    origin: 'https://ieltsanalyzer.netlify.app',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
 }));
 
 
@@ -65,6 +65,10 @@ app.get('/api/checkUser', (req, res) => {
 
 app.post('/api/updateUserData', (req, res) => {
     const receivedData = req.body;
+    console.log(receivedData);
+    console.log("stringify");
+    console.log(JSON.stringify(receivedData));
+
     if (receivedData.new == true) {
         query = ` INSERT INTO user(id, name, lastname, number, type, privacy,email,location, fl_date, picture) VALUES ('${receivedData.user_id}','${receivedData.firstname}','${receivedData.lastname}','${receivedData.number}','${receivedData.type}','${receivedData.privacy}','${receivedData.email}','${receivedData.location}','${receivedData.fl_date}','${receivedData.picture}')`;
     } else {
@@ -124,6 +128,11 @@ app.post('/api/insertExam', (req, res) => {
 
     let exam_id = req.headers.exam_id;
     const receivedData = req.body;
+
+    console.log(receivedData);
+    console.log("stringify");
+    console.log(JSON.stringify(receivedData));
+
     let exam_query;
 
     if (exam_id != '') {
