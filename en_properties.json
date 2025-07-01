@@ -1,6 +1,6 @@
 {
-    "versionNumber": "1.0.0",
-    "versionDate": "11-09-2024",
+    "versionNumber": "2.0.0",
+    "versionDate": "1-07-2025",
     "apiURL": "https://ia-server-esnt.onrender.com",
     "apiURL(local)": "http://localhost:8080",
     "apiEndPoints": {
