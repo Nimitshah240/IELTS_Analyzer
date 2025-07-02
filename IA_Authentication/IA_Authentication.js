@@ -221,8 +221,8 @@ function showSignout() {
 async function fetchUser(id) {
     try {
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?user_id=${id}`;
-        let responsedata = await apiCallOuts(apiURL, 'GET', null, 10000);
-
+        showSpinner('Checking user...');
+        let responsedata = await apiCallOuts(apiURL, 'GET', null, 6000);
 
         document.getElementById('continue').style.display = 'block';
         document.getElementById('google-button').style.display = 'none';
@@ -261,8 +261,9 @@ async function fetchUser(id) {
             user_location = '';
             data = { 'new': true, 'id': maindata.id, 'name': maindata.given_name, 'lastName': maindata.family_name, 'email': maindata.email, 'number': 'number', 'type': 'academic', 'privacy': '', 'location': '', 'picture': maindata.picture }; //nimit, loginDate add karje if kai fate to 26/06 
         }
-
+        stopSpinner();
     } catch (error) {
+        stopSpinner();
         createToast('error', 'Error while user : ' + error.message)
     }
 }
@@ -297,13 +298,18 @@ async function continueClick() {
                 data.privacy = tempprivacy;
 
                 apiURL = enProperties.apiURL + enProperties.apiEndPoints.student;
-                await apiCallOuts(apiURL, 'POST', JSON.stringify(data), 20000)
+                showSpinner('Saving user');
+                await apiCallOuts(apiURL, 'POST', JSON.stringify(data), 10000)
                     .then(async () => {
                         data.new = false
                         localStorage.setItem('user_data', JSON.stringify(data));
                         dynamicUrl = await getFilePaths("index");
                         window.location.href = dynamicUrl;
-                    }).catch(error => createToast('error', error.message));;
+                        stopSpinner();
+                    }).catch(error => {
+                        stopSpinner();
+                        createToast('error', error.message)
+                    });
 
             } else {
                 localStorage.setItem('user_data', JSON.stringify(data));
@@ -314,6 +320,7 @@ async function continueClick() {
             createToast('error', "Fill require detail");
         }
     } catch (error) {
+        stopSpinner();
         console.error(error);
 
     }
@@ -337,3 +344,23 @@ async function Userlogo() {
         createToast('error', 'Error while fetching user data : ' + error.message);
     }
 }
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set spinner
+// Updated on - -
+// Input - none
+window.addEventListener("beforeunload", function (event) {
+    showSpinner('Loading ...');
+});
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to remove spinner
+// Updated on - -
+// Input - none
+document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState === "hidden") {
+        stopSpinner();
+    }
+});

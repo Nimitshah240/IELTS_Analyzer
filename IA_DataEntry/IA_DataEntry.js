@@ -184,7 +184,7 @@ function getData(event) {
                 "date": examDate,
                 "examId": examId == "" ? "" : examId,
                 "examName": examName == "" ? "" : examName,
-                "id": question.length + 1,
+                "id": 'temp_' + question.length + 1,
                 "incorrect": incorrect,
                 "miss": miss,
                 "module": module,
@@ -262,12 +262,18 @@ async function saveexam(event) {
 
                 question.forEach(element => {
                     element.band = band;
-
+                    let id = element.id;
+                    if (!(typeof id == "number") && id.includes('temp_')) {
+                        element.id = id.replace("temp_", "");
+                    }
                 });
+
+                showSpinner('Saving exam ...');
                 apiURL = enProperties.apiURL + enProperties.apiEndPoints.data;
-                await apiCallOuts(apiURL, 'POST', JSON.stringify(question), 20000).then(() => {
+                await apiCallOuts(apiURL, 'POST', JSON.stringify(question), 10000).then(() => {
                     popupclose(event);
                 }).catch(error => {
+                    stopSpinner();
                     event.target.id = ''
                     popupclose(event);
                     createToast('error', 'Error while saving data : ' + error.message);
@@ -277,6 +283,7 @@ async function saveexam(event) {
             }
         }
     } catch (error) {
+        stopSpinner();
         createToast('error', 'Error while saving data : ' + error.message);
     }
 }
@@ -330,8 +337,8 @@ async function del(event) {
                         "studentId": studentId,
                         "module": module
                     }
-                                        
-                    await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteQuestionBody), 10000).then(() => {
+                    showSpinner('Deleting question ...')
+                    await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteQuestionBody), 6000).then(() => {
 
                         for (let index = 0; index < 2; index++) {
                             const divToRemove = document.getElementById(questionId);
@@ -346,8 +353,10 @@ async function del(event) {
                         if (tdExam != null)
                             sessionStorage.setItem('question' + tdExam, JSON.stringify(question))
 
+                        stopSpinner();
                         createToast('success', 'Question deleted');
                     }).catch(error => {
+                        stopSpinner();
                         createToast('error', 'Error while deleting data : ' + error.message);
                     });
                 } else {
@@ -380,6 +389,7 @@ async function del(event) {
 
     } catch (error) {
         createToast('error', 'Error while deleting data : ' + error.message);
+        stopSpinner();
     }
 }
 
@@ -389,8 +399,7 @@ async function del(event) {
 // Updated on - -
 // Input - none
 window.addEventListener("beforeunload", function (event) {
-    document.getElementById("spinner").style.display = 'flex';
-    document.getElementById("main").style.display = 'none';
+    showSpinner('Loading ...');
 });
 
 // Developer - Nimit Shah
@@ -400,7 +409,6 @@ window.addEventListener("beforeunload", function (event) {
 // Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
-        document.getElementById("spinner").style.display = 'none';
-        document.getElementById("main").style.display = 'block';
+        stopSpinner();
     }
 });

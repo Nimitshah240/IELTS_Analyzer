@@ -116,8 +116,7 @@ async function setHref(event) {
 // Updated on - -
 // Input - none
 window.addEventListener("beforeunload", function (event) {
-    document.getElementById("main").style.display = 'none';
-    document.getElementById("spinner").style.display = 'flex';
+    showSpinner('Loading ...');
 });
 
 // Developer - Nimit Shah
@@ -127,7 +126,6 @@ window.addEventListener("beforeunload", function (event) {
 // Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
-        document.getElementById("main").style.display = 'block';
-        document.getElementById("spinner").style.display = 'none';
+        stopSpinner();
     }
 });

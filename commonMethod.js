@@ -74,3 +74,12 @@ async function apiCallOuts(apiURL, method, body, preftimeout) {
     }
 
 }
+function showSpinner(message) {
+    document.getElementById("spinner").style.display = 'flex';
+    document.getElementById("main").style.display = 'none';
+}
+
+function stopSpinner() {
+    document.getElementById("spinner").style.display = 'none';
+    document.getElementById("main").style.display = 'block';
+}
