@@ -221,7 +221,7 @@ function showSignout() {
 async function fetchUser(id) {
     try {
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?user_id=${id}`;
-        let responsedata = await apiCallOuts(apiURL, 'GET', null);
+        let responsedata = await apiCallOuts(apiURL, 'GET', null, 10000);
 
 
         document.getElementById('continue').style.display = 'block';
@@ -297,7 +297,7 @@ async function continueClick() {
                 data.privacy = tempprivacy;
 
                 apiURL = enProperties.apiURL + enProperties.apiEndPoints.student;
-                await apiCallOuts(apiURL, 'POST', JSON.stringify(data))
+                await apiCallOuts(apiURL, 'POST', JSON.stringify(data), 20000)
                     .then(async () => {
                         data.new = false
                         localStorage.setItem('user_data', JSON.stringify(data));
