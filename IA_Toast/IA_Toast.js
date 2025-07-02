@@ -1,7 +1,7 @@
 
 // Object containing details for different types of toasts
 const toastDetails = {
-    timer: 5000,
+    timer:2500,
     success: {
         icon: 'fa fa-check-circle',
     },

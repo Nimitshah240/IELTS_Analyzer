@@ -58,8 +58,7 @@ async function setHrefs(event) {
 // Updated on - -
 // Input - none
 window.addEventListener("beforeunload", function (event) {
-    document.getElementById("spinner").style.display = 'flex';
-    document.getElementById("main").style.display = 'none';
+    showSpinner('Loading ...');
 });
 
 
@@ -70,7 +69,6 @@ window.addEventListener("beforeunload", function (event) {
 // Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
-        document.getElementById("spinner").style.display = 'none';
-        document.getElementById("main").style.display = 'block';
+        stopSpinner();
     }
 });

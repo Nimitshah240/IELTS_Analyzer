@@ -54,7 +54,7 @@ async function dashboardconnectedCallback() {
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
 
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.dashboard + `?user_id=${user_id}&module=${module}`;
-            let responsedata = await apiCallOuts(apiURL, 'GET', null, 10000);
+            let responsedata = await apiCallOuts(apiURL, 'GET', null, 6000);
 
             if (responsedata.length > 0) {
                 Array.from(document.getElementsByClassName('charts')).forEach(element => {
@@ -926,8 +926,7 @@ function tipclose() {
 // Updated on - -
 // Input - none
 window.addEventListener("beforeunload", function (event) {
-    document.getElementById("spinner").style.display = 'flex';
-    document.getElementById("main").style.display = 'none';
+    showSpinner('Loading ...')
 });
 
 // Developer - Nimit Shah
@@ -937,7 +936,6 @@ window.addEventListener("beforeunload", function (event) {
 // Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
-        document.getElementById("spinner").style.display = 'none';
-        document.getElementById("main").style.display = 'block';
+        stopSpinner();
     }
 });

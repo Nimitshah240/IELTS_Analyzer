@@ -84,8 +84,8 @@ async function examData() {
             const user_id = JSON.parse(localStorage.getItem('user_data')).id;
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.data + `?user_id=${user_id}&module=${module}`;
 
-
-            let responseData = await apiCallOuts(apiURL, 'GET', null, 10000);
+            showSpinner('Getting data ...');
+            let responseData = await apiCallOuts(apiURL, 'GET', null, 6000);
             question = responseData;
             if (question.length > 0) {
 
@@ -107,27 +107,27 @@ async function examData() {
                 question.forEach(element => {
                     if (element.section == 1) {
                         if (Section1.has(element.examId)) {
-                            Section1.set(element.examId, Section1.get(element.examId) + element.correct);
+                            Section1.set(element.examId, Section1.get(element.examId) + element.correct + element.incorrect);
                         } else {
-                            Section1.set(element.examId, element.correct);
+                            Section1.set(element.examId, element.correct + element.incorrect);
                         }
                     } else if (element.section == 2) {
                         if (Section2.has(element.examId)) {
-                            Section2.set(element.examId, Section2.get(element.examId) + element.correct);
+                            Section2.set(element.examId, Section2.get(element.examId) + element.correct + element.incorrect);
                         } else {
-                            Section2.set(element.examId, element.correct);
+                            Section2.set(element.examId, element.correct + element.incorrect);
                         }
                     } else if (element.section == 3) {
                         if (Section3.has(element.examId)) {
-                            Section3.set(element.examId, Section3.get(element.examId) + element.correct);
+                            Section3.set(element.examId, Section3.get(element.examId) + element.correct + element.incorrect);
                         } else {
-                            Section3.set(element.examId, element.correct);
+                            Section3.set(element.examId, element.correct + element.incorrect);
                         }
                     } else if (element.section == 4) {
                         if (Section4.has(element.examId)) {
-                            Section4.set(element.examId, Section4.get(element.examId) + element.correct);
+                            Section4.set(element.examId, Section4.get(element.examId) + element.correct + element.incorrect);
                         } else {
-                            Section4.set(element.examId, element.correct);
+                            Section4.set(element.examId, element.correct + element.incorrect);
                         }
                     }
                 });
@@ -180,7 +180,9 @@ async function examData() {
         } else {
             createToast('error', 'Please Login First');
         }
+        stopSpinner();
     } catch (error) {
+        stopSpinner();
         createToast('error', 'Error while fetching exams : ' + error.message);
     }
 }
@@ -218,7 +220,8 @@ async function del(event) {
                 "studentId": studentId,
                 "module": module
             }
-            await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteExamBody), 10000).then(() => {
+            showSpinner('Deleting Exam ...');
+            await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteExamBody), 6000).then(() => {
                 const divToRemove = document.getElementById(del_exam_id);
                 divToRemove.remove();
                 examdata.forEach((element, i) => {
@@ -226,8 +229,10 @@ async function del(event) {
                         examdata.splice(i, 1);
                     }
                 });
+                stopSpinner();
                 createToast('success', 'Exam deleted');
             }).catch(error => {
+                stopSpinner();
                 createToast('error', 'Error while deleting exam : ' + error.message);
             });
 
@@ -252,10 +257,6 @@ async function del(event) {
             } else {
                 document.getElementById("table").innerHTML = '<span class="no_data">No Data Found!</span>';
             }
-            // })
-            // .catch(error => {
-            //     createToast('error', 'Error while deleting exam : ' + error.message);
-            // });
         }
 
         Array.from(document.getElementsByClassName('body_section')).forEach(element => {
@@ -265,6 +266,7 @@ async function del(event) {
             element.style.display = "none";
         });
     } catch (error) {
+        stopSpinner();
         createToast('error', 'Error while deleting exam : ' + error.message);
     }
 }
@@ -275,8 +277,7 @@ async function del(event) {
 // Updated on - -
 // Input - none
 window.addEventListener("beforeunload", function (event) {
-    document.getElementById("spinner").style.display = 'flex';
-    document.getElementById("main").style.display = 'none';
+    showSpinner('Loading ...');
 });
 
 // Developer - Nimit Shah
@@ -286,7 +287,6 @@ window.addEventListener("beforeunload", function (event) {
 // Input - none
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
-        document.getElementById("spinner").style.display = 'none';
-        document.getElementById("main").style.display = 'block';
+        stopSpinner();
     }
 });
