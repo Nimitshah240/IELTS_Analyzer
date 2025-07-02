@@ -30,7 +30,7 @@ async function checkuser() {
         var password = document.getElementById('password').value;
 
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.master + enProperties.apiEndPoints.allStudentData + `?username=${username}&password=${password}`;
-        let responsedata = await apiCallOuts(apiURL, 'GET', null);
+        let responsedata = await apiCallOuts(apiURL, 'GET', null, 10000);
 
         if (responsedata == 'Invalid User') {
             createToast('error', 'Invalid User');

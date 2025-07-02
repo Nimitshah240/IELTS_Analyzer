@@ -54,7 +54,7 @@ async function dashboardconnectedCallback() {
         if ((JSON.parse(localStorage.getItem('user_data')) != null)) {
 
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.dashboard + `?user_id=${user_id}&module=${module}`;
-            let responsedata = await apiCallOuts(apiURL, 'GET', null);
+            let responsedata = await apiCallOuts(apiURL, 'GET', null, 10000);
 
             if (responsedata.length > 0) {
                 Array.from(document.getElementsByClassName('charts')).forEach(element => {

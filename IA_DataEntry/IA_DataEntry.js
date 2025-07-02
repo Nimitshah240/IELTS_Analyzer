@@ -265,7 +265,7 @@ async function saveexam(event) {
 
                 });
                 apiURL = enProperties.apiURL + enProperties.apiEndPoints.data;
-                await apiCallOuts(apiURL, 'POST', JSON.stringify(question)).then(() => {
+                await apiCallOuts(apiURL, 'POST', JSON.stringify(question), 20000).then(() => {
                     popupclose(event);
                 }).catch(error => {
                     event.target.id = ''
@@ -331,7 +331,7 @@ async function del(event) {
                         "module": module
                     }
                                         
-                    await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteQuestionBody)).then(() => {
+                    await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteQuestionBody), 10000).then(() => {
 
                         for (let index = 0; index < 2; index++) {
                             const divToRemove = document.getElementById(questionId);

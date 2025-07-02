@@ -45,12 +45,15 @@ async function setIframeSrc(params) {
     }
 }
 
-async function apiCallOuts(apiURL, method, body) {
+async function apiCallOuts(apiURL, method, body, preftimeout) {
     try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), preftimeout);
         let header =
         {
             method: `${method}`,
-            headers: { 'Content-Type': 'application/json' }
+            headers: { 'Content-Type': 'application/json' },
+            signal: controller.signal
         }
 
         if (method != 'GET' && (body != undefined || body != null)) {

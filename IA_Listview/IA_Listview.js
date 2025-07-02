@@ -85,7 +85,7 @@ async function examData() {
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.data + `?user_id=${user_id}&module=${module}`;
 
 
-            let responseData = await apiCallOuts(apiURL, 'GET', null);
+            let responseData = await apiCallOuts(apiURL, 'GET', null, 10000);
             question = responseData;
             if (question.length > 0) {
 
@@ -218,7 +218,7 @@ async function del(event) {
                 "studentId": studentId,
                 "module": module
             }
-            await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteExamBody)).then(() => {
+            await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteExamBody), 10000).then(() => {
                 const divToRemove = document.getElementById(del_exam_id);
                 divToRemove.remove();
                 examdata.forEach((element, i) => {
