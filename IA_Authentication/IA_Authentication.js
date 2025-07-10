@@ -54,6 +54,7 @@ async function connectedCallback() {
             document.getElementById("lastname").disabled = false;
             document.getElementById("email").disabled = true;
             document.getElementById("number").disabled = false;
+            document.getElementById("id").innerText = data.id;
             firstName = document.getElementById("firstname").value = data.name;
             lastName = document.getElementById("lastname").value = data.lastName;
             email = document.getElementById("email").value = data.email;

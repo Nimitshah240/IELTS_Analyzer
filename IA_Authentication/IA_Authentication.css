@@ -276,11 +276,20 @@ body {
     margin-top: 4%;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
+    gap: 10px;
 }
 
 .validation-box-signin {
     width: 40%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #BDBDBD;
+}
+
+.validation-box-notificationList {
+    width: 60%;
     height: 80%;
     display: flex;
     flex-direction: column;
@@ -387,6 +396,10 @@ body {
     margin: auto 0px;
 }
 
+.inputbox-hidden {
+    display: none;
+}
+
 /* Footer  */
 
 @media screen and (max-width: 640px) {
@@ -416,12 +429,18 @@ body {
 
     /* header  */
     .body_section {
-        height: 80vh;
-        margin-top: 17%;
+        height: fit-content;
+        margin-top: 100px;
+        flex-direction: column;
+        align-items: center;
     }
 
     /* body section */
     .validation-box-signin {
+        width: 96%;
+    }
+
+    .validation-box-notificationList {
         width: 96%;
     }
 
@@ -432,6 +451,11 @@ body {
     .validation-box-signout {
         width: 90%;
         height: 40%;
+    }
+
+    .validation-box-header-signin,
+    .validation-box-footer-signin {
+        height: 60px;
     }
 
     /* Footer  */
@@ -450,6 +474,7 @@ body {
         height: 35px;
     }
 
+
     /* Footer  */
 }
 
@@ -464,12 +489,19 @@ body {
     }
 
     .body_section {
-        height: 90vh;
-        margin-top: 5%;
+        height: fit-content;
+        margin-top: 15%;
+        align-items: center;
+        flex-direction: column;
     }
 
     .validation-box-signin {
-        width: 70%;
+        width: 85%;
+        height: 60%;
+    }
+
+    .validation-box-notificationList {
+        width: 85%;
         height: 60%;
     }
 
@@ -481,13 +513,22 @@ body {
         width: 60%;
         height: 35%;
     }
+
+    .validation-box-header-signin,
+    .validation-box-footer-signin {
+        height: 60px;
+    }
 }
 
 @media screen and (min-width: 1024px) {
 
     .body_section {
-        height: 85vh;
-        margin-top: 4%
+        height: fit-content;
+        margin-top: 0%;
+        padding: 7% 2% 0% 2%;
+        justify-content: flex-start;
+        flex-direction: row;
+        align-items: flex-start;
     }
 
     .links {
@@ -496,6 +537,18 @@ body {
 
     .validation-box-signin {
         width: 40%;
+        margin-top: 0%;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .validation-box-body-signin {
+        padding: 2% 7% 2% 7%;
+    }
+
+    .validation-box-notificationList {
+        width: 60%;
         height: 80%;
         display: flex;
         flex-direction: column;
@@ -508,5 +561,10 @@ body {
 
     .tip-open-button {
         width: 33%;
+    }
+
+    .validation-box-header-signin,
+    .validation-box-footer-signin {
+        height: 60px;
     }
 }
