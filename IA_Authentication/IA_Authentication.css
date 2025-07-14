@@ -516,6 +516,34 @@ body {
     box-shadow: none;
 }
 
+.signout-body-section {
+    height: 89vh;
+    display: flex;
+    align-items: center;
+}
+
+.examname {
+    overflow: hidden;
+    /* overflow-x: visible; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.delete-popup {
+    width: 100%;
+    height: 100%;
+    display: none;
+    position: fixed;
+}
+
+.notification-text {
+    height: 100%;
+    padding: 0px 50px;
+    text-align: justify;
+    font-size: 18px !important;
+    overflow-y: scroll;
+}
+
 /* Footer  */
 
 @media screen and (max-width: 640px) {
@@ -613,9 +641,6 @@ body {
         text-align: left;
         overflow: scroll;
         align-items: center;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
     }
 
     .date {
@@ -635,6 +660,16 @@ body {
     .has-scrollbar::-webkit-scrollbar {
         width: 4px;
         height: 1px;
+    }
+
+    .notification-text {
+        padding: 0px 5px;
+        margin-bottom: 15px;
+    }
+
+    .notification-box {
+        height: fit-content !important;
+        padding: 10px;
     }
 }
 
@@ -662,7 +697,7 @@ body {
 
     .validation-box-notificationList {
         width: 85%;
-        height: 60%;
+        height: 60vh;
     }
 
     .validation-box-body-signin {
@@ -684,7 +719,7 @@ body {
     }
 
     .column {
-        text-align: center;
+        text-align: left
     }
 
     .table {
@@ -714,6 +749,14 @@ body {
 
     .data {
         margin-bottom: 1%;
+    }
+
+    .signout-body-section {
+        height: 100vh;
+    }
+
+    .notification-text{
+        margin: 0px !important;
     }
 }
 

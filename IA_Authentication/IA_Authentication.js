@@ -12,7 +12,7 @@ var data = [];
 var maindata;
 var user_id;
 var dob = "";
-
+let notificationList = [];
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to open authentication/signin page
@@ -32,7 +32,7 @@ async function authentication(event) {
 async function connectedCallback() {
     await getEnglishJsonFile('../en_properties.json');
     Userlogo();
-    data = { "new": false, "id": "112727238629250521382", "name": "NIMIT", "lastName": "SHAH", "email": "nimitshah240@gmail.com", "number": 6353756701, "type": "academic", "privacy": true, "location": "", "loginDate": "2025-07-13T22:26:14.549145", "picture": "https://lh3.googleusercontent.com/a/ACg8ocJFiNEg2k1N47R69HPxsnQ6Oo9q2VTIqIcQ_ZR9R_i4lx_zULUYRw=s96-c", "allowedExamCount": 10, "insCode": "", "securityKey": "", "dob": "2025-07-13", "examCount": 9 };
+    data = { "new": false, "id": "112727238629250521382", "name": "NIMIT", "lastName": "SHAH", "email": "nimitshah240@gmail.com", "number": 6353756701, "type": "academic", "privacy": true, "location": "", "loginDate": "2025-07-13T22:26:14.549145", "picture": "https://lh3.googleusercontent.com/a/ACg8ocJFiNEg2k1N47R69HPxsnQ6Oo9q2VTIqIcQ_ZR9R_i4lx_zULUYRw=s96-c", "allowedExamCount": 10, "insCode": "", "securityKey": "", "dob": "2025-07-13", "examCount": 10 };
     localStorage.setItem('user_data', JSON.stringify(data));
     if (localStorage.getItem('user_data') == 'undefined' || localStorage.getItem('user_data') == null) {
         if (document.getElementById('firstname')) {
@@ -214,6 +214,8 @@ async function Signout(event) {
 function showSignout() {
     try {
         document.getElementById('validation-box-signin').style.display = 'none';
+        document.getElementById('body_section').className = 'signout-body-section';
+        document.getElementById('validation-box-notification').style.display = 'none';
         document.getElementById('validation-box-signout').style.display = 'block';
         Array.from(document.getElementsByClassName('button')).forEach(element => {
             element.style.display = "block";
@@ -339,7 +341,6 @@ async function continueClick() {
     } catch (error) {
         stopSpinner();
         console.error(error);
-
     }
 }
 
@@ -366,22 +367,23 @@ async function getNotification(params) {
     try {
         showSpinner('Getting Notification...');
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.base + enProperties.apiEndPoints.notification;
-        // let responsedata = await apiCallOuts(apiURL, 'GET', null, 6000);
-        let responsedata = [
-            { "id": 1, "message": "This is a sample notification message.", "createdDate": "2025-07-12T00:00:00Z", "refId": "112727238629250521382", "readed": true },
-            { "id": 2, "message": "This is sample message", "createdDate": "2025-07-11T00:00:00Z", "refId": "112727238629250521382", "readed": true },
-            { "id": 3, "message": "For ALL", "createdDate": "2025-07-11T00:00:00Z","refId": "112727238629250521382", "readed": false },
-            { "id": 4, "message": null, "createdDate": null, "refId": null, "readed": false },
-            { "id": 5, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-            { "id": 6, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-            { "id": 7, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-            { "id": 8, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-            { "id": 9, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-            { "id": 10, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true }
-        ];
-        if (responsedata.length > 0) {
+        notificationList = await apiCallOuts(apiURL, 'GET', null, 6000);
+        // let responsedata = [
+        //     { "id": 1, "message": "", "createdDate": "2025-07-12T00:00:00Z", "refId": "112727238629250521382", "readed": true },
+        //     { "id": 2, "message": "This is sample message", "createdDate": "2025-07-11T00:00:00Z", "refId": "112727238629250521382", "readed": true },
+        //     { "id": 3, "message": "For ALL", "createdDate": "2025-07-11T00:00:00Z", "refId": "112727238629250521382", "readed": false },
+        //     { "id": 4, "message": null, "createdDate": null, "refId": null, "readed": false },
+        //     { "id": 5, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
+        //     { "id": 6, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
+        //     { "id": 7, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
+        //     { "id": 8, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
+        //     { "id": 9, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
+        //     { "id": 10, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true }
+        // ];
+        // notificationList = responsedata;
+        if (notificationList.length > 0) {
             let htmldata = '';
-            responsedata.forEach((element, index) => {
+            notificationList.forEach((element, index) => {
                 let notificationDate = new Date(element.createdDate);
                 let year = notificationDate.getFullYear();
                 let month = ('0' + (notificationDate.getMonth() + 1)).slice(-2);
@@ -396,11 +398,11 @@ async function getNotification(params) {
                     classes = "light";
                     read = "read";
                 }
-                if (element.refId == null) {
+                if (element.refId == null || element.refId.trim() == "") {
                     read = "forAll";
                 }
                 htmldata +=
-                    `<div class="data ${classes}" id= ${element.id} > ` +
+                    `<div class="data ${classes}" onclick="openNotification(event)" id= ${element.id} > ` +
                     `<div class="${read}"></div>` +
                     '<div class="column index" onclick="openNotification(event)" id=' + element.id + '>' + (index + 1) + '</div>' +
                     '<div class="column examname" onclick="openNotification(event)" id=' + element.id + '>' + element.message + '</div>' +
@@ -419,7 +421,20 @@ async function getNotification(params) {
 }
 function openNotification(event) {
     try {
+        notificationList.forEach(element => {
+            if (event.target.id == element.id) {
+                document.getElementById('notification').innerText = element.message;
+            }
+        });
+        document.getElementById('notification-popup').style.display = 'flex';
+    } catch (error) {
+        console.error(error);
+    }
+}
 
+function closeNotification(params) {
+    try {
+        document.getElementById('notification-popup').style.display = 'none';
     } catch (error) {
 
     }
