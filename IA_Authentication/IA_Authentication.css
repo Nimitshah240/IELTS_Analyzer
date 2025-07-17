@@ -543,7 +543,9 @@ body {
     font-size: 18px !important;
     overflow-y: scroll;
 }
-
+#id-div{
+    display: none;
+}
 /* Footer  */
 
 @media screen and (max-width: 640px) {

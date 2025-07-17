@@ -18,7 +18,7 @@
         "master": "/master",
         "notification": "/notification"
     },
-    "dynamicURL": "http://localhost/Projects/IA_Client",
+    "dynamicURL": "http://localhost/Projects/Ielts%20Analyzer/IA_Client",
     "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",
     "dynamicURLEndPoints": {
         "trick": "/IA_Trick/IA_Trick.html",
