@@ -1,6 +1,7 @@
 let enProperties;
 let apiURL;
 var dynamicUrl;
+var notificationList;
 
 async function getEnglishJsonFile(jsonFileLocation) {
     try {
@@ -61,6 +62,7 @@ async function apiCallOuts(apiURL, method, body, preftimeout) {
         }
 
         let response = await fetch(`${apiURL}`, header)
+
         if (response.status == 200) {
             let data = await response.json();
             return data;
@@ -82,4 +84,15 @@ function showSpinner(message) {
 function stopSpinner() {
     document.getElementById("spinner").style.display = 'none';
     document.getElementById("main").style.display = 'block';
+}
+
+async function generateNotification(notifications) {
+    try {
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification;
+        let response = await apiCallOuts(apiURL, "POST", JSON.stringify(notifications), 6000);
+        return notificationList.push(notifications)
+
+    } catch (error) {
+        throw new Error("Server Error");
+    }
 }

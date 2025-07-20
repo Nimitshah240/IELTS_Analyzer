@@ -12,9 +12,9 @@ var data = [];
 var maindata;
 var user_id;
 var dob = "";
-let notificationList = [];
+// let notificationList = [];
 let studentData = {
-  new: "",
+  newStudent: "",
   id: "",
   name: "",
   lastName: "",
@@ -31,6 +31,7 @@ let studentData = {
   examCount: 0,
   loginDate: "",
   subscribed: "",
+  referralCode: "",
 };
 
 let tempStudentData;
@@ -54,27 +55,11 @@ async function authentication(event) {
 async function connectedCallback() {
   await getEnglishJsonFile("../en_properties.json");
   Userlogo();
-  if (
-    localStorage.getItem("user_data") == "undefined" ||
-    localStorage.getItem("user_data") == null
-  ) {
-    if (document.getElementById("firstname")) {
-      document.getElementById("google-button").style.display = "block";
-      document.getElementById("firstname").disabled = true;
-      document.getElementById("lastname").disabled = true;
-      document.getElementById("email").disabled = true;
-      document.getElementById("number").disabled = true;
-    }
+  if (localStorage.getItem("user_data") == "undefined" || localStorage.getItem("user_data") == null) {
+    document.getElementById("google-button").style.display = "block";
   } else {
-    data = JSON.parse(localStorage.getItem("user_data"));
+    let data = JSON.parse(localStorage.getItem("user_data"));
     setData(data);
-
-    //   document.getElementById("continue").style.display = "block";
-    //   document.getElementById("signout").style.display = "block";
-    //   document.getElementById("firstname").disabled = false;
-    //   document.getElementById("lastname").disabled = false;
-    //   document.getElementById("email").disabled = true;
-    //   document.getElementById("number").disabled = false;
   }
 
   // Notification
@@ -160,7 +145,8 @@ async function SignedIn() {
           return data.json();
         })
         .then(async (info) => {
-          info.id = info.sub;
+          info.googleId = info.sub;
+          info.id = "";
           delete info.sub;
           maindata = info;
           picture = info.picture;
@@ -172,7 +158,7 @@ async function SignedIn() {
             let day = ("0" + today.getDate()).slice(-2);
             today = `${year} -${month} -${day} `;
             loginDate = today;
-            fetchUser(info.id);
+            fetchUser(info.googleId);
           }
         });
     }
@@ -237,10 +223,8 @@ function showSignout() {
 // Input - id
 async function fetchUser(id) {
   try {
-    apiURL =
-      enProperties.apiURL +
-      enProperties.apiEndPoints.student +
-      `?user_id=${id} `;
+
+    apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?googleId=${id} `;
     showSpinner("Checking user...");
     let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
 
@@ -251,77 +235,19 @@ async function fetchUser(id) {
     document.getElementById("number").disabled = false;
     if (responsedata.length > 0) {
       // User is already availabe in DB
-      // Setting data in fields
-      let tempdata = responsedata[0];
-      id = document.getElementById("id").innerText = tempdata.id;
-      firstName = document.getElementById("firstname").value = tempdata.name;
-      lastName = document.getElementById("lastname").value = tempdata.lastName;
-      email = document.getElementById("email").value = tempdata.email;
-      number = document.getElementById("number").value = tempdata.number;
-      dob = document.getElementById("dob").value = tempdata.dob;
-      picture = tempdata.picture;
-      loginDate = tempdata.loginDate;
-      user_location = tempdata.location;
-      type = tempdata.type;
-      document.getElementById(
-        "examCount"
-      ).innerText = `${tempdata.examCount}/${tempdata.allowedExamCount}`;
-      document.getElementById("loading-progress").value =
-        (data.examCount / data.allowedExamCount) * 100;
-
-      if (type == "academic") {
-        document.getElementById("Academic").checked = true;
-      } else if (type == "general") {
-        document.getElementById("General").checked = true;
-      }
-      if (tempdata.privacy == true) {
-        privacy = document.getElementById("privacy").checked = true;
-      }
-      data = {
-        new: false,
-        id: id,
-        name: firstName,
-        lastName: lastName,
-        email: email,
-        number: number,
-        type: type,
-        privacy: privacy,
-        location: user_location,
-        loginDate: loginDate,
-        picture: picture,
-        allowedExamCount: tempdata.allowedExamCount,
-        insCode: tempdata.insCode,
-        securityKey: tempdata.securityKey,
-        dob: tempdata.dob,
-        examCount: tempdata.examCount,
-      };
+      responsedata[0].newStudent = false;
+      setData(responsedata[0]);
+      getNotification();
     } else {
       // New user is sign in
-      id = maindata.id;
-      firstName = document.getElementById("firstname").value =
-        maindata.given_name;
-      lastName = document.getElementById("lastname").value =
-        maindata.family_name;
-      email = document.getElementById("email").value = maindata.email;
-      picture = maindata.picture;
-      user_location = "";
-      data = {
-        new: true,
-        id: maindata.id,
-        name: maindata.given_name,
-        lastName: maindata.family_name,
-        email: maindata.email,
-        number: "number",
-        type: "academic",
-        privacy: "",
-        location: "",
-        picture: maindata.picture,
-        allowedExamCount: 10,
-        insCode: "",
-        securityKey: "",
-        dob: "",
-        examCount: 0,
-      };
+      maindata.newStudent = true;
+      maindata.name = maindata.given_name;
+      maindata.lastName = maindata.family_name;
+      maindata.allowedExamCount = 10;
+      maindata.examCount = 0;
+      maindata.type = 'academic';
+      maindata.insCode = "";
+      setData(maindata);
     }
     stopSpinner();
   } catch (error) {
@@ -337,54 +263,61 @@ async function fetchUser(id) {
 // Input - none
 async function continueClick() {
   try {
-    let temptype;
-    tempStudentData.name = document.getElementById("firstname").value;
-    tempStudentData.lastName = document.getElementById("lastname").value;
-    tempStudentData.email = document.getElementById("email").value;
-    tempStudentData.number = document.getElementById("number").value;
-    tempStudentData.dob = document.getElementById("dob").value;
-    document.getElementById("Academic").checked == true
-      ? (tempStudentData.type = "academic")
-      : (tempStudentData.type = "general");
 
-    tempStudentData.privacy = document.getElementById("privacy").checked;
+    firstName = document.getElementById("firstname").value;
+    lastName = document.getElementById("lastname").value;
+    email = document.getElementById("email").value;
+    number = document.getElementById("number").value;
+    dob = document.getElementById("dob").value;
+    document.getElementById("Academic").checked == true ? (type = "academic") : (type = "general");
+    privacy = document.getElementById("privacy").checked;
+    
 
     // Checking for changes in data
-    if (
-      tempStudentData.name.trim() != "" &&
-      tempStudentData.email.trim() != "" &&
-      tempStudentData.number.trim() != "" &&
-      tempStudentData.privacy &&
-      tempStudentData.dob != ""
-    ) {
-      if (
-        studentData.name != tempStudentData.name ||
-        studentData.lastName != tempStudentData.lastName ||
-        studentData.email != tempStudentData.email ||
-        studentData.number != tempStudentData.number ||
-        studentData.type != tempStudentData.type ||
-        studentData.dob != tempStudentData.dob
-      ) {
+    if (firstName.trim() != "" && email.trim() != "" &&
+      number.trim() != "" && privacy && dob != "") {
+      if (studentData.name != firstName || studentData.lastName != lastName || studentData.email != email ||
+        studentData.number != number || studentData.type != type || studentData.dob != dob || studentData.privacy != privacy) {
+        studentData.name = firstName;
+        studentData.lastName = lastName;
+        studentData.email = email;
+        studentData.number = number;
+        studentData.dob = dob;
+        studentData.type = type;
+        studentData.privacy = privacy;
+        studentData.referralCode = document.getElementById('referral').value;
 
-        setData(tempStudentData);
-
+        setData(studentData);
+        let failureBackUp = studentData;
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.student;
         showSpinner("Saving user");
-        await apiCallOuts(apiURL, "POST", JSON.stringify(data), 10000)
-          .then(async () => {
-            studentData.new = false;
-            tempStudentData.new = false;
+        let method = studentData.newStudent ? "POST" : "PUT";
+        console.log(method);
+        
+        await apiCallOuts(apiURL, method, JSON.stringify(studentData), 10000)
+          .then(async (data) => {
+            if (studentData.newStudent == true) {
+              let notification = [{ message: enProperties.notificationMessages.newUser, "refId": `${data.id}`, "readed": false }]
+              await generateNotification(notification)
+            }
+            data.newStudent = false;
+            console.log(JSON.stringify(data));
+            console.log(JSON.parse(JSON.stringify(data)));
+            console.log(JSON.parse(data));
+            
+            setData(data);
             localStorage.setItem("user_data", JSON.stringify(studentData));
             dynamicUrl = await getFilePaths("index");
             window.location.href = dynamicUrl;
             stopSpinner();
           })
           .catch((error) => {
+            setData(failureBackUp);
             stopSpinner();
             createToast("error", error.message);
           });
       } else {
-        localStorage.setItem("user_data", JSON.stringify(data));
+        localStorage.setItem("user_data", JSON.stringify(studentData));
         dynamicUrl = (await getFilePaths("index")) + "?signedin=true";
         window.location.href = dynamicUrl;
       }
@@ -424,27 +357,50 @@ async function Userlogo() {
   }
 }
 
-async function getNotification(params) {
+async function getNotification() {
   try {
     showSpinner("Getting Notification...");
-    apiURL =
-      enProperties.apiURL +
-      enProperties.apiEndPoints.base +
-      enProperties.apiEndPoints.notification;
+    apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${studentData.id}`;
     notificationList = await apiCallOuts(apiURL, "GET", null, 6000);
-    // let responsedata = [
-    //     { "id": 1, "message": "", "createdDate": "2025-07-12T00:00:00Z", "refId": "112727238629250521382", "readed": true },
-    //     { "id": 2, "message": "This is sample message", "createdDate": "2025-07-11T00:00:00Z", "refId": "112727238629250521382", "readed": true },
-    //     { "id": 3, "message": "For ALL", "createdDate": "2025-07-11T00:00:00Z", "refId": "112727238629250521382", "readed": false },
-    //     { "id": 4, "message": null, "createdDate": null, "refId": null, "readed": false },
-    //     { "id": 5, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-    //     { "id": 6, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-    //     { "id": 7, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-    //     { "id": 8, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-    //     { "id": 9, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true },
-    //     { "id": 10, "message": null, "createdDate": null, "refId": "112727238629250521382", "readed": true }
-    // ];
-    // notificationList = responsedata;
+    setNotification();
+    stopSpinner();
+  } catch (error) {
+    console.log(error);
+    createToast("error", "Error while signin : " + error.message);
+  }
+}
+
+function openNotification(event) {
+  try {
+    showSpinner("Opening Notification...");
+
+    notificationList.forEach(async (element) => {
+      if (event.target.id == element.id) {
+        document.getElementById("notification").innerText = element.message;
+        if (!element.readed && (element.refId != null || element.refId.trim() != "" || element.refId != undefined)) {
+          apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification;
+          element.readed = true;
+          await apiCallOuts(apiURL, "PUT", JSON.stringify(element), 6000);
+          setNotification();
+        }
+      }
+    });
+    document.getElementById("notification-popup").style.display = "flex";
+    stopSpinner();
+  } catch (error) {
+    console.error(error);
+    stopSpinner();
+  }
+}
+
+function closeNotification(params) {
+  try {
+    document.getElementById("notification-popup").style.display = "none";
+  } catch (error) { }
+}
+
+function setNotification() {
+  try {
     if (notificationList.length > 0) {
       let htmldata = "";
       notificationList.forEach((element, index) => {
@@ -465,57 +421,27 @@ async function getNotification(params) {
         if (element.refId == null || element.refId.trim() == "") {
           read = "forAll";
         }
-        htmldata +=
-          `<div class="data ${classes}" onclick="openNotification(event)" id= ${element.id} > ` +
-          `<div class="${read}"></div>` +
-          '<div class="column index" onclick="openNotification(event)" id=' +
-          element.id +
-          ">" +
-          (index + 1) +
+        htmldata += `<div class="data ${classes}" onclick="openNotification(event)" id= ${element.id} > ` + `<div class="${read}"></div>` +
+          '<div class="column index" onclick="openNotification(event)" id=' + element.id + ">" + (index + 1) + "</div>" +
+          '<div class="column examname" onclick="openNotification(event)" id=' + element.id + ">" + element.message +
           "</div>" +
-          '<div class="column examname" onclick="openNotification(event)" id=' +
-          element.id +
-          ">" +
-          element.message +
-          "</div>" +
-          '<div class="column date" onclick="openNotification(event)" id=' +
-          element.id +
-          ">" +
-          notificationDate +
-          "</div>" +
-          "</div>" +
-          "</div>";
+          '<div class="column date" onclick="openNotification(event)" id=' + element.id + ">" + notificationDate +
+          "</div>" + "</div>" + "</div>";
       });
       document.getElementById("table").innerHTML = htmldata;
     } else {
       document.getElementById("table").innerHTML =
         '<span class="no_data">No Data Found!</span>';
     }
-    stopSpinner();
-  } catch (error) {}
-}
-function openNotification(event) {
-  try {
-    notificationList.forEach((element) => {
-      if (event.target.id == element.id) {
-        document.getElementById("notification").innerText = element.message;
-      }
-    });
-    document.getElementById("notification-popup").style.display = "flex";
   } catch (error) {
-    console.error(error);
-  }
-}
 
-function closeNotification(params) {
-  try {
-    document.getElementById("notification-popup").style.display = "none";
-  } catch (error) {}
+  }
+
 }
 
 function setData(data) {
   try {
-    studentData.new = data.new;
+    studentData.newStudent = data.newStudent;
     studentData.id = data.id;
     studentData.name = data.name;
     studentData.lastName = data.lastName;
@@ -532,6 +458,8 @@ function setData(data) {
     studentData.examCount = data.examCount;
     studentData.loginDate = data.loginDate;
     studentData.subscribed = data.subscribed;
+    studentData.referralCode = data.referralCode;
+    studentData.googleId = data.googleId;
     tempStudentData = studentData;
     setFields();
   } catch (error) {
@@ -541,33 +469,61 @@ function setData(data) {
 
 function setFields() {
   try {
-    document.getElementById("id").innerText = data.id;
-    document.getElementById("firstname").value = data.name;
-    document.getElementById("lastname").value = data.lastName;
-    document.getElementById("email").value = data.email;
-    document.getElementById("number").value = data.number;
-    document.getElementById("dob").value = data.dob;
-    document.getElementById("referral").innerText = data.referralCode;
-    document.getElementById("insCode").value = data.insCode;
-    document.getElementById("privacy").checked = data.privacy;
+
+    if (studentData.id != "") {
+      document.getElementById("id").innerText = studentData.id;
+      studentData.id == ""
+        ? (document.getElementById("id-div").style.display = "none")
+        : (document.getElementById("id-div").style.display = "flex");
+    }
+    if (studentData.firstName != "") {
+      document.getElementById("firstname").value = studentData.name;
+      document.getElementById("firstname").disabled = false;
+      document.getElementById("number").disabled = false;
+      document.getElementById("dob").disabled = false;
+      document.getElementById("referral").disabled = false;
+      document.getElementById("referral-hidden").style.display = "flex";
+    }
+    if (studentData.lastName != "") {
+      document.getElementById("lastname").value = studentData.lastName;
+      document.getElementById("lastname").disabled = false;
+    }
+    if (studentData.email != "") {
+      document.getElementById("email").value = studentData.email;
+    }
+    if (studentData.number != "") {
+      document.getElementById("number").value = studentData.number;
+    }
+    if (studentData.dob != "") {
+      document.getElementById("dob").value = studentData.dob;
+    }
+
+    if (studentData.referralCode != "" && studentData.referralCode != undefined) {
+      document.getElementById("referral").disabled = true;
+      document.getElementById("referral").value = studentData.referralCode;
+    }
+    if (studentData.insCode != "") {
+      document.getElementById("inscode-hidden").style.display = "flex";
+      document.getElementById("insCode").value = studentData.insCode;
+
+      studentData.insCode != ""
+        ? (document.getElementById("insCode").style.fontWeight = "bold")
+        : (document.getElementById("insCode").style.fontWeight = "normal");
+    }
+
+    document.getElementById("privacy").checked = studentData.privacy;
     document.getElementById(
       "examCount"
-    ).innerText = `${data.examCount}/${data.allowedExamCount}`;
+    ).innerText = `${studentData.examCount}/${studentData.allowedExamCount}`;
 
-    data.type == "academic"
+    studentData.type == "academic"
       ? (document.getElementById("Academic").checked = true)
       : (document.getElementById("General").checked = true);
 
-    data.id == ""
-      ? (document.getElementById("id-div").style.display = "none")
-      : (document.getElementById("id-div").style.display = "flex");
-
-    data.insCode != ""
-      ? (document.getElementById("insCode").style.fontWeight = "bold")
-      : (document.getElementById("insCode").style.fontWeight = "normal");
 
     document.getElementById("loading-progress").value =
-      (data.examCount / data.allowedExamCount) * 100;
+      (studentData.examCount / studentData.allowedExamCount) * 100;
+
     document.getElementById("continue").style.display = "block";
     document.getElementById("signout").style.display = "block";
   } catch (error) {

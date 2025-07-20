@@ -73,11 +73,11 @@
                     </div>
                     <div class="inputdata">
                         <p><span style="color: red;">*</span> First Name : </p>
-                        <input type="text" id="firstname" placeholder="First Name" class="inputbox">
+                        <input type="text" id="firstname" placeholder="First Name" class="inputbox" disabled>
                     </div>
                     <div class="inputdata">
                         <p> Last Name : </p>
-                        <input type="text" id="lastname" placeholder="Last Name" class="inputbox">
+                        <input type="text" id="lastname" placeholder="Last Name" class="inputbox" disabled>
                     </div>
                     <div class="inputdata">
                         <p><span style="color: red;">*</span> Email : </p>
@@ -85,21 +85,21 @@
                     </div>
                     <div class="inputdata">
                         <p> <span style="color: red;">*</span> Number :</p>
-                        <input type="number" id="number" placeholder="Phone number" class="inputbox">
+                        <input type="number" id="number" placeholder="Phone number" class="inputbox" disabled>
                     </div>
                     <div class="inputdata">
                         <p> <span style="color: red;">*</span> Dob :</p>
-                        <input type="date" id="dob" placeholder="Date of Birth" class="inputbox">
+                        <input type="date" id="dob" placeholder="Date of Birth" class="inputbox" disabled>
                     </div>
-                    <div class="inputdata">
+                    <div class="inputdata" id="referral-hidden">
                         <p><span><i class="fa fa-info-circle" id="info1"
                                     title="Use the referral code to get free 1 exam."></i>
                             </span>
                             Referral : </p>
-                        <input type="text" id="dob" placeholder="Referral code" class="inputbox">
-                        <p id="referral" placeholder="Referral code" class="inputbox inputbox-hidden">Referral code</p>
+                        <input type="text" id="referral" placeholder="Referral code" class="inputbox" disabled>
+                        <!-- <p id="referral" placeholder="Referral code" class="inputbox inputbox-hidden">Referral code</p> -->
                     </div>
-                    <div class="inputdata">
+                    <div class="inputdata" id="inscode-hidden">
                         <p><span><i class="fa fa-info-circle" id="info1"
                                     title="Linking to any ielts instituion will give free 5 exams. Linking to institution is done by IA Register Ielts Institutions only{Link of register IA instituion}"></i>
                             </span>
@@ -112,8 +112,8 @@
                         <input type="radio" name="type" id="General"> General
                     </div>
                     <div class="">
-                        <span style="color: red;">* </span><input type="checkbox" id="privacy"
-                            onclick="privacycheck(event)" required> Privacy Policy
+                        <span style="color: red;">* </span><input type="checkbox" id="privacy" required> Privacy
+                        Policy
                     </div>
                 </div>
                 <div class="validation-box-footer-signin">

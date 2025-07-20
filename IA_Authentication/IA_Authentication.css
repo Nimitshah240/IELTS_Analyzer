@@ -543,9 +543,16 @@ body {
     font-size: 18px !important;
     overflow-y: scroll;
 }
-#id-div{
+
+#id-div {
     display: none;
 }
+
+#referral-hidden,
+#inscode-hidden {
+    display: none;
+}
+
 /* Footer  */
 
 @media screen and (max-width: 640px) {
@@ -757,7 +764,7 @@ body {
         height: 100vh;
     }
 
-    .notification-text{
+    .notification-text {
         margin: 0px !important;
     }
 }
