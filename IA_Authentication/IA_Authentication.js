@@ -58,8 +58,14 @@ async function connectedCallback() {
   if (localStorage.getItem("user_data") == "undefined" || localStorage.getItem("user_data") == null) {
     document.getElementById("google-button").style.display = "block";
   } else {
-    let data = JSON.parse(localStorage.getItem("user_data"));
-    setData(data);
+    console.log("studentApiCallout");
+    let curData = JSON.parse(localStorage.getItem("user_data"));
+    console.log(curData.googleId);
+
+    apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?googleId=${curData.googleId} `;
+    showSpinner("Checking user...");
+    let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
+    setData(responsedata[0]);
   }
 
   // Notification
@@ -271,7 +277,7 @@ async function continueClick() {
     dob = document.getElementById("dob").value;
     document.getElementById("Academic").checked == true ? (type = "academic") : (type = "general");
     privacy = document.getElementById("privacy").checked;
-    
+
 
     // Checking for changes in data
     if (firstName.trim() != "" && email.trim() != "" &&
@@ -291,9 +297,9 @@ async function continueClick() {
         let failureBackUp = studentData;
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.student;
         showSpinner("Saving user");
+
         let method = studentData.newStudent ? "POST" : "PUT";
-        console.log(method);
-        
+
         await apiCallOuts(apiURL, method, JSON.stringify(studentData), 10000)
           .then(async (data) => {
             if (studentData.newStudent == true) {
@@ -301,12 +307,7 @@ async function continueClick() {
               await generateNotification(notification)
             }
             data.newStudent = false;
-            console.log(JSON.stringify(data));
-            console.log(JSON.parse(JSON.stringify(data)));
-            console.log(JSON.parse(data));
-            
-            setData(data);
-            localStorage.setItem("user_data", JSON.stringify(studentData));
+            setData(data[0]);
             dynamicUrl = await getFilePaths("index");
             window.location.href = dynamicUrl;
             stopSpinner();
@@ -461,6 +462,7 @@ function setData(data) {
     studentData.referralCode = data.referralCode;
     studentData.googleId = data.googleId;
     tempStudentData = studentData;
+    localStorage.setItem("user_data", JSON.stringify(studentData));
     setFields();
   } catch (error) {
     console.log(error);
