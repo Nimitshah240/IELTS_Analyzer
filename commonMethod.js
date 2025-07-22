@@ -85,14 +85,3 @@ function stopSpinner() {
     document.getElementById("spinner").style.display = 'none';
     document.getElementById("main").style.display = 'block';
 }
-
-async function generateNotification(notifications) {
-    try {
-        apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification;
-        let response = await apiCallOuts(apiURL, "POST", JSON.stringify(notifications), 6000);
-        return notificationList.push(notifications)
-
-    } catch (error) {
-        throw new Error("Server Error");
-    }
-}

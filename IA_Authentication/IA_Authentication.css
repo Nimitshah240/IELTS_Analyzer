@@ -311,7 +311,7 @@ body {
     height: 70%;
     gap: 15px;
     padding: 15%;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: flex-start;
     flex-direction: column;

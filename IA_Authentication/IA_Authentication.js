@@ -58,14 +58,16 @@ async function connectedCallback() {
   if (localStorage.getItem("user_data") == "undefined" || localStorage.getItem("user_data") == null) {
     document.getElementById("google-button").style.display = "block";
   } else {
-    console.log("studentApiCallout");
     let curData = JSON.parse(localStorage.getItem("user_data"));
-    console.log(curData.googleId);
-
     apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?googleId=${curData.googleId} `;
     showSpinner("Checking user...");
     let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-    setData(responsedata[0]);
+    if (responsedata.length > 0) {
+      setData(responsedata[0]);
+    } else {
+      document.getElementById("welcome-sign").innerText = "Sign In";
+      document.getElementById("validation-box-body-signin").style.display = "none";
+    }
   }
 
   // Notification
@@ -302,10 +304,6 @@ async function continueClick() {
 
         await apiCallOuts(apiURL, method, JSON.stringify(studentData), 10000)
           .then(async (data) => {
-            if (studentData.newStudent == true) {
-              let notification = [{ message: enProperties.notificationMessages.newUser, "refId": `${data.id}`, "readed": false }]
-              await generateNotification(notification)
-            }
             data.newStudent = false;
             setData(data[0]);
             dynamicUrl = await getFilePaths("index");
@@ -528,6 +526,9 @@ function setFields() {
 
     document.getElementById("continue").style.display = "block";
     document.getElementById("signout").style.display = "block";
+    document.getElementById("validation-box-body-signin").style.display = "flex";
+    document.getElementById("welcome-sign").innerText = `Hi, ${studentData.name}`;
+
   } catch (error) {
     console.log(error);
   }
