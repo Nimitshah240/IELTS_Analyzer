@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='./IA_StudentData.js'></script>
     <script src='../commonMethod.js'></script>
+    <link rel='stylesheet' href='../commonCss.css'>
     <link rel='stylesheet' href='./IA_StudentData.css'>
     <script src='../IA_Toast/IA_Toast.js'></script>
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
@@ -30,7 +31,10 @@
             <nav class="navbar" id="navbar">
                 <div class="logo" id="logo">
                     <a href="../index.html">IELTS ANALYZER</a>
-
+                </div>
+                <div class="links">
+                    <i class="fa fa-user" id="not-log" style="font-size: 30px; color: transparent;"
+                        aria-hidden="true"></i>
                 </div>
             </nav>
         </header>
@@ -60,7 +64,7 @@
                     <div class="column dashboard"> Listening</div>
                 </div>
             </div>
-            <div class="list">
+            <div class="list has-scrollbar" id="list">
                 <div class="table" id="table">
                     <span class="no_data" id="no_data">No Data Found!</span>
                     <!-- Data will show here using js  -->

@@ -75,11 +75,5 @@
             "header": "Knowledge",
             "description": "Here lies a vast treasury of knowledge—dive in, explore, and unlock endless possibilities! 📚✨🚀"
         }
-    ],
-    "notificationMessages": {
-        "newUser":"You login successfully",
-        "referralUsed":"You used referral code and you get 2 Exam free.",
-        "referralGenerated":"Your referral code is generated and you can get it from login page.",
-        "MyreferralUsed":"Someone used your referral code and you get 1 Exam free."
-    }
+    ]
 }

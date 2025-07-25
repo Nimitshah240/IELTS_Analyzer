@@ -21,7 +21,6 @@ async function getFilePaths(params) {
     } catch (error) {
         console.error(error.message);
     }
-
 }
 
 async function setAnchorHref(params) {
@@ -56,22 +55,16 @@ async function apiCallOuts(apiURL, method, body, preftimeout) {
             headers: { 'Content-Type': 'application/json' },
             signal: controller.signal
         }
-
         if (method != 'GET' && (body != undefined || body != null)) {
             header.body = body
         }
-
         let response = await fetch(`${apiURL}`, header)
-
         if (response.status == 200) {
             let data = await response.json();
             return data;
         }
         throw new Error("Server Error");
-
     } catch (error) {
-        console.log(error);
-
         throw new Error("Server Error");
     }
 

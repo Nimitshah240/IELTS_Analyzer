@@ -64,6 +64,7 @@ async function checkuser() {
 // Input - responsedata
 function setdata(responsedata) {
     try {
+        document.getElementById('list').style.display = 'block';
         let htmldata = ''
         responsedata.forEach((element, index) => {
             let date = new Date(element.loginDate);
@@ -82,7 +83,6 @@ function setdata(responsedata) {
                 '<div class="column dashboard dash" onclick="opendashboard(event)" id=' + element.id + '>' + '<button class="button-63 dashboard-button" name="Listening" id=' + element.id + '>Dashboard</button>' + '</div>' +
                 '</div>'
         });
-
         document.getElementById("table").innerHTML = htmldata;
     } catch (error) {
         createToast('error', error)
