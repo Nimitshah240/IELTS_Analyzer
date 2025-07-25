@@ -44,7 +44,7 @@ colorList = ['#17ffee', '#6917d0', '#cc17ff', '#17ffa4', '#ff1791', '#95e214', '
 // Input - none
 async function dashboardconnectedCallback() {
     try {
-
+        showSpinner("Loading ...");
         await getEnglishJsonFile('../en_properties.json');
         if (screen.width >= 768 && screen.width < 1024) {
             textAroundposition = 0 + 105;
@@ -143,7 +143,9 @@ async function dashboardconnectedCallback() {
         } else {
             createToast('error', 'Please Login First')
         }
+        stopSpinner();
     } catch (error) {
+        stopSpinner();
         createToast('error', 'Error while loading chart : ' + error.message)
     }
 }

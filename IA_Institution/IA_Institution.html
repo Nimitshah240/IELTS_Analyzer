@@ -37,8 +37,8 @@
                     </div>
                 </div>
                 <div class="footer-delete">
-                    <button class="button-63-delete button-64-delete button-64-notification" onclick="closeNotification(event)" role="button"
-                        id="no">Close</button>
+                    <button class="button-63-delete button-64-delete button-64-notification"
+                        onclick="closeNotification(event)" role="button" id="no">Close</button>
                 </div>
             </div>
         </div>
@@ -151,26 +151,29 @@
             </div>
 
             <div class="validation-box-notificationList glass" id="validation-box-notification">
-                <div id="loading-area" aria-busy="true" class="loading-area">
-                    <label for="loading-progress">Exam Count:</label>
-                    <progress id="loading-progress" value="0" max="100" aria-describedby="loading-area"></progress>
-                    <label id="examCount"></label>
+                <div id="loading-area" aria-busy="true" class="institute-buttons">
+                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Dashboard</button>
+                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Students</button>
+                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Kyc</button>
+                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Bank</button>
                 </div>
                 <div class="notificationHeader data">
                     Notification
                 </div>
-                <div class="dataheader ">
-                    <div class="tableheader">
-                        <div class="column readHeader"></div>
-                        <div class="column index"> Index </div>
-                        <div class="column examname"> Message </div>
-                        <div class="column date"> Date </div>
+                <div class="notification-table">
+                    <div class="dataheader ">
+                        <div class="tableheader">
+                            <div class="column readHeader"></div>
+                            <div class="column index"> Index </div>
+                            <div class="column examname"> Message </div>
+                            <div class="column date"> Date </div>
+                        </div>
                     </div>
-                </div>
-                <div class="list has-scrollbar">
-                    <div class="table" id="table">
-                        <span class="no_data">No Data Found!</span>
-                        <!-- Data will show here using js  -->
+                    <div class="list has-scrollbar">
+                        <div class="table" id="table">
+                            <span class="no_data">No Data Found!</span>
+                            <!-- Data will show here using js  -->
+                        </div>
                     </div>
                 </div>
             </div>

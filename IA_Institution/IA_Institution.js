@@ -1,18 +1,4 @@
-var firstName = "";
-var lastName = "";
-var email = "";
-var number = "";
-var type = "";
-var privacy = true;
-var picture;
-var loginDate;
-var user_location;
-var id;
-var data = [];
 var maindata;
-var user_id;
-var dob = "";
-// let notificationList = [];
 let studentData = {
   newStudent: "",
   id: "",
@@ -34,19 +20,6 @@ let studentData = {
   referralCode: "",
 };
 
-let tempStudentData;
-
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - Use to open authentication/signin page
-// Updated on - -
-// Input - none
-async function authentication(event) {
-  dynamicUrl = await getFilePaths("authentication");
-  event.target.href = dynamicUrl;
-  window.location.href = dynamicUrl;
-}
-
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to initialize authentication page on load of page
@@ -55,20 +28,20 @@ async function authentication(event) {
 async function connectedCallback() {
   await getEnglishJsonFile("../en_properties.json");
   Userlogo();
-  if (localStorage.getItem("user_data") == "undefined" || localStorage.getItem("user_data") == null) {
+  if (localStorage.getItem("instituteUserData") == "undefined" || localStorage.getItem("instituteUserData") == null) {
     document.getElementById("google-button").style.display = "block";
-  } else {
-    let curData = JSON.parse(localStorage.getItem("user_data"));
-    apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?googleId=${curData.googleId} `;
-    showSpinner("Checking user...");
-    let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-    if (responsedata.length > 0) {
-      setData(responsedata[0]);
-    } else {
-      document.getElementById("welcome-sign").innerText = "Sign In";
-      document.getElementById("validation-box-body-signin").style.display = "none";
-    }
   }
+  // let curData = JSON.parse(localStorage.getItem("instituteUserData"));
+  // apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?googleId=${curData.googleId} `;
+  // showSpinner("Checking user...");
+  // let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
+  // if (responsedata.length > 0) {
+  //   setData(responsedata[0]);
+  // } else {
+  //   document.getElementById("welcome-sign").innerText = "Sign In";
+  //   document.getElementById("validation-box-body-signin").style.display = "none";
+  // }
+  // }
 
   // Notification
   getNotification();
@@ -134,7 +107,7 @@ async function SignedIn() {
 
     let info = JSON.parse(JSON.stringify(params));
     access_token = info["access_token"];
-    localStorage.setItem("authInfo", info["access_token"]);
+    localStorage.setItem("instituteAuthInfo", info["access_token"]);
     dynamicUrl = await getFilePaths("authentication");
     window.history.pushState({}, document.title, dynamicUrl);
 
@@ -146,8 +119,8 @@ async function SignedIn() {
       })
         .then((data) => {
           if (!data.ok) {
-            localStorage.removeItem("authInfo");
-            localStorage.removeItem("user_data");
+            localStorage.removeItem("instituteAuthInfo");
+            localStorage.removeItem("instituteUserData");
             throw new Error(data.status + " " + data.statusText);
           }
           return data.json();
@@ -157,7 +130,6 @@ async function SignedIn() {
           info.id = "";
           delete info.sub;
           maindata = info;
-          picture = info.picture;
           dynamicUrl = await getFilePaths("index");
           if (info) {
             let today = new Date();
@@ -183,15 +155,15 @@ async function SignedIn() {
 async function Signout(event) {
   try {
     if (event.target.id == "yes") {
-      let access_token = localStorage.getItem("authInfo");
+      let access_token = localStorage.getItem("instituteAuthInfo");
       fetch("https://oauth2.googleapis.com/revoke?token=" + access_token, {
         method: "POST",
         headers: {
           "Content-type": "application/x-www-form-urlencoded",
         },
       }).then(async () => {
-        localStorage.removeItem("authInfo");
-        localStorage.removeItem("user_data");
+        localStorage.removeItem("instituteAuthInfo");
+        localStorage.removeItem("instituteUserData");
         dynamicUrl = await getFilePaths("index");
         window.location.href = dynamicUrl;
       });
@@ -316,7 +288,7 @@ async function continueClick() {
             createToast("error", error.message);
           });
       } else {
-        localStorage.setItem("user_data", JSON.stringify(studentData));
+        localStorage.setItem("instituteUserData", JSON.stringify(studentData));
         dynamicUrl = (await getFilePaths("index")) + "?signedin=true";
         window.location.href = dynamicUrl;
       }
@@ -338,18 +310,10 @@ async function Userlogo() {
   try {
     await setAnchorHref("index");
     await setIframeSrc("spinner");
-    if (
-      localStorage.getItem("user_data") != null &&
-      document.getElementById("not-log")
-    ) {
+    if (localStorage.getItem("instituteUserData") != null && document.getElementById("not-log")) {
       document.getElementById("not-log").style.display = "none";
       document.getElementById("login-img").style.display = "block";
-      document
-        .getElementById("login-img")
-        .setAttribute(
-          "src",
-          JSON.parse(localStorage.getItem("user_data")).picture
-        );
+      document.getElementById("login-img").setAttribute("src", JSON.parse(localStorage.getItem("instituteUserData")).picture);
     }
   } catch (error) {
     createToast("error", "Error while fetching user data : " + error.message);
@@ -460,7 +424,7 @@ function setData(data) {
     studentData.referralCode = data.referralCode;
     studentData.googleId = data.googleId;
     tempStudentData = studentData;
-    localStorage.setItem("user_data", JSON.stringify(studentData));
+    localStorage.setItem("instituteUserData", JSON.stringify(studentData));
     setFields();
   } catch (error) {
     console.log(error);
