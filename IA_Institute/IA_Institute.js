@@ -1,52 +1,52 @@
 var maindata;
-let studentData = {
-  newStudent: "",
+var instituteData = {
   id: "",
-  name: "",
-  lastName: "",
   email: "",
   number: "",
-  type: "academic",
-  privacy: true,
-  location: "",
+  address: "",
   picture: "",
-  allowedExamCount: 10,
-  insCode: "",
-  securityKey: "",
-  dob: "",
-  examCount: 0,
+  googleId: "",
+  verified: "",
   loginDate: "",
-  subscribed: "",
-  referralCode: "",
+  newInstitute: true,
+  instituteName: ""
 };
 
 // Developer - Nimit Shah
-// Developed on - 21/12/2024
+// Developed on - 26/07/2025
 // Description - Use to initialize authentication page on load of page
 // Updated on - -
 // Input - none
 async function connectedCallback() {
-  await getEnglishJsonFile("../en_properties.json");
-  Userlogo();
-  if (localStorage.getItem("instituteUserData") == "undefined" || localStorage.getItem("instituteUserData") == null) {
-    document.getElementById("google-button").style.display = "block";
-  }
-  // let curData = JSON.parse(localStorage.getItem("instituteUserData"));
-  // apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?googleId=${curData.googleId} `;
-  // showSpinner("Checking user...");
-  // let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-  // if (responsedata.length > 0) {
-  //   setData(responsedata[0]);
-  // } else {
-  //   document.getElementById("welcome-sign").innerText = "Sign In";
-  //   document.getElementById("validation-box-body-signin").style.display = "none";
-  // }
-  // }
+  try {
+    showSpinner("Checking user...");
+    await getEnglishJsonFile("../en_properties.json");
+    Userlogo();
+    if (localStorage.getItem("instituteUserData") == null) {
+      document.getElementById("google-button").style.display = "block";
+    } else {
+      let curData = JSON.parse(localStorage.getItem("instituteUserData"));
+      apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + `?googleId=${curData.googleId} `;
+      let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
+      console.log(responsedata);
 
-  // Notification
-  getNotification();
-  if (window.location.href.includes("#")) {
-    SignedIn();
+      if (responsedata.institute != null) {
+        setData(responsedata.institute);
+        setIcons(responsedata);
+      } else {
+        document.getElementById("welcome-sign").innerText = "Sign In";
+        document.getElementById("validation-box-body-signin").style.display = "none";
+        document.getElementById("google-button").style.display = "flex";
+      }
+    }
+
+    // Notification
+    getNotification();
+    if (window.location.href.includes("#")) {
+      SignedIn();
+    }
+  } catch (error) {
+    stopSpinner();
   }
 }
 
@@ -66,7 +66,7 @@ async function googleSignin() {
     let params = {
       client_id:
         "960583894295-h50j910bdioqrmlrargqs6hust6in4ap.apps.googleusercontent.com",
-      redirect_uri: `${await getFilePaths("authentication")}`,
+      redirect_uri: `${await getFilePaths("institute")}`,
       response_type: "token",
       scope:
         "https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email",
@@ -108,7 +108,7 @@ async function SignedIn() {
     let info = JSON.parse(JSON.stringify(params));
     access_token = info["access_token"];
     localStorage.setItem("instituteAuthInfo", info["access_token"]);
-    dynamicUrl = await getFilePaths("authentication");
+    dynamicUrl = await getFilePaths("institute");
     window.history.pushState({}, document.title, dynamicUrl);
 
     if (access_token != "") {
@@ -129,15 +129,13 @@ async function SignedIn() {
           info.googleId = info.sub;
           info.id = "";
           delete info.sub;
-          maindata = info;
           dynamicUrl = await getFilePaths("index");
           if (info) {
-            let today = new Date();
-            let year = today.getFullYear();
-            let month = ("0" + (today.getMonth() + 1)).slice(-2);
-            let day = ("0" + today.getDate()).slice(-2);
-            today = `${year} -${month} -${day} `;
-            loginDate = today;
+            instituteData.googleId = info.googleId;
+            console.log(info);
+
+            instituteData.email = info.email;
+            instituteData.picture = info.picture
             fetchUser(info.googleId);
           }
         });
@@ -168,7 +166,7 @@ async function Signout(event) {
         window.location.href = dynamicUrl;
       });
     } else {
-      dynamicUrl = await getFilePaths("authentication");
+      dynamicUrl = await getFilePaths("institute");
       window.location.href = dynamicUrl;
     }
   } catch (error) {
@@ -204,30 +202,22 @@ function showSignout() {
 async function fetchUser(id) {
   try {
 
-    apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?googleId=${id} `;
+    apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + `?googleId=${id} `;
     showSpinner("Checking user...");
     let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-
     document.getElementById("continue").style.display = "block";
     document.getElementById("google-button").style.display = "none";
-    document.getElementById("firstname").disabled = false;
-    document.getElementById("lastname").disabled = false;
-    document.getElementById("number").disabled = false;
-    if (responsedata.length > 0) {
+    if (responsedata.institute != null) {
       // User is already availabe in DB
-      responsedata[0].newStudent = false;
-      setData(responsedata[0]);
+      responsedata.institute.newInstitute = false;
+      setData(responsedata.institute);
+      setIcons(responsedata);
       getNotification();
     } else {
       // New user is sign in
-      maindata.newStudent = true;
-      maindata.name = maindata.given_name;
-      maindata.lastName = maindata.family_name;
-      maindata.allowedExamCount = 10;
-      maindata.examCount = 0;
-      maindata.type = 'academic';
-      maindata.insCode = "";
-      setData(maindata);
+      instituteData.newInstitute = true;
+      document.getElementById("continue").innerText = "Save";
+      setData(instituteData);
     }
     stopSpinner();
   } catch (error) {
@@ -243,52 +233,42 @@ async function fetchUser(id) {
 // Input - none
 async function continueClick() {
   try {
-
-    firstName = document.getElementById("firstname").value;
-    lastName = document.getElementById("lastname").value;
-    email = document.getElementById("email").value;
-    number = document.getElementById("number").value;
-    dob = document.getElementById("dob").value;
-    document.getElementById("Academic").checked == true ? (type = "academic") : (type = "general");
+    let instituteName = document.getElementById("instituteName").value;
+    let address = document.getElementById("address").value;
+    let email = document.getElementById("email").value;
+    let number = document.getElementById("number").value;
     privacy = true;
 
-
     // Checking for changes in data
-    if (firstName.trim() != "" && email.trim() != "" &&
-      number.trim() != "" && privacy && dob != "") {
-      if (studentData.name != firstName || studentData.lastName != lastName || studentData.email != email ||
-        studentData.number != number || studentData.type != type || studentData.dob != dob || studentData.privacy != privacy) {
-        studentData.name = firstName;
-        studentData.lastName = lastName;
-        studentData.email = email;
-        studentData.number = number;
-        studentData.dob = dob;
-        studentData.type = type;
-        studentData.privacy = privacy;
-        studentData.referralCode = document.getElementById('referral').value;
+    if (instituteName.trim() != "" && address.trim() != "" && number.trim() != "" && privacy) {
+      if (instituteData.instituteName != instituteName || instituteData.email != email ||
+        instituteData.number != number || instituteData.address != address || instituteData.privacy != privacy) {
+        instituteData.instituteName = instituteName;
+        instituteData.email = email;
+        instituteData.number = number;
+        instituteData.address = address;
+        instituteData.privacy = privacy;
 
-        setData(studentData);
-        let failureBackUp = studentData;
-        apiURL = enProperties.apiURL + enProperties.apiEndPoints.student;
+        setData(instituteData);
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute;
         showSpinner("Saving user");
 
-        let method = studentData.newStudent ? "POST" : "PUT";
+        let method = instituteData.newInstitute ? "POST" : "PUT";
 
-        await apiCallOuts(apiURL, method, JSON.stringify(studentData), 10000)
+        await apiCallOuts(apiURL, method, JSON.stringify(instituteData), 10000)
           .then(async (data) => {
-            data.newStudent = false;
-            setData(data[0]);
+            console.log(data);
+            setData(data);
             dynamicUrl = await getFilePaths("index");
             window.location.href = dynamicUrl;
             stopSpinner();
           })
           .catch((error) => {
-            setData(failureBackUp);
             stopSpinner();
             createToast("error", error.message);
           });
       } else {
-        localStorage.setItem("instituteUserData", JSON.stringify(studentData));
+        localStorage.setItem("instituteUserData", JSON.stringify(instituteData));
         dynamicUrl = (await getFilePaths("index")) + "?signedin=true";
         window.location.href = dynamicUrl;
       }
@@ -323,7 +303,7 @@ async function Userlogo() {
 async function getNotification() {
   try {
     showSpinner("Getting Notification...");
-    apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${studentData.id}`;
+    apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${instituteData.id}`;
     notificationList = await apiCallOuts(apiURL, "GET", null, 6000);
     setNotification();
     stopSpinner();
@@ -399,32 +379,21 @@ function setNotification() {
   } catch (error) {
 
   }
-
 }
 
 function setData(data) {
   try {
-    studentData.newStudent = data.newStudent;
-    studentData.id = data.id;
-    studentData.name = data.name;
-    studentData.lastName = data.lastName;
-    studentData.email = data.email;
-    studentData.number = data.number;
-    studentData.type = data.type;
-    studentData.privacy = data.privacy;
-    studentData.location = data.location;
-    studentData.picture = data.picture;
-    studentData.allowedExamCount = data.allowedExamCount;
-    studentData.insCode = data.insCode;
-    studentData.securityKey = data.securityKey;
-    studentData.dob = data.dob;
-    studentData.examCount = data.examCount;
-    studentData.loginDate = data.loginDate;
-    studentData.subscribed = data.subscribed;
-    studentData.referralCode = data.referralCode;
-    studentData.googleId = data.googleId;
-    tempStudentData = studentData;
-    localStorage.setItem("instituteUserData", JSON.stringify(studentData));
+    instituteData.newInstitute = data.newInstitute;
+    instituteData.id = data.id;
+    instituteData.instituteName = data.instituteName;
+    instituteData.email = data.email;
+    instituteData.number = data.number;
+    instituteData.privacy = data.privacy;
+    instituteData.address = data.address;
+    instituteData.picture = data.picture;
+    instituteData.loginDate = data.loginDate;
+    instituteData.googleId = data.googleId;
+    localStorage.setItem("instituteUserData", JSON.stringify(instituteData));
     setFields();
   } catch (error) {
     console.log(error);
@@ -434,71 +403,79 @@ function setData(data) {
 function setFields() {
   try {
 
-    if (studentData.id != "") {
-      document.getElementById("id").innerText = studentData.id;
-      studentData.id == ""
-        ? (document.getElementById("id-div").style.display = "none")
-        : (document.getElementById("id-div").style.display = "flex");
-    }
-    if (studentData.firstName != "") {
-      document.getElementById("firstname").value = studentData.name;
-      document.getElementById("firstname").disabled = false;
-      document.getElementById("number").disabled = false;
-      document.getElementById("dob").disabled = false;
-      document.getElementById("referral").disabled = false;
-      document.getElementById("referral-hidden").style.display = "flex";
-    }
-    if (studentData.lastName != "") {
-      document.getElementById("lastname").value = studentData.lastName;
-      document.getElementById("lastname").disabled = false;
-    }
-    if (studentData.email != "") {
-      document.getElementById("email").value = studentData.email;
-    }
-    if (studentData.number != "") {
-      document.getElementById("number").value = studentData.number;
-    }
-    if (studentData.dob != "") {
-      document.getElementById("dob").value = studentData.dob;
+    if (instituteData.id != "") {
+      document.getElementById("id").innerText = instituteData.id;
+      document.getElementById("id-div").style.display = "flex";
+      document.getElementById("instituteName").value = instituteData.instituteName;
+    } else {
+      document.getElementById("id-div").style.display = "none"
     }
 
-    if (studentData.referralCode != "" && studentData.referralCode != undefined) {
-      document.getElementById("referral").disabled = true;
-      document.getElementById("referral").value = studentData.referralCode;
+    if (instituteData.email != "") {
+      document.getElementById("email").value = instituteData.email;
     }
-    if (studentData.insCode != "") {
-      document.getElementById("inscode-hidden").style.display = "flex";
-      document.getElementById("insCode").value = studentData.insCode;
+    if (instituteData.number != "") {
+      document.getElementById("number").value = instituteData.number;
     }
-    studentData.insCode != ""
-      ? (document.getElementById("insCode").style.fontWeight = "bold")
-      : (document.getElementById("insCode").style.fontWeight = "normal");
-
-    // document.getElementById("privacy").checked = studentData.privacy;
-    document.getElementById(
-      "examCount"
-    ).innerText = `${studentData.examCount}/${studentData.allowedExamCount}`;
-
-    studentData.type == "academic"
-      ? (document.getElementById("Academic").checked = true)
-      : (document.getElementById("General").checked = true);
-
-
-    document.getElementById("loading-progress").value =
-      (studentData.examCount / studentData.allowedExamCount) * 100;
-
+    if (instituteData.address != "") {
+      document.getElementById("address").value = instituteData.address;
+    }
     document.getElementById("continue").style.display = "block";
     document.getElementById("signout").style.display = "block";
     document.getElementById("validation-box-body-signin").style.display = "flex";
-    document.getElementById("welcome-sign").innerText = `Hi, ${studentData.name}`;
+    document.getElementById("welcome-sign").innerHTML = `Hi, ${instituteData.instituteName}`;
 
-    if (studentData.newStudent == false) {
+    if (instituteData.newInstitute == false) {
       document.getElementsByClassName("privacy")[0].style.display = "flex";
     }
 
   } catch (error) {
     console.log(error);
   }
+}
+
+function setIcons(responsedata) {
+  try {
+    let bankCheck = false;
+    let kycCheck = false;
+    let instituteCheck = responsedata.institute.verified;
+
+    let bankIcon = document.getElementById("bank-icon")
+    bankIcon.style.setProperty("display", "flex", "important");
+    if (responsedata.bank == null) {
+      bankIcon.style.setProperty("color", "red", "important");
+      bankIcon.title = "No Kyc detail found";
+    } else if (!responsedata.bank.verified) {
+      bankIcon.style.setProperty("color", "greenyellow", "important");
+      bankIcon.title = "Your Bank document is currently under verification. Please check back later.";
+    } else {
+      bankCheck = true;
+      bankIcon.style.setProperty("display", "none", "important");
+    }
+
+    let kycIcon = document.getElementById("kyc-icon");
+    kycIcon.style.setProperty("display", "flex", "important");
+    if (responsedata.kyc == null) {
+      kycIcon.style.setProperty("color", "red", "important");
+      kycIcon.title = "No Kyc detail found";
+    } else if (!responsedata.kyc.verified) {
+      kycIcon.style.setProperty("color", "greenyellow", "important");
+      kycIcon.title = "Your Kyc document is currently under verification. Please check back later.";
+    } else {
+      kycCheck = true;
+      kycIcon.style.setProperty("display", "none", "important");
+    }
+
+    if (bankCheck && kycCheck && instituteCheck) {
+      document.getElementById("welcome-sign").innerHTML += ` <img src="../Asset/blue-tick.svg" style="width:30px" title="Verified Institute" alt="">`;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function keyPressed() {
+  document.getElementById("continue").innerText = "Update"  
 }
 
 // Developer - Nimit Shah

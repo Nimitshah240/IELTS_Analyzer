@@ -59,12 +59,16 @@ async function apiCallOuts(apiURL, method, body, preftimeout) {
             header.body = body
         }
         let response = await fetch(`${apiURL}`, header)
+        
         if (response.status == 200) {
             let data = await response.json();
             return data;
+        } else if (response.status == 204) {
+            return null;
         }
         throw new Error("Server Error");
     } catch (error) {
+        console.log(error);
         throw new Error("Server Error");
     }
 

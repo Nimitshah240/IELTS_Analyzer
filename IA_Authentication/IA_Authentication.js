@@ -364,7 +364,6 @@ async function getNotification() {
     setNotification();
     stopSpinner();
   } catch (error) {
-    console.log(error);
     createToast("error", "Error while signin : " + error.message);
   }
 }

@@ -7,12 +7,12 @@
     <link rel="icon" href="..\Asset\icon.svg" type="image/icon type">
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src='./IA_Institution.js'></script>
+    <script src='./IA_Institute.js'></script>
     <script src='../commonMethod.js'></script>
     <link rel='stylesheet' href='../commonCss.css'>
     <script src='../IA_Toast/IA_Toast.js'></script>
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
-    <link rel='stylesheet' href='./IA_Institution.css'>
+    <link rel='stylesheet' href='./IA_Institute.css'>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <link rel='stylesheet' href='../IA_Delete/IA_Delete.css'>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -73,44 +73,21 @@
                         <p type="text" id="id" class="inputbox"></p>
                     </div>
                     <div class="inputdata">
-                        <p><span style="color: red;">*</span> First Name : </p>
-                        <input type="text" id="firstname" placeholder="First Name" class="inputbox" disabled>
+                        <p><span style="color: red;">*</span> Institute Name :</p>
+                        <input type="text" id="instituteName" placeholder="Institute Name" class="inputbox" onchange="keyPressed()">
                     </div>
                     <div class="inputdata">
-                        <p> Last Name : </p>
-                        <input type="text" id="lastname" placeholder="Last Name" class="inputbox" disabled>
-                    </div>
-                    <div class="inputdata">
-                        <p><span style="color: red;">*</span> Email : </p>
+                        <p><span style="color: red;">*</span> Email :</p>
                         <input type="email" id="email" placeholder="Email" class="inputbox" disabled>
                     </div>
                     <div class="inputdata">
                         <p> <span style="color: red;">*</span> Number :</p>
-                        <input type="number" id="number" placeholder="Phone number" class="inputbox" disabled>
+                        <input type="number" id="number" placeholder="Phone number" class="inputbox" onchange="keyPressed()">
                     </div>
                     <div class="inputdata">
-                        <p> <span style="color: red;">*</span> Dob :</p>
-                        <input type="date" id="dob" placeholder="Date of Birth" class="inputbox" disabled>
-                    </div>
-                    <div class="inputdata" id="referral-hidden">
-                        <p><span><i class="fa fa-info-circle" id="info1"
-                                    title="Use the referral code to get free 1 exam."></i>
-                            </span>
-                            Referral : </p>
-                        <input type="text" id="referral" placeholder="Referral code" class="inputbox" disabled>
-                        <!-- <p id="referral" placeholder="Referral code" class="inputbox inputbox-hidden">Referral code</p> -->
-                    </div>
-                    <div class="inputdata" id="inscode-hidden">
-                        <p><span><i class="fa fa-info-circle" id="info1"
-                                    title="Linking to any ielts instituion will give free 5 exams. Linking to institution is done by IA Register Ielts Institutions only{Link of register IA instituion}"></i>
-                            </span>
-                            InsCode : </p>
-                        <input id="insCode" placeholder="#InsCode" class="inputbox inputbox-hidd" disabled></input>
-                    </div>
-
-                    <div class="radio">
-                        <input type="radio" name="type" id="Academic" checked> Academic
-                        <input type="radio" name="type" id="General"> General
+                        <p> <span style="color: red;">*</span> Address :</p>
+                        <textarea placeholder="Address" class="inputbox" id="address" onchange="keyPressed()"></textarea>
+                        <!-- <input type="" id="number" placeholder="Phone number" class="inputbox" disabled> -->
                     </div>
                     <div class="privacy">
                         <span style="color: red;">* </span>By clicking continue you are accepting privacy policy and
@@ -152,10 +129,19 @@
 
             <div class="validation-box-notificationList glass" id="validation-box-notification">
                 <div id="loading-area" aria-busy="true" class="institute-buttons">
-                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Dashboard</button>
-                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Students</button>
-                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Kyc</button>
-                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Bank</button>
+                    <button class="button-63 button-64-func button-64" id="save"
+                        onclick="popupopen(event)">Dashboard</button>
+                    <button class="button-63 button-64-func button-64" id="save"
+                        onclick="popupopen(event)">Students</button>
+
+                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Kyc
+                    </button>
+                    <i class="fa fa-exclamation-triangle contact-icon detail-icon" id="kyc-icon" aria-hidden="true"></i>
+
+                    <button class="button-63 button-64-func button-64" id="save" onclick="popupopen(event)">Bank
+                    </button>
+                    <i class="fa fa-exclamation-triangle contact-icon detail-icon" id="bank-icon"
+                        aria-hidden="true"></i>
                 </div>
                 <div class="notificationHeader data">
                     Notification
