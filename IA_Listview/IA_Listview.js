@@ -14,7 +14,7 @@ let studentId = JSON.parse(localStorage.getItem('user_data')).id;
 // Input - none
 async function listviewconnectedCallback() {
     try {
-        await getEnglishJsonFile('../en_properties.json');
+        await getEnglishJsonFile('../CommonUtils/en_properties.json');
         Userlogo();
         if (savedexam == 'yes') {
             createToast('success', 'Exam has been saved');

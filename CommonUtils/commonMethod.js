@@ -15,7 +15,7 @@ async function getEnglishJsonFile(jsonFileLocation) {
 
 async function getFilePaths(params) {
     try {
-        await getEnglishJsonFile("../en_properties.json")
+        await getEnglishJsonFile("../CommonUtils/en_properties.json")
         let url = enProperties.dynamicURL + enProperties.dynamicURLEndPoints[params];
         return url;
     } catch (error) {

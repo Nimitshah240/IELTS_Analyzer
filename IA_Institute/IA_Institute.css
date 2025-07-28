@@ -280,6 +280,15 @@ main {
     display: none !important;
 }
 
+.tableheader {
+    height: 50px !important;
+    justify-content: space-around !important;
+}
+
+.data {
+    justify-content: space-around !important;
+}
+
 /* Signout */
 
 /* Body Section */

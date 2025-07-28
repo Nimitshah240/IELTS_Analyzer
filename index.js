@@ -38,7 +38,7 @@ async function indexconnectedCallback() {
         heroContent = document.getElementById("hero-content");
         numText = document.getElementById("slide-indicator");
         heroText = document.getElementById("hero-text");
-        await getEnglishJsonFile('en_properties.json');
+        await getEnglishJsonFile('./CommonUtils/en_properties.json');
         document.getElementById('version-number').innerText = enProperties.versionNumber;
         document.getElementById('version-date').innerText = enProperties.versionDate;
 

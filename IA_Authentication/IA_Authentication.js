@@ -53,7 +53,7 @@ async function authentication(event) {
 // Updated on - -
 // Input - none
 async function connectedCallback() {
-  await getEnglishJsonFile("../en_properties.json");
+  await getEnglishJsonFile("../CommonUtils/en_properties.json");
   Userlogo();
   if (localStorage.getItem("user_data") == "undefined" || localStorage.getItem("user_data") == null) {
     document.getElementById("google-button").style.display = "block";
@@ -359,7 +359,7 @@ async function Userlogo() {
 async function getNotification() {
   try {
     showSpinner("Getting Notification...");
-    apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${studentData.id}`;
+    apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${studentData.id}&refType=student`;
     notificationList = await apiCallOuts(apiURL, "GET", null, 6000);
     setNotification();
     stopSpinner();

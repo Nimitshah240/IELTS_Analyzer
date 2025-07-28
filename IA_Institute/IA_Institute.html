@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src='./IA_Institute.js'></script>
-    <script src='../commonMethod.js'></script>
-    <link rel='stylesheet' href='../commonCss.css'>
+    <script src='../CommonUtils/commonMethod.js'></script>
+    <link rel='stylesheet' href='../CommonUtils/commonCss.css'>
     <script src='../IA_Toast/IA_Toast.js'></script>
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
     <link rel='stylesheet' href='./IA_Institute.css'>
@@ -32,7 +32,7 @@
             <div class="delete-box notification-box glass">
                 <div class="header-delete"> Notification </div>
                 <div class="body-delete">
-                    <div class="delete-text notification-text" id="notification">
+                    <div class="delete-text notification-text has-scrollbar" id="notification">
                         <!-- Notification come from backend -->
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                     </div>
                     <div class="inputdata">
                         <p><span style="color: red;">*</span> Institute Name :</p>
-                        <input type="text" id="instituteName" placeholder="Institute Name" class="inputbox" onchange="keyPressed()">
+                        <input type="text" id="instituteName" placeholder="Institute Name" class="inputbox" onkeypress="keyPressed()">
                     </div>
                     <div class="inputdata">
                         <p><span style="color: red;">*</span> Email :</p>
@@ -82,11 +82,11 @@
                     </div>
                     <div class="inputdata">
                         <p> <span style="color: red;">*</span> Number :</p>
-                        <input type="number" id="number" placeholder="Phone number" class="inputbox" onchange="keyPressed()">
+                        <input type="number" id="number" placeholder="Phone number" class="inputbox" onkeypress="keyPressed()">
                     </div>
                     <div class="inputdata">
                         <p> <span style="color: red;">*</span> Address :</p>
-                        <textarea placeholder="Address" class="inputbox" id="address" onchange="keyPressed()"></textarea>
+                        <textarea placeholder="Address" class="inputbox" id="address" onkeypress="keyPressed()"></textarea>
                         <!-- <input type="" id="number" placeholder="Phone number" class="inputbox" disabled> -->
                     </div>
                     <div class="privacy">
@@ -120,7 +120,7 @@
                             <span style="display: none;">Sign in with Google</span>
                         </div>
                     </button>
-                    <button class="button-63 button" onclick="continueClick(event)" id="continue">Continue</button>
+                    <button class="button-63 button" onclick="continueClick(event)" id="continue">Home</button>
                     <button class="button-63 button-64 button" onclick="showSignout(event)" id="signout">Sign
                         Out</button>
 

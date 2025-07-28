@@ -45,7 +45,7 @@ colorList = ['#17ffee', '#6917d0', '#cc17ff', '#17ffa4', '#ff1791', '#95e214', '
 async function dashboardconnectedCallback() {
     try {
         showSpinner("Loading ...");
-        await getEnglishJsonFile('../en_properties.json');
+        await getEnglishJsonFile('../CommonUtils/en_properties.json');
         if (screen.width >= 768 && screen.width < 1024) {
             textAroundposition = 0 + 105;
             fontStyle = '20px sans-serif'

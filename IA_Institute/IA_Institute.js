@@ -20,7 +20,7 @@ var instituteData = {
 async function connectedCallback() {
   try {
     showSpinner("Checking user...");
-    await getEnglishJsonFile("../en_properties.json");
+    await getEnglishJsonFile("../CommonUtils/en_properties.json");
     Userlogo();
     if (localStorage.getItem("instituteUserData") == null) {
       document.getElementById("google-button").style.display = "block";
@@ -136,59 +136,12 @@ async function SignedIn() {
 
             instituteData.email = info.email;
             instituteData.picture = info.picture
+            console.log('ins', instituteData);
+
             fetchUser(info.googleId);
           }
         });
     }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - Use to Signout user
-// Updated on - -
-// Input - event
-async function Signout(event) {
-  try {
-    if (event.target.id == "yes") {
-      let access_token = localStorage.getItem("instituteAuthInfo");
-      fetch("https://oauth2.googleapis.com/revoke?token=" + access_token, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded",
-        },
-      }).then(async () => {
-        localStorage.removeItem("instituteAuthInfo");
-        localStorage.removeItem("instituteUserData");
-        dynamicUrl = await getFilePaths("index");
-        window.location.href = dynamicUrl;
-      });
-    } else {
-      dynamicUrl = await getFilePaths("institute");
-      window.location.href = dynamicUrl;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - Use to show signout page
-// Updated on - -
-// Input - none
-function showSignout() {
-  try {
-    document.getElementById("validation-box-signin").style.display = "none";
-    document.getElementById("body_section").className = "signout-body-section";
-    document.getElementById("validation-box-notification").style.display =
-      "none";
-    document.getElementById("validation-box-signout").style.display = "block";
-    Array.from(document.getElementsByClassName("button")).forEach((element) => {
-      element.style.display = "block";
-    });
   } catch (error) {
     console.error(error);
   }
@@ -204,10 +157,14 @@ async function fetchUser(id) {
 
     apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + `?googleId=${id} `;
     showSpinner("Checking user...");
+    console.log('getingdata');
+
     let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
+    console.log(responsedata);
+
     document.getElementById("continue").style.display = "block";
     document.getElementById("google-button").style.display = "none";
-    if (responsedata.institute != null) {
+    if (responsedata != null && responsedata.institute != null) {
       // User is already availabe in DB
       responsedata.institute.newInstitute = false;
       setData(responsedata.institute);
@@ -303,7 +260,7 @@ async function Userlogo() {
 async function getNotification() {
   try {
     showSpinner("Getting Notification...");
-    apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${instituteData.id}`;
+    apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${instituteData.id}&refType=institute`;
     notificationList = await apiCallOuts(apiURL, "GET", null, 6000);
     setNotification();
     stopSpinner();
@@ -474,8 +431,62 @@ function setIcons(responsedata) {
   }
 }
 
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to Signout user
+// Updated on - -
+// Input - event
+async function Signout(event) {
+  try {
+    if (event.target.id == "yes") {
+      let access_token = localStorage.getItem("instituteAuthInfo");
+      fetch("https://oauth2.googleapis.com/revoke?token=" + access_token, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded",
+        },
+      }).then(async () => {
+        localStorage.removeItem("instituteAuthInfo");
+        localStorage.removeItem("instituteUserData");
+        dynamicUrl = await getFilePaths("index");
+        window.location.href = dynamicUrl;
+      });
+    } else {
+      dynamicUrl = await getFilePaths("institute");
+      window.location.href = dynamicUrl;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to show signout page
+// Updated on - -
+// Input - none
+function showSignout() {
+  try {
+    document.getElementById("validation-box-signin").style.display = "none";
+    document.getElementById("body_section").className = "signout-body-section";
+    document.getElementById("validation-box-notification").style.display =
+      "none";
+    document.getElementById("validation-box-signout").style.display = "block";
+    Array.from(document.getElementsByClassName("button")).forEach((element) => {
+      element.style.display = "block";
+    });
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 function keyPressed() {
-  document.getElementById("continue").innerText = "Update"  
+  if (!instituteData.newInstitute) {
+    document.getElementById("continue").innerText = "Update"
+  } else {
+    document.getElementById("continue").innerText = "Save"
+  }
 }
 
 // Developer - Nimit Shah

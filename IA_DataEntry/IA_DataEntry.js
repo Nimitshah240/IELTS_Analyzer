@@ -16,7 +16,7 @@ let questionId = '';
 // Input - none
 async function dataentryconnectedCallback() {
     try {
-        await getEnglishJsonFile("../en_properties.json");
+        await getEnglishJsonFile("../CommonUtils/en_properties.json");
         if ((JSON.parse(sessionStorage.getItem('question' + tdExam))) == null || (JSON.parse(sessionStorage.getItem('question' + tdExam))).length == 0) {
             examDate = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
             examId = '';

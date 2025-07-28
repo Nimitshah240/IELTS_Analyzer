@@ -5,7 +5,7 @@
 // Input - none
 async function connectedCallback() {
     try {
-        await getEnglishJsonFile('../en_properties.json');
+        await getEnglishJsonFile('../CommonUtils/en_properties.json');
         if (sessionStorage.getItem('Check')) {
             document.getElementById('validation-box').style.display = 'none';
             document.getElementById('body-section').style.display = 'block';

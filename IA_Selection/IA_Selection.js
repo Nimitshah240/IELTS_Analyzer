@@ -9,7 +9,7 @@ const selectionType = urlSearchParams.get('type');
 async function selectionconnectedCallback() {
     try {
 
-        await getEnglishJsonFile("../en_properties.json")
+        await getEnglishJsonFile("../CommonUtils/en_properties.json")
         Userlogo();
 
         if (selectionType == 'listview') {
