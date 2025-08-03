@@ -23,9 +23,8 @@ window.addEventListener('message', function (event) {
 async function openAndSetPopup(message) {
     try {
         const popupData = document.getElementById("popupData");
-        popupData.src = await getFilePaths(message.source);
+        popupData.src = await getPopup(message.source);
         popupData.onload = function () {
-            console.log('Iframe loaded');
             popupData.contentWindow.postMessage(
                 { data: message.data },
                 domainName

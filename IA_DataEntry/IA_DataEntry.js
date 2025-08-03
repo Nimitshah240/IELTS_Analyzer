@@ -288,15 +288,18 @@ async function saveexam(event) {
 function deletequestion(event) {
     try {
         questionId = event.target.id;
-        Array.from(document.getElementsByClassName('glass')).forEach(element => {
-            element.style.backdropFilter = "none";
-        });
-        Array.from(document.getElementsByClassName('front-div')).forEach(element => {
-            element.style.display = "none";
-        });
-        Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
-            element.style.display = "block";
-        });
+
+        document.getElementById('popupFrame').style.display = "flex";
+        popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: { id: questionId, endPoint: "data" } }, enProperties.domainName);
+        // Array.from(document.getElementsByClassName('glass')).forEach(element => {
+        //     element.style.backdropFilter = "none";
+        // });
+        // Array.from(document.getElementsByClassName('front-div')).forEach(element => {
+        //     element.style.display = "none";
+        // });
+        // Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
+        //     element.style.display = "block";
+        // });
         Array.from(document.getElementsByClassName('info-container')).forEach(element => {
             element.style.position = "static";
         });
