@@ -243,6 +243,14 @@ a {
     border: 0.5px solid var(--input-border-color);
 }
 
+.popup-frame {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+
 @media screen and (max-width: 640px) {
     .has-scrollbar::-webkit-scrollbar {
         width: 4px;

@@ -536,6 +536,14 @@ function setFields() {
   }
 }
 
+function keyPressed() {
+  if (!studentData.new) {
+    document.getElementById("continue").innerText = "Update"
+  } else {
+    document.getElementById("continue").innerText = "Save"
+  }
+}
+
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to set spinner

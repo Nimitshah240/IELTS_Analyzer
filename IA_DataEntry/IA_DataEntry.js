@@ -97,20 +97,14 @@ function sectionsetter() {
 // Input - event
 function popupopen(event) {
     try {
-
         var section = event.target.dataset.section;
         var type = event.target.id;
-
         if (type == 'save') {
-
-            document.getElementById('examdate').value = examDate;
-            document.getElementById('examname').value = examName;
-            document.getElementById('save-div').style.display = 'flex';
-
+            document.getElementById('popupFrame').style.display = "flex";
+            popupFrame.contentWindow.postMessage({ source: 'savedatapopup', command: 'openPopup', data: { 'examDate': examDate, 'examName': examName, 'module': module, 'tdExam': tdExam, 'question': question } }, enProperties.domainName);
         } else {
             var sectiondata = '<tr class="header-table"><th colspan="5"> Question Type</th></tr><tr class="header-table"><th> Correct </th><th> Incorrect </th><th> Missed </th><th> Total </th><th> Delete </th></tr>';
             question.forEach(element => {
-
                 if (element.section == section) {
                     sectiondata +=
                         `<tr><td colspan="5" id = ${element.id}>` + element.questionType + '</td></tr >' +
@@ -139,16 +133,14 @@ function popupopen(event) {
 // Input - event
 async function popupclose(event) {
     try {
-        var type = event.target.id;
-        if (type == 'save') {
+
+        if (event == 'save') {
             dynamicUrl = await getFilePaths("listview") + "?module=" + module + '&savedexam=yes';
-            event.target.href = dynamicUrl;
             window.location.href = dynamicUrl;
         } else {
-            document.getElementById('save-div').style.display = 'none';
             document.getElementById('show-div').style.display = 'none';
+            document.getElementById('popupFrame').style.display = "none";
         }
-
     } catch (error) {
         console.error(error);
     }
@@ -410,5 +402,21 @@ window.addEventListener("beforeunload", function (event) {
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
         stopSpinner();
+    }
+});
+
+
+window.addEventListener('message', function (event) {
+    try {
+        if (event.origin !== enProperties.domainName) return;
+
+        const message = event.data;
+        if (message.command == 'closePopup') {
+            if (message.source == 'IA_SaveDataPopup') {
+                popupclose(message.data);
+            }
+        }
+    } catch (error) {
+        console.log(error);
     }
 });

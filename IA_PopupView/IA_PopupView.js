@@ -1,0 +1,48 @@
+let domainName;
+
+async function popupConnectedCallback(params) {
+    await getEnglishJsonFile("../CommonUtils/en_properties.json");
+    domainName = enProperties.domainName
+}
+
+window.addEventListener('message', function (event) {
+    try {
+        if (event.origin !== domainName) return;
+
+        const message = event.data;
+        if (message.command == 'openPopup') {
+            openAndSetPopup(message);
+        } else if (message.command == 'closePopup') {
+            closePopup(message);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+async function openAndSetPopup(message) {
+    try {
+        const popupData = document.getElementById("popupData");
+        popupData.src = await getFilePaths(message.source);
+        popupData.onload = function () {
+            console.log('Iframe loaded');
+            popupData.contentWindow.postMessage(
+                { data: message.data },
+                domainName
+            );
+        };
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function closePopup(message) {
+    try {
+        parent.postMessage(
+            { source: message.source, command: message.command, data: message.data },
+            enProperties.domainName
+        );
+    } catch (error) {
+        console.log(error);
+    }
+}

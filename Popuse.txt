@@ -1,0 +1,35 @@
+To use popup :
+
+1- create popup design with center align.
+2- 
+    <iframe src="../IA_PopupView/IA_PopupView.html" id="popupFrame" class="popup-frame" frameborder="0"></iframe>
+use above line where popup will be shown.
+
+3- in js
+document.getElementById('popupFrame').style.display = "flex";
+popupFrame.contentWindow.postMessage({ source: 'savedatapopup', command: 'openPopup', data: { 'examDate': examDate, // pass any data in json } }, enProperties.domainName);
+
+make sure source is popup source/location is metioned in enProperties file.
+
+and in popup js file
+
+window.addEventListener('message', function (event) {
+    try {
+        const message = event.data;
+        openAndSetPopup(message.data);
+    } catch (error) {
+        console.log(error);
+    }
+});
+add this to get message and logic in openAndSetPopup to open popup and set data
+
+To close popup
+
+function popupclose(event) {
+    parent.postMessage(
+        { source: 'IA_SaveDataPopup', command: 'closePopup', data: event.target.id },
+        enProperties.domainName
+    );
+}
+in the main html file must have listener which check for message.command if close then close logic
+for close source is not necesarry.

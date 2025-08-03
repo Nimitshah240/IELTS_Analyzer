@@ -1,0 +1,56 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ielts Analyzer</title>
+    <link rel="icon" href="..\Asset\icon.svg" type="image/icon type">
+    <link rel=stylesheet href=./IA_DataEntry.css>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='./IA_SaveDataPopup.js'></script>
+    <script src='../IA_Authentication/IA_Authentication.js'></script>
+    <script src='../CommonUtils/commonMethod.js'></script>
+    <link rel='stylesheet' href='../CommonUtils/commonCss.css'>
+    <script src='../IA_Toast/IA_Toast.js'></script>
+    <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
+    <link rel='stylesheet' href='../IA_Delete/IA_Delete.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Toast -->
+    <ul class="notifications" id="notifications"> </ul>
+    <!-- Toast -->
+
+    <!-- Spinner -->
+    <iframe name="spinner" id="spinner" class="spinner" frameborder="0"></iframe>
+    <!-- Spinner -->
+
+    <main id="main" style="display: flex; justify-content: center; align-items: center;">
+        <div class="show-data show-data1 glass">
+            <div class="data-title"> Save</div>
+            <div class="save-data show-data1">
+                <div class="incorrect-answer">
+                    <label for="exam-name"><span style="color: red;">*</span> Exam Name:</label>
+                    <input type="text" class="inputbox" id="examname">
+                </div>
+                <div class="incorrect-answer">
+                    <label for="exam-date"><span style="color: red;">*</span> Exam Date :</label>
+                    <input type="date" class="inputbox" id="examdate">
+                </div>
+            </div>
+            <div class="savebutton">
+                <div class="button-63 button1" id="save" onclick="saveexam(event)">
+                    <div id="save">Save</div>
+                </div>
+                <div class="button-63 button1 button-64" id="close" onclick="popupclose(event)">
+                    <div id="close">Close</div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
