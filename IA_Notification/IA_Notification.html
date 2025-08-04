@@ -1,0 +1,50 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ielts Analyzer</title>
+    <link rel="icon" href="..\Asset\icon.svg" type="image/icon type">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='./IA_Notification.js'></script>
+    <script src='../CommonUtils/commonMethod.js'></script>
+    <link rel='stylesheet' href='../CommonUtils/commonCss.css'>
+    <script src='../IA_Toast/IA_Toast.js'></script>
+    <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <link rel='stylesheet' href='./IA_Notification.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body onload="notificationConnectedCallback(event)" class="has-scrollbar">
+
+    <!-- Spinner -->
+    <iframe name="spinner" id="spinner" class="spinner" frameborder="0"></iframe>
+    <!-- Spinner -->
+    <!-- Toast -->
+    <ul class="notifications" id="notifications"> </ul>
+    <!-- Toast -->
+
+
+    <main id="main" class="has-scrollbar">
+        <div class="notification-popup" id="notification-popup">
+            <div class="notif-pop">
+                <div class="notif-box notification-box glass">
+                    <div class="header-notif" id="notification-header"> Notification </div>
+                    <div class="body-notif">
+                        <div class="notif-text notification-text has-scrollbar" id="notification">
+                            <!-- Notification come from backend -->
+                        </div>
+                    </div>
+                    <div class="footer-notif">
+                        <button class="button-63-notif button-64-notif button-64-notification"
+                            onclick="closeNotification(event)" role="button" id="no">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

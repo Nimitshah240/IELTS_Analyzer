@@ -145,11 +145,6 @@ body {
     border-color: #BDBDBD;
 }
 
-.button-64-notification {
-    background-image: var(--button-color-1) !important;
-    color: white !important;
-}
-
 .button {
     width: 20%;
     height: 60%;
@@ -360,24 +355,8 @@ body {
 
 .examname {
     overflow: hidden;
-    /* overflow-x: visible; */
     white-space: nowrap;
     text-overflow: ellipsis;
-}
-
-.delete-popup {
-    width: 100%;
-    height: 100%;
-    display: none;
-    position: fixed;
-}
-
-.notification-text {
-    height: 100%;
-    padding: 0px 50px;
-    text-align: justify;
-    font-size: 18px !important;
-    overflow-y: scroll;
 }
 
 #id-div {
@@ -387,10 +366,6 @@ body {
 #referral-hidden,
 #inscode-hidden {
     display: none;
-}
-
-#notification-popup {
-    z-index: 1;
 }
 
 /* Footer  */
@@ -446,16 +421,6 @@ body {
     .date {
         width: 30%;
         font-size: 12px;
-    }
-
-    .notification-text {
-        padding: 0px 5px;
-        margin-bottom: 15px;
-    }
-
-    .notification-box {
-        height: fit-content !important;
-        padding: 10px;
     }
 }
 
@@ -514,10 +479,6 @@ body {
 
     .signout-body-section {
         height: 100vh;
-    }
-
-    .notification-text {
-        margin: 0px !important;
     }
 }
 

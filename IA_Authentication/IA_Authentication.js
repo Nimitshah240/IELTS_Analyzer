@@ -372,29 +372,18 @@ function openNotification(event) {
   try {
     showSpinner("Opening Notification...");
 
-    notificationList.forEach(async (element) => {
+    notificationList.forEach((element) => {
       if (event.target.id == element.id) {
-        document.getElementById("notification").innerText = element.message;
-        if (!element.readed && (element.refId != null || element.refId.trim() != "" || element.refId != undefined)) {
-          apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification;
-          element.readed = true;
-          await apiCallOuts(apiURL, "PUT", JSON.stringify(element), 6000);
-          setNotification();
-        }
+        document.getElementById('popupFrame').style.display = "flex";
+        popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': element, "header": "Notification" } }, enProperties.domainName);
+        element.readed = true;
       }
     });
-    document.getElementById("notification-popup").style.display = "flex";
     stopSpinner();
   } catch (error) {
     console.error(error);
     stopSpinner();
   }
-}
-
-function closeNotification(params) {
-  try {
-    document.getElementById("notification-popup").style.display = "none";
-  } catch (error) { }
 }
 
 function setNotification() {
@@ -432,9 +421,9 @@ function setNotification() {
         '<span class="no_data">No Data Found!</span>';
     }
   } catch (error) {
+    console.log(error);
 
   }
-
 }
 
 function setData(data) {
@@ -561,5 +550,21 @@ window.addEventListener("beforeunload", function (event) {
 document.addEventListener("visibilitychange", function () {
   if (document.visibilityState === "hidden") {
     stopSpinner();
+  }
+});
+
+window.addEventListener('message', function (event) {
+  try {
+    if (event.origin !== enProperties.domainName) return;
+
+    const message = event.data;
+    if (message.command == 'closePopup') {
+      if (message.source == 'IA_Notification') {
+        document.getElementById('popupFrame').style.display = "none";
+        setNotification();
+      }
+    }
+  } catch (error) {
+    console.log(error);
   }
 });

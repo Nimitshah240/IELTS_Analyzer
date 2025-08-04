@@ -1,0 +1,218 @@
+.notification-popup {
+    width: 100%;
+    height: 100%;
+    /* display: none; */
+    position: fixed;
+}
+
+.notif-pop {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.notif-box {
+    width: 50%;
+    height: 40%;
+    background-color: white !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.header-notif,
+.footer-notif {
+    width: 100%;
+    height: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.body-notif {
+    width: 100%;
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-notif {
+    font-size: 30px;
+    font-weight: 800;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.footer-notif {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+/* Button 63 */
+/* CSS */
+.button-63-notif {
+    border: 0;
+    border-radius: var(--button-border-radius);
+    background-image: var(--button-color-1);
+    color: #FFFFFF;
+    font-family: Phantomsans, sans-serif;
+    cursor: pointer;
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.button-64-notif {
+    background-image: var(--button-color-2);
+    color: black;
+    border: 1px solid #BDBDBD;
+}
+
+.button-63-notif:hover {
+    box-shadow: rgba(0, 0, 0, 0.2) 0 35px 30px -5px;
+}
+
+.button-63-notif:active {
+    transform: translateY(4px);
+    box-shadow: rgba(0, 0, 0, 0.2) 0 25px 30px -5px;
+}
+
+.notif-icon {
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.notif-text {
+    width: 100%;
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: 400;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.trash {
+    font-size: 65px;
+    width: 23%;
+    height: 100%;
+    border: 1px solid;
+    border-radius: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.notification-text {
+    height: 100%;
+    padding: 0px 50px;
+    text-align: justify;
+    font-size: 18px !important;
+    overflow-y: scroll;
+}
+
+.button-64-notification {
+    background-image: var(--button-color-1) !important;
+    color: white !important;
+}
+
+@media screen and (max-width: 640px) {
+
+    .header-notif,
+    .footer-notif {
+        width: 80%;
+    }
+
+    .body-notif {
+        height: 230px;
+        width: 80%;
+    }
+
+    .notif-text {
+        font-size: 20px;
+    }
+
+    .header-notif {
+        font-size: 25px;
+    }
+
+    .notif-box {
+        width: 90%;
+    }
+
+    .trash {
+        font-size: 65px;
+        width: 38%;
+    }
+
+    .notification-box {
+        height: fit-content !important;
+        padding: 10px;
+    }
+
+    .notification-text {
+        padding: 0px 5px;
+        margin-bottom: 15px;
+    }
+}
+
+@media screen and (min-width: 768px) {
+
+    .footer-notif,
+    .header-notif,
+    .body-notif {
+        width: 100%;
+    }
+
+    .trash {
+        width: 28%;
+        font-size: 70px;
+    }
+
+    .notif-text {
+        font-size: 23px;
+    }
+
+    .notif-box {
+        width: 60%;
+    }
+
+    .header-notif {
+        font-size: 28px;
+    }
+
+    .notification-text {
+        margin: 0px !important;
+    }
+}
+
+@media screen and (min-width:1024px) {
+    .trash {
+        width: 29%;
+    }
+
+    .header-notif,
+    .body-notif,
+    .footer-notif {
+        width: 100%;
+    }
+
+    .notif-box {
+        width: 30%;
+    }
+}
+
+@media screen and (min-width: 1280px) {
+    .trash {
+        width: 20%;
+    }
+}

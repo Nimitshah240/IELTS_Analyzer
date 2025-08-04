@@ -6,7 +6,8 @@
     "domainName": "http://localhost",
     "popups": {
         "savedatapopup": "/IA_DataEntry/IA_SaveDataPopup.html",
-        "delete": "/IA_Delete/IA_Delete.html"
+        "delete": "/IA_Delete/IA_Delete.html",
+        "notificationpopup": "/IA_Notification/IA_Notification.html"
     },
     "apiEndPoints": {
         "studentApi": "/studentApi",

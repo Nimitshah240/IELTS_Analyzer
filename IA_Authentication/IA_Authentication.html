@@ -14,7 +14,6 @@
     <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
     <link rel='stylesheet' href='./IA_Authentication.css'>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
-    <link rel='stylesheet' href='../IA_Delete/IA_Delete.css'>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
 
@@ -27,22 +26,7 @@
     <ul class="notifications" id="notifications"> </ul>
     <!-- Toast -->
 
-    <div class="delete-popup" id="notification-popup">
-        <div class="delete-pop">
-            <div class="delete-box notification-box glass">
-                <div class="header-delete"> Notification </div>
-                <div class="body-delete">
-                    <div class="delete-text notification-text" id="notification">
-                        <!-- Notification come from backend -->
-                    </div>
-                </div>
-                <div class="footer-delete">
-                    <button class="button-63-delete button-64-delete button-64-notification"
-                        onclick="closeNotification(event)" role="button" id="no">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <iframe src="../IA_PopupView/IA_PopupView.html" id="popupFrame" class="popup-frame" frameborder="0"></iframe>
 
     <main id="main" class="has-scrollbar">
         <header>
