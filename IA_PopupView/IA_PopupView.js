@@ -24,7 +24,7 @@ async function openAndSetPopup(message) {
     try {
         const popupData = document.getElementById("popupData");
         popupData.src = await getPopup(message.source);
-        popupData.onload = function () {            
+        popupData.onload = function () {
             popupData.contentWindow.postMessage(
                 { data: message.data },
                 domainName

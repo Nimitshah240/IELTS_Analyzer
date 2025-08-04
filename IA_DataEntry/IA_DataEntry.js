@@ -291,7 +291,7 @@ function deletequestion(event) {
         let data = { 'jsonBody': null, 'endPoints': [], 'params': [], 'module': "IA_Data" };
         document.getElementById('popupFrame').style.display = "flex";
         popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: data }, enProperties.domainName);
-
+        
         Array.from(document.getElementsByClassName('info-container')).forEach(element => {
             element.style.position = "static";
         });
