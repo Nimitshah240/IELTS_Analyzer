@@ -7,10 +7,12 @@
     <title>Document</title>
     <link rel='stylesheet' href='../CommonUtils/commonCss.css'>
     <link rel='stylesheet' href='./IA_Delete.css'>
+    <script src='./IA_Delete.js'></script>
+    <script src='../CommonUtils/commonMethod.js'></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
-<body style="margin: 0px;">
+<body style="margin: 0px;" onload="deleteConnectedCallback()">
     <main id="main">
         <!-- <div class="delete-popup"> -->
         <div class="delete-pop">
@@ -27,8 +29,8 @@
                     </div>
                 </div>
                 <div class="footer-delete">
-                    <button class="button-63-delete" onclick="del(event)" role="button" id="yes">Delete</button>
-                    <button class="button-63-delete button-64-delete" onclick="del(event)" role="button"
+                    <button class="button-63-delete" onclick="deleteYes(event)" role="button" id="yes">Delete</button>
+                    <button class="button-63-delete button-64-delete" onclick="deleteNo(event)" role="button"
                         id="no">Cancel</button>
                 </div>
             </div>

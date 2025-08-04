@@ -29,8 +29,6 @@ async function openAndSetPopup(data) {
 // Input - event
 async function saveexam(event) {
     try {
-        console.log('saving..');
-
         let examName = ''
         let examDate = ''
         examName = document.getElementById('examname').value;

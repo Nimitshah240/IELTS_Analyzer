@@ -288,15 +288,10 @@ async function saveexam(event) {
 function deletequestion(event) {
     try {
         questionId = event.target.id;
-        Array.from(document.getElementsByClassName('glass')).forEach(element => {
-            element.style.backdropFilter = "none";
-        });
-        Array.from(document.getElementsByClassName('front-div')).forEach(element => {
-            element.style.display = "none";
-        });
-        Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
-            element.style.display = "block";
-        });
+        let data = { 'jsonBody': null, 'endPoints': [], 'params': [], 'module': "IA_Data" };
+        document.getElementById('popupFrame').style.display = "flex";
+        popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: data }, enProperties.domainName);
+
         Array.from(document.getElementsByClassName('info-container')).forEach(element => {
             element.style.position = "static";
         });
@@ -312,10 +307,10 @@ function deletequestion(event) {
 // Description - Use to delete selected temporary or permanent question and close delete popup
 // Updated on - -
 // Input - event
-async function del(event) {
+async function afterDelete(data) {
     try {
         let permcount = 0;
-        if (event.target.id == 'yes') {
+        if (data.deleteType) {
             if (!questionId.includes('temp')) {
                 question.forEach(element => {
                     if (!JSON.stringify(element.id).includes('temp')) {
@@ -336,7 +331,6 @@ async function del(event) {
                             const divToRemove = document.getElementById(questionId);
                             divToRemove.remove();
                         }
-
                         question.forEach((element, i) => {
                             if (element.id == questionId) {
                                 question.splice(i, 1);
@@ -354,7 +348,6 @@ async function del(event) {
                 } else {
                     createToast('error', 'Cannot delete last stored type');
                     createToast('info', 'Store new question and save exam before deleting last stored type');
-
                 }
             } else {
                 question.forEach((element, i) => {
@@ -366,15 +359,11 @@ async function del(event) {
                     sessionStorage.setItem('question' + tdExam, JSON.stringify(question));
 
                 createToast('success', 'Question deleted');
-
             }
         }
-        Array.from(document.getElementsByClassName('glass')).forEach(element => {
-            element.style.backdropFilter = "blur(1px)";
-        });
-        Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
-            element.style.display = "none";
-        });
+
+        document.getElementById('popupFrame').style.display = "none";
+
         Array.from(document.getElementsByClassName('info-container')).forEach(element => {
             element.style.position = "relative";
         });
@@ -414,6 +403,8 @@ window.addEventListener('message', function (event) {
         if (message.command == 'closePopup') {
             if (message.source == 'IA_SaveDataPopup') {
                 popupclose(message.data);
+            } else if (message.source == 'IA_Delete') {
+                afterDelete(message.data);
             }
         }
     } catch (error) {

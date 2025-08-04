@@ -195,12 +195,16 @@ async function examData() {
 function deleteexam(event) {
     try {
         del_exam_id = event.target.id;
-        Array.from(document.getElementsByClassName('body_section')).forEach(element => {
-            element.style.backdropFilter = "none";
-        });
-        Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
-            element.style.display = "block";
-        });
+        let deleteExamBody = {
+            "examId": del_exam_id,
+            "studentId": studentId,
+            "module": module
+        }
+        let endPoints = ['data', 'deleteExam'];
+        let params = [`examId=${del_exam_id}`];
+        let data = { 'jsonBody': deleteExamBody, 'endPoints': endPoints, 'params': params, 'module': "IA_ListView" };
+        document.getElementById('popupFrame').style.display = "flex";
+        popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: data }, enProperties.domainName);
     } catch (error) {
         createToast('error', 'Error while deleting exam : ' + error.message);
     }
@@ -211,30 +215,18 @@ function deleteexam(event) {
 // Description - Use to delete exam from the DB and close delete popup
 // Updated on - -
 // Input - event
-async function del(event) {
+async function afterDelete(event) {
     try {
-        if (event.target.id == 'yes') {
-            apiURL = enProperties.apiURL + enProperties.apiEndPoints.data + enProperties.apiEndPoints.deleteExam + `?examId=${del_exam_id}`;
-            let deleteExamBody = {
-                "examId": del_exam_id,
-                "studentId": studentId,
-                "module": module
-            }
+        if (event.deleteType) {
             showSpinner('Deleting Exam ...');
-            await apiCallOuts(apiURL, 'DELETE', JSON.stringify(deleteExamBody), 6000).then(() => {
-                const divToRemove = document.getElementById(del_exam_id);
-                divToRemove.remove();
-                examdata.forEach((element, i) => {
-                    if (element.examId == del_exam_id) {
-                        examdata.splice(i, 1);
-                    }
-                });
-                stopSpinner();
-                createToast('success', 'Exam deleted');
-            }).catch(error => {
-                stopSpinner();
-                createToast('error', 'Error while deleting exam : ' + error.message);
+            const divToRemove = document.getElementById(del_exam_id);
+            divToRemove.remove();
+            examdata.forEach((element, i) => {
+                if (element.examId == del_exam_id) {
+                    examdata.splice(i, 1);
+                }
             });
+            createToast('success', 'Exam deleted');
 
             if (examdata.length > 0) {
                 let htmldata = '';
@@ -258,13 +250,9 @@ async function del(event) {
                 document.getElementById("table").innerHTML = '<span class="no_data">No Data Found!</span>';
             }
         }
+        stopSpinner();
+        document.getElementById('popupFrame').style.display = "none";
 
-        Array.from(document.getElementsByClassName('body_section')).forEach(element => {
-            element.style.backdropFilter = "blur(7.4px)";
-        });
-        Array.from(document.getElementsByClassName('delete-popup')).forEach(element => {
-            element.style.display = "none";
-        });
     } catch (error) {
         stopSpinner();
         createToast('error', 'Error while deleting exam : ' + error.message);
@@ -288,5 +276,20 @@ window.addEventListener("beforeunload", function (event) {
 document.addEventListener("visibilitychange", function () {
     if (document.visibilityState === "hidden") {
         stopSpinner();
+    }
+});
+
+window.addEventListener('message', function (event) {
+    try {
+        if (event.origin !== enProperties.domainName) return;
+
+        const message = event.data;
+        if (message.command == 'closePopup') {
+            if (message.source == 'IA_Delete') {
+                afterDelete(message.data);
+            }
+        }
+    } catch (error) {
+        console.log(error);
     }
 });

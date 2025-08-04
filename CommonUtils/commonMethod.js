@@ -13,6 +13,16 @@ async function getEnglishJsonFile(jsonFileLocation) {
     }
 }
 
+async function getPopup(params) {
+    try {
+        await getEnglishJsonFile("../CommonUtils/en_properties.json")
+        let url = enProperties.dynamicURL + enProperties.popups[params];
+        return url;
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
 async function getFilePaths(params) {
     try {
         await getEnglishJsonFile("../CommonUtils/en_properties.json")
@@ -59,7 +69,7 @@ async function apiCallOuts(apiURL, method, body, preftimeout) {
             header.body = body
         }
         let response = await fetch(`${apiURL}`, header)
-        
+
         if (response.status == 200) {
             let data = await response.json();
             return data;

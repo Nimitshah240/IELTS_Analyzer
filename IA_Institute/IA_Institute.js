@@ -28,7 +28,6 @@ async function connectedCallback() {
       let curData = JSON.parse(localStorage.getItem("instituteUserData"));
       apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + `?googleId=${curData.googleId} `;
       let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-      console.log(responsedata);
 
       if (responsedata.institute != null) {
         setData(responsedata.institute);
@@ -132,12 +131,8 @@ async function SignedIn() {
           dynamicUrl = await getFilePaths("index");
           if (info) {
             instituteData.googleId = info.googleId;
-            console.log(info);
-
             instituteData.email = info.email;
             instituteData.picture = info.picture
-            console.log('ins', instituteData);
-
             fetchUser(info.googleId);
           }
         });
@@ -157,11 +152,8 @@ async function fetchUser(id) {
 
     apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + `?googleId=${id} `;
     showSpinner("Checking user...");
-    console.log('getingdata');
 
     let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-    console.log(responsedata);
-
     document.getElementById("continue").style.display = "block";
     document.getElementById("google-button").style.display = "none";
     if (responsedata != null && responsedata.institute != null) {
@@ -214,7 +206,6 @@ async function continueClick() {
 
         await apiCallOuts(apiURL, method, JSON.stringify(instituteData), 10000)
           .then(async (data) => {
-            console.log(data);
             setData(data);
             dynamicUrl = await getFilePaths("index");
             window.location.href = dynamicUrl;
