@@ -4,7 +4,7 @@ var dynamicUrl;
 var notificationList;
 
 async function getEnglishJsonFile(jsonFileLocation) {
-    try {
+    try {        
         const res = await fetch(jsonFileLocation);
         const data = await res.json();
         enProperties = data;
@@ -84,11 +84,43 @@ async function apiCallOuts(apiURL, method, body, preftimeout) {
 
 }
 function showSpinner(message) {
-    document.getElementById("spinner").style.display = 'flex';
-    document.getElementById("main").style.display = 'none';
+    try {
+        document.getElementById("spinner").style.display = 'flex';
+        document.getElementById("main").style.display = 'none';
+    } catch (error) {
+        
+    }
 }
 
 function stopSpinner() {
-    document.getElementById("spinner").style.display = 'none';
-    document.getElementById("main").style.display = 'block';
+    try {
+        document.getElementById("spinner").style.display = 'none';
+        document.getElementById("main").style.display = 'block';
+    } catch (error) {
+        
+    }
 }
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to set spinner
+// Updated on - -
+// Input - none
+window.addEventListener("beforeunload", function (event) {
+  showSpinner("Loading ...");
+  let popupFrame = document.getElementById('popupFrame');
+  if (popupFrame != null) {
+    popupFrame.style.display = "none"; 
+  }
+});
+
+// Developer - Nimit Shah
+// Developed on - 21/12/2024
+// Description - Use to remove spinner
+// Updated on - -
+// Input - none
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden") {
+    stopSpinner();
+  }
+});

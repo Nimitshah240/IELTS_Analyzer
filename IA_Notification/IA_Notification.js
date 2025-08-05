@@ -9,7 +9,7 @@ window.addEventListener('message', async function (event) {
         data = event.data.data;
         notification = data.notification;
         showSpinner("Opening Notification...");
-        await getEnglishJsonFile("../CommonUtils/en_properties.json");
+        await getEnglishJsonFile("../CommonUtils/en_properties.json");        
         notificationOpened();
         stopSpinner();
     } catch (error) {
@@ -35,11 +35,10 @@ async function notificationOpened(params) {
 
         if (data.header == 'Notification' && notification != null && !notification.readed && (notification.refId != null || notification.refId.trim() != "" || notification.refId != undefined)) {
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification;
-            notification.readed = true;
+            notification.readed = true;            
             await apiCallOuts(apiURL, "PUT", JSON.stringify(notification), 6000);
         }
     } catch (error) {
         console.log(error);
-
     }
 }

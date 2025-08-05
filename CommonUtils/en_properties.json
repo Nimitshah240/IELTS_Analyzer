@@ -1,13 +1,15 @@
 {
     "versionNumber": "2.0.2",
     "versionDate": "1-07-2025",
-    "apiURL": "http://localhost:8080",
+    "apiURL": "http://localhost:8081",
     "apiURL(local)": "http://localhost:8080",
     "domainName": "http://localhost",
     "popups": {
         "savedatapopup": "/IA_DataEntry/IA_SaveDataPopup.html",
         "delete": "/IA_Delete/IA_Delete.html",
-        "notificationpopup": "/IA_Notification/IA_Notification.html"
+        "notificationpopup": "/IA_Notification/IA_Notification.html",
+        "kycpopup": "/IA_Institute/IA_KycPopup/IA_KycPopup.html",
+        "bankpopup": "/IA_Institute/IA_BankPopup/IA_BankPopup.html"
     },
     "apiEndPoints": {
         "studentApi": "/studentApi",

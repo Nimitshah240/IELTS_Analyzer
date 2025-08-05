@@ -317,7 +317,6 @@ function setNotification() {
 
   }
 }
-
 function setData(data) {
   try {
     instituteData.newInstitute = data.newInstitute;
@@ -336,7 +335,6 @@ function setData(data) {
     console.log(error);
   }
 }
-
 function setFields() {
   try {
 
@@ -370,7 +368,6 @@ function setFields() {
     console.log(error);
   }
 }
-
 function setIcons(responsedata) {
   try {
     let bankCheck = false;
@@ -410,7 +407,6 @@ function setIcons(responsedata) {
     console.log(error);
   }
 }
-
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -469,6 +465,23 @@ function keyPressed() {
   }
 }
 
+function popupopen(event) {
+  let source;
+  switch (event.target.id) {
+    case "kyc":
+      source = 'kycpopup';
+      break;
+    case "bank":
+      source = 'bankpopup';
+      break;
+    default:
+      break;
+  }
+  
+  document.getElementById('popupFrame').style.display = "flex";
+  popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: { 'examDate': 'examDate' } }, enProperties.domainName);
+
+}
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
 // Description - Use to set spinner
@@ -496,9 +509,13 @@ window.addEventListener('message', function (event) {
     const message = event.data;
     if (message.command == 'closePopup') {
       if (message.source == 'IA_Notification') {
-        document.getElementById('popupFrame').style.display = "none";
         setNotification();
+      } else if (message.source == 'IA_KycPopup') {
+        // Some logic for closing and saving kyc data
+      } else if (message.source == 'IA_KycPopup') {
+        // Some logic for closing and saving kyc data
       }
+      document.getElementById('popupFrame').style.display = "none";
     }
   } catch (error) {
     console.log(error);

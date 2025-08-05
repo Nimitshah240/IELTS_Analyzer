@@ -225,6 +225,10 @@ main {
     align-items: center;
 }
 
+.inputbox{
+    height: auto !important;
+}
+
 /* Signout */
 .validation-box-signout {
     display: none;
@@ -508,7 +512,7 @@ main {
     .validation-box-signin {
         width: 40%;
         margin-top: 0%;
-        height: fit-content;
+        height: 82vh;
         display: flex;
         flex-direction: column;
     }

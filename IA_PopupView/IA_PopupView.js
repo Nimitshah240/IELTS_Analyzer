@@ -13,6 +13,8 @@ window.addEventListener('message', function (event) {
         if (message.command == 'openPopup') {
             openAndSetPopup(message);
         } else if (message.command == 'closePopup') {
+            const popupData = document.getElementById("popupData");
+            popupData.src = '';            
             closePopup(message);
         }
     } catch (error) {
