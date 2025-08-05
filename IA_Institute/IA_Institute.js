@@ -11,6 +11,27 @@ var instituteData = {
   newInstitute: true,
   instituteName: ""
 };
+var kycData = {
+  "id": "",
+  'instituteId': "",
+  'name': "",
+  'documentType': "",
+  'documentNumber': "",
+  'document': "",
+  'verified': ""
+};
+
+let bankData = {
+  "id": "",
+  "instituteId": "",
+  "accountNumber": "",
+  "ifscCode": "",
+  "branch": "",
+  "bankName": "",
+  "accHolderName": "",
+  "document": "",
+  "verified": ""
+};
 
 // Developer - Nimit Shah
 // Developed on - 26/07/2025
@@ -32,6 +53,13 @@ async function connectedCallback() {
       if (responsedata.institute != null) {
         setData(responsedata.institute);
         setIcons(responsedata);
+
+        if (responsedata.kyc != null) {
+          setKycData(responsedata.kyc);
+        }
+        if (responsedata.bank != null) {
+          setBankData(responsedata.bank);
+        }
       } else {
         document.getElementById("welcome-sign").innerText = "Sign In";
         document.getElementById("validation-box-body-signin").style.display = "none";
@@ -467,19 +495,24 @@ function keyPressed() {
 
 function popupopen(event) {
   let source;
+  let data;
   switch (event.target.id) {
     case "kyc":
       source = 'kycpopup';
+      kycData.instituteId = instituteData.id != "" ? instituteData.id : "";
+      data = kycData;
       break;
     case "bank":
       source = 'bankpopup';
+      bankData.instituteId = instituteData.id != "" ? instituteData.id : "";
+      data = bankData;
       break;
     default:
       break;
   }
-  
+
   document.getElementById('popupFrame').style.display = "flex";
-  popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: { 'examDate': 'examDate' } }, enProperties.domainName);
+  popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: data }, enProperties.domainName);
 
 }
 // Developer - Nimit Shah
@@ -521,3 +554,32 @@ window.addEventListener('message', function (event) {
     console.log(error);
   }
 });
+
+function setKycData(data) {
+  try {
+    kycData.id = data.id;
+    kycData.instituteId = data.instituteId;
+    kycData.name = data.name;
+    kycData.documentType = data.documentType;
+    kycData.documentNumber = data.documentNumber;
+    kycData.document = data.document;
+    kycData.verified = data.verified;
+  } catch (error) {
+    console.log(error);
+  }
+}
+function setBankData(data) {
+  try {
+    bankData.id = data.id;
+    bankData.instituteId = data.instituteId;
+    bankData.accountNumber = data.accountNumber;
+    bankData.ifscCode = data.ifscCode;
+    bankData.branch = data.branch;
+    bankData.bankName = data.bankName;
+    bankData.accHolderName = data.accHolderName;
+    bankData.document = data.document;
+    bankData.verified = data.verified;
+  } catch (error) {
+    console.log(error);
+  }
+}

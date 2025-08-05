@@ -1,7 +1,7 @@
 {
     "versionNumber": "2.0.2",
     "versionDate": "1-07-2025",
-    "apiURL": "http://localhost:8081",
+    "apiURL": "http://localhost:8080",
     "apiURL(local)": "http://localhost:8080",
     "domainName": "http://localhost",
     "popups": {
@@ -25,7 +25,8 @@
         "data": "/data",
         "master": "/master",
         "notification": "/notification",
-        "institute": "/institute"
+        "institute": "/institute",
+        "kyc": "/kyc"
     },
     "dynamicURL": "http://localhost/Projects/IA_Client",
     "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",
