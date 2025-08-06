@@ -1,12 +1,25 @@
 let fileInput;
-
+let accHolderName;
+let accountNumber;
+let ifscCode;
+let branch;
+let bankName;
+let instituteId;
+let data;
+let newBlob;
 
 document.addEventListener('DOMContentLoaded', function() {
     // Other event listeners, if needed
     window.addEventListener('message', function (event) {
         try {
-            const data = event.data;
-            console.log(data);
+            data = event.data.data;
+            instituteId = data.instituteId;
+            accHolderName = document.getElementById('name').value = data.accHolderName;
+            accountNumber = document.getElementById('accNumber').value = data.accountNumber;
+            ifscCode = document.getElementById('ifscCode').value = data.ifscCode;
+            branch = document.getElementById('branch').value = data.branch;
+            bankName = document.getElementById('bankName').value = data.bankName;
+            getEnglishJsonFile("../../CommonUtils/en_properties.json");
         } catch (error) {
             console.log(error);
         }
@@ -23,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('File size (bytes):', firstFile.size);
                 console.log('File type:', firstFile.type); 
                 console.log('File type:', firstFile.blob); 
-                const newBlob = new Blob([firstFile], { type: firstFile.type });
+                newBlob = new Blob([firstFile], { type: firstFile.type });
                 console.log('New Blob created from file:', newBlob); 
             } else {
                 console.log('No files selected.');
@@ -35,18 +48,51 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
  function bankConnectedCallback() {
-    fileInput = document.getElementById('fileInput');
-    getEnglishJsonFile("../../CommonUtils/en_properties.json");
 }
 
 function closeBtn(event){
     popupclose();
 }
-function saveUpdateBtn(params) {
-    var name = document.getElementById('name').value;
-    var docNumber = document.getElementById('docNumber').value;
-    console.log(name);
-    console.log(docNumber);    
+
+async function saveUpdateBtn(event) {
+    try {
+        accHolderName = document.getElementById('name').value;
+        accountNumber = document.getElementById('accNumber').value;
+        ifscCode = document.getElementById('ifscCode').value;
+        branch = document.getElementById('branch').value;
+        bankName = document.getElementById('bankName').value;
+
+
+        if (accHolderName != null && accHolderName.trim() != '' &&
+            accountNumber != null && accountNumber.trim() != '' &&
+            ifscCode != null && ifscCode.trim() != '' &&
+            branch != null && branch.trim() != '' &&
+            bankName != null && bankName.trim() != '' && newBlob != null) {
+
+            let base64 = await blobToBase64(newBlob);
+            data = { 'id': data.id, 'accHolderName': accHolderName, 'accountNumber': accountNumber, 'ifscCode': ifscCode, 'instituteId': instituteId, 'branch': branch, 'bankName': bankName, 'document':base64};
+
+            let method;
+            console.log(document.getElementById('btnYes').innerText);
+            if (document.getElementById('btnYes').innerText == 'Save' && data.id == '') {
+                method = 'POST';
+            } else if (document.getElementById('btnYes').innerText == 'Update') {
+                method = 'PUT'
+            }
+
+            apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + enProperties.apiEndPoints.bank;
+            if (method != null){
+                await apiCallOuts(apiURL, method, JSON.stringify(data), 6000);
+            }
+
+            popupclose();
+        } else {
+            createToast('error', 'Please fill required details');
+        }
+    } catch (error) {
+    console.log(error);
+        createToast('error', 'Error');
+    }
 }
 
 function popupclose(){
@@ -57,5 +103,26 @@ function popupclose(){
     } catch (error) {
         console.log(error);
         
+    }
+}
+
+function blobToBase64(blob) {
+    try {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result.split(',')[1]);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function keyPressed() {
+    if (data.id != '') {
+        document.getElementById("btnYes").innerText = "Update"
+    } else {
+        document.getElementById("btnYes").innerText = "Save"
     }
 }

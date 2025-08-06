@@ -402,26 +402,26 @@ function setIcons(responsedata) {
     let kycCheck = false;
     let instituteCheck = responsedata.institute.verified;
 
-    let bankIcon = document.getElementById("bank-icon")
-    bankIcon.style.setProperty("display", "flex", "important");
+    let bankIcon = document.getElementById("bank")
+//    bankIcon.style.setProperty("display", "flex", "important");
     if (responsedata.bank == null) {
       bankIcon.style.setProperty("color", "red", "important");
-      bankIcon.title = "No Kyc detail found";
+      bankIcon.title = "No Bank detail found";
     } else if (!responsedata.bank.verified) {
-      bankIcon.style.setProperty("color", "greenyellow", "important");
+      bankIcon.style.setProperty("color", "var(--table-header-bgcolor)", "important");
       bankIcon.title = "Your Bank document is currently under verification. Please check back later.";
     } else {
       bankCheck = true;
       bankIcon.style.setProperty("display", "none", "important");
     }
 
-    let kycIcon = document.getElementById("kyc-icon");
-    kycIcon.style.setProperty("display", "flex", "important");
+    let kycIcon = document.getElementById("kyc");
+//    kycIcon.style.setProperty("display", "flex", "important");
     if (responsedata.kyc == null) {
       kycIcon.style.setProperty("color", "red", "important");
       kycIcon.title = "No Kyc detail found";
     } else if (!responsedata.kyc.verified) {
-      kycIcon.style.setProperty("color", "greenyellow", "important");
+      kycIcon.style.setProperty("color", "var(--table-header-bgcolor)", "important");
       kycIcon.title = "Your Kyc document is currently under verification. Please check back later.";
     } else {
       kycCheck = true;

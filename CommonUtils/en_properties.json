@@ -26,7 +26,8 @@
         "master": "/master",
         "notification": "/notification",
         "institute": "/institute",
-        "kyc": "/kyc"
+        "kyc": "/kyc",
+        "bank": "/bank"
     },
     "dynamicURL": "http://localhost/Projects/IA_Client",
     "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",
