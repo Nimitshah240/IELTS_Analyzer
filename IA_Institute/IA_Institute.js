@@ -45,12 +45,13 @@ async function connectedCallback() {
     Userlogo();
     if (localStorage.getItem("instituteUserData") == null) {
       document.getElementById("google-button").style.display = "block";
+      document.getElementsByClassName("validation-box-signin")[0].classList.add("google-sign-in-btn");
     } else {
       let curData = JSON.parse(localStorage.getItem("instituteUserData"));
       apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + `?googleId=${curData.googleId} `;
       let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
 
-      if (responsedata.institute != null) {
+      if (responsedata != null && responsedata.institute != null) {
         setData(responsedata.institute);
         setIcons(responsedata);
 
@@ -64,6 +65,7 @@ async function connectedCallback() {
         document.getElementById("welcome-sign").innerText = "Sign In";
         document.getElementById("validation-box-body-signin").style.display = "none";
         document.getElementById("google-button").style.display = "flex";
+        document.getElementsByClassName("validation-box-signin")[0].classList.add("google-sign-in-btn");
       }
     }
 
@@ -387,7 +389,7 @@ function setFields() {
     document.getElementById("signout").style.display = "block";
     document.getElementById("validation-box-body-signin").style.display = "flex";
     document.getElementById("welcome-sign").innerHTML = `Hi, ${instituteData.instituteName}`;
-
+    document.getElementsByClassName("validation-box-signin")[0].classList.remove("google-sign-in-btn");
     if (instituteData.newInstitute == false) {
       document.getElementsByClassName("privacy")[0].style.display = "flex";
     }
@@ -403,7 +405,7 @@ function setIcons(responsedata) {
     let instituteCheck = responsedata.institute.verified;
 
     let bankIcon = document.getElementById("bank")
-//    bankIcon.style.setProperty("display", "flex", "important");
+    //    bankIcon.style.setProperty("display", "flex", "important");
     if (responsedata.bank == null) {
       bankIcon.style.setProperty("color", "red", "important");
       bankIcon.title = "No Bank detail found";
@@ -416,7 +418,7 @@ function setIcons(responsedata) {
     }
 
     let kycIcon = document.getElementById("kyc");
-//    kycIcon.style.setProperty("display", "flex", "important");
+    //    kycIcon.style.setProperty("display", "flex", "important");
     if (responsedata.kyc == null) {
       kycIcon.style.setProperty("color", "red", "important");
       kycIcon.title = "No Kyc detail found";

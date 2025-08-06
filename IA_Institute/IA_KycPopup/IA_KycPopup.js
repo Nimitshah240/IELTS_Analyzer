@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
         try {
             data = event.data.data;
             userName = document.getElementById('name').value = data.name;
-            docNumber = document.getElementById('docNumber').value = data.documentNumber;            
+            docNumber = document.getElementById('docNumber').value = data.documentNumber;
             docType = document.getElementById('docType').value = data.documentType;
             instituteId = data.instituteId;
             getEnglishJsonFile("../../CommonUtils/en_properties.json");

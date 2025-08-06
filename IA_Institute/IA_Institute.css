@@ -225,7 +225,7 @@ main {
     align-items: center;
 }
 
-.inputbox{
+.inputbox {
     height: auto !important;
 }
 
@@ -378,6 +378,10 @@ main {
 #referral-hidden,
 #inscode-hidden {
     display: none;
+}
+
+.google-sign-in-btn {
+    height: 20vh !important;
 }
 
 /* Footer  */
