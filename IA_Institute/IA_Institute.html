@@ -58,7 +58,7 @@
                     <div class="inputdata">
                         <p><span style="color: red;">*</span> Institute Name :</p>
                         <input type="text" id="instituteName" placeholder="Institute Name" class="inputbox"
-                            onkeypress="keyPressed()">
+                            onkeydown="keyPressed()">
                     </div>
                     <div class="inputdata">
                         <p><span style="color: red;">*</span> Email :</p>
@@ -67,12 +67,12 @@
                     <div class="inputdata">
                         <p> <span style="color: red;">*</span> Number :</p>
                         <input type="number" id="number" placeholder="Phone number" class="inputbox"
-                            onkeypress="keyPressed()">
+                            onkeydown="keyPressed()">
                     </div>
                     <div class="inputdata">
                         <p> <span style="color: red;">*</span> Address :</p>
                         <textarea placeholder="Address" class="inputbox" id="address"
-                            onkeypress="keyPressed()"></textarea>
+                            onkeydown="keyPressed()"></textarea>
                         <!-- <input type="" id="number" placeholder="Phone number" class="inputbox" disabled> -->
                     </div>
                     <div class="privacy">
@@ -117,17 +117,13 @@
                 <div id="loading-area" aria-busy="true" class="institute-buttons">
                     <button class="button-63 button-64-func button-64" id="save"
                         onclick="popupopen(event)">Dashboard</button>
-                    <button class="button-63 button-64-func button-64" id="save"
+                    <button class="button-63 button-64-func button-64" id="student"
                         onclick="popupopen(event)">Students</button>
 
                     <button class="button-63 button-64-func button-64" id="kyc" onclick="popupopen(event)">Kyc
                     </button>
-                    <i class="fa fa-exclamation-triangle contact-icon detail-icon" id="kyc-icon" aria-hidden="true"></i>
-
                     <button class="button-63 button-64-func button-64" id="bank" onclick="popupopen(event)">Bank
                     </button>
-                    <i class="fa fa-exclamation-triangle contact-icon detail-icon" id="bank-icon"
-                        aria-hidden="true"></i>
                 </div>
                 <div class="notificationHeader data">
                     Notification

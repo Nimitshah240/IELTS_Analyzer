@@ -8,7 +8,7 @@ let instituteId;
 let data;
 let newBlob;
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Other event listeners, if needed
     window.addEventListener('message', function (event) {
         try {
@@ -29,29 +29,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if (fileInput) { // Check if the element was actually found
         fileInput.addEventListener('change', (event) => {
-            const files = event.target.files;             
+            const files = event.target.files;
             if (files.length > 0) {
-                const firstFile = files[0]; 
-                console.log('File name:', firstFile.name); 
-                console.log('File size (bytes):', firstFile.size);
-                console.log('File type:', firstFile.type); 
-                console.log('File type:', firstFile.blob); 
+                const firstFile = files[0];
                 newBlob = new Blob([firstFile], { type: firstFile.type });
-                console.log('New Blob created from file:', newBlob); 
             } else {
                 console.log('No files selected.');
             }
         });
     } else {
-        console.error('Error: "fileInput" element not found in the DOM. Please check your HTML ID.'); 
+        console.error('Error: "fileInput" element not found in the DOM. Please check your HTML ID.');
     }
 });
 
- function bankConnectedCallback() {
+function bankConnectedCallback() {
 }
 
-function closeBtn(event){
-    popupclose();
+function closeBtn(event) {
+    popupclose('close');
 }
 
 async function saveUpdateBtn(event) {
@@ -70,7 +65,7 @@ async function saveUpdateBtn(event) {
             bankName != null && bankName.trim() != '' && newBlob != null) {
 
             let base64 = await blobToBase64(newBlob);
-            data = { 'id': data.id, 'accHolderName': accHolderName, 'accountNumber': accountNumber, 'ifscCode': ifscCode, 'instituteId': instituteId, 'branch': branch, 'bankName': bankName, 'document':base64};
+            data = { 'id': data.id, 'accHolderName': accHolderName, 'accountNumber': accountNumber, 'ifscCode': ifscCode, 'instituteId': instituteId, 'branch': branch, 'bankName': bankName, 'document': base64 };
 
             let method;
             console.log(document.getElementById('btnYes').innerText);
@@ -81,25 +76,27 @@ async function saveUpdateBtn(event) {
             }
 
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + enProperties.apiEndPoints.bank;
-            if (method != null){
+            if (method != null) {
                 await apiCallOuts(apiURL, method, JSON.stringify(data), 6000);
             }
 
-            popupclose();
+            notification = { 'message': 'Thank you, Uploaded files will get deleted within 2 days of verification' };
+            document.getElementById('popupFrame').style.display = "flex";
+            popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
         } else {
             createToast('error', 'Please fill required details');
         }
     } catch (error) {
-    console.log(error);
+        console.log(error);
         createToast('error', 'Error');
     }
 }
 
-function popupclose(){
+function popupclose(operation) {
     try {
         parent.postMessage(
-            { source: 'IA_BankPopup', command: 'closePopup', data: "data" },
-        enProperties.domainName)
+            { source: 'IA_BankPopup', command: 'closePopup', data: { 'data': data, 'operation': operation } },
+            enProperties.domainName)
     } catch (error) {
         console.log(error);
         
@@ -126,3 +123,14 @@ function keyPressed() {
         document.getElementById("btnYes").innerText = "Save"
     }
 }
+
+window.addEventListener('message', function (event) {
+    try {
+        const message = event.data;    
+        if (message.source == 'IA_Notification') {
+            popupclose('save');
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});

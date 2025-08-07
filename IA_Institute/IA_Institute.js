@@ -332,10 +332,10 @@ function setNotification() {
           read = "forAll";
         }
         htmldata += `<div class="data ${classes}" onclick="openNotification(event)" id= ${element.id} > ` + `<div class="${read}"></div>` +
-          '<div class="column index" onclick="openNotification(event)" id=' + element.id + ">" + (index + 1) + "</div>" +
-          '<div class="column examname" onclick="openNotification(event)" id=' + element.id + ">" + element.message +
+          '<div class="column index" id=' + element.id + ">" + (index + 1) + "</div>" +
+          '<div class="column examname" id=' + element.id + ">" + element.message +
           "</div>" +
-          '<div class="column date" onclick="openNotification(event)" id=' + element.id + ">" + notificationDate +
+          '<div class="column date" id=' + element.id + ">" + notificationDate +
           "</div>" + "</div>" + "</div>";
       });
       document.getElementById("table").innerHTML = htmldata;
@@ -495,7 +495,7 @@ function keyPressed() {
   }
 }
 
-function popupopen(event) {
+async function popupopen(event) {
   let source;
   let data;
   switch (event.target.id) {
@@ -508,6 +508,11 @@ function popupopen(event) {
       source = 'bankpopup';
       bankData.instituteId = instituteData.id != "" ? instituteData.id : "";
       data = bankData;
+      break;
+    case "student":
+      dynamicUrl = await getFilePaths('insStudent') + "?insId=" + instituteData.id;
+      event.target.href = dynamicUrl;
+      window.location.href = dynamicUrl;
       break;
     default:
       break;
@@ -546,9 +551,17 @@ window.addEventListener('message', function (event) {
       if (message.source == 'IA_Notification') {
         setNotification();
       } else if (message.source == 'IA_KycPopup') {
-        // Some logic for closing and saving kyc data
-      } else if (message.source == 'IA_KycPopup') {
-        // Some logic for closing and saving kyc data
+        setKycData(message.data.data)
+        if (message.data.operation == 'save') {
+          getNotification();
+          createToast('success', 'Kyc detail updated');
+        }
+      } else if (message.source == 'IA_BankPopup') {
+        setBankData(message.data.data)
+        if (message.data.operation == 'save') {
+          getNotification();
+          createToast('success', 'Bank detail updated');
+        }
       }
       document.getElementById('popupFrame').style.display = "none";
     }

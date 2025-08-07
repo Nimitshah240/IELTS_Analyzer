@@ -18,6 +18,7 @@
     <!-- Toast -->
     <ul class="notifications" id="notifications"> </ul>
     <!-- Toast -->
+    <iframe src="../../IA_PopupView/IA_PopupView.html" id="popupFrame" class="popup-frame" frameborder="0"></iframe>
 
     <main id="main">
         <div class="kyc-pop">
@@ -27,20 +28,19 @@
                     <div class="incorrect-answer">
                         <label for="exam-name" class="input-title"><span style="color: red;">*</span> Full Name
                             :</label>
-                        <input type="text" class="inputbox" onkeypress="keyPressed()" placeholder="Name as per document"
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Name as per document"
                             id="name">
                     </div>
                     <div class="incorrect-answer">
                         <label for="exam-date" class="input-title"><span style="color: red;">*</span> Document Number
                             :</label>
-                        <input type="text" class="inputbox" onkeypress="keyPressed()" placeholder="Document Number"
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Document Number"
                             id="docNumber">
                     </div>
                     <div class="incorrect-answer">
                         <label for="exam-date" class="input-title"><span style="color: red;">*</span> Document Type
                             :</label>
-                        <!-- <input type="text" class="inputbox" placeholder="Document Number" id="docNumber"> -->
-                        <select class="inputbox" name="Document Type" id="docType" onselect="keyPressed()">
+                        <select class="inputbox" name="Document Type" id="docType" onchange="keyPressed()">
                             <option value="Aadhar Card">Aadhar Card</option>
                             <option value="Pan Card">Pan Card</option>
                         </select>

@@ -42,7 +42,7 @@ function kycConnectedCallback() {
 }
 
 function closeBtn(event) {
-    popupclose();
+    popupclose('close');
 }
 
 async function saveUpdateBtn(event) {
@@ -67,20 +67,23 @@ async function saveUpdateBtn(event) {
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + enProperties.apiEndPoints.kyc;
             if (method != null)
                 await apiCallOuts(apiURL, method, JSON.stringify(data), 6000);
-
-            popupclose();
+            
+            notification = { 'message': 'Thank you, Uploaded files will get deleted within 2 days of verification' };
+            document.getElementById('popupFrame').style.display = "flex";
+            popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
         } else {
             createToast('error', 'Please fill required details');
         }
     } catch (error) {
+        console.log(error);
         createToast('error', 'Error');
     }
 }
 
-function popupclose() {
+function popupclose(operation) {
     try {
         parent.postMessage(
-            { source: 'IA_KycPopup', command: 'closePopup', data: data },
+            { source: 'IA_KycPopup', command: 'closePopup', data: { 'data': data, 'operation': operation } },
             enProperties.domainName)
     } catch (error) {
         console.log(error);
@@ -107,3 +110,14 @@ function keyPressed() {
         document.getElementById("btnYes").innerText = "Save"
     }
 }
+
+window.addEventListener('message', function (event) {
+    try {    
+        const message = event.data;    
+        if (message.source == 'IA_Notification') {
+            popupclose('save');
+        }
+    } catch (error) {
+        console.log(error);
+    }
+});
