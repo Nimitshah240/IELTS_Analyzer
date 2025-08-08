@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel='stylesheet' href='../../CommonUtils/CommonCss.css'>
+    <link rel='stylesheet' href='./IA_InsStudentAddPopup.css'>
+    <link rel='stylesheet' href='../../IA_Toast/IA_Toast.css'>
+    <script src='./IA_InsStudentAddPopup.js'></script>
+    <script src='../..//IA_Toast/IA_Toast.js'></script>
+    <script src='../../CommonUtils/commonMethod.js'></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body style="margin: 0px;" onload="insStudentAddPopupConnectedCallback()">
+    <!-- Toast -->
+    <ul class="notifications" id="notifications"></ul>
+    <!-- Toast -->
+    <iframe src="../../IA_PopupView/IA_PopupView.html" id="popupFrame" class="popup-frame" frameborder="0"></iframe>
+    <main id="main">
+        <div class="kyc-pop">
+            <div class="kyc-box glass">
+                <div class="header-kyc"> Student </div>
+                <div class="save-data ">
+                    <div class="incorrect-answer">
+                        <label for="exam-name" class="input-title"><span style="color: red;">*</span> Id
+                            :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Enter Id"
+                            id="id">
+                    </div>
+                    <div class="incorrect-answer" id="orText">
+                        <label for="exam-name" class="input-title" style="text-align: center;">OR</label>
+                    </div>
+                    <div class="incorrect-answer" id="name-div">
+                        <label for="exam-name" class="input-title"><span style="color: red;">*</span> Full Name
+                            :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Name"
+                            id="name" disabled>
+                    </div>
+                    <div class="incorrect-answer" id="number-div">
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Phone Number
+                            :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Phone Number"
+                            id="number" disabled>
+                    </div>
+                    <div class="incorrect-answer" id="email-div">
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Email :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Email"
+                            id="email">
+                    </div>
+                </div>
+                <div class="footer-kyc">
+                    <button class="button-63-kyc" onclick="getSaveBtn(event)" role="button" id="btnYes">Save</button>
+                    <button class="button-63-kyc button-64-kyc" onclick="closeBtn(event)" role="button" id="no">Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

@@ -9,7 +9,9 @@
         "delete": "/IA_Delete/IA_Delete.html",
         "notificationpopup": "/IA_Notification/IA_Notification.html",
         "kycpopup": "/IA_Institute/IA_KycPopup/IA_KycPopup.html",
-        "bankpopup": "/IA_Institute/IA_BankPopup/IA_BankPopup.html"
+        "bankpopup": "/IA_Institute/IA_BankPopup/IA_BankPopup.html",
+        "insStudentAddPopup": "/IA_Institute/IA_InsStudentAddPopup/IA_InsStudentAddPopup.html"
+
     },
     "apiEndPoints": {
         "studentApi": "/studentApi",
@@ -27,7 +29,8 @@
         "notification": "/notification",
         "institute": "/institute",
         "kyc": "/kyc",
-        "bank": "/bank"
+        "bank": "/bank",
+        "insStudentData": "/insStudentData"
     },
     "dynamicURL": "http://localhost/Projects/IA_Client",
     "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",

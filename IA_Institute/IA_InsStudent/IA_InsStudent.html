@@ -13,7 +13,7 @@
     <script src='./IA_InsStudent.js'></script>
     <link rel='stylesheet' href='../../CommonUtils/commonCss.css'>
     <script src='../../IA_Toast/IA_Toast.js'></script>
-    <link rel='stylesheet' href='../../IA_Toast/IA_ToIast.css'>
+    <link rel='stylesheet' href='../../IA_Toast/IA_Toast.css'>
     <link rel='stylesheet' href='../../IA_Delete/IA_Delete.css'>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 </head>
@@ -39,7 +39,7 @@
 
                 </div>
                 <div class="links">
-                    <button class="button-63 tip-open-button" onclick="setHref(event)">Add Student</button>
+                    <button class="button-63 tip-open-button" onclick="openStudentAddPopup(event)">Add Student</button>
                     <i class="fa fa-user" id="not-log" style="font-size: 30px; cursor:pointer;"
                         onclick="authentication(event)" aria-hidden="true"></i>
                     <img id="login-img" class="login-img" onclick="authentication(event)" />
@@ -53,6 +53,7 @@
                     <div class="column index"> Index </div>
                     <div class="column examname"> Name </div>
                     <div class="column date"> Date </div>
+                    <div class="column date"> InsCode </div>
                     <div class="column total"> Dasbhoard </div>
                     <div class="column section"> Report </div>
                     <div class="column delete"> Delete</div>

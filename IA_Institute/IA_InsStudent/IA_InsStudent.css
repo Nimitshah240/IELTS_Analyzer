@@ -124,28 +124,22 @@ main {
         height: 90vh;
     }
 
-    .index {
-        width: 10%;
+    .index,
+    .delete {
+        width: 5%;
     }
 
     .examname {
-        width: 15%;
+        width: 20%;
     }
 
     .date {
         width: 15%;
     }
 
-    .total {
-        width: 10%;
-    }
-
+    .total,
     .section {
-        width: 10%;
-    }
-
-    .delete {
-        width: 10%;
+        width: 15%;
     }
 
     .footer {
