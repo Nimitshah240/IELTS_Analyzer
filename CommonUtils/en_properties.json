@@ -30,6 +30,7 @@
         "institute": "/institute",
         "kyc": "/kyc",
         "bank": "/bank",
+        "insStudent": "/insStudent",
         "insStudentData": "/insStudentData"
     },
     "dynamicURL": "http://localhost/Projects/IA_Client",

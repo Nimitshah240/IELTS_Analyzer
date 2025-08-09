@@ -9,7 +9,7 @@ window.addEventListener('message', async function (event) {
         data = event.data.data;
         notification = data.notification;
         showSpinner("Opening Notification...");
-        await getEnglishJsonFile("../CommonUtils/en_properties.json");        
+        await getEnglishJsonFile("../CommonUtils/en_properties.json");
         notificationOpened();
         stopSpinner();
     } catch (error) {
@@ -31,11 +31,11 @@ function closeNotification(event) {
 async function notificationOpened(params) {
     try {
         document.getElementById("notification-header").innerText = data.header;
-        document.getElementById("notification").innerText = notification.message;
+        document.getElementById("notification").innerHTML = notification.message;
 
         if (data.header == 'Notification' && notification != null && !notification.readed && (notification.refId != null || notification.refId.trim() != "" || notification.refId != undefined)) {
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification;
-            notification.readed = true;            
+            notification.readed = true;
             await apiCallOuts(apiURL, "PUT", JSON.stringify(notification), 6000);
         }
     } catch (error) {

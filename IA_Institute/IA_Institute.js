@@ -75,6 +75,9 @@ async function connectedCallback() {
       SignedIn();
     }
   } catch (error) {
+    createToast('error', 'Failed to login');
+    document.getElementById("google-button").style.display = "flex";
+    document.getElementsByClassName("validation-box-signin")[0].classList.add("google-sign-in-btn");
     stopSpinner();
   }
 }

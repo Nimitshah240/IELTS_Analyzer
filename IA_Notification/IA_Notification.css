@@ -98,7 +98,8 @@
     font-weight: 400;
     display: flex;
     align-items: flex-start;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-direction: column;
 }
 
 .trash {

@@ -20,7 +20,7 @@ function closeBtn(params) {
 function popupclose() {
     try {
         parent.postMessage(
-            { source: 'IA_InsStudentAddPopup', command: 'closePopup', data: 'data' },
+            { source: 'IA_InsStudentAddPopup', command: 'closePopup', data: mainData },
             enProperties.domainName)
     } catch (error) {
         console.log(error);
@@ -35,7 +35,7 @@ async function getSaveBtn(params) {
             id = document.getElementById('id').value;
             if (id != null && email != null) {
                 let searchKey = id.trim() != '' ? id : email;
-                apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + enProperties.apiEndPoints.insStudentData + `?searchKey=${searchKey}`;
+                apiURL = enProperties.apiURL + enProperties.apiEndPoints.insStudent + enProperties.apiEndPoints.insStudentData + `?searchKey=${searchKey}`;
                 let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
                 setData(responsedata);
                 delete mainData.createdDate;
@@ -45,8 +45,9 @@ async function getSaveBtn(params) {
             }
         } else if (btnText === 'Save') {
             mainData.instituteId = instituteId;
-            apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + enProperties.apiEndPoints.insStudentData;            
+            apiURL = enProperties.apiURL + enProperties.apiEndPoints.insStudent;
             let responsedata = await apiCallOuts(apiURL, "POST", JSON.stringify(mainData), 6000);
+            console.log(responsedata);
         }
     } catch (error) {
         console.error(error);
@@ -71,9 +72,7 @@ function setData(data) {
             document.getElementById('number-div').style.display = 'flex';
             document.getElementById('orText').style.display = 'none';
             document.getElementById('btnYes').innerText = 'Save';
-            // data = {'id'}
             mainData = data;
-            console.log(mainData);
             
         }
         else if (data != null && data.message != null) createToast('error', data.message);
