@@ -13,14 +13,18 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-function closeBtn(params) {
-    popupclose();
+function insStudentAddPopupConnectedCallback() {
+    
 }
 
-function popupclose() {
+function closeBtn(params) {
+    popupclose('close');
+}
+
+function popupclose(operation) {
     try {
         parent.postMessage(
-            { source: 'IA_InsStudentAddPopup', command: 'closePopup', data: mainData },
+            { source: 'IA_InsStudentAddPopup', command: 'closePopup', data: { 'data': mainData, 'operation': operation } },
             enProperties.domainName)
     } catch (error) {
         console.log(error);
@@ -46,8 +50,13 @@ async function getSaveBtn(params) {
         } else if (btnText === 'Save') {
             mainData.instituteId = instituteId;
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.insStudent;
-            let responsedata = await apiCallOuts(apiURL, "POST", JSON.stringify(mainData), 6000);
-            console.log(responsedata);
+            let responsedata = await apiCallOuts(apiURL, "POST", JSON.stringify(mainData), 6000);            
+            if (responsedata.message != null || responsedata.message != undefined) createToast('warning', responsedata.message)
+            else {
+                mainData = responsedata;                
+                popupclose('save');
+            }
+
         }
     } catch (error) {
         console.error(error);
@@ -55,7 +64,7 @@ async function getSaveBtn(params) {
 }
 
 function setData(data) {
-    try {
+    try {       
         if (data != null && data.studentId != null) {
             if (data.studentId != null) {
                 document.getElementById('id').value = data.studentId;
@@ -66,17 +75,17 @@ function setData(data) {
 
             if (data.email != null) {
                 document.getElementById('email').value = data.email;
-                document.getElementById('email').disable = true;
+                document.getElementById('email').disabled = true;
             }
             document.getElementById('name-div').style.display = 'flex';
             document.getElementById('number-div').style.display = 'flex';
             document.getElementById('orText').style.display = 'none';
             document.getElementById('btnYes').innerText = 'Save';
             mainData = data;
-            
+
         }
-        else if (data != null && data.message != null) createToast('error', data.message);
-        else {
+        else if (data != null && data.message != null) createToast('warning', data.message);
+        else {           
             document.getElementById('btnYes').innerText = 'Get';
             document.getElementById('id').disabled = false;
             document.getElementById('email').disabled = false;

@@ -11,7 +11,6 @@
         "kycpopup": "/IA_Institute/IA_KycPopup/IA_KycPopup.html",
         "bankpopup": "/IA_Institute/IA_BankPopup/IA_BankPopup.html",
         "insStudentAddPopup": "/IA_Institute/IA_InsStudentAddPopup/IA_InsStudentAddPopup.html"
-
     },
     "apiEndPoints": {
         "studentApi": "/studentApi",
@@ -31,7 +30,8 @@
         "kyc": "/kyc",
         "bank": "/bank",
         "insStudent": "/insStudent",
-        "insStudentData": "/insStudentData"
+        "insStudentData": "/insStudentData",
+        "sendEmail": "/sendEmail"
     },
     "dynamicURL": "http://localhost/Projects/IA_Client",
     "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",
