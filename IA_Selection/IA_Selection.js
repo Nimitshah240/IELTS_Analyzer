@@ -1,5 +1,6 @@
 const urlSearchParams = new URLSearchParams(window.location.search);
 const selectionType = urlSearchParams.get('type');
+const teachermode = urlSearchParams.get('teacher');
 
 // Developer - Nimit Shah
 // Developed on - 21/12/2024
@@ -42,7 +43,7 @@ function setTextsImages(count) {
 async function setHrefs(event) {
     try {
         let module = event.target.id;
-        dynamicUrl = await getFilePaths(selectionType) + "?module=" + module;
+        dynamicUrl = await getFilePaths(selectionType) + "?module=" + module + "&teacher=" + teachermode;
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
 

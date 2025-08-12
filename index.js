@@ -101,7 +101,7 @@ async function setHref(event) {
     try {
 
         let buttonId = event.target.id;
-        dynamicUrl = await getFilePaths("selection") + "?type=" + buttonId;
+        dynamicUrl = await getFilePaths("selection") + "?type=" + buttonId + "&teacher=false";
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
 

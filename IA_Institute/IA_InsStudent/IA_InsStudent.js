@@ -76,7 +76,7 @@ function setView(data) {
                     <div class="column examname" onclick="openStudentAddPopup(event)" id="${element.id}"> ${element.name} </div>
                     <div class="column date" onclick="openStudentAddPopup(event)" id="${element.id}">  ${createdDate} </div>
                     <div class="column date" onclick="reSendEmail(event)" id="${element.id}">  <i class="fa fa-share-alt" title="Resend email" id="${element.id}" aria-hidden="true"></i> </div>
-                    <div class="column total" onclick="openStudentAddPopup(event)" id="${element.id}"> <button class="button-63 dashboard-button" id='${element.id}'>Dashboard</button></div>
+                    <div class="column total" onclick="openStudentAddPopup(event)" id="${element.id}"> <button class="button-63 dashboard-button" onclick="openDashboard(event)" id='${element.studentId}'>Dashboard</button></div>
                     <div class="column section" onclick="openStudentAddPopup(event)" id="${element.id}"> <button class="button-63 dashboard-button" id='${element.id}'>Report</button></div>
                     <div class="column delete" onclick="openDeletePopup(event)" id="${element.id}">  <i class="fa fa-trash" id="${element.id}" aria-hidden="true"></i></div>
                  </div>`;
@@ -116,6 +116,17 @@ async function reSendEmail(event) {
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.insStudent + enProperties.apiEndPoints.sendEmail + `?insStudentId=${insStudentId}`;
         let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
         createToast('success', responsedata.message);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function openDashboard(event) {
+    try {
+        sessionStorage.setItem('student_id', event.target.id);
+        dynamicUrl = await getFilePaths("selection") + '?type=dashboard&teacher=true';
+        event.target.href = dynamicUrl;
+        window.location.href = dynamicUrl;
     } catch (error) {
         console.log(error);
     }
