@@ -1,5 +1,3 @@
-
-// Object containing details for different types of toasts
 const toastDetails = {
     timer:2500,
     success: {
@@ -18,21 +16,19 @@ const toastDetails = {
 
 const autoremoveToast = (toast) => {
     toast.classList.add("hide");
-    if (toast.timeoutId) clearTimeout(toast.timeoutId); // Clearing the timeout for the toast
-    setTimeout(() => toast.remove(), 500); // Removing the toast after 500ms
+    if (toast.timeoutId) clearTimeout(toast.timeoutId);
+    setTimeout(() => toast.remove(), 500);
 }
 
 const removeToast = (toast) => {
     toast.classList.add("hide");
-    if (toast.timeoutId) clearTimeout(toast.timeoutId); // Clearing the timeout for the toast
-    setTimeout(() => toast.remove(), 500); // Removing the toast after 500ms
+    if (toast.timeoutId) clearTimeout(toast.timeoutId);
+    setTimeout(() => toast.remove(), 500);
 }
 
 const createToast = (id, message) => {
     try {
-
         const notifications = document.getElementById("notifications");
-
         const { icon } = toastDetails[id];
         const toast = document.createElement("li");
         toast.className = `toast ${id}`;
@@ -46,6 +42,5 @@ const createToast = (id, message) => {
         toast.timeoutId = setTimeout(() => autoremoveToast(toast), toastDetails.timer);
     } catch (error) {
         console.error(error);
-
     }
 }

@@ -1,0 +1,181 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ielts Analyzer</title>
+    <link rel="icon" href="..\Asset\icon.svg" type="image/icon type">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src='./IA_Ads.js'></script>
+    <script src='../CommonUtils/commonMethod.js'></script>
+    <link rel='stylesheet' href='../CommonUtils/commonCss.css'>
+    <script src='../IA_Toast/IA_Toast.js'></script>
+    <link rel='stylesheet' href='../IA_Toast/IA_Toast.css'>
+    <link rel='stylesheet' href='./IA_Ads.css'>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body onload="adsConnectedCallback(event)" class="has-scrollbar">
+
+<!-- Spinner -->
+<iframe name="spinner" id="spinner" class="spinner" frameborder="0"></iframe>
+<!-- Spinner -->
+<!-- Toast -->
+<ul class="notifications" id="notifications"> </ul>
+<!-- Toast -->
+<iframe src="../IA_PopupView/IA_PopupView.html" id="popupFrame" class="popup-frame" frameborder="0"></iframe>
+
+<main id="main" class="has-scrollbar">
+    <header>
+        <nav class="navbar" id="navbar">
+            <div class="logo" id="logo">
+                <a name="index">IELTS ANALYZER</a>
+
+            </div>
+            <div class="links">
+                <button class="button-63 tip-open-button" id="save" onclick="popupopen(event)"></button>
+                <a class="navbartransition" name="index">Home</a>
+                <i class="fa fa-user" id="not-log" style="font-size: 30px; cursor:pointer;"
+                   onclick="authentication(event)" aria-hidden="true"></i>
+                <img id="login-img" class="login-img" onclick="authentication(event)" />
+            </div>
+        </nav>
+    </header>
+
+    <div class="body_section" id="body_section">
+        <!-- Signin div -->
+        <div class="validation-box-signin glass" id="validation-box-signin">
+            <div class="validation-box-header-signin" id="welcome-sign">
+                Sign In
+            </div>
+            <div class="validation-box-body-signin" id="validation-box-body-signin">
+                <div class="inputdata" id="id-div">
+                    <p><span style="color: red;">*</span> Id : </p>
+                    <p type="text" id="id" class="inputbox"></p>
+                </div>
+                <div class="inputdata">
+                    <p><span style="color: red;">*</span> Company Name :</p>
+                    <input type="text" id="companyName" placeholder="Company Name" class="inputbox"
+                           onkeydown="keyPressed()">
+                </div>
+                <div class="inputdata">
+                    <p><span style="color: red;">*</span> Email :</p>
+                    <input type="email" id="email" placeholder="Email" class="inputbox" disabled>
+                </div>
+                <div class="inputdata">
+                    <p> <span style="color: red;">*</span> Number :</p>
+                    <input type="number" id="number" placeholder="Phone number" class="inputbox"
+                           onkeydown="keyPressed()">
+                </div>
+                <div class="inputdata">
+                    <p> <span style="color: red;">*</span> Address :</p>
+                    <textarea placeholder="Address" class="inputbox" id="address"
+                              onkeydown="keyPressed()"></textarea>
+                    <!-- <input type="" id="number" placeholder="Phone number" class="inputbox" disabled> -->
+                </div>
+                <div class="privacy">
+                    <span style="color: red;">* </span>By clicking continue you are accepting privacy policy and
+                    terms and condition
+                </div>
+            </div>
+            <div class="validation-box-footer-signin">
+                <button class="gsi-material-button button-63 button" onclick="googleSignin()" id="google-button">
+                    <div class="gsi-material-button-state"></div>
+                    <div class="gsi-material-button-content-wrapper">
+                        <div class="gsi-material-button-icon">
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" style="display: block;">
+                                <path fill="#EA4335"
+                                      d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z">
+                                </path>
+                                <path fill="#4285F4"
+                                      d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z">
+                                </path>
+                                <path fill="#FBBC05"
+                                      d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z">
+                                </path>
+                                <path fill="#34A853"
+                                      d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z">
+                                </path>
+                                <path fill="none" d="M0 0h48v48H0z"></path>
+                            </svg>
+                        </div>
+                        <span class="gsi-material-button-contents">Sign in with Google</span>
+                        <span style="display: none;">Sign in with Google</span>
+                    </div>
+                </button>
+                <button class="button-63 button" onclick="continueClick(event)" id="continue">Home</button>
+                <button class="button-63 button-64 button" onclick="showSignout(event)" id="signout">Sign
+                    Out</button>
+
+            </div>
+        </div>
+
+        <div class="validation-box-notificationList glass" id="validation-box-notification">
+            <div id="loading-area" aria-busy="true" class="institute-buttons">
+                <button class="button-63 button-64-func button-64" id="dashboard"
+                        onclick="popupopen(event)">Dashboard</button>
+                <button class="button-63 button-64-func button-64" id="student"
+                        onclick="popupopen(event)">Ads</button>
+            </div>
+            <div class="notificationHeader data">
+                Notification
+            </div>
+            <div class="notification-table">
+                <div class="dataheader ">
+                    <div class="tableheader">
+                        <div class="column readHeader"></div>
+                        <div class="column index"> Index </div>
+                        <div class="column examname"> Message </div>
+                        <div class="column date"> Date </div>
+                    </div>
+                </div>
+                <div class="list has-scrollbar">
+                    <div class="table" id="table">
+                        <span class="no_data">No Data Found!</span>
+                        <!-- Data will show here using js  -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Signout div -->
+        <div class="validation-box-signout glass" id="validation-box-signout">
+            <div class="validation-box-header-signout">
+                Sign Out
+            </div>
+            <div class="validation-box-body-signout">
+                Are you sure, Do you want to signout?
+            </div>
+            <div class="validation-box-footer-signout">
+                <button class="button-63 button" onclick="Signout(event)" id="yes">Yes</button>
+                <button class="button-63 button-64 button" onclick="Signout(event)" id="no">No</button>
+            </div>
+        </div>
+    </div>
+
+    <div class=" footer">
+        <div class="copyright">
+            © Copyright Nimit Shah. All Rights Reserved.
+        </div>
+        <div class="contact-icons">
+            <a href="mailto:nimitshah240@gmail.com">
+                <i class="fa fa-envelope-o contact-icon" aria-hidden="true"></i>
+            </a>
+            <a href="https://wa.me/6353756701">
+                <i class="fa fa-whatsapp contact-icon" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.instagram.com/_nimittt_3000_/">
+                <i class="fa fa-instagram contact-icon" aria-hidden="true"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/nimit-shah-4623411b8/">
+                <i class="fa fa-linkedin contact-icon" aria-hidden="true"></i>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+
+</html>

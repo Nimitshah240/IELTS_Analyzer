@@ -31,7 +31,8 @@
         "bank": "/bank",
         "insStudent": "/insStudent",
         "insStudentData": "/insStudentData",
-        "sendEmail": "/sendEmail"
+        "sendEmail": "/sendEmail",
+        "adsUser": "/adsUser"
     },
     "dynamicURL": "http://localhost/Projects/IA_Client",
     "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",
