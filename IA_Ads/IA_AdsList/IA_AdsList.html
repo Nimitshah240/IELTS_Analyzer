@@ -1,0 +1,97 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ielts Analyzer</title>
+    <link rel="icon" href="..\Asset\icon.svg" type="image/icon type">
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <script src='../../IA_Authentication/IA_Authentication.js'></script>
+    <script src='../../CommonUtils/commonMethod.js'></script>
+    <script src='../../IA_Toast/IA_Toast.js'></script>
+    <script src='./IA_AdsList.js'></script>
+
+    <link rel='stylesheet' href='../../CommonUtils/commonCss.css'>
+    <link rel='stylesheet' href='./IA_AdsList.css'>
+    <link rel='stylesheet' href='../../IA_Toast/IA_Toast.css'>
+    <link rel='stylesheet' href='../../IA_Delete/IA_Delete.css'>
+</head>
+
+<body onload="adsListConnectedCallback()">
+
+    <!-- Popups -->
+    <iframe src="../../IA_PopupView/IA_PopupView.html" id="popupFrame" class="popup-frame" frameborder="0"></iframe>
+    <!-- Popups -->
+
+    <!-- Spinner -->
+    <iframe name="spinner" id="spinner" class="spinner" frameborder="0"></iframe>
+    <!-- Spinner -->
+    <!-- Toast -->
+    <ul class="notifications" id="notifications"> </ul>
+    <!-- Toast -->
+
+    <main id="main">
+        <header>
+            <nav class="navbar" id="navbar">
+                <div class="logo" id="logo">
+                    <a name="index">IELTS ANALYZER</a>
+                </div>
+                <div class="links">
+                    <button class="button-63 tip-open-button" onclick="setHref(event)">New</button>
+                    <a class="navbartransition" name="index">Home</a>
+                    <i class="fa fa-user" id="not-log" style="font-size: 30px; cursor:pointer;"
+                        onclick="authentication(event)" aria-hidden="true"></i>
+                    <img id="login-img" class="login-img" onclick="authentication(event)" />
+                </div>
+            </nav>
+        </header>
+
+        <div class="body_section">
+            <div class="dataheader ">
+                <div class="tableheader">
+                    <div class="column index"> Index </div>
+                    <div class="column examname"> Exam </div>
+                    <div class="column date"> Exam Date </div>
+                    <div class="column total"> Total </div>
+                    <div class="column section"> Section 1</div>
+                    <div class="column section"> Section 2</div>
+                    <div class="column section"> Section 3</div>
+                    <div class="column section"> Section 4</div>
+                    <div class="column delete"> Delete</div>
+                </div>
+            </div>
+            <div class="list has-scrollbar">
+                <div class="table" id="table">
+                    <span class="no_data">No Data Found!</span>
+                    <!-- Data will show here using js  -->
+                </div>
+            </div>
+        </div>
+        <div class=" footer">
+            <div class="copyright">
+                © Copyright Nimit Shah. All Rights Reserved.
+            </div>
+            <div class="contact-icons">
+                <a href="mailto:nimitshah240@gmail.com">
+                    <i class="fa fa-envelope-o contact-icon" aria-hidden="true"></i>
+                </a>
+                <a href="https://wa.me/6353756701">
+                    <i class="fa fa-whatsapp contact-icon" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.instagram.com/_nimittt_3000_/">
+                    <i class="fa fa-instagram contact-icon" aria-hidden="true"></i>
+                </a>
+                <a href="https://www.linkedin.com/in/nimit-shah-4623411b8/">
+                    <i class="fa fa-linkedin contact-icon" aria-hidden="true"></i>
+                </a>
+            </div>
+        </div>
+
+    </main>
+</body>
+
+</html>

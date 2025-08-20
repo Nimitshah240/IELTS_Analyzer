@@ -88,7 +88,7 @@ function showSpinner(message) {
         document.getElementById("spinner").style.display = 'flex';
         document.getElementById("main").style.display = 'none';
     } catch (error) {
-
+        console.log(error);
     }
 }
 
@@ -97,7 +97,7 @@ function stopSpinner() {
         document.getElementById("spinner").style.display = 'none';
         document.getElementById("main").style.display = 'block';
     } catch (error) {
-
+        console.log(error);
     }
 }
 

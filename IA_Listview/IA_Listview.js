@@ -25,7 +25,6 @@ async function listviewconnectedCallback() {
     } catch (error) {
         createToast('error', 'Error while loading : ' + error.message);
     }
-
 }
 
 // Developer - Nimit Shah
@@ -35,7 +34,6 @@ async function listviewconnectedCallback() {
 // Input - event
 async function setHref(event) {
     try {
-
         if ((localStorage.getItem('user_data')) != null) {
             dynamicUrl = await getFilePaths("dataentry") + "?module=" + module;
             event.target.href = dynamicUrl;
@@ -46,7 +44,6 @@ async function setHref(event) {
     } catch (error) {
         createToast('error', 'Error while redirecting : ' + error.message);
     }
-
 }
 
 // Developer - Nimit Shah
@@ -62,9 +59,7 @@ async function openexam(event) {
                 questions.push(element);
             }
         });
-
         sessionStorage.setItem("question" + event.target.id, JSON.stringify(questions));
-
         dynamicUrl = await getFilePaths("dataentry") + "?module=" + module + '&tdExam=' + event.target.id;
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
@@ -139,7 +134,6 @@ async function examData() {
                     let month = ('0' + (examDate.getMonth() + 1)).slice(-2);
                     let day = ('0' + examDate.getDate()).slice(-2);
                     examDate = `${year}-${month}-${day}`;
-
                     examdata.push({
                         'examId': key,
                         'examName': Exammap.get(key).Name,
@@ -154,7 +148,6 @@ async function examData() {
                             (Section4.get(key) == undefined ? 0 : Section4.get(key)),
                     })
                 }
-
 
                 //Setting data to html
                 examdata.forEach((element, index) => {
@@ -172,7 +165,6 @@ async function examData() {
                         '</div>' +
                         '</div>'
                 });
-
                 document.getElementById("table").innerHTML = htmldata;
             } else {
                 createToast('error', 'No Data Found');
@@ -258,26 +250,6 @@ async function afterDelete(event) {
         createToast('error', 'Error while deleting exam : ' + error.message);
     }
 }
-
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - Use to set spinner
-// Updated on - -
-// Input - none
-window.addEventListener("beforeunload", function (event) {
-    showSpinner('Loading ...');
-});
-
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - Use to remove spinner
-// Updated on - -
-// Input - none
-document.addEventListener("visibilitychange", function () {
-    if (document.visibilityState === "hidden") {
-        stopSpinner();
-    }
-});
 
 window.addEventListener('message', function (event) {
     try {

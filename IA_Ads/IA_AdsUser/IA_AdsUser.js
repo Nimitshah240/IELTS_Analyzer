@@ -41,7 +41,6 @@ async function adsConnectedCallback() {
     }
   } catch (error) {
     console.log(error);
-
     createToast('error', 'Failed to login');
     document.getElementById("google-button").style.display = "flex";
     document.getElementsByClassName("validation-box-signin")[0].classList.add("google-sign-in-btn");
@@ -140,7 +139,7 @@ async function fetchUser(id) {
     let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
     document.getElementById("continue").style.display = "block";
     document.getElementById("google-button").style.display = "none";
-    if (responsedata != null && responsedata.institute != null) {
+    if (responsedata != null) {
       // User is already availabe in DB
       responsedata.newAdsUser = false;
       setData(responsedata);
@@ -436,18 +435,8 @@ async function popupopen(event) {
   let source;
   let data;
   switch (event.target.id) {
-    case "kyc":
-      source = 'kycpopup';
-      kycData.instituteId = adsUserData.id != "" ? adsUserData.id : "";
-      data = kycData;
-      break;
-    case "bank":
-      source = 'bankpopup';
-      bankData.instituteId = adsUserData.id != "" ? adsUserData.id : "";
-      data = bankData;
-      break;
-    case "student":
-      dynamicUrl = await getFilePaths('insStudent') + "?insId=" + adsUserData.id;
+    case "adsList":
+      dynamicUrl = await getFilePaths("adsList");
       event.target.href = dynamicUrl;
       window.location.href = dynamicUrl;
       break;

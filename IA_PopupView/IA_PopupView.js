@@ -1,8 +1,12 @@
 let domainName;
 
 async function popupConnectedCallback(params) {
-    await getEnglishJsonFile("../CommonUtils/en_properties.json");
-    domainName = enProperties.domainName
+    try {
+        await getEnglishJsonFile("../CommonUtils/en_properties.json");
+        domainName = enProperties.domainName
+    } catch (error) {
+        console.log(error);
+    }
 }
 
 window.addEventListener('message', function (event) {
@@ -14,7 +18,7 @@ window.addEventListener('message', function (event) {
             openAndSetPopup(message);
         } else if (message.command == 'closePopup') {
             const popupData = document.getElementById("popupData");
-            popupData.src = '';            
+            popupData.src = '';
             closePopup(message);
         }
     } catch (error) {
