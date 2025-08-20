@@ -49,7 +49,9 @@
         "index": "/index.html",
         "authentication": "/IA_Authentication/IA_Authentication.html",
         "institute": "/IA_Institute/IA_Institute.html",
-        "insStudent": "/IA_Institute/IA_InsStudent/IA_InsStudent.html"
+        "insStudent": "/IA_Institute/IA_InsStudent/IA_InsStudent.html",
+        "adsUser": "IA_Ads/IA_AdsUser/IA_AdsUser.html",
+        "popupView" : "/IA_PopupView/IA_PopupView.html"
     },
     "slides": [
         {

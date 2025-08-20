@@ -10,8 +10,14 @@ body {
     background-image: var(--green-background-image);
     position: fixed;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 5px;
+}
+
+#spinner-title {
+    color: white;
 }
 
 .lds-roller,
