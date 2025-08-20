@@ -6,7 +6,6 @@ let delInsStudentId;
 async function insStudentConnectedCallback() {
     try {
         await getEnglishJsonFile('../../CommonUtils/en_properties.json');
-        Userlogo();
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.insStudent + `?instituteId=${instituteId}`;
         let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
         if (responsedata.message == null || responsedata.message == undefined) {
@@ -123,7 +122,7 @@ async function reSendEmail(event) {
 
 async function openDashboard(event) {
     try {
-        sessionStorage.setItem('student_id', event.target.id);
+        sessionStorage.setItem('student_id', JSON.stringify(event.target.id));
         dynamicUrl = await getFilePaths("selection") + '?type=dashboard&teacher=true';
         event.target.href = dynamicUrl;
         window.location.href = dynamicUrl;
