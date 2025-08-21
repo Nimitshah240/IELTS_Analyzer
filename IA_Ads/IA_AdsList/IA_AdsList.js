@@ -68,18 +68,28 @@ function setAdsList(responsedata) {
         if (responsedata.length < 1) {
             htmldata = '<span class="no_data">No Data Found!</span>';
         } else {
+            let year;
+            let month;
+            let day;
             responsedata.forEach((element, index) => {
-                let startDate = new Date(element.startDateTime);
-                let year = startDate.getFullYear();
-                let month = ('0' + (startDate.getMonth() + 1)).slice(-2);
-                let day = ('0' + startDate.getDate()).slice(-2);
-                startDate = `${year}-${month}-${day}`;
-                let endDate = new Date(element.endDateTime);
-                year = endDate.getFullYear();
-                month = ('0' + (endDate.getMonth() + 1)).slice(-2);
-                day = ('0' + endDate.getDate()).slice(-2);
-                endDate = `${year}-${month}-${day}`;
-                let Payment = element.paid ? `<p style="font-weight:bold" name="Listening" id='${element.id}'>Paid</p>` : `<button class="button-63 dashboard-button" name="Listening" id='${element.id}'>Payment</button>`;
+                let startDate = "-";
+                let endDate = "-";
+                if (element.startDate != null) {
+                    startDate = new Date(element.startDate);
+                    year = startDate.getFullYear();
+                    month = ('0' + (startDate.getMonth() + 1)).slice(-2);
+                    day = ('0' + startDate.getDate()).slice(-2);
+                    startDate = `${year}-${month}-${day}`;
+                }
+                if (element.endDate) {
+                    endDate = new Date(element.endDate);
+                    year = endDate.getFullYear();
+                    month = ('0' + (endDate.getMonth() + 1)).slice(-2);
+                    day = ('0' + endDate.getDate()).slice(-2);
+                    endDate = `${year}-${month}-${day}`;
+                }
+
+                let Payment = element.paid ? `<p style="font-weight:bold" name="Listening" id='${element.id}'>Paid</p>` : `<button class="button-63 payment-button" name="Listening" id='${element.id}'>Payment</button>`;
                 htmldata +=
                     `<div class="data" id='${element.id}'>
             <div class="column index" onclick="openAdsPopup(event)" id='${element.id}'> ${(index + 1)} </div>
@@ -103,19 +113,20 @@ function setAdsList(responsedata) {
 function deleteAds(event) {
     try {
         let deleteAdsId = event.target.id;
-        responsedata.forEach((element, index) => {
-            if (element.id == deleteAdsId && !element.paid) {
+        for (let element of responsedata) {
+            if ((element.id == deleteAdsId) && (!element.paid)) {
                 let endPoints = ['advertisement'];
                 let params = [`id=${deleteAdsId}`];
                 let data = { 'jsonBody': null, 'endPoints': endPoints, 'params': params, 'module': "IA_AdsList", "id": deleteAdsId };
                 document.getElementById('popupFrame').style.display = "flex";
                 popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: data }, enProperties.domainName);
+                break;
             } else {
                 notification = { 'message': `Can't delete paid advertisment` };
                 document.getElementById('popupFrame').style.display = "flex";
                 popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
             }
-        });
+        }
     } catch (error) {
         console.log(error);
     }
@@ -129,6 +140,7 @@ function afterDeleteAds(deleteAdsId) {
                 setAdsList(responsedata);
             }
         });
+        createToast("success", "Advertisement deleted successfully");
     } catch (error) {
         console.log(error);
     }

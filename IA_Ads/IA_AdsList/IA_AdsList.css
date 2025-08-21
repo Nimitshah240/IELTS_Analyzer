@@ -58,6 +58,11 @@ main {
     border: 1px solid greenyellow;
 }
 
+.payment-button {
+    height: 55%;
+    width: 55%;
+}
+
 /* footer */
 .footer {
     margin-top: 35px;

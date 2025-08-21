@@ -443,10 +443,6 @@ async function popupopen(event) {
     default:
       break;
   }
-
-  document.getElementById('popupFrame').style.display = "flex";
-  popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: data }, enProperties.domainName);
-
 }
 
 window.addEventListener('message', function (event) {
