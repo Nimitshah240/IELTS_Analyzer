@@ -288,7 +288,7 @@ async function saveexam(event) {
 function deletequestion(event) {
     try {
         questionId = event.target.id;
-        let data = { 'jsonBody': null, 'endPoints': [], 'params': [], 'module': "IA_Data" };
+        let data = { 'jsonBody': null, 'endPoints': [], 'params': [], 'module': "IA_Data", "id": questionId };
         document.getElementById('popupFrame').style.display = "flex";
         popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: data }, enProperties.domainName);
 

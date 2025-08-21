@@ -525,25 +525,6 @@ async function popupopen(event) {
   popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: data }, enProperties.domainName);
 
 }
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - Use to set spinner
-// Updated on - -
-// Input - none
-window.addEventListener("beforeunload", function (event) {
-  showSpinner("Loading ...");
-});
-
-// Developer - Nimit Shah
-// Developed on - 21/12/2024
-// Description - Use to remove spinner
-// Updated on - -
-// Input - none
-document.addEventListener("visibilitychange", function () {
-  if (document.visibilityState === "hidden") {
-    stopSpinner();
-  }
-});
 
 window.addEventListener('message', function (event) {
   try {

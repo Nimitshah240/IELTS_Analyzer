@@ -10,7 +10,8 @@
         "notificationpopup": "/IA_Notification/IA_Notification.html",
         "kycpopup": "/IA_Institute/IA_KycPopup/IA_KycPopup.html",
         "bankpopup": "/IA_Institute/IA_BankPopup/IA_BankPopup.html",
-        "insStudentAddPopup": "/IA_Institute/IA_InsStudentAddPopup/IA_InsStudentAddPopup.html"
+        "insStudentAddPopup": "/IA_Institute/IA_InsStudentAddPopup/IA_InsStudentAddPopup.html",
+        "adsPopup": "/IA_Ads/IA_AdsPopup/IA_AdsPopup.html"
     },
     "apiEndPoints": {
         "studentApi": "/studentApi",
@@ -32,7 +33,8 @@
         "insStudent": "/insStudent",
         "insStudentData": "/insStudentData",
         "sendEmail": "/sendEmail",
-        "adsUser": "/adsUser"
+        "adsUser": "/adsUser",
+        "advertisement": "/advertisement"
     },
     "dynamicURL": "http://localhost/Projects/IA_Client",
     "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",

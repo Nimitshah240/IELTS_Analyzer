@@ -194,7 +194,7 @@ function deleteexam(event) {
         }
         let endPoints = ['data', 'deleteExam'];
         let params = [`examId=${del_exam_id}`];
-        let data = { 'jsonBody': deleteExamBody, 'endPoints': endPoints, 'params': params, 'module': "IA_ListView" };
+        let data = { 'jsonBody': deleteExamBody, 'endPoints': endPoints, 'params': params, 'module': "IA_ListView", "id": del_exam_id };
         document.getElementById('popupFrame').style.display = "flex";
         popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: data }, enProperties.domainName);
     } catch (error) {

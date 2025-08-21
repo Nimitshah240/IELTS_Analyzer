@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel='stylesheet' href='./IA_AdsPopup.css'>
+    <link rel='stylesheet' href='../../IA_Toast/IA_Toast.css'>
+    <link rel='stylesheet' href='../../CommonUtils/CommonCss.css'>
+
+    <script src='./IA_AdsPopup.js'></script>
+    <script src='../..//IA_Toast/IA_Toast.js'></script>
+    <script src='../../CommonUtils/commonMethod.js'></script>
+</head>
+
+<body style="margin: 0px;" onload="adsPopupConnectedCallback()">
+    <!-- Toast -->
+    <ul class="notifications" id="notifications"></ul>
+    <!-- Toast -->
+    <iframe src="../../IA_PopupView/IA_PopupView.html" id="popupFrame" class="popup-frame" frameborder="0"></iframe>
+    <main id="main">
+        <div class="kyc-pop">
+            <div class="kyc-box glass">
+                <div class="header-kyc"> Bank</div>
+                <div class="save-data ">
+                    <div class="incorrect-answer">
+                        <label for="exam-name" class="input-title"><span style="color: red;">*</span> Full Name
+                            :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Name as per document"
+                            id="name">
+                    </div>
+                    <div class="incorrect-answer">
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Bank Name
+                            :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Bank Name"
+                            id="bankName">
+                    </div>
+                    <div class="incorrect-answer">
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Account Number
+                            :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Account Number"
+                            id="accNumber">
+                    </div>
+                    <div class="incorrect-answer">
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Ifsc Code
+                            :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Ifsc Code"
+                            id="ifscCode">
+                    </div>
+                    <div class="incorrect-answer">
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Branch
+                            :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Branch" id="branch">
+                    </div>
+                    <div class="incorrect-answer">
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Advertisement Upload
+                            :</label>
+                        <input type="file" class="inputbox" onchange="keyPressed()" id="fileInput">
+                    </div>
+                </div>
+                <div class="footer-kyc">
+                    <button class="button-63-kyc" onclick="saveUpdateBtn(event)" role="button" id="btnYes">Save</button>
+                    <button class="button-63-kyc button-64-kyc" onclick="closeBtn(event)" role="button" id="no">Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

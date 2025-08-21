@@ -90,7 +90,7 @@ function openDeletePopup(event) {
     delInsStudentId = event.target.id;
     let endPoints = ['insStudent'];
     let params = [`insStudentId=${delInsStudentId}`];
-    let data = { 'jsonBody': null, 'endPoints': endPoints, 'params': params, 'module': "IA_InsStudent" };
+    let data = { 'jsonBody': null, 'endPoints': endPoints, 'params': params, 'module': "IA_InsStudent", "id": delInsStudentId };
     document.getElementById('popupFrame').style.display = "flex";
     popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: data }, enProperties.domainName);
 }

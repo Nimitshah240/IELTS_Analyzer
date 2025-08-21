@@ -4,6 +4,7 @@ let deleteType;
 let jsonBody;
 let endPoints;
 let params;
+let id;
 
 // This is sample delete message coming from the main page
 // let sampleMessage = {
@@ -23,6 +24,7 @@ window.addEventListener('message', function (event) {
         jsonBody = data.jsonBody;
         endPoints = data.endPoints;
         params = data.params;
+        id = data.id;
     } catch (error) {
         console.log(error);
     }
@@ -50,7 +52,7 @@ async function returnMessage() {
     try {
         await getEnglishJsonFile("../CommonUtils/en_properties.json");
         parent.postMessage(
-            { source: "IA_Delete", command: "closePopup", data: { jsonBody: jsonBody, deleteType: deleteType } },
+            { source: "IA_Delete", command: "closePopup", data: { jsonBody: jsonBody, deleteType: deleteType, id: id } },
             enProperties.domainName
         );
     } catch (error) {
