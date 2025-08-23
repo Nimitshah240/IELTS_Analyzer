@@ -5,20 +5,35 @@ let ifscCode;
 let branch;
 let bankName;
 let instituteId;
+let documentId;
 let data;
 let newBlob;
+let documentData = {
+    "id": "",
+    "userId": "",
+    "refId": "",   // Related table id such as Kyc, Bank, Advertisement, etc.
+    "refType": "", // Related type such as Kyc, Bank, Advertisement, etc.
+    "documentBlob": ''
+};
+
+let bankData = {
+    "id": "",
+    "instituteId": "",
+    "accountNumber": "",
+    "ifscCode": "",
+    "branch": "",
+    "bankName": "",
+    "accHolderName": "",
+    "documentId": "",
+    "verified": ""
+};
 
 document.addEventListener('DOMContentLoaded', function () {
     // Other event listeners, if needed
     window.addEventListener('message', function (event) {
         try {
             data = event.data.data;
-            instituteId = data.instituteId;
-            accHolderName = document.getElementById('name').value = data.accHolderName;
-            accountNumber = document.getElementById('accNumber').value = data.accountNumber;
-            ifscCode = document.getElementById('ifscCode').value = data.ifscCode;
-            branch = document.getElementById('branch').value = data.branch;
-            bankName = document.getElementById('bankName').value = data.bankName;
+            setBankData(data);
             getEnglishJsonFile("../../CommonUtils/en_properties.json");
         } catch (error) {
             console.log(error);
@@ -30,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function () {
     if (fileInput) { // Check if the element was actually found
         fileInput.addEventListener('change', (event) => {
             const files = event.target.files;
-            if (files.length > 0) {
+            if (files.size > 2000000) {
                 const firstFile = files[0];
                 newBlob = new Blob([firstFile], { type: firstFile.type });
             } else {
@@ -57,32 +72,29 @@ async function saveUpdateBtn(event) {
         branch = document.getElementById('branch').value;
         bankName = document.getElementById('bankName').value;
 
-
         if (accHolderName != null && accHolderName.trim() != '' &&
             accountNumber != null && accountNumber.trim() != '' &&
             ifscCode != null && ifscCode.trim() != '' &&
             branch != null && branch.trim() != '' &&
             bankName != null && bankName.trim() != '' && newBlob != null) {
+            await setDocument(documentData);
 
-            let base64 = await blobToBase64(newBlob);
-            data = { 'id': data.id, 'accHolderName': accHolderName, 'accountNumber': accountNumber, 'ifscCode': ifscCode, 'instituteId': instituteId, 'branch': branch, 'bankName': bankName, 'document': base64 };
+            data = { 'id': data.id, 'accHolderName': accHolderName, 'accountNumber': accountNumber, 'ifscCode': ifscCode, 'instituteId': instituteId, 'branch': branch, 'bankName': bankName, "document": documentData, "documentId": documentId };
 
             let method;
-            console.log(document.getElementById('btnYes').innerText);
-            if (document.getElementById('btnYes').innerText == 'Save' && data.id == '') {
-                method = 'POST';
-            } else if (document.getElementById('btnYes').innerText == 'Update') {
+            if (document.getElementById('btnYes').innerText == 'Update') {
                 method = 'PUT'
             }
 
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + enProperties.apiEndPoints.bank;
             if (method != null) {
-                await apiCallOuts(apiURL, method, JSON.stringify(data), 6000);
+                let responsedata = await apiCallOuts(apiURL, method, JSON.stringify(data), 6000);
+                if (responsedata != null && responsedata.id != null) {
+                    document.getElementById('btnYes').disabled = true;
+                    setBankData(responsedata);
+                    popupclose('save');
+                }
             }
-
-            notification = { 'message': 'Thank you, Uploaded files will get deleted within 2 days of verification' };
-            document.getElementById('popupFrame').style.display = "flex";
-            popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
         } else {
             createToast('error', 'Please fill required details');
         }
@@ -95,11 +107,10 @@ async function saveUpdateBtn(event) {
 function popupclose(operation) {
     try {
         parent.postMessage(
-            { source: 'IA_BankPopup', command: 'closePopup', data: { 'data': data, 'operation': operation } },
+            { source: 'IA_BankPopup', command: 'closePopup', data: { 'data': bankData, 'operation': operation } },
             enProperties.domainName)
     } catch (error) {
         console.log(error);
-        
     }
 }
 
@@ -124,13 +135,44 @@ function keyPressed() {
     }
 }
 
-window.addEventListener('message', function (event) {
+function setBankData(data) {
     try {
-        const message = event.data;    
-        if (message.source == 'IA_Notification') {
-            popupclose('save');
-        }
+        bankData.id = data.id;
+        instituteId = bankData.instituteId = data.instituteId;
+        accountNumber = bankData.accountNumber = data.accountNumber;
+        ifscCode = bankData.ifscCode = data.ifscCode;
+        branch = bankData.branch = data.branch;
+        bankName = bankData.bankName = data.bankName;
+        accHolderName = bankData.accHolderName = data.accHolderName;
+        documentId = bankData.documentId = data.documentId;
+        bankData.verified = data.verified;
+        setFields(data);
     } catch (error) {
         console.log(error);
     }
-});
+}
+
+function setFields(data) {
+    try {
+        document.getElementById('name').value = data.accHolderName;
+        document.getElementById('accNumber').value = data.accountNumber;
+        document.getElementById('ifscCode').value = data.ifscCode;
+        document.getElementById('branch').value = data.branch;
+        document.getElementById('bankName').value = data.bankName;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function setDocument(documentData) {
+    try {
+        let base64 = await blobToBase64(newBlob);
+        documentData.documentBlob = base64;
+        documentData.id = data.documentId;
+        documentData.userId = instituteId;
+        documentData.refId = data.id;
+        documentData.refType = "BANK";
+    } catch (error) {
+        console.log(error);
+    }
+}

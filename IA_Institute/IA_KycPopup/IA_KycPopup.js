@@ -4,15 +4,31 @@ let userName;
 let docNumber;
 let docType;
 let instituteId;
+let documentId;
+
+var kycData = {
+    "id": "",
+    'instituteId': "",
+    'name': "",
+    'documentType': "",
+    'documentNumber': "",
+    'documentId': "",
+    'verified': ""
+};
+
+let documentData = {
+    "id": "",
+    "userId": "",
+    "refId": "",   // Related table id such as Kyc, Bank, Advertisement, etc.
+    "refType": "", // Related type such as Kyc, Bank, Advertisement, etc.
+    "documentBlob": ''
+};
 
 document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('message', function (event) {
         try {
             data = event.data.data;
-            userName = document.getElementById('name').value = data.name;
-            docNumber = document.getElementById('docNumber').value = data.documentNumber;
-            docType = document.getElementById('docType').value = data.documentType;
-            instituteId = data.instituteId;
+            setKycData(data);
             getEnglishJsonFile("../../CommonUtils/en_properties.json");
         } catch (error) {
             console.log(error);
@@ -54,23 +70,23 @@ async function saveUpdateBtn(event) {
         if (docType != null && docType.trim() != '' && userName != null && docNumber != null
             && userName.trim() != '' && docNumber.trim != '' && newBlob != null) {
 
-            let base64 = await blobToBase64(newBlob);
-            data = { 'id': data.id, 'name': userName, 'documentType': docType, 'documentNumber': docNumber, 'document': base64, 'instituteId': data.instituteId };
+            await setDocument(documentData);
+            data = { 'id': data.id, 'name': userName, 'documentType': docType, 'documentNumber': docNumber, 'document': documentData, 'instituteId': data.instituteId, "documentId": documentId };
 
             let method;
-
-            if (document.getElementById('btnYes').innerText == 'Save' && data.id == '') {
-                method = 'POST';
-            } else if (document.getElementById('btnYes').innerText == 'Update') {
+            if (document.getElementById('btnYes').innerText == 'Update') {
                 method = 'PUT'
             }
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + enProperties.apiEndPoints.kyc;
-            if (method != null)
-                await apiCallOuts(apiURL, method, JSON.stringify(data), 6000);
-            
-            notification = { 'message': 'Thank you, Uploaded files will get deleted within 2 days of verification' };
-            document.getElementById('popupFrame').style.display = "flex";
-            popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
+            if (method != null) {
+                let responsedata = await apiCallOuts(apiURL, method, JSON.stringify(data), 6000);
+                if (responsedata != null && responsedata.id != null) {
+                    document.getElementById('btnYes').disabled = true;
+                    setKycData(responsedata);
+                    stopSpinner();
+                    popupclose('save');
+                }
+            }
         } else {
             createToast('error', 'Please fill required details');
         }
@@ -83,7 +99,7 @@ async function saveUpdateBtn(event) {
 function popupclose(operation) {
     try {
         parent.postMessage(
-            { source: 'IA_KycPopup', command: 'closePopup', data: { 'data': data, 'operation': operation } },
+            { source: 'IA_KycPopup', command: 'closePopup', data: { 'data': kycData, 'operation': operation } },
             enProperties.domainName)
     } catch (error) {
         console.log(error);
@@ -111,13 +127,40 @@ function keyPressed() {
     }
 }
 
-window.addEventListener('message', function (event) {
-    try {    
-        const message = event.data;    
-        if (message.source == 'IA_Notification') {
-            popupclose('save');
-        }
+function setKycData(data) {
+    try {
+        kycData.id = data.id;
+        instituteId = kycData.instituteId = data.instituteId;
+        userName = kycData.name = data.name;
+        docType = kycData.documentType = data.documentType;
+        docNumber = kycData.documentNumber = data.documentNumber;
+        documentId = kycData.documentId = data.documentId;
+        kycData.verified = data.verified;
+        setFields(data);
     } catch (error) {
         console.log(error);
     }
-});
+}
+
+function setFields(data) {
+    try {
+        document.getElementById('name').value = data.name;
+        document.getElementById('docNumber').value = data.documentNumber;
+        document.getElementById('docType').value = data.documentType;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+async function setDocument(documentData) {
+    try {
+        let base64 = await blobToBase64(newBlob);
+        documentData.documentBlob = base64;
+        documentData.id = data.documentId;
+        documentData.userId = instituteId;
+        documentData.refId = data.id;
+        documentData.refType = "KYC";
+    } catch (error) {
+        console.log(error);
+    }
+}

@@ -1,23 +1,11 @@
 var maindata;
-var instituteData = {
-  id: "",
-  email: "",
-  number: "",
-  address: "",
-  picture: "",
-  googleId: "",
-  verified: "",
-  loginDate: "",
-  newInstitute: true,
-  instituteName: ""
-};
 var kycData = {
   "id": "",
   'instituteId': "",
   'name': "",
   'documentType': "",
   'documentNumber': "",
-  'document': "",
+  'documentId': "",
   'verified': ""
 };
 
@@ -29,15 +17,33 @@ let bankData = {
   "branch": "",
   "bankName": "",
   "accHolderName": "",
-  "document": "",
+  "documentId": "",
   "verified": ""
 };
 
-// Developer - Nimit Shah
-// Developed on - 26/07/2025
-// Description - Use to initialize authentication page on load of page
-// Updated on - -
-// Input - none
+var instituteData = {
+  id: "",
+  email: "",
+  number: "",
+  address: "",
+  picture: "",
+  googleId: "",
+  verified: "",
+  loginDate: "",
+  newInstitute: true,
+  instituteName: "",
+  kyc: kycData,
+  bank: bankData
+};
+
+let continueBtnText;
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  continueBtnText = document.getElementById("continue");
+  console.log(continueBtnText);
+});
+
 async function connectedCallback() {
   try {
     showSpinner("Checking user...");
@@ -50,17 +56,9 @@ async function connectedCallback() {
       let curData = JSON.parse(localStorage.getItem("instituteUserData"));
       apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + `?googleId=${curData.googleId} `;
       let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-
-      if (responsedata != null && responsedata.institute != null) {
-        setData(responsedata.institute);
+      if (responsedata != null && responsedata.id != null) {
+        setData(responsedata);
         setIcons(responsedata);
-
-        if (responsedata.kyc != null) {
-          setKycData(responsedata.kyc);
-        }
-        if (responsedata.bank != null) {
-          setBankData(responsedata.bank);
-        }
       } else {
         document.getElementById("welcome-sign").innerText = "Sign In";
         document.getElementById("validation-box-body-signin").style.display = "none";
@@ -161,7 +159,7 @@ async function SignedIn() {
           info.googleId = info.sub;
           info.id = "";
           delete info.sub;
-          dynamicUrl = await getFilePaths("index");
+          dynamicUrl = await getFilePaths("institute");
           if (info) {
             instituteData.googleId = info.googleId;
             instituteData.email = info.email;
@@ -187,18 +185,22 @@ async function fetchUser(id) {
     showSpinner("Checking user...");
 
     let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-    document.getElementById("continue").style.display = "block";
+    if (continueBtnText != null)
+      continueBtnText.style.display = "block";
+
     document.getElementById("google-button").style.display = "none";
-    if (responsedata != null && responsedata.institute != null) {
+
+    if (responsedata != null && responsedata.id != null) {
       // User is already availabe in DB
-      responsedata.institute.newInstitute = false;
-      setData(responsedata.institute);
+      responsedata.newInstitute = false;
+      setData(responsedata);
       setIcons(responsedata);
       getNotification();
     } else {
       // New user is sign in
       instituteData.newInstitute = true;
-      document.getElementById("continue").innerText = "Save";
+      if (continueBtnText != null)
+        continueBtnText.innerText = "Save";
       setData(instituteData);
     }
     stopSpinner();
@@ -223,13 +225,15 @@ async function continueClick() {
 
     // Checking for changes in data
     if (instituteName.trim() != "" && address.trim() != "" && number.trim() != "" && privacy) {
-      if (instituteData.instituteName != instituteName || instituteData.email != email ||
-        instituteData.number != number || instituteData.address != address || instituteData.privacy != privacy) {
+      if ((continueBtnText.innerText != "Home") && (instituteData.instituteName != instituteName || instituteData.email != email ||
+        instituteData.number != number || instituteData.address != address || instituteData.privacy != privacy)) {
         instituteData.instituteName = instituteName;
         instituteData.email = email;
         instituteData.number = number;
         instituteData.address = address;
         instituteData.privacy = privacy;
+        instituteData.kyc = kycData;
+        instituteData.bank = bankData;
 
         setData(instituteData);
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute;
@@ -240,8 +244,8 @@ async function continueClick() {
         await apiCallOuts(apiURL, method, JSON.stringify(instituteData), 10000)
           .then(async (data) => {
             setData(data);
-            dynamicUrl = await getFilePaths("index");
-            window.location.href = dynamicUrl;
+            continueBtnText.innerText = "Home";
+            createToast("success", "Updated Successfully")
             stopSpinner();
           })
           .catch((error) => {
@@ -250,8 +254,10 @@ async function continueClick() {
           });
       } else {
         localStorage.setItem("instituteUserData", JSON.stringify(instituteData));
-        dynamicUrl = (await getFilePaths("index")) + "?signedin=true";
-        window.location.href = dynamicUrl;
+        if (continueBtnText.innerText == "Home") {
+          dynamicUrl = (await getFilePaths("index"));
+          window.location.href = dynamicUrl;
+        }
       }
     } else {
       createToast("error", "Fill require detail");
@@ -350,6 +356,7 @@ function setNotification() {
 
   }
 }
+
 function setData(data) {
   try {
     instituteData.newInstitute = data.newInstitute;
@@ -362,6 +369,18 @@ function setData(data) {
     instituteData.picture = data.picture;
     instituteData.loginDate = data.loginDate;
     instituteData.googleId = data.googleId;
+    instituteData.kyc = data.kyc;
+    instituteData.bank = data.bank;
+    if (data.kyc != null) {
+      setKycData(data.kyc);
+    } else {
+      instituteData.kyc = kycData;
+    }
+    if (data.bank != null) {
+      setBankData(data.bank);
+    } else {
+      instituteData.bank = bankData;
+    }
     localStorage.setItem("instituteUserData", JSON.stringify(instituteData));
     setFields();
   } catch (error) {
@@ -388,7 +407,8 @@ function setFields() {
     if (instituteData.address != "") {
       document.getElementById("address").value = instituteData.address;
     }
-    document.getElementById("continue").style.display = "block";
+    if (continueBtnText != null)
+      continueBtnText.style.display = "block";
     document.getElementById("signout").style.display = "block";
     document.getElementById("validation-box-body-signin").style.display = "flex";
     document.getElementById("welcome-sign").innerHTML = `Hi, ${instituteData.instituteName}`;
@@ -401,11 +421,12 @@ function setFields() {
     console.log(error);
   }
 }
+
 function setIcons(responsedata) {
   try {
     let bankCheck = false;
     let kycCheck = false;
-    let instituteCheck = responsedata.institute.verified;
+    let instituteCheck = responsedata.verified;
 
     let bankIcon = document.getElementById("bank")
     //    bankIcon.style.setProperty("display", "flex", "important");
@@ -458,7 +479,7 @@ async function Signout(event) {
       }).then(async () => {
         localStorage.removeItem("instituteAuthInfo");
         localStorage.removeItem("instituteUserData");
-        dynamicUrl = await getFilePaths("index");
+        dynamicUrl = await getFilePaths("institute");
         window.location.href = dynamicUrl;
       });
     } else {
@@ -492,16 +513,17 @@ function showSignout() {
 
 function keyPressed() {
   if (!instituteData.newInstitute) {
-    document.getElementById("continue").innerText = "Update"
+    continueBtnText.innerText = "Update"
   } else {
-    document.getElementById("continue").innerText = "Save"
+    continueBtnText.innerText = "Save"
   }
 }
 
 async function popupopen(event) {
   let source;
   let data;
-  switch (event.target.id) {
+  let btn = event.target.id;
+  switch (btn) {
     case "kyc":
       source = 'kycpopup';
       kycData.instituteId = instituteData.id != "" ? instituteData.id : "";
@@ -520,9 +542,10 @@ async function popupopen(event) {
     default:
       break;
   }
-
-  document.getElementById('popupFrame').style.display = "flex";
-  popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: data }, enProperties.domainName);
+  if (btn != 'student') {
+    document.getElementById('popupFrame').style.display = "flex";
+    popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: data }, enProperties.domainName);
+  }
 
 }
 
@@ -548,6 +571,11 @@ window.addEventListener('message', function (event) {
         }
       }
       document.getElementById('popupFrame').style.display = "none";
+      if (message.data.operation == 'save') {
+        notification = { 'message': 'Thank you, Uploaded files will get deleted within 2 days of verification' };
+        document.getElementById('popupFrame').style.display = "flex";
+        popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
+      }
     }
   } catch (error) {
     console.log(error);
@@ -561,12 +589,13 @@ function setKycData(data) {
     kycData.name = data.name;
     kycData.documentType = data.documentType;
     kycData.documentNumber = data.documentNumber;
-    kycData.document = data.document;
+    kycData.documentId = data.documentId;
     kycData.verified = data.verified;
   } catch (error) {
     console.log(error);
   }
 }
+
 function setBankData(data) {
   try {
     bankData.id = data.id;
@@ -576,7 +605,7 @@ function setBankData(data) {
     bankData.branch = data.branch;
     bankData.bankName = data.bankName;
     bankData.accHolderName = data.accHolderName;
-    bankData.document = data.document;
+    bankData.documentId = data.documentId;
     bankData.verified = data.verified;
   } catch (error) {
     console.log(error);
