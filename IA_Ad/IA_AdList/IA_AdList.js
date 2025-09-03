@@ -1,25 +1,25 @@
-let adsData = {
+let adData = {
     "id": "",
-    "adsUserId": "",
-    "adsTypeId": "",
-    "ads": "",
+    "adUserId": "",
+    "adTypeId": "",
+    "ad": "",
     "paid": "",
     "startDateTime": "",
     "endDateTime": "",
-    "adsPageId": "",
+    "adPageId": "",
     "isActive": ""
 };
 let responsedata;
 
-async function adsListConnectedCallback() {
+async function adListConnectedCallback() {
     try {
         await getEnglishJsonFile('../../CommonUtils/en_properties.json');
-        if (localStorage.getItem("adsUserData")) {
-            let adsUserId;
-            adsUserId = JSON.parse(localStorage.getItem("adsUserData")).id;
-            apiURL = enProperties.apiURL + enProperties.apiEndPoints.advertisement + `?adsUserId=${adsUserId}`;
+        if (localStorage.getItem("adUserData")) {
+            let adUserId;
+            adUserId = JSON.parse(localStorage.getItem("adUserData")).id;
+            apiURL = enProperties.apiURL + enProperties.apiEndPoints.advertisement + `?adUserId=${adUserId}`;
             responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-            setAdsList(responsedata);
+            setAdList(responsedata);
         }
         Userlogo();
     } catch (error) {
@@ -28,9 +28,9 @@ async function adsListConnectedCallback() {
     }
 }
 
-function openAdsPopup(event) {
+function openAdPopup(event) {
     try {
-        let source = 'adsPopup';
+        let source = 'adPopup';
         let data = null;
         document.getElementById('popupFrame').style.display = "flex";
         popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: data }, enProperties.domainName);
@@ -45,14 +45,14 @@ window.addEventListener('message', function (event) {
 
         const message = event.data;
         if (message.command == 'closePopup') {
-            if (message.source == 'IA_Ads') {
+            if (message.source == 'IA_Ad') {
                 if (message.data.operation == 'save') {
-                    // After saving ads process
+                    // After saving ad process
                 }
             }
             if (message.source == 'IA_Delete') {
                 if (message.data.deleteType) {
-                    afterDeleteAds(message.data.id);
+                    afterDeleteAd(message.data.id);
                 }
             }
             document.getElementById('popupFrame').style.display = "none";
@@ -62,7 +62,7 @@ window.addEventListener('message', function (event) {
     }
 });
 
-function setAdsList(responsedata) {
+function setAdList(responsedata) {
     try {
         let htmldata = "";
         if (responsedata.length < 1) {
@@ -92,14 +92,14 @@ function setAdsList(responsedata) {
                 let Payment = element.paid ? `<p style="font-weight:bold" name="Listening" id='${element.id}'>Paid</p>` : `<button class="button-63 payment-button" name="Listening" id='${element.id}'>Payment</button>`;
                 htmldata +=
                     `<div class="data" id='${element.id}'>
-            <div class="column index" onclick="openAdsPopup(event)" id='${element.id}'> ${(index + 1)} </div>
-            <div class="column total" onclick="openAdsPopup(event)" id='${element.id}'> ${element.advertisementTypeId} </div>
-            <div class="column total" onclick="openAdsPopup(event)" id='${element.id}'> ${element.advertisementPageId}</div>
-            <div class="column total" onclick="openAdsPopup(event)" id='${element.id}'> <input type="checkbox" id="${element.id}" value=${element.isActive} ${element.isActive ? 'checked' : ''} disabled></div>
+            <div class="column index" onclick="openAdPopup(event)" id='${element.id}'> ${(index + 1)} </div>
+            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> ${element.advertisementTypeId} </div>
+            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> ${element.advertisementPageId}</div>
+            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> <input type="checkbox" id="${element.id}" value=${element.isActive} ${element.isActive ? 'checked' : ''} disabled></div>
             <div class="column total dash" onclick="opendashboard(event)" id='${element.id}'>${Payment}</div>
-            <div class="column total" onclick="openAdsPopup(event)" id='${element.id}'> ${startDate}</div>
-            <div class="column total" onclick="openAdsPopup(event)" id='${element.id}'> ${endDate}</div>
-            <div class="column delete" onclick="deleteAds(event)" id='${element.id}'> <i class="fa fa-trash" id="${element.id}" aria-hidden="true"></i>
+            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> ${startDate}</div>
+            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> ${endDate}</div>
+            <div class="column delete" onclick="deleteAd(event)" id='${element.id}'> <i class="fa fa-trash" id="${element.id}" aria-hidden="true"></i>
             </div>
             </div>`
             });
@@ -110,14 +110,14 @@ function setAdsList(responsedata) {
     }
 }
 
-function deleteAds(event) {
+function deleteAd(event) {
     try {
-        let deleteAdsId = event.target.id;
+        let deleteAdId = event.target.id;
         for (let element of responsedata) {
-            if ((element.id == deleteAdsId) && (!element.paid)) {
+            if ((element.id == deleteAdId) && (!element.paid)) {
                 let endPoints = ['advertisement'];
-                let params = [`id=${deleteAdsId}`];
-                let data = { 'jsonBody': null, 'endPoints': endPoints, 'params': params, 'module': "IA_AdsList", "id": deleteAdsId };
+                let params = [`id=${deleteAdId}`];
+                let data = { 'jsonBody': null, 'endPoints': endPoints, 'params': params, 'module': "IA_AdList", "id": deleteAdId };
                 document.getElementById('popupFrame').style.display = "flex";
                 popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: data }, enProperties.domainName);
                 break;
@@ -132,12 +132,12 @@ function deleteAds(event) {
     }
 }
 
-function afterDeleteAds(deleteAdsId) {
+function afterDeleteAd(deleteAdId) {
     try {
         responsedata.forEach((element, index) => {
-            if (element.id == deleteAdsId) {
+            if (element.id == deleteAdId) {
                 responsedata.splice(index, 1);
-                setAdsList(responsedata);
+                setAdList(responsedata);
             }
         });
         createToast("success", "Advertisement deleted successfully");

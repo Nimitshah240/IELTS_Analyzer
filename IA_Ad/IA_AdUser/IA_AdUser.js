@@ -1,5 +1,5 @@
 var maindata;
-var adsUserData = {
+var adUserData = {
   id: "",
   email: "",
   number: "",
@@ -8,21 +8,21 @@ var adsUserData = {
   googleId: "",
   verified: "",
   loginDate: "",
-  newAdsUser: true,
+  newAdUser: true,
   companyName: ""
 };
 
-async function adsConnectedCallback() {
+async function adConnectedCallback() {
   try {
     showSpinner("Checking user...");
     await getEnglishJsonFile("../../CommonUtils/en_properties.json");
     Userlogo();
-    if (localStorage.getItem("adsUserData") == null) {
+    if (localStorage.getItem("adUserData") == null) {
       document.getElementById("google-button").style.display = "block";
       document.getElementsByClassName("validation-box-signin")[0].classList.add("google-sign-in-btn");
     } else {
-      let curData = JSON.parse(localStorage.getItem("adsUserData"));
-      apiURL = enProperties.apiURL + enProperties.apiEndPoints.adsUser + `?googleId=${curData.googleId} `;
+      let curData = JSON.parse(localStorage.getItem("adUserData"));
+      apiURL = enProperties.apiURL + enProperties.apiEndPoints.adUser + `?googleId=${curData.googleId} `;
       let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
       if (responsedata != null) {
         setData(responsedata);
@@ -59,7 +59,7 @@ async function googleSignin() {
     let params = {
       client_id:
         "960583894295-h50j910bdioqrmlrargqs6hust6in4ap.apps.googleusercontent.com",
-      redirect_uri: `${await getFilePaths("adsUser")}`,
+      redirect_uri: `${await getFilePaths("adUser")}`,
       response_type: "token",
       scope:
         "https://www.googleapis.com/auth/userinfo.profile  https://www.googleapis.com/auth/userinfo.email",
@@ -95,8 +95,8 @@ async function SignedIn() {
 
     let info = JSON.parse(JSON.stringify(params));
     access_token = info["access_token"];
-    localStorage.setItem("adsAuthInfo", info["access_token"]);
-    dynamicUrl = await getFilePaths("adsUser");
+    localStorage.setItem("adAuthInfo", info["access_token"]);
+    dynamicUrl = await getFilePaths("adUser");
     window.history.pushState({}, document.title, dynamicUrl);
 
     if (access_token != "") {
@@ -107,8 +107,8 @@ async function SignedIn() {
       })
         .then((data) => {
           if (!data.ok) {
-            localStorage.removeItem("adsAuthInfo");
-            localStorage.removeItem("adsUserData");
+            localStorage.removeItem("adAuthInfo");
+            localStorage.removeItem("adUserData");
             throw new Error(data.status + " " + data.statusText);
           }
           return data.json();
@@ -119,9 +119,9 @@ async function SignedIn() {
           delete info.sub;
           dynamicUrl = await getFilePaths("index");
           if (info) {
-            adsUserData.googleId = info.googleId;
-            adsUserData.email = info.email;
-            adsUserData.picture = info.picture
+            adUserData.googleId = info.googleId;
+            adUserData.email = info.email;
+            adUserData.picture = info.picture
             fetchUser(info.googleId);
           }
         });
@@ -133,7 +133,7 @@ async function SignedIn() {
 
 async function fetchUser(id) {
   try {
-    apiURL = enProperties.apiURL + enProperties.apiEndPoints.adsUser + `?googleId=${id} `;
+    apiURL = enProperties.apiURL + enProperties.apiEndPoints.adUser + `?googleId=${id} `;
     showSpinner("Checking user...");
 
     let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
@@ -141,14 +141,14 @@ async function fetchUser(id) {
     document.getElementById("google-button").style.display = "none";
     if (responsedata != null) {
       // User is already availabe in DB
-      responsedata.newAdsUser = false;
+      responsedata.newAdUser = false;
       setData(responsedata);
       getNotification();
     } else {
       // New user is sign in
-      adsUserData.newAdsUser = true;
+      adUserData.newAdUser = true;
       document.getElementById("continue").innerText = "Save";
-      setData(adsUserData);
+      setData(adUserData);
     }
     stopSpinner();
   } catch (error) {
@@ -167,21 +167,21 @@ async function continueClick() {
 
     // Checking for changes in data
     if (companyName.trim() != "" && address.trim() != "" && number.trim() != "" && privacy) {
-      if (adsUserData.companyName != companyName || adsUserData.email != email ||
-        adsUserData.number != number || adsUserData.address != address || adsUserData.privacy != privacy) {
-        adsUserData.companyName = companyName;
-        adsUserData.email = email;
-        adsUserData.number = number;
-        adsUserData.address = address;
-        adsUserData.privacy = privacy;
+      if (adUserData.companyName != companyName || adUserData.email != email ||
+        adUserData.number != number || adUserData.address != address || adUserData.privacy != privacy) {
+        adUserData.companyName = companyName;
+        adUserData.email = email;
+        adUserData.number = number;
+        adUserData.address = address;
+        adUserData.privacy = privacy;
 
-        setData(adsUserData);
-        apiURL = enProperties.apiURL + enProperties.apiEndPoints.adsUser;
+        setData(adUserData);
+        apiURL = enProperties.apiURL + enProperties.apiEndPoints.adUser;
         showSpinner("Saving user");
 
-        let method = adsUserData.newAdsUser ? "POST" : "PUT";
+        let method = adUserData.newAdUser ? "POST" : "PUT";
 
-        await apiCallOuts(apiURL, method, JSON.stringify(adsUserData), 10000)
+        await apiCallOuts(apiURL, method, JSON.stringify(adUserData), 10000)
           .then(async (data) => {
             setData(data);
             dynamicUrl = await getFilePaths("index");
@@ -193,7 +193,7 @@ async function continueClick() {
             createToast("error", error.message);
           });
       } else {
-        localStorage.setItem("adsUserData", JSON.stringify(adsUserData));
+        localStorage.setItem("adUserData", JSON.stringify(adUserData));
         dynamicUrl = (await getFilePaths("index")) + "?signedin=true";
         window.location.href = dynamicUrl;
       }
@@ -210,10 +210,10 @@ async function Userlogo() {
   try {
     await setAnchorHref("index");
     await setIframeSrc("spinner");
-    if (localStorage.getItem("adsUserData") != null && document.getElementById("not-log")) {
+    if (localStorage.getItem("adUserData") != null && document.getElementById("not-log")) {
       document.getElementById("not-log").style.display = "none";
       document.getElementById("login-img").style.display = "block";
-      document.getElementById("login-img").setAttribute("src", JSON.parse(localStorage.getItem("adsUserData")).picture);
+      document.getElementById("login-img").setAttribute("src", JSON.parse(localStorage.getItem("adUserData")).picture);
     }
   } catch (error) {
     createToast("error", "Error while fetching user data : " + error.message);
@@ -223,7 +223,7 @@ async function Userlogo() {
 async function getNotification() {
   try {
     showSpinner("Getting Notification...");
-    apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${adsUserData.id}&refType=advertisement`;
+    apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${adUserData.id}&refType=advertisement`;
     notificationList = await apiCallOuts(apiURL, "GET", null, 6000);
     setNotification();
     stopSpinner();
@@ -292,17 +292,17 @@ function setNotification() {
 
 function setData(data) {
   try {
-    adsUserData.newAdsUser = data.newAdsUser;
-    adsUserData.id = data.id;
-    adsUserData.companyName = data.companyName;
-    adsUserData.email = data.email;
-    adsUserData.number = data.number;
-    adsUserData.privacy = data.privacy;
-    adsUserData.address = data.address;
-    adsUserData.picture = data.picture;
-    adsUserData.loginDate = data.loginDate;
-    adsUserData.googleId = data.googleId;
-    localStorage.setItem("adsUserData", JSON.stringify(adsUserData));
+    adUserData.newAdUser = data.newAdUser;
+    adUserData.id = data.id;
+    adUserData.companyName = data.companyName;
+    adUserData.email = data.email;
+    adUserData.number = data.number;
+    adUserData.privacy = data.privacy;
+    adUserData.address = data.address;
+    adUserData.picture = data.picture;
+    adUserData.loginDate = data.loginDate;
+    adUserData.googleId = data.googleId;
+    localStorage.setItem("adUserData", JSON.stringify(adUserData));
     setFields();
   } catch (error) {
     console.log(error);
@@ -312,29 +312,29 @@ function setData(data) {
 function setFields() {
   try {
 
-    if (adsUserData.id != "") {
-      document.getElementById("id").innerText = adsUserData.id;
+    if (adUserData.id != "") {
+      document.getElementById("id").innerText = adUserData.id;
       document.getElementById("id-div").style.display = "flex";
-      document.getElementById("companyName").value = adsUserData.companyName;
+      document.getElementById("companyName").value = adUserData.companyName;
     } else {
       document.getElementById("id-div").style.display = "none"
     }
 
-    if (adsUserData.email != "") {
-      document.getElementById("email").value = adsUserData.email;
+    if (adUserData.email != "") {
+      document.getElementById("email").value = adUserData.email;
     }
-    if (adsUserData.number != "") {
-      document.getElementById("number").value = adsUserData.number;
+    if (adUserData.number != "") {
+      document.getElementById("number").value = adUserData.number;
     }
-    if (adsUserData.address != "") {
-      document.getElementById("address").value = adsUserData.address;
+    if (adUserData.address != "") {
+      document.getElementById("address").value = adUserData.address;
     }
     document.getElementById("continue").style.display = "block";
     document.getElementById("signout").style.display = "block";
     document.getElementById("validation-box-body-signin").style.display = "flex";
-    document.getElementById("welcome-sign").innerHTML = `Hi, ${adsUserData.companyName}`;
+    document.getElementById("welcome-sign").innerHTML = `Hi, ${adUserData.companyName}`;
     document.getElementsByClassName("validation-box-signin")[0].classList.remove("google-sign-in-btn");
-    if (adsUserData.newAdsUser == false) {
+    if (adUserData.newAdUser == false) {
       document.getElementsByClassName("privacy")[0].style.display = "flex";
     }
 
@@ -387,20 +387,20 @@ function setFields() {
 async function Signout(event) {
   try {
     if (event.target.id == "yes") {
-      let access_token = localStorage.getItem("adsAuthInfo");
+      let access_token = localStorage.getItem("adAuthInfo");
       fetch("https://oauth2.googleapis.com/revoke?token=" + access_token, {
         method: "POST",
         headers: {
           "Content-type": "application/x-www-form-urlencoded",
         },
       }).then(async () => {
-        localStorage.removeItem("adsAuthInfo");
-        localStorage.removeItem("adsUserData");
+        localStorage.removeItem("adAuthInfo");
+        localStorage.removeItem("adUserData");
         dynamicUrl = await getFilePaths("index");
         window.location.href = dynamicUrl;
       });
     } else {
-      dynamicUrl = await getFilePaths("adsUser");
+      dynamicUrl = await getFilePaths("adUser");
       window.location.href = dynamicUrl;
     }
   } catch (error) {
@@ -424,7 +424,7 @@ function showSignout() {
 }
 
 function keyPressed() {
-  if (!adsUserData.newAdsUser) {
+  if (!adUserData.newAdUser) {
     document.getElementById("continue").innerText = "Update"
   } else {
     document.getElementById("continue").innerText = "Save"
@@ -435,8 +435,8 @@ async function popupopen(event) {
   let source;
   let data;
   switch (event.target.id) {
-    case "adsList":
-      dynamicUrl = await getFilePaths("adsList");
+    case "adList":
+      dynamicUrl = await getFilePaths("adList");
       event.target.href = dynamicUrl;
       window.location.href = dynamicUrl;
       break;

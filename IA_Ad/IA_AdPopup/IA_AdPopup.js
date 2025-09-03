@@ -7,13 +7,13 @@ let bankName;
 let instituteId;
 let data = {
     "id": "",
-    "adsUserId": "",
-    "adsTypeId": "",
-    "ads": "",
+    "adUserId": "",
+    "adTypeId": "",
+    "ad": "",
     "paid": "",
     "startDateTime": "",
     "endDateTime": "",
-    "adsPageId": "",
+    "adPageId": "",
     "isActive": ""
 };
 
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-function adsPopupConnectedCallback() {
+function adPopupConnectedCallback() {
 }
 
 function closeBtn(event) {
@@ -105,7 +105,7 @@ async function saveUpdateBtn(event) {
 function popupclose(operation) {
     try {
         parent.postMessage(
-            { source: 'IA_AdsPopup', command: 'closePopup', data: { 'data': data, 'operation': operation } },
+            { source: 'IA_AdPopup', command: 'closePopup', data: { 'data': data, 'operation': operation } },
             enProperties.domainName)
     } catch (error) {
         console.log(error);
