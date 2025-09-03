@@ -64,7 +64,7 @@ main::-webkit-scrollbar {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: auto;
+    /* margin: auto; */
 
 }
 
@@ -151,6 +151,7 @@ main::-webkit-scrollbar {
     margin-bottom: 10px;
     background-color: black;
     color: white;
+    margin: 5px auto;
 }
 
 .front-div {
@@ -280,6 +281,12 @@ th {
     display: block;
 }
 
+.button-box {
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+}
+
 @media screen and (max-width: 640px) {
 
     .tooltip-text {
@@ -407,9 +414,13 @@ th {
         padding: 55px;
     }
 
+    .upper-section {
+        height: 80vh;
+    }
+
     .section-divider {
-        height: 90vh;
-        margin-top: 4%;
+        height: 88vh;
+        /* margin-top: 4%; */
         padding: 0px 10px;
         overflow: auto;
         flex-direction: row;
@@ -418,7 +429,7 @@ th {
 
     .show-data1 {
         width: 40%;
-        height: 40%;
+        height: fit-content;
     }
 
     .save-data {

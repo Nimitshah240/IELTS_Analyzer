@@ -1,0 +1,91 @@
+main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    width: 100%;
+}
+
+.kyc-pop {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.kyc-box {
+    width: 50%;
+    height: fit-content;
+    background-color: white !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+@media screen and (max-width: 640px) {
+    .kyc-box {
+        width: 90%;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .kyc-box {
+        width: 60%;
+    }
+}
+
+@media screen and (min-width:1024px) {
+    .kyc-box {
+        width: 45%;
+        height: 60%;
+    }
+}
+
+@media screen and (min-width: 1280px) {}
+
+.adpopup-img,
+.adpopup-video {
+    border-radius: var(--box-border-radius);
+    width: 100%;
+    height: 100%;
+}
+
+.adpopup-video {
+    display: none;
+}
+
+.close-icon {
+    font-size: 20px;
+    right: 16px;
+    top: 10px;
+    position: absolute;
+    color: white;
+    border: 1px solid black;
+    cursor: pointer;
+}
+
+.AdPage {
+    height: 100%;
+    width: 100%;
+    border-radius: none;
+}
+
+.Ad-block-horizontal {
+    width: 35%;
+    height: 35%;
+}
+
+.Ad-block-vertical {
+    width: 17%;
+    height: 55%;
+}
+
+.Ad-strip {
+    width: 100%;
+    height: 10%;
+}

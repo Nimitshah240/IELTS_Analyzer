@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ielts Analyzer</title>
+    <link rel="icon" href="Asset\icon.svg" type="image/icon type">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel='stylesheet' href='./IA_AdController.css'>
+    <link rel='stylesheet' href='../../IA_Toast/IA_Toast.css'>
+    <link rel='stylesheet' href='../../CommonUtils/CommonCss.css'>
+
+    <script src='./IA_AdController.js'></script>
+    <script src='../..//IA_Toast/IA_Toast.js'></script>
+    <script src='../../CommonUtils/commonMethod.js'></script>
+</head>
+
+<body style="margin: 0px;" onload="adPopupConnectedCallback()">
+    <!-- Toast -->
+    <ul class="notifications" id="notifications"></ul>
+    <!-- Toast -->
+    <iframe src="../../IA_PopupView/IA_PopupView.html" id="popupFrame" class="popup-frame" frameborder="0"></iframe>
+    <main id="main">
+        <div class="kyc-pop">
+            <div class="AdPage kyc-box glass">
+                <i class="fa fa-close close-icon"></i>
+                <img src="../../Asset/01.jpg" class="adpopup-img">
+                <video class="adpopup-video" controls>
+                    <source src="movie.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
