@@ -31,26 +31,22 @@ async function checkuser() {
 
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.master + enProperties.apiEndPoints.allStudentData + `?username=${username}&password=${password}`;
         let responsedata = await apiCallOuts(apiURL, 'GET', null, 6000);
-
-        if (responsedata == 'Invalid User') {
-            createToast('error', 'Invalid User');
-        } else {
+        if (responsedata.code == 200 && responsedata.data != null) {
             sessionStorage.setItem('Check', true)
             createToast('success', 'Valid User');
             document.getElementById('validation-box').style.display = 'none';
             document.getElementById('body-section').style.display = 'block';
             document.getElementById('dataheader').style.display = 'block';
-        }
-        if (responsedata.length != 0 && responsedata != 'Invalid User') {
-            sessionStorage.setItem('Data', JSON.stringify(responsedata))
-            setdata(responsedata);
-        }
-
-        if (responsedata.length == 0) {
+            sessionStorage.setItem('Data', JSON.stringify(responsedata.data))
+            setdata(responsedata.data);
+        } else if (responsedata.code == 204) {
             document.getElementById('no_data').style.display = 'flex';
             createToast('error', 'No data found');
         }
 
+        if (responsedata.code === 422) {
+            createToast('error', responsedata.message);
+        }
     } catch (error) {
         createToast('error', 'Error while getting data : ' + error.message);
     }
@@ -67,11 +63,7 @@ function setdata(responsedata) {
         document.getElementById('list').style.display = 'block';
         let htmldata = ''
         responsedata.forEach((element, index) => {
-            let date = new Date(element.loginDate);
-            let year = date.getFullYear();
-            let month = ('0' + (date.getMonth() + 1)).slice(-2);
-            let day = ('0' + date.getDate()).slice(-2);
-            date = `${year}-${month}-${day}`;
+            let date = setDate(element.loginDate);
             htmldata +=
                 '<div class="data" id=' + element.id + '>' +
                 '<div class="column index"  id=' + element.id + '>' + (index + 1) + '</div>' +

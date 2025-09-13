@@ -18,14 +18,13 @@ async function dataentryconnectedCallback() {
     try {
         await getEnglishJsonFile("../CommonUtils/en_properties.json");
         if ((JSON.parse(sessionStorage.getItem('question' + tdExam))) == null || (JSON.parse(sessionStorage.getItem('question' + tdExam))).length == 0) {
-            examDate = `${new Date().getFullYear()}-${('0' + (new Date().getMonth() + 1)).slice(-2)}-${('0' + new Date().getDate()).slice(-2)}`;
+            examDate = setDate(new Date());
             examId = '';
             examName = '';
         } else {
             examId = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].examId
             examName = JSON.parse(sessionStorage.getItem('question' + tdExam))[0].examName;
-            examDate = new Date(JSON.parse(sessionStorage.getItem('question' + tdExam))[0].examDate);
-            examDate = `${examDate.getFullYear()}-${('0' + (examDate.getMonth() + 1)).slice(-2)}-${('0' + examDate.getDate()).slice(-2)}`;
+            examDate = setDate(JSON.parse(sessionStorage.getItem('question' + tdExam))[0].examDate);
             question = JSON.parse(sessionStorage.getItem('question' + tdExam));
         }
         sectionsetter();

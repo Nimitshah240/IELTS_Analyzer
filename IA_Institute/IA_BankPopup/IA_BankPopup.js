@@ -89,9 +89,9 @@ async function saveUpdateBtn(event) {
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + enProperties.apiEndPoints.bank;
             if (method != null) {
                 let responsedata = await apiCallOuts(apiURL, method, JSON.stringify(data), 6000);
-                if (responsedata != null && responsedata.id != null) {
+                if (responsedata.code == 200 && responsedata.data != null && responsedata.data.id != null) {
                     document.getElementById('btnYes').disabled = true;
-                    setBankData(responsedata);
+                    setBankData(responsedata.data);
                     popupclose('save');
                 }
             }

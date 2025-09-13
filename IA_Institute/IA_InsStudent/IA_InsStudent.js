@@ -8,8 +8,8 @@ async function insStudentConnectedCallback() {
         await getEnglishJsonFile('../../CommonUtils/en_properties.json');
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.insStudent + `?instituteId=${instituteId}`;
         let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-        if (responsedata.message == null || responsedata.message == undefined) {
-            allData = responsedata;
+        if (responsedata.code == 200 && responsedata.data != null) {
+            allData = responsedata.data;
             setView(allData);
         }
     } catch (error) {
@@ -64,11 +64,7 @@ function setView(data) {
     if (data.length > 0) {
         let htmldata = '';
         data.forEach((element, index) => {
-            let createdDate = new Date(element.createdDate);
-            let year = createdDate.getFullYear();
-            let month = ('0' + (createdDate.getMonth() + 1)).slice(-2);
-            let day = ('0' + createdDate.getDate()).slice(-2);
-            createdDate = `${year}-${month}-${day}`;
+            let createdDate = setDate(element.createdDate);
             htmldata += `
             <div class="data" id='${element.id}'>
                     <div class="column index" onclick="openStudentAddPopup(event)" id="${element.id}"> ${index + 1} </div>
@@ -114,7 +110,9 @@ async function reSendEmail(event) {
         let insStudentId = event.target.id;
         apiURL = enProperties.apiURL + enProperties.apiEndPoints.insStudent + enProperties.apiEndPoints.sendEmail + `?insStudentId=${insStudentId}`;
         let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-        createToast('success', responsedata.message);
+        if (responsedata.code == 200) {
+            createToast('success', responsedata.message);
+        }
     } catch (error) {
         console.log(error);
     }

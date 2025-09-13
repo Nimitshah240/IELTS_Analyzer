@@ -59,12 +59,12 @@
                     <div class="inputdata">
                         <p><span style="color: red;">*</span> First Name : </p>
                         <input type="text" id="firstname" placeholder="First Name" class="inputbox"
-                            onkeypress="keyPressed()" disabled>
+                            onkeydown="keyPressed()" disabled>
                     </div>
                     <div class="inputdata">
                         <p> Last Name : </p>
                         <input type="text" id="lastname" placeholder="Last Name" class="inputbox"
-                            onkeypress="keyPressed()" disabled>
+                            onkeydown="keyPressed()" disabled>
                     </div>
                     <div class="inputdata">
                         <p><span style="color: red;">*</span> Email : </p>
@@ -72,12 +72,12 @@
                     </div>
                     <div class="inputdata">
                         <p> <span style="color: red;">*</span> Number :</p>
-                        <input type="number" id="number" placeholder="Phone number" onkeypress="keyPressed()"
+                        <input type="number" id="number" placeholder="Phone number" onkeydown="keyPressed()"
                             class="inputbox" disabled>
                     </div>
                     <div class="inputdata">
                         <p> <span style="color: red;">*</span> Dob :</p>
-                        <input type="date" id="dob" placeholder="Date of Birth" onkeypress="keyPressed()"
+                        <input type="date" id="dob" placeholder="Date of Birth" onkeydown="keyPressed()"
                             class="inputbox" disabled>
                     </div>
                     <div class="inputdata" id="referral-hidden">
@@ -85,7 +85,7 @@
                                     title="Use the referral code to get free 1 exam."></i>
                             </span>
                             Referral : </p>
-                        <input type="text" id="referral" placeholder="Referral code" onkeypress="keyPressed()"
+                        <input type="text" id="referral" placeholder="Referral code" onkeydown="keyPressed()"
                             class="inputbox" disabled>
                     </div>
                     <div class="inputdata" id="inscode-hidden">
@@ -97,8 +97,8 @@
                     </div>
 
                     <div class="radio">
-                        <input type="radio" name="type" id="Academic" onkeypress="keyPressed()" checked> Academic
-                        <input type="radio" name="type" id="General" onkeypress="keyPressed()"> General
+                        <input type="radio" name="type" id="Academic" onkeydown="keyPressed()" checked> Academic
+                        <input type="radio" name="type" id="General" onkeydown="keyPressed()"> General
                     </div>
                     <div class="privacy">
                         <span style="color: red;">* </span>By clicking continue you are accepting privacy policy and

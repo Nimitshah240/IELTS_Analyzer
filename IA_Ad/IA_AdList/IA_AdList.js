@@ -19,7 +19,9 @@ async function adListConnectedCallback() {
             adUserId = JSON.parse(localStorage.getItem("adUserData")).id;
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.advertisement + `?adUserId=${adUserId}`;
             responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-            setAdList(responsedata);
+            if (responsedata.code == 200 && responsedata.data != null)
+                setAdList(responsedata.data);
+
         }
         Userlogo();
     } catch (error) {
@@ -65,40 +67,29 @@ window.addEventListener('message', function (event) {
 function setAdList(responsedata) {
     try {
         let htmldata = "";
-        if (responsedata.length < 1) {
+        if (responsedata == null || responsedata.length < 1) {
             htmldata = '<span class="no_data">No Data Found!</span>';
         } else {
-            let year;
-            let month;
-            let day;
             responsedata.forEach((element, index) => {
                 let startDate = "-";
                 let endDate = "-";
+
                 if (element.startDate != null) {
-                    startDate = new Date(element.startDate);
-                    year = startDate.getFullYear();
-                    month = ('0' + (startDate.getMonth() + 1)).slice(-2);
-                    day = ('0' + startDate.getDate()).slice(-2);
-                    startDate = `${year}-${month}-${day}`;
+                    startDate = setDate(element.startDate);
                 }
                 if (element.endDate) {
-                    endDate = new Date(element.endDate);
-                    year = endDate.getFullYear();
-                    month = ('0' + (endDate.getMonth() + 1)).slice(-2);
-                    day = ('0' + endDate.getDate()).slice(-2);
-                    endDate = `${year}-${month}-${day}`;
+                    endDate = setDate(element.endDate);
                 }
-
-                let Payment = element.paid ? `<p style="font-weight:bold" name="Listening" id='${element.id}'>Paid</p>` : `<button class="button-63 payment-button" name="Listening" id='${element.id}'>Payment</button>`;
+                let slot = element.adSlots.map(adSlot => adSlot.slot).join(",");
+                let payment = element.isPaid ? "Receipt" : "Payment";
                 htmldata +=
                     `<div class="data" id='${element.id}'>
             <div class="column index" onclick="openAdPopup(event)" id='${element.id}'> ${(index + 1)} </div>
-            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> ${element.advertisementTypeId} </div>
-            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> ${element.advertisementPageId}</div>
+            <div class="column total slotText" onclick="openAdPopup(event)" id='${element.id}'> ${slot} </div>
             <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> <input type="checkbox" id="${element.id}" value=${element.isActive} ${element.isActive ? 'checked' : ''} disabled></div>
-            <div class="column total dash" onclick="opendashboard(event)" id='${element.id}'>${Payment}</div>
-            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> ${startDate}</div>
-            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> ${endDate}</div>
+            <div class="column total dash" onclick="opendashboard(event)" id='${element.id}'> <button class="button-63 payment-button" name = "Listening" id = '${element.id}'>${payment}</button></div>
+            <div class="column total hideDate" onclick="openAdPopup(event)" id='${element.id}'> ${startDate}</div>
+            <div class="column total hideDate" onclick="openAdPopup(event)" id='${element.id}'> ${endDate}</div>
             <div class="column delete" onclick="deleteAd(event)" id='${element.id}'> <i class="fa fa-trash" id="${element.id}" aria-hidden="true"></i>
             </div>
             </div>`
@@ -116,7 +107,7 @@ function deleteAd(event) {
         for (let element of responsedata) {
             if ((element.id == deleteAdId) && (!element.paid)) {
                 let endPoints = ['advertisement'];
-                let params = [`id=${deleteAdId}`];
+                let params = [`adId=${deleteAdId}`];
                 let data = { 'jsonBody': null, 'endPoints': endPoints, 'params': params, 'module': "IA_AdList", "id": deleteAdId };
                 document.getElementById('popupFrame').style.display = "flex";
                 popupFrame.contentWindow.postMessage({ source: 'delete', command: 'openPopup', data: data }, enProperties.domainName);

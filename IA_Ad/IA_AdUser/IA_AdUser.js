@@ -22,10 +22,10 @@ async function adConnectedCallback() {
       document.getElementsByClassName("validation-box-signin")[0].classList.add("google-sign-in-btn");
     } else {
       let curData = JSON.parse(localStorage.getItem("adUserData"));
-      apiURL = enProperties.apiURL + enProperties.apiEndPoints.adUser + `?googleId=${curData.googleId} `;
+      apiURL = enProperties.apiURL + enProperties.apiEndPoints.adUser + `?googleId=${curData.googleId}`;
       let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-      if (responsedata != null) {
-        setData(responsedata);
+      if (responsedata.code == 200 && responsedata.data != null) {
+        setData(responsedata.data);
       } else {
         document.getElementById("welcome-sign").innerText = "Sign In";
         document.getElementById("validation-box-body-signin").style.display = "none";
@@ -136,13 +136,14 @@ async function fetchUser(id) {
     apiURL = enProperties.apiURL + enProperties.apiEndPoints.adUser + `?googleId=${id} `;
     showSpinner("Checking user...");
 
-    let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
     document.getElementById("continue").style.display = "block";
     document.getElementById("google-button").style.display = "none";
-    if (responsedata != null) {
+    
+    let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
+    if (responsedata.code == 200 && responsedata.data != null) {
       // User is already availabe in DB
       responsedata.newAdUser = false;
-      setData(responsedata);
+      setData(responsedata.data);
       getNotification();
     } else {
       // New user is sign in
@@ -167,8 +168,8 @@ async function continueClick() {
 
     // Checking for changes in data
     if (companyName.trim() != "" && address.trim() != "" && number.trim() != "" && privacy) {
-      if (adUserData.companyName != companyName || adUserData.email != email ||
-        adUserData.number != number || adUserData.address != address || adUserData.privacy != privacy) {
+      if ((adUserData.companyName != companyName || adUserData.email != email ||
+        adUserData.number != number || adUserData.address != address) && privacy) {
         adUserData.companyName = companyName;
         adUserData.email = email;
         adUserData.number = number;
@@ -182,10 +183,14 @@ async function continueClick() {
         let method = adUserData.newAdUser ? "POST" : "PUT";
 
         await apiCallOuts(apiURL, method, JSON.stringify(adUserData), 10000)
-          .then(async (data) => {
-            setData(data);
-            dynamicUrl = await getFilePaths("index");
-            window.location.href = dynamicUrl;
+          .then(async (responsedata) => {
+            if (responsedata.code == 200 && responsedata.data != null) {
+              setData(responsedata.data);
+              dynamicUrl = await getFilePaths("adUser");
+              window.location.href = dynamicUrl;
+            } else {
+              createToast('error', responsedata.message);
+            }
             stopSpinner();
           })
           .catch((error) => {
@@ -194,7 +199,7 @@ async function continueClick() {
           });
       } else {
         localStorage.setItem("adUserData", JSON.stringify(adUserData));
-        dynamicUrl = (await getFilePaths("index")) + "?signedin=true";
+        dynamicUrl = (await getFilePaths("index"));
         window.location.href = dynamicUrl;
       }
     } else {
@@ -224,8 +229,11 @@ async function getNotification() {
   try {
     showSpinner("Getting Notification...");
     apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${adUserData.id}&refType=advertisement`;
-    notificationList = await apiCallOuts(apiURL, "GET", null, 6000);
-    setNotification();
+    let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
+    if (responsedata.code == 200 && responsedata.data != null) {
+      notificationList = responsedata.data;
+      setNotification();
+    }
     stopSpinner();
   } catch (error) {
     console.log(error);
@@ -256,11 +264,7 @@ function setNotification() {
     if (notificationList.length > 0) {
       let htmldata = "";
       notificationList.forEach((element, index) => {
-        let notificationDate = new Date(element.createdDate);
-        let year = notificationDate.getFullYear();
-        let month = ("0" + (notificationDate.getMonth() + 1)).slice(-2);
-        let day = ("0" + notificationDate.getDate()).slice(-2);
-        notificationDate = `${year}-${month}-${day}`;
+        let notificationDate = setDate(element.createdDate);
         var classes = "";
         var read = "";
         if (element.readed == false) {
@@ -343,47 +347,6 @@ function setFields() {
   }
 }
 
-// DEPRECATED
-// function setIcons(responsedata) {
-//   try {
-//     let bankCheck = false;
-//     let kycCheck = false;
-//     let instituteCheck = responsedata.institute.verified;
-
-//     let bankIcon = document.getElementById("bank")
-//     //    bankIcon.style.setProperty("display", "flex", "important");
-//     if (responsedata.bank == null) {
-//       bankIcon.style.setProperty("color", "red", "important");
-//       bankIcon.title = "No Bank detail found";
-//     } else if (!responsedata.bank.verified) {
-//       bankIcon.style.setProperty("color", "var(--table-header-bgcolor)", "important");
-//       bankIcon.title = "Your Bank document is currently under verification. Please check back later.";
-//     } else {
-//       bankCheck = true;
-//       bankIcon.style.setProperty("display", "none", "important");
-//     }
-
-//     let kycIcon = document.getElementById("kyc");
-//     //    kycIcon.style.setProperty("display", "flex", "important");
-//     if (responsedata.kyc == null) {
-//       kycIcon.style.setProperty("color", "red", "important");
-//       kycIcon.title = "No Kyc detail found";
-//     } else if (!responsedata.kyc.verified) {
-//       kycIcon.style.setProperty("color", "var(--table-header-bgcolor)", "important");
-//       kycIcon.title = "Your Kyc document is currently under verification. Please check back later.";
-//     } else {
-//       kycCheck = true;
-//       kycIcon.style.setProperty("display", "none", "important");
-//     }
-
-//     if (bankCheck && kycCheck && instituteCheck) {
-//       document.getElementById("welcome-sign").innerHTML += ` <img src="../Asset/blue-tick.svg" style="width:30px" title="Verified Institute" alt="">`;
-//     }
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 async function Signout(event) {
   try {
     if (event.target.id == "yes") {
@@ -453,18 +416,6 @@ window.addEventListener('message', function (event) {
     if (message.command == 'closePopup') {
       if (message.source == 'IA_Notification') {
         setNotification();
-      } else if (message.source == 'IA_KycPopup') {
-        setKycData(message.data.data)
-        if (message.data.operation == 'save') {
-          getNotification();
-          createToast('success', 'Kyc detail updated');
-        }
-      } else if (message.source == 'IA_BankPopup') {
-        setBankData(message.data.data)
-        if (message.data.operation == 'save') {
-          getNotification();
-          createToast('success', 'Bank detail updated');
-        }
       }
       document.getElementById('popupFrame').style.display = "none";
     }

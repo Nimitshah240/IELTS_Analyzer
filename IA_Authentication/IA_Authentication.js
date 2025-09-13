@@ -62,11 +62,13 @@ async function connectedCallback() {
     apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?googleId=${curData.googleId} `;
     showSpinner("Checking user...");
     let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-    if (responsedata.length > 0) {
-      setData(responsedata[0]);
+    if (responsedata.code == 200 && responsedata.data != null && responsedata.data.length > 0) {
+      setData(responsedata.data[0]);
     } else {
       document.getElementById("welcome-sign").innerText = "Sign In";
       document.getElementById("validation-box-body-signin").style.display = "none";
+      document.getElementById("google-button").style.display = "flex";
+      document.getElementsByClassName("validation-box-signin")[0].classList.add("google-sign-in-btn");
     }
   }
 
@@ -160,12 +162,7 @@ async function SignedIn() {
           picture = info.picture;
           dynamicUrl = await getFilePaths("index");
           if (info) {
-            let today = new Date();
-            let year = today.getFullYear();
-            let month = ("0" + (today.getMonth() + 1)).slice(-2);
-            let day = ("0" + today.getDate()).slice(-2);
-            today = `${year} -${month} -${day} `;
-            loginDate = today;
+            loginDate = setDate(new Date());
             fetchUser(info.googleId);
           }
         });
@@ -234,17 +231,18 @@ async function fetchUser(id) {
 
     apiURL = enProperties.apiURL + enProperties.apiEndPoints.student + `?googleId=${id} `;
     showSpinner("Checking user...");
-    let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
 
     document.getElementById("continue").style.display = "block";
     document.getElementById("google-button").style.display = "none";
     document.getElementById("firstname").disabled = false;
     document.getElementById("lastname").disabled = false;
     document.getElementById("number").disabled = false;
-    if (responsedata.length > 0) {
+
+    let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
+    if (responsedata.code == 200 && responsedata.data != null && responsedata.data.length > 0) {
       // User is already availabe in DB
-      responsedata[0].newStudent = false;
-      setData(responsedata[0]);
+      responsedata.data[0].newStudent = false;
+      setData(responsedata.data[0]);
       getNotification();
     } else {
       // New user is sign in
@@ -255,6 +253,7 @@ async function fetchUser(id) {
       maindata.examCount = 0;
       maindata.type = 'academic';
       maindata.insCode = "";
+      document.getElementById("continue").innerText = "Save";
       setData(maindata);
     }
     stopSpinner();
@@ -303,11 +302,13 @@ async function continueClick() {
         let method = studentData.newStudent ? "POST" : "PUT";
 
         await apiCallOuts(apiURL, method, JSON.stringify(studentData), 10000)
-          .then(async (data) => {
-            data.newStudent = false;
-            setData(data[0]);
-            dynamicUrl = await getFilePaths("index");
-            window.location.href = dynamicUrl;
+          .then(async (responsedata) => {
+            if (responsedata.code == 200 && responsedata.data != null) {
+              responsedata.data.newStudent = false;
+              setData(responsedata.data[0]);
+              dynamicUrl = await getFilePaths("index");
+              window.location.href = dynamicUrl;
+            }
             stopSpinner();
           })
           .catch((error) => {
@@ -360,7 +361,10 @@ async function getNotification() {
   try {
     showSpinner("Getting Notification...");
     apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${studentData.id}&refType=student`;
-    notificationList = await apiCallOuts(apiURL, "GET", null, 6000);
+    let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
+    if (responsedata.code == 200 && responsedata.data != null) {
+      notificationList = responsedata.data;
+    }
     setNotification();
     stopSpinner();
   } catch (error) {
@@ -391,11 +395,7 @@ function setNotification() {
     if (notificationList.length > 0) {
       let htmldata = "";
       notificationList.forEach((element, index) => {
-        let notificationDate = new Date(element.createdDate);
-        let year = notificationDate.getFullYear();
-        let month = ("0" + (notificationDate.getMonth() + 1)).slice(-2);
-        let day = ("0" + notificationDate.getDate()).slice(-2);
-        notificationDate = `${year}-${month}-${day}`;
+        let notificationDate = setDate(element.createdDate);
         var classes = "";
         var read = "";
         if (element.readed == false) {
@@ -526,7 +526,7 @@ function setFields() {
 }
 
 function keyPressed() {
-  if (!studentData.new) {
+  if (!studentData.newStudent) {
     document.getElementById("continue").innerText = "Update"
   } else {
     document.getElementById("continue").innerText = "Save"

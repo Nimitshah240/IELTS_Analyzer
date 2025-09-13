@@ -56,9 +56,9 @@ async function connectedCallback() {
       let curData = JSON.parse(localStorage.getItem("instituteUserData"));
       apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + `?googleId=${curData.googleId} `;
       let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-      if (responsedata != null && responsedata.id != null) {
-        setData(responsedata);
-        setIcons(responsedata);
+      if (responsedata.code == 200 & responsedata.data != null && responsedata.data.id != null) {
+        setData(responsedata.data);
+        setIcons(responsedata.data);
       } else {
         document.getElementById("welcome-sign").innerText = "Sign In";
         document.getElementById("validation-box-body-signin").style.display = "none";
@@ -190,11 +190,11 @@ async function fetchUser(id) {
 
     document.getElementById("google-button").style.display = "none";
 
-    if (responsedata != null && responsedata.id != null) {
+    if (responsedata.code == 200 & responsedata.data != null && responsedata.data.id != null) {
       // User is already availabe in DB
       responsedata.newInstitute = false;
-      setData(responsedata);
-      setIcons(responsedata);
+      setData(responsedata.data);
+      setIcons(responsedata.data);
       getNotification();
     } else {
       // New user is sign in
@@ -242,10 +242,12 @@ async function continueClick() {
         let method = instituteData.newInstitute ? "POST" : "PUT";
 
         await apiCallOuts(apiURL, method, JSON.stringify(instituteData), 10000)
-          .then(async (data) => {
-            setData(data);
-            continueBtnText.innerText = "Home";
-            createToast("success", "Updated Successfully")
+          .then(async (responsedata) => {
+            if (responsedata.code == 200 && responsedata.data != null) {
+              setData(responsedata.data);
+              continueBtnText.innerText = "Home";
+              createToast("success", "Updated Successfully")
+            }
             stopSpinner();
           })
           .catch((error) => {
@@ -291,7 +293,10 @@ async function getNotification() {
   try {
     showSpinner("Getting Notification...");
     apiURL = enProperties.apiURL + enProperties.apiEndPoints.notification + `?refId=${instituteData.id}&refType=institute`;
-    notificationList = await apiCallOuts(apiURL, "GET", null, 6000);
+    let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
+    if (responsedata.code == 200 && responsedata.data != null) {
+      notificationList = responsedata.data;
+    }
     setNotification();
     stopSpinner();
   } catch (error) {
@@ -323,11 +328,7 @@ function setNotification() {
     if (notificationList.length > 0) {
       let htmldata = "";
       notificationList.forEach((element, index) => {
-        let notificationDate = new Date(element.createdDate);
-        let year = notificationDate.getFullYear();
-        let month = ("0" + (notificationDate.getMonth() + 1)).slice(-2);
-        let day = ("0" + notificationDate.getDate()).slice(-2);
-        notificationDate = `${year}-${month}-${day}`;
+        let notificationDate = setDate(element.createdDate)
         var classes = "";
         var read = "";
         if (element.readed == false) {

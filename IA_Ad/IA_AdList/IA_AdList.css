@@ -46,6 +46,11 @@ main {
     cursor: pointer;
 }
 
+.data,
+.tableheader {
+    justify-content: space-around;
+}
+
 /* Button 63 */
 /* CSS */
 
@@ -76,6 +81,23 @@ main {
         width: 100%;
         margin: 0;
         line-height: 1 !important;
+    }
+
+    .payment-button {
+        width: 100%;
+    }
+
+    .slotText {
+        text-wrap: auto;
+        height: 100%;
+        display: flex;
+        text-align: left;
+        overflow: scroll;
+        align-items: center;
+    }
+
+    .hideDate {
+        display: none;
     }
 
     .body_section {

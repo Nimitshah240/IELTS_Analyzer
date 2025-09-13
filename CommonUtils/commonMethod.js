@@ -9,7 +9,6 @@ async function getEnglishJsonFile(jsonFileLocation) {
         const data = await res.json();
         enProperties = data;
     } catch (error) {
-        console.error(error);
     }
 }
 
@@ -19,7 +18,6 @@ async function getPopup(params) {
         let url = enProperties.dynamicURL + enProperties.popups[params];
         return url;
     } catch (error) {
-        console.error(error.message);
     }
 }
 
@@ -29,7 +27,6 @@ async function getFilePaths(params) {
         let url = enProperties.dynamicURL + enProperties.dynamicURLEndPoints[params];
         return url;
     } catch (error) {
-        console.error(error.message);
     }
 }
 
@@ -40,7 +37,6 @@ async function setAnchorHref(params) {
             ele.href = await getFilePaths(params);
         });
     } catch (error) {
-        console.error(error);
     }
 }
 
@@ -51,7 +47,6 @@ async function setIframeSrc(params) {
             ele.src = await getFilePaths(params);
         });
     } catch (error) {
-        console.error(error);
     }
 }
 
@@ -69,12 +64,10 @@ async function apiCallOuts(apiURL, method, body, preftimeout) {
             header.body = body
         }
         let response = await fetch(`${apiURL}`, header)
-
         if (response.status == 200) {
             let data = await response.json();
+            console.log(JSON.stringify(data));
             return data;
-        } else if (response.status == 204) {
-            return null;
         }
         throw new Error("Server Error");
     } catch (error) {
@@ -88,7 +81,6 @@ function showSpinner(message) {
         document.getElementById("spinner").style.display = 'flex';
         document.getElementById("main").style.display = 'none';
     } catch (error) {
-        console.log(error);
     }
 }
 
@@ -97,7 +89,6 @@ function stopSpinner() {
         document.getElementById("spinner").style.display = 'none';
         document.getElementById("main").style.display = 'block';
     } catch (error) {
-        console.log(error);
     }
 }
 
@@ -124,3 +115,11 @@ document.addEventListener("visibilitychange", function () {
         stopSpinner();
     }
 });
+
+function setDate(date) {
+    date = new Date(date);
+    year = date.getFullYear();
+    month = ('0' + (date.getMonth() + 1)).slice(-2);
+    day = ('0' + date.getDate()).slice(-2);
+    return date = `${year}-${month}-${day}`;
+}

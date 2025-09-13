@@ -81,8 +81,8 @@ async function examData() {
 
             showSpinner('Getting data ...');
             let responseData = await apiCallOuts(apiURL, 'GET', null, 6000);
-            question = responseData;
-            if (question.length > 0) {
+            if (responseData.code == 200 && responseData.data != null) {
+                question = responseData.data;
 
                 const Section1 = new Map();
                 const Section2 = new Map();
@@ -92,7 +92,7 @@ async function examData() {
                 let htmldata = "";
 
                 // Setting map for examid and date
-                responseData.forEach(element => {
+                responseData.data.forEach(element => {
                     Exammap.set(element.examId, {
                         'Name': element.examName,
                         'Date': element.examDate
@@ -129,11 +129,7 @@ async function examData() {
 
                 // Arranging Data in Variable
                 for (const key of Exammap.keys()) {
-                    let examDate = new Date(Exammap.get(key).Date);
-                    let year = examDate.getFullYear();
-                    let month = ('0' + (examDate.getMonth() + 1)).slice(-2);
-                    let day = ('0' + examDate.getDate()).slice(-2);
-                    examDate = `${year}-${month}-${day}`;
+                    let examDate = setDate(Exammap.get(key).Date);
                     examdata.push({
                         'examId': key,
                         'examName': Exammap.get(key).Name,

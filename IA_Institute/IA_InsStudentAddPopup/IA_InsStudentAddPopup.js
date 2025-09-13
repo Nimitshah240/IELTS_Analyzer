@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function insStudentAddPopupConnectedCallback() {
-    
+
 }
 
 function closeBtn(params) {
@@ -41,7 +41,8 @@ async function getSaveBtn(params) {
                 let searchKey = id.trim() != '' ? id : email;
                 apiURL = enProperties.apiURL + enProperties.apiEndPoints.insStudent + enProperties.apiEndPoints.insStudentData + `?searchKey=${searchKey}`;
                 let responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-                setData(responsedata);
+                if (responsedata.code == 200 && responsedata.data != null)
+                    setData(responsedata.data);
                 delete mainData.createdDate;
                 delete mainData.updatedDate;
                 delete mainData.createdBy;
@@ -50,13 +51,13 @@ async function getSaveBtn(params) {
         } else if (btnText === 'Save') {
             mainData.instituteId = instituteId;
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.insStudent;
-            let responsedata = await apiCallOuts(apiURL, "POST", JSON.stringify(mainData), 6000);            
-            if (responsedata.message != null || responsedata.message != undefined) createToast('warning', responsedata.message)
-            else {
-                mainData = responsedata;                
+            let responsedata = await apiCallOuts(apiURL, "POST", JSON.stringify(mainData), 6000);
+            if (responsedata.code == 200 && responsedata.data != null) {
+                mainData = responsedata.data;
                 popupclose('save');
+            } else {
+                createToast('warning', responsedata.message)
             }
-
         }
     } catch (error) {
         console.error(error);
@@ -64,7 +65,7 @@ async function getSaveBtn(params) {
 }
 
 function setData(data) {
-    try {       
+    try {
         if (data != null && data.studentId != null) {
             if (data.studentId != null) {
                 document.getElementById('id').value = data.studentId;
@@ -85,7 +86,7 @@ function setData(data) {
 
         }
         else if (data != null && data.message != null) createToast('warning', data.message);
-        else {           
+        else {
             document.getElementById('btnYes').innerText = 'Get';
             document.getElementById('id').disabled = false;
             document.getElementById('email').disabled = false;

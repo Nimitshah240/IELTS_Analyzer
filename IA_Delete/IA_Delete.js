@@ -91,8 +91,9 @@ async function deleteApiCall() {
             });
         }
 
-        await apiCallOuts(apiURL, 'DELETE', JSON.stringify(jsonBody), 6000).then(() => {
+        await apiCallOuts(apiURL, 'DELETE', JSON.stringify(jsonBody), 6000).then(responsedata => {
             // Set API path and call api to delete;
+            jsonBody = responsedata;
             returnMessage();
         }).catch(() => {
             deleteType = false;
@@ -102,30 +103,3 @@ async function deleteApiCall() {
         returnMessage();
     }
 }
-
-
-//No such requirement of the method
-// function setData() {
-//     switch (module) {
-//         case "IA_Data":
-//             return { id: message.id, deleteType: deleteType }
-//         case "IA_ListView":
-//             return { id: message.id, deleteType: deleteType }
-//         default:
-//             break;
-//     }
-// }
-
-//No such requirement of the method
-// function setModule(params) {
-//     switch (params) {
-//         case "question":
-//             module = "IA_Data"
-//             break;
-//         case "exam":
-//             module = "IA_ListView"
-//             break;
-//         default:
-//             break;
-//     }
-// }
