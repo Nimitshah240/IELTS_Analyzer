@@ -10,10 +10,11 @@ let adData = {
     "isActive": ""
 };
 let responsedata;
+let en_propertiesLocation = "../../CommonUtils/en_properties.json";
 
 async function adListConnectedCallback() {
     try {
-        await getEnglishJsonFile('../../CommonUtils/en_properties.json');
+        await getEnglishJsonFile(en_propertiesLocation);
         if (localStorage.getItem("adUserData")) {
             let adUserId;
             adUserId = JSON.parse(localStorage.getItem("adUserData")).id;
@@ -21,7 +22,6 @@ async function adListConnectedCallback() {
             responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
             if (responsedata.code == 200 && responsedata.data != null)
                 setAdList(responsedata.data);
-
         }
         Userlogo();
     } catch (error) {
@@ -33,7 +33,11 @@ async function adListConnectedCallback() {
 function openAdPopup(event) {
     try {
         let source = 'adPopup';
-        let data = null;
+        let adUser = '';
+        if (localStorage.getItem("adUserData")) {
+            adUser = JSON.parse(localStorage.getItem("adUserData"));
+        }
+        let data = { "adUser": adUser, "isNew": true };
         document.getElementById('popupFrame').style.display = "flex";
         popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: data }, enProperties.domainName);
     } catch (error) {

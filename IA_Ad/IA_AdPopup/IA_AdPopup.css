@@ -2,7 +2,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: 100vh;
     width: 100%;
 }
 
@@ -88,9 +88,12 @@ main {
     gap: 25px;
     margin-top: 5%;
     margin-bottom: 5%;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: center; */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
 }
 
 .input-title {
@@ -117,16 +120,25 @@ main {
 
     .kyc-box {
         width: 90%;
+        padding: 10px 0px 10px 0px;
+    }
+
+    .kyc-pop {
+        height: fit-content;
+    }
+
+    .or {
+        text-align: center;
+    }
+
+    .input-title {
+        width: 40%;
     }
 
     .save-data {
         width: 100%;
+        grid-template-columns: 1fr;
     }
-
-    /* .show-data1 {
-        width: 90%;
-        height: fit-content;
-    } */
 }
 
 @media screen and (min-width: 768px) {
@@ -148,11 +160,6 @@ main {
         width: 100%;
         height: 68%;
     }
-
-    /* .show-data1 {
-        width: 60%;
-        height: 30%;
-    } */
 }
 
 @media screen and (min-width:1024px) {
@@ -163,7 +170,7 @@ main {
     }
 
     .kyc-box {
-        width: 30%;
+        width: 70%;
         height: fit-content;
         padding-bottom: 5px;
     }
@@ -172,12 +179,6 @@ main {
         width: 100%;
         height: 70%;
     }
-
-    /* 
-    .show-data1 {
-        width: 40%;
-        height: 40%;
-    } */
 }
 
 @media screen and (min-width: 1280px) {}

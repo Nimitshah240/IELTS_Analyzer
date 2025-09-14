@@ -25,40 +25,61 @@
     <main id="main">
         <div class="kyc-pop">
             <div class="kyc-box glass">
-                <div class="header-kyc"> Bank</div>
+                <div class="header-kyc"> Advertisement </div>
                 <div class="save-data ">
                     <div class="incorrect-answer">
-                        <label for="exam-name" class="input-title"><span style="color: red;">*</span> Full Name
+                        <label for="exam-name" class="input-title"><span style="color: red;">*</span> Slot
                             :</label>
-                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Name as per document"
-                            id="name">
+                        <!-- <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Name as per document"
+                            id="name"> -->
+                        <select class="inputbox" name="slots" id="slots" multiple size="2">
+                        </select>
                     </div>
                     <div class="incorrect-answer">
-                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Bank Name
+                        <label for="exam-date" class="input-title"> Cost
                             :</label>
-                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Bank Name"
-                            id="bankName">
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Total Cost" id="cost"
+                            disabled>
                     </div>
                     <div class="incorrect-answer">
-                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Account Number
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Type
                             :</label>
-                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Account Number"
-                            id="accNumber">
+                        <!-- <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Bank Name"
+                            id="bankName"> -->
+                        <select class="inputbox" name="type" id="type" size="1">
+                        </select>
                     </div>
                     <div class="incorrect-answer">
-                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Ifsc Code
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Page
                             :</label>
-                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Ifsc Code"
-                            id="ifscCode">
+                        <!-- <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Account Number"
+                            id="accNumber"> -->
+                        <select class="inputbox" name="page" id="page" size="1">
+                        </select>
                     </div>
                     <div class="incorrect-answer">
-                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Branch
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Start Date
                             :</label>
-                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Branch" id="branch">
+                        <input type="date" class="inputbox" onkeydown="keyPressed()" placeholder="Start Date"
+                            id="startDate">
                     </div>
                     <div class="incorrect-answer">
-                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Advertisement Upload
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Url
                             :</label>
+                        <input type="text" class="inputbox" onkeydown="keyPressed()" placeholder="Website Link"
+                            id="url">
+                    </div>
+
+                    <div class="incorrect-answer">
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> Old Advertisement
+                            :</label>
+                        <select name="oldAd" id="oldAd" class="inputbox">
+                        </select>
+                    </div>
+                    <div class="or"><b>OR</b></div>
+                    <div class="incorrect-answer">
+                        <label for="exam-date" class="input-title"><span style="color: red;">*</span> New
+                            Advertisement :</label>
                         <input type="file" class="inputbox" onchange="keyPressed()" id="fileInput">
                     </div>
                 </div>

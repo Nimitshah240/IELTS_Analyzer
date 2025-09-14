@@ -34,7 +34,12 @@
         "insStudentData": "/insStudentData",
         "sendEmail": "/sendEmail",
         "adUser": "/adUser",
-        "advertisement": "/advertisement"
+        "advertisement": "/advertisement",
+        "adMaster": "/adMaster",
+        "slot": "/slot",
+        "freshAd": "/freshAd",
+        "userAdAsset": "/userAdAsset",
+        "asset": "/asset"
     },
     "dynamicURL": "http://localhost/Projects/IA_Client",
     "dynamicURL(local)": "http://localhost/Project/Ielts%20Analyzer/IA_Client",
