@@ -1,58 +1,75 @@
 let fileInput;
-let data;
+let adData;
 let allSlot;
 let oldAdvertisement;
 let newBlob;
 let en_propertiesLocation = "../../CommonUtils/en_properties.json";
 let incomingdata;
+let selectedSlot = [];
+let slotMap = new Map();
+let asset;
+let adUser;
+let totalCost = 0;
 
 
-document.addEventListener('DOMContentLoaded', function () {
-    // Other event listeners, if needed
-    window.addEventListener('message', async function (event) {
+document.addEventListener('DOMContentLoaded', async function () {
+    await getEnglishJsonFile(en_propertiesLocation);
+    await setIframeSrc("spinner");
+    window.addEventListener('message', function (event) {
         try {
-            await getEnglishJsonFile(en_propertiesLocation);
+            showSpinner('Loading ...');
+            setAnchorHref("index");
+            let freshAdPromise = Promise.resolve();
+
             incomingdata = event.data.data;
             if (incomingdata != null) {
                 if (incomingdata.isNew) {
-                    getData("freshAd").then(responsedata => {
+                    freshAdPromise = getData("freshAd").then(responsedata => {
                         if (responsedata.code === 200 && responsedata.data != null) {
-                            data = responsedata.data;
-                            data.adUser = incomingdata.adUser;
+                            adData = responsedata.data;
+                            adUser = incomingdata.adUser;
+                            asset = adData.asset;
                         }
-                    })
+                    });
                 }
             }
 
-            getData("slot").then(responsedata => {
-                console.log(responsedata);
+            let slotPromise = getData("slot").then(responsedata => {
                 if (responsedata.code === 200 && responsedata.data != null) {
                     allSlot = responsedata.data;
-                    console.log(allSlot);
                     getSlotName(allSlot);
                 }
             });
 
-            getData("oldAdvertisement").then(responsedata => {
-                console.log(responsedata);
+            let oldAdPromise = getData("oldAdvertisement").then(responsedata => {
                 if (responsedata.code === 200 && responsedata.data != null) {
-                    console.log(responsedata);
-                    getOldAdvertisement(responsedata.data)
+                    oldAdvertisement = responsedata.data;
+                    getOldAdvertisement(oldAdvertisement)
                 }
             });
+
+            Promise.all([freshAdPromise, slotPromise, oldAdPromise])
+                .then(() => stopSpinner())
+                .catch(err => {
+                    console.error("Error fetching data:", err);
+                    stopSpinner();
+                });
         } catch (error) {
             console.log(error);
         }
     });
 
+    // FILE INPUT
     const fileInput = document.getElementById('fileInput');
-
     if (fileInput) {
-        fileInput.addEventListener('change', (event) => {
+        fileInput.addEventListener('change', async (event) => {
             const files = event.target.files;
             if (files.length > 0) {
                 const firstFile = files[0];
                 newBlob = new Blob([firstFile], { type: firstFile.type });
+                asset.assetBlob = await blobToBase64(newBlob);
+                asset.assetName = firstFile.name;
+                asset.assetType = firstFile.type;
             } else {
                 console.log('No files selected.');
             }
@@ -60,15 +77,19 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.error('Error: "fileInput" element not found in the DOM. Please check your HTML ID.');
     }
+
+    // SLOT SELECTION;
     const selectElement = document.getElementById('slots');
     selectElement.addEventListener('change', () => {
-        console.log('NN');
-
         const selectedOptions = selectElement.selectedOptions;
-        console.log(selectedOptions);
-        const selectedValues = Array.from(selectedOptions).map(option => option.value);
-
-        // outputElement.textContent = selectedValues.length > 0 ? selectedValues.join(', ') : 'None';
+        selectedSlot = [];
+        const selectedValues = Array.from(selectedOptions).map(option => {
+            if (option.value != "SELECT")
+                selectedSlot.push(slotMap.get(option.value));
+        });
+        calculateCost(selectedSlot);
+        selectedPageName(selectedSlot);
+        selectedTypeName(selectedSlot);
     });
 });
 
@@ -81,42 +102,45 @@ function closeBtn(event) {
 
 async function saveUpdateBtn(event) {
     try {
-        accHolderName = document.getElementById('name').value;
-        accountNumber = document.getElementById('accNumber').value;
-        ifscCode = document.getElementById('ifscCode').value;
-        branch = document.getElementById('branch').value;
-        bankName = document.getElementById('bankName').value;
+        showSpinner('Loading ...');
 
-        if (accHolderName != null && accHolderName.trim() != '' &&
-            accountNumber != null && accountNumber.trim() != '' &&
-            ifscCode != null && ifscCode.trim() != '' &&
-            branch != null && branch.trim() != '' &&
-            bankName != null && bankName.trim() != '' && newBlob != null) {
+        let startDate = document.getElementById('startDate').value;
+        let url = document.getElementById('url').value;
+        if (selectedSlot.length > 0 && asset.assetBlob != null && startDate != null
+            && url != null && url.trim() != '') {
 
-            let base64 = await blobToBase64(newBlob);
-            data = { 'id': data.id, 'accHolderName': accHolderName, 'accountNumber': accountNumber, 'ifscCode': ifscCode, 'instituteId': instituteId, 'branch': branch, 'bankName': bankName, 'document': base64 };
+            adData.asset = asset;
+            adData.adSlots = selectedSlot;
+            adData.startDate = startDate;
+            adData.cost = totalCost;
+            adData.url = url
+            adData.adUser = adUser;
 
             let method;
             console.log(document.getElementById('btnYes').innerText);
-            if (document.getElementById('btnYes').innerText == 'Save' && data.id == '') {
+            if (document.getElementById('btnYes').innerText == 'Save' && (adData.id == null || adData.id == '')) {
                 method = 'POST';
             } else if (document.getElementById('btnYes').innerText == 'Update') {
                 method = 'PUT'
             }
 
-            apiURL = enProperties.apiURL + enProperties.apiEndPoints.institute + enProperties.apiEndPoints.bank;
+            apiURL = enProperties.apiURL + enProperties.apiEndPoints.advertisement;
             if (method != null) {
-                await apiCallOuts(apiURL, method, JSON.stringify(data), 6000);
+                let responsedata = await apiCallOuts(apiURL, method, JSON.stringify(adData), 6000);
+                stopSpinner();
+                console.log(responsedata);
+
             }
 
             notification = { 'message': 'Thank you, Uploaded files will get deleted within 2 days of verification' };
-            document.getElementById('popupFrame').style.display = "flex";
-            popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
+            // document.getElementById('popupFrame').style.display = "flex";
+            // popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
         } else {
+            stopSpinner();
             createToast('error', 'Please fill required details');
         }
     } catch (error) {
-        console.log(error);
+        stopSpinner();
         createToast('error', 'Error');
     }
 }
@@ -146,7 +170,7 @@ function blobToBase64(blob) {
 }
 
 function keyPressed() {
-    if (data.id != '') {
+    if (adData.id != null && adData.id != '') {
         document.getElementById("btnYes").innerText = "Update"
     } else {
         document.getElementById("btnYes").innerText = "Save"
@@ -190,6 +214,7 @@ function getSlotName(allSlot) {
     try {
         let htmlSLot = `<option value="SELECT" >-- SELECT --</option>`
         allSlot.forEach(element => {
+            slotMap.set(String(element.id), element);
             htmlSLot += `<option value="${element.id}" > ${element.slot}</option>`
         });
         document.getElementById('slots').innerHTML = htmlSLot;
@@ -202,19 +227,44 @@ function getOldAdvertisement(oldAdvertisement) {
     let htmlOldAdvertisement = `<option value="SELECT" >-- SELECT --</option>`;
 
     oldAdvertisement.forEach(element => {
-        htmlOldAdvertisement += `<option value="${element.id}" > ${element.assetName}.${element.assetType}</option>`
+        htmlOldAdvertisement += `<option value="${element.id}" > ${element.assetName}</option>`
     });
     document.getElementById('oldAd').innerHTML = htmlOldAdvertisement;
 }
 
-function getPageName(params) {
-
+function selectedPageName(params) {
+    try {
+        let htmlSLot;
+        params.forEach(element => {
+            htmlSLot += `<option value="${element.adPage.id}" > ${element.adPage.page}</option>`
+        });
+        document.getElementById('page').innerHTML = htmlSLot;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-function getTypeName(params) {
-
+function selectedTypeName(params) {
+    try {
+        let htmlSLot;
+        params.forEach(element => {
+            htmlSLot += `<option value="${element.adType.id}" > ${element.adType.type}</option>`
+        });
+        document.getElementById('type').innerHTML = htmlSLot;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-function getCost(params) {
+function calculateCost(params) {
+    try {
+        totalCost = 0;
+        params.forEach(element => {
+            totalCost += element.adSlotPrices[0].adPrice.price;
+        });
+        document.getElementById('cost').value = totalCost;
+    } catch (error) {
+        console.log(error);
+    }
 
 }

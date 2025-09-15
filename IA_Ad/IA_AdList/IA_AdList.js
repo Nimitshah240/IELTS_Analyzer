@@ -15,6 +15,9 @@ let en_propertiesLocation = "../../CommonUtils/en_properties.json";
 async function adListConnectedCallback() {
     try {
         await getEnglishJsonFile(en_propertiesLocation);
+        await setIframeSrc("spinner");
+        showSpinner('Loading ...');
+        setAnchorHref("index");
         if (localStorage.getItem("adUserData")) {
             let adUserId;
             adUserId = JSON.parse(localStorage.getItem("adUserData")).id;
@@ -22,6 +25,7 @@ async function adListConnectedCallback() {
             responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
             if (responsedata.code == 200 && responsedata.data != null)
                 setAdList(responsedata.data);
+            stopSpinner();
         }
         Userlogo();
     } catch (error) {
@@ -107,8 +111,9 @@ function setAdList(responsedata) {
 
 function deleteAd(event) {
     try {
+        showSpinner("Loading..");
         let deleteAdId = event.target.id;
-        for (let element of responsedata) {
+        for (let element of responsedata.data) {
             if ((element.id == deleteAdId) && (!element.paid)) {
                 let endPoints = ['advertisement'];
                 let params = [`adId=${deleteAdId}`];
@@ -122,6 +127,7 @@ function deleteAd(event) {
                 popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
             }
         }
+        stopSpinner();
     } catch (error) {
         console.log(error);
     }
@@ -129,12 +135,14 @@ function deleteAd(event) {
 
 function afterDeleteAd(deleteAdId) {
     try {
-        responsedata.forEach((element, index) => {
+        showSpinner("Loading...");
+        responsedata.data.forEach((element, index) => {
             if (element.id == deleteAdId) {
-                responsedata.splice(index, 1);
-                setAdList(responsedata);
+                responsedata.data.splice(index, 1);
+                setAdList(responsedata.data);
             }
         });
+        stopSpinner();
         createToast("success", "Advertisement deleted successfully");
     } catch (error) {
         console.log(error);

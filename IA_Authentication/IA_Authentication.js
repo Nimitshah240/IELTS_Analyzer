@@ -555,7 +555,7 @@ document.addEventListener("visibilitychange", function () {
 
 window.addEventListener('message', function (event) {
   try {
-    if (event.origin !== enProperties.domainName) return;
+    if (enProperties != null && event.origin !== enProperties.domainName) return;
 
     const message = event.data;
     if (message.command == 'closePopup') {

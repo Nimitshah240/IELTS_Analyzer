@@ -1,5 +1,5 @@
 main {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     height: 100vh;
@@ -60,6 +60,11 @@ main {
     height: 40px;
     font-size: 16px;
     font-weight: 400;
+}
+
+#cost {
+    font-weight: bold;
+    color: green;
 }
 
 .button-64-kyc {
@@ -159,6 +164,11 @@ main {
     .save-data {
         width: 100%;
         height: 68%;
+    }
+
+    .or {
+        display: flex;
+        align-items: center;
     }
 }
 
