@@ -20,6 +20,19 @@ main {
     position: fixed;
 }
 
+.slotTextDiv {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.slotText {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /* Delete */
 
 

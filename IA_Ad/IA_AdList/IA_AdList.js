@@ -1,14 +1,4 @@
-let adData = {
-    "id": "",
-    "adUserId": "",
-    "adTypeId": "",
-    "ad": "",
-    "paid": "",
-    "startDateTime": "",
-    "endDateTime": "",
-    "adPageId": "",
-    "isActive": ""
-};
+let adDataList = [];
 let responsedata;
 let en_propertiesLocation = "../../CommonUtils/en_properties.json";
 
@@ -23,8 +13,10 @@ async function adListConnectedCallback() {
             adUserId = JSON.parse(localStorage.getItem("adUserData")).id;
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.advertisement + `?adUserId=${adUserId}`;
             responsedata = await apiCallOuts(apiURL, "GET", null, 6000);
-            if (responsedata.code == 200 && responsedata.data != null)
-                setAdList(responsedata.data);
+            if (responsedata.code == 200 && responsedata.data != null) {
+                adDataList = responsedata.data;
+                setAdList(adDataList);
+            }
             stopSpinner();
         }
         Userlogo();
@@ -34,18 +26,44 @@ async function adListConnectedCallback() {
     }
 }
 
-function openAdPopup(event) {
+function newAdPopup(event) {
     try {
-        let source = 'adPopup';
         let adUser = '';
         if (localStorage.getItem("adUserData")) {
             adUser = JSON.parse(localStorage.getItem("adUserData"));
         }
         let data = { "adUser": adUser, "isNew": true };
-        document.getElementById('popupFrame').style.display = "flex";
-        popupFrame.contentWindow.postMessage({ source: source, command: 'openPopup', data: data }, enProperties.domainName);
+        openAdPopup(data);
     } catch (error) {
         console.log(error);
+    }
+}
+
+function editAdPopup(event) {
+    try {
+        let adId = event.target.id;
+        let adData;
+        if (localStorage.getItem("adUserData")) {
+            adUser = JSON.parse(localStorage.getItem("adUserData"));
+        }
+        adDataList.forEach(element => {
+            if (adId != null && adId == element.id) {
+                adData = element;
+            }
+        });
+        let data = { "adData": adData, "adUser": adUser, "isNew": false };
+        openAdPopup(data);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+function openAdPopup(data) {
+    try {
+        document.getElementById('popupFrame').style.display = "flex";
+        popupFrame.contentWindow.postMessage({ source: 'adPopup', command: 'openPopup', data: data }, enProperties.domainName);
+    } catch (error) {
+
     }
 }
 
@@ -55,9 +73,10 @@ window.addEventListener('message', function (event) {
 
         const message = event.data;
         if (message.command == 'closePopup') {
-            if (message.source == 'IA_Ad') {
+            if (message.source == 'IA_AdPopup') {
                 if (message.data.operation == 'save') {
-                    // After saving ad process
+                    adDataList.push(message.data.data);
+                    setAdList(adDataList);
                 }
             }
             if (message.source == 'IA_Delete') {
@@ -81,7 +100,6 @@ function setAdList(responsedata) {
             responsedata.forEach((element, index) => {
                 let startDate = "-";
                 let endDate = "-";
-
                 if (element.startDate != null) {
                     startDate = setDate(element.startDate);
                 }
@@ -92,12 +110,12 @@ function setAdList(responsedata) {
                 let payment = element.isPaid ? "Receipt" : "Payment";
                 htmldata +=
                     `<div class="data" id='${element.id}'>
-            <div class="column index" onclick="openAdPopup(event)" id='${element.id}'> ${(index + 1)} </div>
-            <div class="column total slotText" onclick="openAdPopup(event)" id='${element.id}'> ${slot} </div>
-            <div class="column total" onclick="openAdPopup(event)" id='${element.id}'> <input type="checkbox" id="${element.id}" value=${element.isActive} ${element.isActive ? 'checked' : ''} disabled></div>
+            <div class="column index" onclick="editAdPopup(event)" id='${element.id}'> ${(index + 1)} </div>
+            <div class="column total slotTextDiv" title="${slot}" onclick="editAdPopup(event)" id='${element.id}'> <span class="slotText" id='${element.id}'> ${slot} </span> </div>
+            <div class="column total" onclick="editAdPopup(event)" id='${element.id}'> <input type="checkbox" id="${element.id}" value=${element.isActive} ${element.isActive ? 'checked' : ''} disabled></div>
             <div class="column total dash" onclick="opendashboard(event)" id='${element.id}'> <button class="button-63 payment-button" name = "Listening" id = '${element.id}'>${payment}</button></div>
-            <div class="column total hideDate" onclick="openAdPopup(event)" id='${element.id}'> ${startDate}</div>
-            <div class="column total hideDate" onclick="openAdPopup(event)" id='${element.id}'> ${endDate}</div>
+            <div class="column total hideDate" onclick="editAdPopup(event)" id='${element.id}'> ${startDate}</div>
+            <div class="column total hideDate" onclick="editAdPopup(event)" id='${element.id}'> ${endDate}</div>
             <div class="column delete" onclick="deleteAd(event)" id='${element.id}'> <i class="fa fa-trash" id="${element.id}" aria-hidden="true"></i>
             </div>
             </div>`

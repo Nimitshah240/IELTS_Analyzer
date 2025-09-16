@@ -20,17 +20,27 @@ document.addEventListener('DOMContentLoaded', async function () {
             showSpinner('Loading ...');
             setAnchorHref("index");
             let freshAdPromise = Promise.resolve();
-
             incomingdata = event.data.data;
             if (incomingdata != null) {
+                adUser = incomingdata.adUser;
                 if (incomingdata.isNew) {
                     freshAdPromise = getData("freshAd").then(responsedata => {
                         if (responsedata.code === 200 && responsedata.data != null) {
                             adData = responsedata.data;
-                            adUser = incomingdata.adUser;
                             asset = adData.asset;
                         }
                     });
+                } else {
+                    adData = incomingdata.adData;
+                    asset = adData.asset;
+                    freshAdPromise = getData("advertisementAsset").then(responsedata => {
+                        console.log(responsedata);
+                        if (responsedata.code === 200 && responsedata.data != null) {
+                            asset = responsedata.data;
+                            setBlobToInput(asset);
+                        }
+                    });
+                    setData();
                 }
             }
 
@@ -90,6 +100,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         calculateCost(selectedSlot);
         selectedPageName(selectedSlot);
         selectedTypeName(selectedSlot);
+        keyPressed();
     });
 });
 
@@ -103,19 +114,16 @@ function closeBtn(event) {
 async function saveUpdateBtn(event) {
     try {
         showSpinner('Loading ...');
-
         let startDate = document.getElementById('startDate').value;
         let url = document.getElementById('url').value;
         if (selectedSlot.length > 0 && asset.assetBlob != null && startDate != null
             && url != null && url.trim() != '') {
-
             adData.asset = asset;
             adData.adSlots = selectedSlot;
             adData.startDate = startDate;
             adData.cost = totalCost;
             adData.url = url
             adData.adUser = adUser;
-
             let method;
             console.log(document.getElementById('btnYes').innerText);
             if (document.getElementById('btnYes').innerText == 'Save' && (adData.id == null || adData.id == '')) {
@@ -127,14 +135,13 @@ async function saveUpdateBtn(event) {
             apiURL = enProperties.apiURL + enProperties.apiEndPoints.advertisement;
             if (method != null) {
                 let responsedata = await apiCallOuts(apiURL, method, JSON.stringify(adData), 6000);
+                if (responsedata.code == 200) {
+                    adData = responsedata.data;
+                    popupclose('save');
+                } else
+                    createToast('error', responsedata.message);
                 stopSpinner();
-                console.log(responsedata);
-
             }
-
-            notification = { 'message': 'Thank you, Uploaded files will get deleted within 2 days of verification' };
-            // document.getElementById('popupFrame').style.display = "flex";
-            // popupFrame.contentWindow.postMessage({ source: 'notificationpopup', command: 'openPopup', data: { 'notification': notification, "header": "Alert" } }, enProperties.domainName);
         } else {
             stopSpinner();
             createToast('error', 'Please fill required details');
@@ -148,11 +155,10 @@ async function saveUpdateBtn(event) {
 function popupclose(operation) {
     try {
         parent.postMessage(
-            { source: 'IA_AdPopup', command: 'closePopup', data: { 'data': data, 'operation': operation } },
+            { source: 'IA_AdPopup', command: 'closePopup', data: { 'data': adData, 'operation': operation } },
             enProperties.domainName)
     } catch (error) {
         console.log(error);
-
     }
 }
 
@@ -192,6 +198,10 @@ async function getData(param) {
             case "freshAd":
                 apiURL = enProperties.apiURL + enProperties.apiEndPoints.advertisement + enProperties.apiEndPoints.freshAd;
                 break;
+            case "advertisementAsset": // remove this not required
+                timeout = 20000;
+                apiURL = enProperties.apiURL + enProperties.apiEndPoints.asset + `?assetId=${adData.assetId}`;
+                break;
             default:
                 break;
         }
@@ -204,7 +214,17 @@ async function getData(param) {
 
 function setData(params) {
     try {
+        selectedPageName(adData.adSlots);
+        selectedTypeName(adData.adSlots);
+        calculateCost(adData.adSlots);
+        document.getElementById("url").value = adData.url;
+        document.getElementById('startDate').value = adData.startDate;
+        if (adData.isPaid || adData.isActive) {
+            document.getElementById("slots").disabled = true;
+            document.getElementById("btnYes").style.cursor = 'no-drop';
+            document.getElementById("btnYes").disabled = true;
 
+        }
     } catch (error) {
 
     }
@@ -212,7 +232,7 @@ function setData(params) {
 
 function getSlotName(allSlot) {
     try {
-        let htmlSLot = `<option value="SELECT" >-- SELECT --</option>`
+        let htmlSLot = `<option value="SELECT" >-- NONE --</option>`
         allSlot.forEach(element => {
             slotMap.set(String(element.id), element);
             htmlSLot += `<option value="${element.id}" > ${element.slot}</option>`
@@ -223,19 +243,23 @@ function getSlotName(allSlot) {
     }
 }
 
-function getOldAdvertisement(oldAdvertisement) {
-    let htmlOldAdvertisement = `<option value="SELECT" >-- SELECT --</option>`;
+function getOldAdvertisement(oldAdvertisementAsset) {
+    try {
+        let htmlOldAdvertisement = `<option value="SELECT" >-- NONE --</option>`;
 
-    oldAdvertisement.forEach(element => {
-        htmlOldAdvertisement += `<option value="${element.id}" > ${element.assetName}</option>`
-    });
-    document.getElementById('oldAd').innerHTML = htmlOldAdvertisement;
+        oldAdvertisementAsset.forEach(element => {
+            htmlOldAdvertisement += `<option value="${element.id}" > ${element.assetName}</option>`
+        });
+        document.getElementById('oldAd').innerHTML = htmlOldAdvertisement;
+    } catch (error) {
+        console.log(error);
+    }
 }
 
-function selectedPageName(params) {
+function selectedPageName(selectedAdSlot) {
     try {
         let htmlSLot;
-        params.forEach(element => {
+        selectedAdSlot.forEach(element => {
             htmlSLot += `<option value="${element.adPage.id}" > ${element.adPage.page}</option>`
         });
         document.getElementById('page').innerHTML = htmlSLot;
@@ -244,10 +268,10 @@ function selectedPageName(params) {
     }
 }
 
-function selectedTypeName(params) {
+function selectedTypeName(selectedAdSlot) {
     try {
         let htmlSLot;
-        params.forEach(element => {
+        selectedAdSlot.forEach(element => {
             htmlSLot += `<option value="${element.adType.id}" > ${element.adType.type}</option>`
         });
         document.getElementById('type').innerHTML = htmlSLot;
@@ -256,10 +280,10 @@ function selectedTypeName(params) {
     }
 }
 
-function calculateCost(params) {
+function calculateCost(selectedAdSlot) {
     try {
         totalCost = 0;
-        params.forEach(element => {
+        selectedAdSlot.forEach(element => {
             totalCost += element.adSlotPrices[0].adPrice.price;
         });
         document.getElementById('cost').value = totalCost;
@@ -267,4 +291,24 @@ function calculateCost(params) {
         console.log(error);
     }
 
+}
+
+async function setBlobToInput(asset) {
+    try {
+        console.log(asset);
+
+        let blob = asset.assetBlob;
+        let fileName = asset.assetName;
+
+        let file = new File([blob], fileName, { type: blob.type });
+        let dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        let input = document.getElementById("fileInput");
+        input.files = dataTransfer.files;
+
+        console.log("File set:", input.files[0]);
+    } catch (error) {
+        console.log(error);
+
+    }
 }
