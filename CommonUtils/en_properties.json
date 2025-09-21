@@ -67,11 +67,11 @@
             "text": "01 / 02",
             "heroText": "Welcome to IELTS ANALYZER. We specialize in transforming IELTS exam data into insightful visualizations that enhance understanding and facilitate better preparation for test-takers.",
             "button": [
-                "Data",
+                "Exam",
                 "Dashboard"
             ],
             "buttonURL": [
-                "listview",
+                "exams",
                 "dashboard"
             ],
             "header": "Dashboard",
@@ -82,9 +82,11 @@
             "text": "02 / 02",
             "heroText": "On the Tricks page, you will find a collection of effective techniques and strategies designed to help you master the art of answering reading and listening questions, improving your skills and performance.",
             "button": [
+                "Data",
                 "Knowledge"
             ],
             "buttonURL": [
+                "listview",
                 "trick"
             ],
             "header": "Data",
@@ -102,6 +104,19 @@
             ],
             "header": "Knowledge",
             "description": "Here lies a vast treasury of knowledge—dive in, explore, and unlock endless possibilities! 📚✨🚀"
+        },
+        {
+            "image": "/Projects/IA_Client/Asset/380764fbad3e9dd30345b06511ed756e.jpg",
+            "text": "",
+            "heroText": "",
+            "button": [
+                ""
+            ],
+            "buttonURL": [
+                ""
+            ],
+            "header": "Exam",
+            "description": "Change text"
         }
     ]
 }
