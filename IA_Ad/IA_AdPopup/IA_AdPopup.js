@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', async function () {
     const fileInput = document.getElementById('fileInput');
     if (fileInput) {
         fileInput.addEventListener('change', async (event) => {
+            asset = {};
             const files = event.target.files;
             if (files.length > 0) {
                 const firstFile = files[0];
@@ -125,7 +126,6 @@ async function saveUpdateBtn(event) {
             adData.url = url
             adData.adUser = adUser;
             let method;
-            console.log(document.getElementById('btnYes').innerText);
             if (document.getElementById('btnYes').innerText == 'Save' && (adData.id == null || adData.id == '')) {
                 method = 'POST';
             } else if (document.getElementById('btnYes').innerText == 'Update') {
@@ -248,7 +248,7 @@ function getOldAdvertisement(oldAdvertisementAsset) {
         let htmlOldAdvertisement = `<option value="SELECT" >-- NONE --</option>`;
 
         oldAdvertisementAsset.forEach(element => {
-            htmlOldAdvertisement += `<option value="${element.id}" > ${element.assetName}</option>`
+            htmlOldAdvertisement += `<option value="${element.id}" id="${element.id}"> ${element.assetName}</option>`
         });
         document.getElementById('oldAd').innerHTML = htmlOldAdvertisement;
     } catch (error) {
@@ -310,5 +310,20 @@ async function setBlobToInput(asset) {
     } catch (error) {
         console.log(error);
 
+    }
+}
+
+function selectOldAdvertisement(event) {
+    try {
+        let select = document.getElementById("oldAd");
+        let selectedOption = select.options[select.selectedIndex];
+        let oldAdId = selectedOption.id;
+        oldAdvertisement.forEach(element => {
+            if (oldAdId === element.id) {
+                asset = element;
+            }
+        });
+    } catch (error) {
+        console.log(error);
     }
 }

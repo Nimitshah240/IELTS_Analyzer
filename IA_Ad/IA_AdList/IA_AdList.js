@@ -81,7 +81,7 @@ window.addEventListener('message', function (event) {
             }
             if (message.source == 'IA_Delete') {
                 if (message.data.deleteType) {
-                    afterDeleteAd(message.data.id);
+                    afterDeleteAd(message);
                 }
             }
             document.getElementById('popupFrame').style.display = "none";
@@ -132,7 +132,7 @@ function deleteAd(event) {
         showSpinner("Loading..");
         let deleteAdId = event.target.id;
         for (let element of responsedata.data) {
-            if ((element.id == deleteAdId) && (!element.paid)) {
+            if ((element.id == deleteAdId) && !(element.isPaid || element.isActive)) {
                 let endPoints = ['advertisement'];
                 let params = [`adId=${deleteAdId}`];
                 let data = { 'jsonBody': null, 'endPoints': endPoints, 'params': params, 'module': "IA_AdList", "id": deleteAdId };
@@ -151,9 +151,16 @@ function deleteAd(event) {
     }
 }
 
-function afterDeleteAd(deleteAdId) {
+function afterDeleteAd(message) {
     try {
         showSpinner("Loading...");
+        let jsonBody = message.data.jsonBody;
+        if (jsonBody.code == 422) {
+            createToast("error", jsonBody.message);
+            stopSpinner();
+            return;
+        }
+        let deleteAdId = message.data.id
         responsedata.data.forEach((element, index) => {
             if (element.id == deleteAdId) {
                 responsedata.data.splice(index, 1);
