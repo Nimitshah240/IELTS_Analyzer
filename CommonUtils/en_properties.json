@@ -59,7 +59,8 @@
         "insStudent": "/IA_Institute/IA_InsStudent/IA_InsStudent.html",
         "adUser": "/IA_Ad/IA_AdUser/IA_AdUser.html",
         "popupView": "/IA_PopupView/IA_PopupView.html",
-        "adList": "/IA_Ad/IA_AdList/IA_AdList.html"
+        "adList": "/IA_Ad/IA_AdList/IA_AdList.html",
+        "examlist": "/IA_Exam/IA_ExamList/IA_ExamList.html"
     },
     "slides": [
         {
@@ -71,7 +72,7 @@
                 "Dashboard"
             ],
             "buttonURL": [
-                "exams",
+                "examlist",
                 "dashboard"
             ],
             "header": "Dashboard",

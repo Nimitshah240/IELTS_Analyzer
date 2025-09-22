@@ -19,7 +19,7 @@ async function selectionconnectedCallback() {
             setTextsImages(0);
         } else if (selectionType == 'trick') {
             setTextsImages(2);
-        } else if (selectionType == 'exams') {
+        } else if (selectionType == 'examlist') {            
             setTextsImages(3);
         }
     } catch (error) {
