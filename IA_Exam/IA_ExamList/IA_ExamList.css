@@ -22,20 +22,54 @@ main {
 
 /* Delete */
 
+.exam-box {
+    width: 100%;
+    height: 100%;
+    padding: 3% 3% 2% 10%;
+    gap: 10px;
+    cursor: pointer;
+    display: flex;
+}
 
-.glass {
-    background: rgba(255, 255, 255, 0.19) !important;
-    backdrop-filter: blur(1px);
-    border: 1px solid rgba(255, 255, 255, 1);
+.exam-box-text {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.exam-box-button {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.exam-button {
+    width: 100px;
+    height: 45px;
 }
 
 .body_section {
     height: 85%;
     margin: 2%;
     margin-top: 6%;
-    border: 1px solid;
     border-radius: 15px;
+    gap: 10px;
+    grid-auto-rows: 25%;
+    border: 1px solid;
+    padding: 10px;
+    display: grid;
+    overflow: auto;
+    /* display: flex; */
 }
+
+.table {
+    width: 100%;
+    height: 100%;
+}
+
 
 .index,
 .examname,
@@ -82,6 +116,10 @@ main {
         padding: 5px;
     }
 
+    .body_section {
+        grid-template-columns: repeat(1, 98%);
+    }
+
     .examname {
         width: 30%;
         height: 91%;
@@ -122,6 +160,7 @@ main {
     .body_section {
         margin-top: 10%;
         height: 90vh;
+        grid-template-columns: repeat(2, 49%);
     }
 
     .index {
@@ -162,5 +201,6 @@ main {
     .body_section {
         margin-top: 6%;
         height: 85vh;
+        grid-template-columns: repeat(3, 33%);
     }
 }
