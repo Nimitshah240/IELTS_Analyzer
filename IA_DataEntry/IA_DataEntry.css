@@ -59,7 +59,7 @@ main::-webkit-scrollbar {
 /* Body */
 
 .button-63 {
-    width: 100px;
+    width: 113px;
     height: 35px;
     display: flex;
     justify-content: center;
@@ -283,7 +283,7 @@ th {
 
 .button-box {
     gap: 10px;
-    display: flex;
+    display: grid;
     justify-content: center;
 }
 
